@@ -243,26 +243,21 @@ export default function Home() {
 
           <div className="max-w-5xl mx-auto space-y-8">
             {/* Browser-like container */}
-            <div className="rounded-xl overflow-hidden border border-primary/20 shadow-2xl bg-background">
+            <div className="rounded-xl overflow-hidden border border-primary/20 shadow-2xl bg-card/40 backdrop-blur-sm dark:bg-black/40">
               {/* Browser header */}
-              <div className="bg-muted/30 p-3 border-b border-primary/10 flex items-center gap-2">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                </div>
-                <div className="flex-1 flex justify-center">
-                  <div className="bg-background/80 rounded-md px-3 py-1 text-xs text-foreground/60 flex items-center gap-1 w-96">
-                    <span className="text-primary">ludiks.io</span>
-                  </div>
+              <div className="bg-background border-b border-primary/10 flex items-center gap-2 px-4 py-3">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80 backdrop-blur-sm"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80 backdrop-blur-sm"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500/80 backdrop-blur-sm"></div>
                 </div>
               </div>
 
               {/* Dashboard content */}
-              <div className="p-6 space-y-6">
+              <div className="p-8 space-y-8 bg-gradient-to-b from-background/50 to-background dark:from-black/50 dark:to-black/80">
                 {/* Circuits Overview Demo */}
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="group p-6 bg-background border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
+                  <div className="group p-6 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
@@ -310,7 +305,7 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="group p-6 bg-background border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
+                  <div className="group p-6 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
@@ -356,7 +351,7 @@ export default function Home() {
                 </div>
 
                 {/* Friction Point Analysis with Recharts */}
-                <div className="p-8 bg-background border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
+                <div className="p-8 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
                   <div className="flex items-start gap-4 mb-6">
                     <div className="p-3 rounded-lg bg-red-500/10">
                       <AlertTriangle className="h-6 w-6 text-red-500" />
