@@ -1,0 +1,121 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import GoogleAuth from '@/components/auth/google-auth';
+import Link from 'next/link';
+import { useAuthStore } from '@/lib/stores/user-store';
+
+export default function RegistrationPage() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    const { setUser, setToken } = useAuthStore();
+
+    const handleRegistration = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            console.log('registration');
+            // TODO onboarding
+            router.push('/onboarding');
+        } catch (error) {
+            console.error('Failed to registration:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleAuth = (data: { token: string, user: { id: string, email: string } }) => {
+        setToken(data.token);
+        setUser(data.user);
+
+        router.push('/onboarding');
+    }
+
+    return (
+        <div className="container relative flex-col items-center justify-center">
+            <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+                <div className="flex flex-col space-y-2 text-center">
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-secondary via-secondary to-primary bg-clip-text text-transparent tracking-tight">
+                        Ludiks
+                    </h1>
+                    <p className="text-muted-foreground text-sm">
+                        Créez votre compte pour commencer
+                    </p>
+                </div>
+
+                <Card className="bg-black/40 backdrop-blur-sm border-primary/20">
+                    <CardContent className="pt-6">
+                        <form onSubmit={handleRegistration} className="space-y-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="email" className="text-foreground/90">Email</Label>
+                                <Input
+                                    type="email"
+                                    id="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    className="bg-black/50 border-primary/20 focus:border-primary/40 text-foreground"
+                                    placeholder="your@email.com"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="password" className="text-foreground/90">Mot de passe</Label>
+                                <Input
+                                    type="password"
+                                    id="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                    className="bg-black/50 border-primary/20 focus:border-primary/40 text-foreground"
+                                    placeholder="••••••••"
+                                />
+                            </div>
+                            <Button 
+                                type="submit" 
+                                className="w-full bg-secondary text-black hover:bg-secondary/90" 
+                                disabled={loading}
+                            >
+                                {loading ? 'Création...' : 'Créer mon compte'}
+                            </Button>
+                        </form>
+
+                        <div className="relative my-4">
+                            <div className="absolute inset-0 flex items-center">
+                                <Separator className="w-full border-primary/20"/>
+                            </div>
+                            <div className="relative flex justify-center text-xs uppercase">
+                                <span className="bg-black px-2 text-muted-foreground">
+                                    Ou continuer avec
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="grid gap-4">
+                            <GoogleAuth onSuccess={handleGoogleAuth}/>
+                        </div>
+                    </CardContent>
+                    <CardFooter className="flex flex-col gap-4 pt-4">
+                        <Separator className="border-primary/20"/>
+                        <div className="text-center text-sm text-muted-foreground">
+                            <span>Déjà un compte ? </span>
+                            <Button variant="link" className="px-1 font-normal text-primary hover:text-primary/90" asChild>
+                                <Link href="/auth/login">
+                                    Se connecter
+                                </Link>
+                            </Button>
+                        </div>
+                    </CardFooter>
+                </Card>
+            </div>
+        </div>
+    );
+}
