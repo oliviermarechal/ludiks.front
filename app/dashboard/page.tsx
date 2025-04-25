@@ -106,7 +106,7 @@ export default function DashboardPage() {
                             <div className="space-y-1">
                                 <p className="metric-label">Utilisateurs actifs</p>
                                 <h3 className="metric-value">{projectStats.activeUsers}</h3>
-                                <p className="metric-sublabel">sur {projectStats.totalUsers} inscrits</p>
+                                <p className="text-xs text-accent">sur {projectStats.totalUsers} inscrits</p>
                             </div>
                         </div>
                     </Card>
@@ -119,7 +119,7 @@ export default function DashboardPage() {
                             <div className="space-y-1">
                                 <p className="metric-label">Circuits actifs</p>
                                 <h3 className="metric-value">{activeCircuits.length}</h3>
-                                <p className="metric-sublabel">{projectStats.circuits.length - activeCircuits.length} en brouillon</p>
+                                <p className="text-xs text-accent">{projectStats.circuits.length - activeCircuits.length} en brouillon</p>
                             </div>
                         </div>
                     </Card>
@@ -132,7 +132,7 @@ export default function DashboardPage() {
                             <div className="space-y-1">
                                 <p className="metric-label">Taux complétion</p>
                                 <h3 className="metric-value">{projectStats.completionRate}%</h3>
-                                <p className="metric-sublabel">moyenne globale</p>
+                                <p className="text-xs text-accent">moyenne globale</p>
                             </div>
                         </div>
                     </Card>
@@ -145,7 +145,7 @@ export default function DashboardPage() {
                             <div className="space-y-1">
                                 <p className="metric-label">Point de friction</p>
                                 <h3 className="metric-value">{hasFrictionPoints ? "Détecté" : "Aucun"}</h3>
-                                <p className="metric-sublabel">sur vos parcours</p>
+                                <p className="text-xs text-accent">sur vos parcours</p>
                             </div>
                         </div>
                     </Card>
@@ -203,7 +203,7 @@ export default function DashboardPage() {
                             <h2 className="text-xl font-bold">Circuits actifs</h2>
                         </div>
                         <Link href="/dashboard/circuits">
-                            <Button variant="outline" size="sm" className="text-secondary border-secondary/20 hover:bg-secondary/5">
+                            <Button variant="outline" size="sm" className="text-accent border-secondary/20 hover:bg-secondary/5">
                                 Voir tout
                                 <ArrowUpRight className="h-4 w-4 ml-2" />
                             </Button>
