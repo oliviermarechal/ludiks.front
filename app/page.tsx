@@ -59,7 +59,7 @@ export default function Home() {
             </h1>
 
             <p className="text-lg md:text-xl text-foreground/90 max-w-2xl font-light">
-              Structurez, suivez et optimisez l&apos;expérience utilisateur à travers des circuits interactifs, 
+              Structurez, suivez et optimisez l&apos;expérience utilisateur à travers des parcours interactifs, 
               mesurables et activables. Sans recoder votre produit.
             </p>
 
@@ -184,7 +184,7 @@ export default function Home() {
                       <Map className="text-secondary h-7 w-7" />
                     </div>
                     <h3 className="text-xl font-bold font-mono text-foreground/90">
-                      1. Créez vos circuits
+                      1. Créez vos parcours
                     </h3>
                   </div>
                   <p className="text-foreground/70">Définissez vos objectifs et structurez vos parcours sans code</p>
