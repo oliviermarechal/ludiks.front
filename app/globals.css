@@ -2,51 +2,46 @@
 
 @layer base {
   :root {
-    --primary: oklch(0.65 0.28 0);
-    --primary-foreground: oklch(0.1 0 0);
-    --secondary: oklch(0.85 0.2 85);
-    --secondary-foreground: oklch(0 0 0);
-    --background: oklch(0.98 0 0);
+    /* Une couleur primaire violet profond et élégant */
+    --primary: oklch(0.55 0.2 300);
+    --primary-foreground: oklch(0.98 0 0);
+    /* Un jaune doré chaleureux */
+    --secondary: oklch(0.85 0.15 85);
+    --secondary-foreground: oklch(0.2 0 0);
+    /* Un fond très légèrement teinté de violet pour plus de profondeur */
+    --background: oklch(0.98 0.01 300);
     --foreground: oklch(0.1 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.1 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.1 0 0);
-    --muted: oklch(0.95 0 0);
-    --muted-foreground: oklch(0.4 0 0);
-    --accent: oklch(0.65 0.28 0);
-    --accent-foreground: oklch(0.1 0 0);
+    --muted: oklch(0.96 0.01 300);
+    --muted-foreground: oklch(0.45 0 0);
+    --accent: oklch(0.85 0.15 85);
+    --accent-foreground: oklch(0.2 0 0);
     --destructive: oklch(0.65 0.3 30);
     --destructive-foreground: oklch(1 0 0);
-    --border: oklch(0.65 0.28 0);
-    --input: oklch(0.95 0 0);
-    --ring: oklch(0.65 0.28 0);
+    --border: oklch(0.55 0.2 300);
+    --input: oklch(0.98 0.01 300);
+    --ring: oklch(0.85 0.15 85);
     --radius: 0.5rem;
     
-    /* Chart colors */
-    --color-chart-1: oklch(0.7 0.25 30);
-    --color-chart-2: oklch(0.6 0.15 180);
-    --color-chart-3: oklch(0.4 0.1 200);
-    --color-chart-4: oklch(0.85 0.2 85);
-    --color-chart-5: oklch(0.75 0.25 45);
+    /* Chart colors - Une palette harmonieuse */
+    --color-chart-1: oklch(0.85 0.15 85);   /* Jaune doré */
+    --color-chart-2: oklch(0.55 0.2 300);   /* Violet profond */
+    --color-chart-3: oklch(0.7 0.15 320);   /* Violet plus clair */
+    --color-chart-4: oklch(0.65 0.15 60);   /* Orange clair */
+    --color-chart-5: oklch(0.75 0.15 280);  /* Violet rosé */
     
-    /* Gradient colors */
-    --gradient-start: oklch(0.95 0.05 0);
-    --gradient-mid: oklch(0.97 0.03 0);
-    --gradient-end: oklch(0.98 0.01 0);
+    /* Gradient colors - Subtils dégradés violets */
+    --gradient-start: oklch(0.99 0.01 300);
+    --gradient-mid: oklch(0.98 0.005 300);
+    --gradient-end: oklch(0.98 0 0);
     
-    /* Status colors */
-    --success: oklch(0.65 0.2 150);
-    --success-foreground: oklch(1 0 0);
-    --warning: oklch(0.75 0.2 85);
-    --warning-foreground: oklch(0.2 0 0);
-    --info: oklch(0.7 0.2 230);
-    --info-foreground: oklch(1 0 0);
-    
-    /* Surface colors */
-    --surface-1: oklch(1 0 0 / 0.98);
-    --surface-2: oklch(1 0 0 / 0.96);
-    --surface-3: oklch(1 0 0 / 0.94);
+    /* Surface colors - Très léger violet */
+    --surface-1: oklch(1 0.005 300 / 0.98);
+    --surface-2: oklch(1 0.005 300 / 0.96);
+    --surface-3: oklch(1 0.005 300 / 0.94);
   }
 
   .dark {
