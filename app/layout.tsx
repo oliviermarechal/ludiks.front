@@ -15,8 +15,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ludiks",
-  description: "Ludiks is a platform for creating and managing gamification circuits.",
+  title: "Ludiks - Plateforme de Gamification et d'Engagement Utilisateur",
+  description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience sans recoder votre produit. Solution de gamification simple et puissante.",
+  keywords: "gamification, engagement utilisateur, parcours utilisateur, onboarding, analytics, rétention utilisateur, product analytics",
+  openGraph: {
+    title: "Ludiks - Transformez vos Parcours Utilisateurs",
+    description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience sans recoder votre produit.",
+    type: "website",
+    locale: "fr_FR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ludiks - Plateforme de Gamification",
+    description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience.",
+  },
 };
 
 export default function RootLayout({
@@ -25,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
