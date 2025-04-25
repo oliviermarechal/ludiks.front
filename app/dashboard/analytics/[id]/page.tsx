@@ -21,7 +21,6 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 
 // Mock data - à remplacer par les vraies données de l'API
 const circuitData: Circuit = {
