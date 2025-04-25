@@ -72,7 +72,7 @@ export function ObjectivesSetup({ onNext, onBack }: ObjectivesSetupProps) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor={`objectives.${index}.name`}>Nom de l'objectif</Label>
+                  <Label htmlFor={`objectives.${index}.name`}>Nom de l&apos;objectif</Label>
                   <Input
                     {...register(`objectives.${index}.name`)}
                     placeholder="Ex: Première connexion"
@@ -84,7 +84,7 @@ export function ObjectivesSetup({ onNext, onBack }: ObjectivesSetupProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor={`objectives.${index}.eventName`}>Nom de l'événement</Label>
+                  <Label htmlFor={`objectives.${index}.eventName`}>Nom de l&apos;événement</Label>
                   <Input
                     {...register(`objectives.${index}.eventName`)}
                     placeholder="Ex: user.login"

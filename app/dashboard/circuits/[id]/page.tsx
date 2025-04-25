@@ -75,7 +75,7 @@ function getCompletionColor(rate: number) {
     return "bg-red-500/20 text-red-500 ring-red-500/30";
 }
 
-function CustomTooltip({ active, payload, label }: any) {
+function CustomTooltip({ active, payload }: { active?: boolean, payload?: {payload: {name: string, usersCompleted: number, completionRate: number}}[] }) {
     if (active && payload && payload.length) {
         const data = payload[0].payload;
         return (

@@ -102,7 +102,7 @@ export function CircuitForm({ onSubmit }: CircuitFormProps) {
                 <div className="space-y-2">
                     <h2 className="text-2xl font-bold text-white">Type de circuit</h2>
                     <p className="text-lg text-white/70">
-                        Choisissez le type qui correspond le mieux à votre stratégie d'engagement
+                        Choisissez le type qui correspond le mieux à votre stratégie d&apos;engagement
                     </p>
                 </div>
 

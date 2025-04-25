@@ -21,7 +21,7 @@ export function ApiSetup({ onNext, apiKey }: ApiSetupProps) {
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-foreground">Configuration de l'API</h2>
+        <h2 className="text-2xl font-bold text-foreground">Configuration de l&apos;API</h2>
         <p className="text-foreground/70">
           Voici votre clé API et la documentation pour intégrer la progression
         </p>

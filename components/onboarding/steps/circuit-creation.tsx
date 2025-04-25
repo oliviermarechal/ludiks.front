@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ArrowRight, Star, RotateCw, Target } from "lucide-react"
+import { CircuitType } from "@/lib/types/circuit";
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 
 const circuitSchema = z.object({
   name: z.string().min(3, "Le nom du circuit doit contenir au moins 3 caractères"),
-  type: z.enum(["points", "actions", "objective"]),
+  type: z.enum([CircuitType.POINTS, CircuitType.ACTIONS, CircuitType.OBJECTIVE]),
   projectId: z.string(),
   description: z.string().max(500, "La description ne peut pas dépasser 500 caractères").optional(),
 })
@@ -118,7 +119,7 @@ export function CircuitCreation({ onNext, projectId }: CircuitCreationProps) {
               <button
                 key={type.value}
                 type="button"
-                onClick={() => setValue("type", type.value as "points" | "actions" | "objective")}
+                onClick={() => setValue("type", type.value as CircuitType)}
                 className={cn(
                   "flex flex-col items-center text-center p-6 rounded-xl border transition-all duration-200",
                   "hover:border-primary/40 hover:bg-black/40",

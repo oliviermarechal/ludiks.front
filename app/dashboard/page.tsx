@@ -10,7 +10,6 @@ import {
     AlertTriangle,
     Trophy,
     Clock,
-    Check
 } from "lucide-react"
 import { redirect } from "next/navigation"
 import { useAuth } from "@/lib/hooks/use-auth.hook"

@@ -6,9 +6,7 @@ import {
     Users, 
     Clock,
     Trophy,
-    Activity,
     ArrowLeft,
-    ChevronRight,
     TrendingDown,
     TrendingUp
 } from "lucide-react";
@@ -90,13 +88,13 @@ function getCompletionColor(rate: number) {
     return "bg-red-500/20 text-red-500 ring-red-500/30";
 }
 
-function CustomTooltip({ active, payload, label }: any) {
+function CustomTooltip({ active, payload, label }: { active?: boolean, payload?: never[], label?: string }) {
     if (active && payload && payload.length) {
         return (
             <div className="bg-black/90 border border-primary/20 p-3 rounded-lg">
                 <p className="text-white font-medium mb-1">{label}</p>
                 <div className="space-y-1 text-sm">
-                    {payload.map((entry: any, index: number) => (
+                    {payload.map((entry: {name: string, value: number}, index: number) => (
                         <p key={index} className="text-white/70">
                             {entry.name}: <span className="text-secondary">{entry.value}{entry.name === "Taux" ? "%" : "min"}</span>
                         </p>
@@ -108,7 +106,7 @@ function CustomTooltip({ active, payload, label }: any) {
     return null;
 }
 
-function TimeDistributionTooltip({ active, payload, label }: any) {
+function TimeDistributionTooltip({ active, payload, label }: { active?: boolean, payload?: {value: number}[], label?: string }) {
     if (active && payload && payload.length) {
         return (
             <div className="bg-black/90 border border-primary/20 p-3 rounded-lg">
@@ -122,7 +120,7 @@ function TimeDistributionTooltip({ active, payload, label }: any) {
     return null;
 }
 
-export default function StepsAnalyticsPage({ params }: { params: { id: string } }) {
+export default function StepsAnalyticsPage() {
     return (
         <div className="container mx-auto py-12">
             <div className="max-w-6xl mx-auto space-y-12">

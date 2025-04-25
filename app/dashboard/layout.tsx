@@ -9,7 +9,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const { isAuthenticated, isLoading } = useAuth()
 
   useEffect(() => {
-    redirect('/');
+    redirect('/')
     if (!isLoading && !isAuthenticated) {
       redirect('/auth/login')
     }

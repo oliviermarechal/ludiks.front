@@ -12,14 +12,15 @@ import {
     Loader2,
     Target,
     Repeat,
-    Star
+    Star,
+    LucideIcon
 } from "lucide-react";
 import { useCircuits } from "@/lib/hooks/use-circuits.hook";
 import { CircuitType } from "@/lib/types/circuit";
 import { useCircuitStore } from "@/lib/stores/circuit-store";
 import Link from "next/link";
 
-const circuitTypeIcons: Record<CircuitType, any> = {
+const circuitTypeIcons: Record<CircuitType, LucideIcon> = {
     points: Star,
     actions: Repeat,
     objective: Target
@@ -138,17 +139,17 @@ export default function CircuitsPage() {
                                 <div className="grid grid-cols-3 gap-4 mt-6">
                                     <div className="flex flex-col items-center p-3 bg-black/20 rounded-lg">
                                         <Users className="h-5 w-5 text-secondary mb-2" />
-                                        <span className="text-sm font-semibold text-white">{circuit.activeUsers || 0}</span>
+                                        <span className="text-sm font-semibold text-white">0 {/*circuit.activeUsers*/} </span>
                                         <span className="text-xs text-white/60">Utilisateurs</span>
                                     </div>
                                     <div className="flex flex-col items-center p-3 bg-black/20 rounded-lg">
                                         <Activity className="h-5 w-5 text-secondary mb-2" />
-                                        <span className="text-sm font-semibold text-white">{circuit.completionRate || 0}%</span>
+                                        <span className="text-sm font-semibold text-white">0 {/*circuit.completionRate*/}%</span>
                                         <span className="text-xs text-white/60">Complétion</span>
                                     </div>
                                     <div className="flex flex-col items-center p-3 bg-black/20 rounded-lg">
                                         <Trophy className="h-5 w-5 text-secondary mb-2" />
-                                        <span className="text-sm font-semibold text-white">{circuit.steps.length}</span>
+                                        <span className="text-sm font-semibold text-white">0 {/*circuit.steps.length*/}</span>
                                         <span className="text-xs text-white/60">Étapes</span>
                                     </div>
                                 </div>

@@ -30,7 +30,7 @@ export function ProjectCreation({ onNext }: ProjectCreationProps) {
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold text-foreground">Créez votre projet</h2>
         <p className="text-foreground/70">
-          Donnez un nom à votre projet pour commencer l'aventure
+          Donnez un nom à votre projet pour commencer l&apos;aventure
         </p>
       </div>
 

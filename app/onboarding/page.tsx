@@ -64,7 +64,11 @@ export default function OnboardingPage() {
   useEffect(() => {
     if (currentStep === 0 && !circuitsLoading && projectData) {
       if (circuits.length > 0) {
-        setCircuitData(circuits[0]);
+        setCircuitData({
+          name: circuits[0].name,
+          type: circuits[0].type,
+          projectId: projectData.id
+        });
         setCurrentStep(2);
       } else {
         setCurrentStep(1);

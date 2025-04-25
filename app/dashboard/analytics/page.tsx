@@ -52,7 +52,7 @@ export default function AnalyticsPage() {
                         Analytiques des Parcours
                     </h1>
                     <p className="text-lg text-white/70">
-                        Vue d'ensemble des performances de vos parcours utilisateurs
+                        Vue d&apos;ensemble des performances de vos parcours utilisateurs
                     </p>
                 </div>
 

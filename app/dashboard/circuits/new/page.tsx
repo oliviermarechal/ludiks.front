@@ -21,7 +21,7 @@ export default function NewCircuitPage() {
             Sélection du projet requise
           </h2>
           <p className="text-white/70">
-            Veuillez d'abord sélectionner un projet dans le menu pour créer un nouveau parcours.
+            Veuillez d&apos;abord sélectionner un projet dans le menu pour créer un nouveau parcours.
           </p>
         </div>
       </div>
