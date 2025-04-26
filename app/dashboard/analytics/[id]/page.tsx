@@ -17,8 +17,7 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { useParams } from "next/navigation";
-import { useState } from "react";
+import { use, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -332,8 +331,11 @@ interface CompletionDrop {
     currentRate: number;
 }
 
-export default function CircuitAnalyticsPage() {
-    const params = useParams();
+type PageProps = {
+    params: { id: string }
+}
+
+export default function CircuitAnalyticsPage({ params }: PageProps) {
     const data = params.id === "2" ? pointsCircuitData : circuitData;
     const [selectedStep, setSelectedStep] = useState<Step | null>(null);
     
@@ -364,6 +366,9 @@ export default function CircuitAnalyticsPage() {
         completionRate: step.completionRate,
         avgTime: step.avgTime
     }));
+
+    const formatPercentage = (p: number) => `${p}%`;
+    const formatNumber = (p: number) => p.toString();
 
     return (
         <div className="container mx-auto py-12">

@@ -200,7 +200,7 @@ export default function DashboardPage() {
                 <div className="space-y-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <h2 className="text-xl font-bold">Circuits actifs</h2>
+                            <h2 className="text-xl font-bold">Parcours actifs</h2>
                         </div>
                         <Link href="/dashboard/circuits">
                             <Button variant="outline" size="sm" className="text-accent border-secondary/20 hover:bg-secondary/5">
