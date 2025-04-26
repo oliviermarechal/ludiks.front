@@ -29,15 +29,39 @@ import {
   AreaChart,
   Area
 } from 'recharts';
+import { useEffect, useState } from 'react';
 
 const completionData = [
   { name: 'Inscription', completion: 100, users: 450 },
-  { name: 'Configuration API', completion: 85, users: 382 },
-  { name: 'Premier endpoint', completion: 45, users: 203 },
-  { name: 'Test Webhook', completion: 40, users: 180 },
+  { name: 'Complétion profil', completion: 45, users: 203 },
+  { name: '1er achat', completion: 40, users: 180 },
 ];
 
+function useWindowSize() {
+  const [windowSize, setWindowSize] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 0,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+      });
+    }
+    
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowSize;
+}
+
 export default function Home() {
+  const { width } = useWindowSize();
+  const isMobile = width < 640;
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -45,7 +69,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <div className="relative landing-hero">
-        <div className="container mx-auto pt-24 pb-16 relative">
+        <div className="container mx-auto pt-24 pb-16 relative px-4 md:px-8">
           <div className="absolute top-8 right-8">
             <ThemeToggle />
           </div>
@@ -81,7 +105,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent">
+      <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent px-4">
         <div className="w-full max-w-md mt-8 mx-auto relative z-10">
             <Card className="dark:bg-black bg-white shadow-sm border !border-primary/20 hover:!border-primary">
               <div className="p-6 relative">
@@ -107,7 +131,7 @@ export default function Home() {
             </Card>
           </div>
       </div>
-      <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-transparent before:via-primary/5 before:to-transparent">
+      <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-transparent before:via-primary/5 before:to-transparent px-4">
         <div className="container mx-auto relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -231,7 +255,7 @@ export default function Home() {
 
       {/* Demo Section - Moved up */}
       <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-transparent before:via-primary/5 before:to-transparent">
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Une vue d&apos;ensemble claire de vos parcours
@@ -254,11 +278,11 @@ export default function Home() {
               </div>
 
               {/* Dashboard content */}
-              <div className="p-8 space-y-8 bg-gradient-to-b from-background/50 to-background dark:from-black/50 dark:to-black/80">
+              <div className="p-4 md:p-8 space-y-8 bg-gradient-to-b from-background/50 to-background dark:from-black/50 dark:to-black/80">
                 {/* Circuits Overview Demo */}
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="group p-6 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
-                    <div className="flex items-start justify-between mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="group p-4 md:p-6 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+                    <div className="flex flex-col sm:flex-row items-start justify-between mb-4 gap-3">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
                           <Target className="h-5 w-5 text-secondary" />
@@ -273,31 +297,30 @@ export default function Home() {
                       </div>
                       <div className="flex items-center gap-2 px-3 py-1 bg-red-500/10 rounded-full">
                         <AlertTriangle className="h-4 w-4 text-red-500" />
-                        <span className="text-xs text-red-500">Point de friction</span>
                       </div>
                     </div>
 
-                    <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
-                      {["Configuration API", "Premier endpoint", "Test Webhook"].map((step, i) => (
-                        <div key={i} className="flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full">
+                    <div className="flex gap-2 mb-4 overflow-x-auto pb-2 -mx-2 px-2">
+                      {["Inscription","Complétion profil", "1er achat"].map((step, i) => (
+                        <div key={i} className="flex-shrink-0 flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full">
                           <Activity className="h-4 w-4 text-secondary" />
-                          <span className="text-xs text-foreground/80">{step}</span>
+                          <span className="text-xs text-foreground/80 whitespace-nowrap">{step}</span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="flex flex-col items-center p-3 bg-muted/50 rounded-lg">
+                    <div className="grid grid-cols-3 gap-2 md:gap-4">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
                         <Users2 className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">450</span>
                         <span className="text-xs text-foreground/60">Utilisateurs</span>
                       </div>
-                      <div className="flex flex-col items-center p-3 bg-muted/50 rounded-lg">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
                         <Activity className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">72%</span>
                         <span className="text-xs text-foreground/60">Complétion</span>
                       </div>
-                      <div className="flex flex-col items-center p-3 bg-muted/50 rounded-lg">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
                         <Trophy className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">5</span>
                         <span className="text-xs text-foreground/60">Étapes</span>
@@ -305,8 +328,9 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="group p-6 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
-                    <div className="flex items-start justify-between mb-4">
+                  {/* Second card with same responsive adjustments */}
+                  <div className="group p-4 md:p-6 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+                    <div className="flex flex-col sm:flex-row items-start justify-between mb-4 gap-3">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
                           <Star className="h-5 w-5 text-secondary" />
@@ -321,27 +345,27 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+                    <div className="flex gap-2 mb-4 overflow-x-auto pb-2 -mx-2 px-2">
                       {["Premier achat", "Parrainage", "Avis client", "VIP Status"].map((step, i) => (
-                        <div key={i} className="flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full">
+                        <div key={i} className="flex-shrink-0 flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full">
                           <Activity className="h-4 w-4 text-secondary" />
-                          <span className="text-xs text-foreground/80">{step}</span>
+                          <span className="text-xs text-foreground/80 whitespace-nowrap">{step}</span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="flex flex-col items-center p-3 bg-muted/50 rounded-lg">
+                    <div className="grid grid-cols-3 gap-2 md:gap-4">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
                         <Users2 className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">890</span>
                         <span className="text-xs text-foreground/60">Utilisateurs</span>
                       </div>
-                      <div className="flex flex-col items-center p-3 bg-muted/50 rounded-lg">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
                         <Activity className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">45%</span>
                         <span className="text-xs text-foreground/60">Complétion</span>
                       </div>
-                      <div className="flex flex-col items-center p-3 bg-muted/50 rounded-lg">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
                         <Trophy className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">8</span>
                         <span className="text-xs text-foreground/60">Étapes</span>
@@ -351,24 +375,24 @@ export default function Home() {
                 </div>
 
                 {/* Friction Point Analysis with Recharts */}
-                <div className="p-8 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
-                  <div className="flex items-start gap-4 mb-6">
+                <div className="p-4 md:p-8 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+                  <div className="flex flex-col sm:flex-row items-start gap-4 mb-6">
                     <div className="p-3 rounded-lg bg-red-500/10">
                       <AlertTriangle className="h-6 w-6 text-red-500" />
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <h3 className="text-lg font-semibold text-red-500 mb-1">Point de friction détecté</h3>
                       <p className="text-sm text-foreground/60">
-                        Chute importante du taux de complétion à l&apos;étape &quot;Premier endpoint&quot;
+                        Chute importante du taux de complétion à l&apos;étape &quot;Complétion profil&quot;
                       </p>
                     </div>
-                    <div className="ml-auto text-right">
+                    <div className="sm:ml-auto text-left sm:text-right mt-2 sm:mt-0">
                       <span className="text-2xl font-bold text-red-500">-40%</span>
                       <p className="text-sm text-foreground/60">de conversion</p>
                     </div>
                   </div>
 
-                  <div className="h-64 w-full">
+                  <div className="h-64 w-full min-h-[250px]">
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart
                         data={completionData}
@@ -385,13 +409,19 @@ export default function Home() {
                           dataKey="name" 
                           stroke="var(--primary)"
                           strokeOpacity={0.5}
-                          tick={{ fill: 'var(--foreground)', opacity: 0.5, fontSize: 12 }}
+                          tick={{ fill: 'var(--foreground)', opacity: 0.5, fontSize: isMobile ? 8 : 12 }}
                         />
                         <YAxis 
                           stroke="var(--primary)"
                           strokeOpacity={0.5}
-                          tick={{ fill: 'var(--foreground)', opacity: 0.5, fontSize: 12 }}
+                          tick={{ 
+                            fill: 'var(--foreground)', 
+                            opacity: 0.5, 
+                            fontSize: isMobile ? 8 : 12 
+                          }}
                           tickFormatter={(value) => `${value}%`}
+                          width={isMobile ? 8 : 45}
+                          tickMargin={isMobile ? 0 : 4}
                         />
                         <Tooltip 
                           content={({ active, payload, label }) => {
@@ -431,11 +461,11 @@ export default function Home() {
       </div>
 
       {/* CTA Section */}
-      <div className="relative landing-footer py-16 before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent">
+      <div className="relative landing-footer py-16 before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent px-4">
         <div className="container mx-auto text-center relative z-10">
-          <div className="max-w-3xl mx-auto p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-primary/20">
+          <div className="max-w-3xl mx-auto p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-primary/20 flex flex-col items-center">
             <h2 className="text-2xl md:text-3xl font-black gradient-text mb-6">
-              Créez des parcours d&apos;objectifs sans code backend
+              Créez des parcours d&apos;objectifs en quelques minutes
             </h2>
             <p className="text-lg md:text-xl text-foreground/80 mb-8 max-w-2xl mx-auto font-light">
               Rejoignez les premiers testeurs et bénéficiez de 
