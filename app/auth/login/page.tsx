@@ -51,7 +51,7 @@ export default function LoginPage() {
                     </p>
                 </div>
 
-                <Card className="bg-black/40 backdrop-blur-sm border-primary/20">
+                <Card className="dark:bg-black/40 bg-white/80 backdrop-blur-sm border-primary/20 dark:border-primary/20 border shadow-lg">
                     <CardContent className="pt-6">
                         <form onSubmit={handleLogin} className="space-y-4">
                             <div className="space-y-2">
@@ -62,7 +62,7 @@ export default function LoginPage() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
-                                    className="bg-black/50 border-primary/20 focus:border-primary/40 text-foreground"
+                                    className="dark:bg-black/50 bg-white border-primary/20 focus:border-primary/40 text-foreground"
                                     placeholder="your@email.com"
                                 />
                             </div>
@@ -81,7 +81,7 @@ export default function LoginPage() {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
-                                    className="bg-black/50 border-primary/20 focus:border-primary/40 text-foreground"
+                                    className="dark:bg-black/50 bg-white border-primary/20 focus:border-primary/40 text-foreground"
                                     placeholder="••••••••"
                                 />
                             </div>
@@ -99,7 +99,7 @@ export default function LoginPage() {
                                 <Separator className="w-full border-primary/20"/>
                             </div>
                             <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-black px-2 text-muted-foreground">
+                                <span className="dark:bg-black bg-white px-2 text-muted-foreground">
                                     Ou continuer avec
                                 </span>
                             </div>
