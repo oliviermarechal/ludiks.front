@@ -1,13 +1,10 @@
 'use client';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { redirect } from 'next/navigation';
 
 export default function AuthLayout({
  children,
 }: Readonly<{ children: React.ReactNode; }>) {
-  redirect('/');
-  return;
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}>
       <main className="min-h-screen relative">
