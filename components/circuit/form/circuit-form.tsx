@@ -77,16 +77,16 @@ export function CircuitForm({
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto space-y-12">
             <div className="space-y-8">
                 <div className="space-y-2 max-w-2xl">
-                    <h2 className="text-2xl font-bold text-foreground">Informations du circuit</h2>
+                    <h2 className="text-2xl font-bold text-foreground">Informations du parcours</h2>
                     <p className="text-lg text-muted-foreground">
-                        Donnez un nom et une description à votre circuit pour le retrouver facilement
+                        Donnez un nom et une description à votre parcours pour le retrouver facilement
                     </p>
                 </div>
 
                 <div className="grid gap-8 max-w-2xl">
                     <div className="space-y-3">
                         <label htmlFor="name" className="block text-sm font-medium text-foreground">
-                            Nom du circuit
+                            Nom du parcours
                         </label>
                         <Input
                             id="name"
@@ -105,7 +105,7 @@ export function CircuitForm({
                         </label>
                         <Textarea
                             id="description"
-                            placeholder="Décrivez le but de ce circuit et comment il va engager vos utilisateurs..."
+                            placeholder="Décrivez le but de ce parcours..."
                             className="min-h-[120px] bg-card border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
                             {...register("description")}
                         />
@@ -118,7 +118,7 @@ export function CircuitForm({
 
             <div className="space-y-8">
                 <div className="space-y-2">
-                    <h2 className="text-2xl font-bold text-foreground">Type de circuit</h2>
+                    <h2 className="text-2xl font-bold text-foreground">Type de parcours</h2>
                     <p className="text-lg text-muted-foreground">
                         Choisissez le type qui correspond le mieux à votre stratégie d&apos;engagement
                     </p>

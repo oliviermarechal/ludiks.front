@@ -64,7 +64,6 @@ export default function NewCircuitPage() {
   const handleSubmit = async () => {
     if (!formData.name || !formData.type || !formData.steps) return
     
-    console.log('Circuit creation data:', formData)
     router.push('/dashboard/circuits')
   }
 

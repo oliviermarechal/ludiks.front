@@ -7,6 +7,7 @@ import { SettingsTab } from './components/settings-tab';
 import { AnalyticsTab } from './components/analytics-tab';
 import * as Tabs from "@radix-ui/react-tabs";
 import { CircuitType } from "@/lib/stores/circuit-store";
+import { ApiDocTab } from './components/api-doc-tab';
 
 export interface ExtendedStep {
     id: string;
@@ -240,7 +241,7 @@ export default function CircuitPage({ params }: PageProps) {
         return (
             <div className="container mx-auto py-12">
                 <div className="text-center text-foreground/70">
-                    Circuit non trouvé
+                    Parcours non trouvé
                 </div>
             </div>
         );
@@ -267,9 +268,7 @@ export default function CircuitPage({ params }: PageProps) {
                     </Tabs.Content>
 
                     <Tabs.Content value="api" className="mt-6">
-                        <div className="text-center text-foreground/70 py-12">
-                            Documentation de l&apos;API à venir...
-                        </div>
+                        <ApiDocTab circuit={circuitData} />
                     </Tabs.Content>
                 </Tabs.Root>
             </div>

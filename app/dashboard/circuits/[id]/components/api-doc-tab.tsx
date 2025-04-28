@@ -1,0 +1,197 @@
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Code, Copy, Terminal } from "lucide-react";
+import { ExtendedCircuit } from "../page";
+
+export function ApiDocTab({ circuit }: { circuit: ExtendedCircuit }) {
+    const isObjectiveCircuit = circuit.type === "objective";
+    const firstStep = circuit.steps[0];
+
+    return (
+        <div className="space-y-8">
+            {/* Introduction */}
+            <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-foreground">Documentation API</h2>
+                <p className="text-foreground/70">
+                    Intégrez facilement le suivi des utilisateurs dans votre application avec notre SDK JavaScript.
+                </p>
+            </div>
+
+            {/* Installation */}
+            <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-foreground">Installation</h3>
+                <Card className="p-6 border-secondary/20 bg-surface-2">
+                    <div className="flex items-center gap-2 text-sm text-foreground/70 mb-4">
+                        <Terminal className="h-4 w-4" />
+                        <span>Installation via npm</span>
+                    </div>
+                    <div className="relative">
+                        <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
+                            <code>npm install @ludiks/tracking</code>
+                        </pre>
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="absolute top-2 right-2 text-white/50 hover:text-white"
+                        >
+                            <Copy className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </Card>
+            </div>
+
+            {/* Initialization */}
+            <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-foreground">Initialisation</h3>
+                <Card className="p-6 border-secondary/20 bg-surface-2">
+                    <div className="flex items-center gap-2 text-sm text-foreground/70 mb-4">
+                        <Code className="h-4 w-4" />
+                        <span>Configuration du SDK</span>
+                    </div>
+                    <div className="relative">
+                        <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
+                            <code>{`import { LudiksTracking } from '@ludiks/tracking';
+
+const tracking = new LudiksTracking({
+    apiKey: 'YOUR_API_KEY',
+    userId: 'CURRENT_USER_ID'
+});`}</code>
+                        </pre>
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="absolute top-2 right-2 text-white/50 hover:text-white"
+                        >
+                            <Copy className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </Card>
+            </div>
+
+            {/* Tracking Events */}
+            <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-foreground">Suivi des événements</h3>
+                <Card className="p-6 border-secondary/20 bg-surface-2">
+                    <div className="flex items-center gap-2 text-sm text-foreground/70 mb-4">
+                        <Code className="h-4 w-4" />
+                        <span>Envoi d&apos;un événement</span>
+                    </div>
+                    <div className="space-y-6">
+                        {isObjectiveCircuit ? (
+                            <>
+                                <p className="text-foreground/70">
+                                    Pour un circuit d&apos;objectif, vous devez envoyer un événement pour chaque étape complétée :
+                                </p>
+                                {circuit.steps.map((step, index) => (
+                                    <div key={step.id} className="relative">
+                                        <div className="mb-2 text-sm text-foreground/70">
+                                            Étape {index + 1} : {step.name}
+                                        </div>
+                                        <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
+                                            <code>{`await tracking.trackEvent({
+    eventName: '${step.eventName}',
+    date: new Date().toISOString()
+});`}</code>
+                                        </pre>
+                                        <Button 
+                                            variant="ghost" 
+                                            size="icon" 
+                                            className="absolute top-2 right-2 text-white/50 hover:text-white"
+                                        >
+                                            <Copy className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                ))}
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-foreground/70">
+                                    Pour un circuit à points ou à actions, envoyez un événement avec la valeur à incrémenter :
+                                </p>
+                                <div className="relative">
+                                    <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
+                                        <code>{`await tracking.trackEvent({
+    eventName: '${firstStep.eventName}',
+    value: 1, // Nombre de points/actions à incrémenter
+    date: new Date().toISOString()
+});`}</code>
+                                    </pre>
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        className="absolute top-2 right-2 text-white/50 hover:text-white"
+                                    >
+                                        <Copy className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </Card>
+            </div>
+
+            {/* API Reference */}
+            <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-foreground">Référence API</h3>
+                <Card className="p-6 border-secondary/20 bg-surface-2">
+                    <div className="space-y-6">
+                        <div>
+                            <h4 className="text-lg font-medium text-foreground mb-2">Endpoint</h4>
+                            <div className="flex items-center gap-2">
+                                <span className="px-2 py-1 rounded text-sm font-mono bg-emerald-500/10 text-emerald-500">POST</span>
+                                <span className="text-foreground/70 font-mono">api.ludiks.io/api/tracking</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 className="text-lg font-medium text-foreground mb-2">Body</h4>
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-4">
+                                    <span className="text-foreground/70 font-mono">user_id</span>
+                                    <span className="text-foreground/50 text-sm">string</span>
+                                    <span className="text-foreground/50 text-sm">ID de l&apos;utilisateur</span>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <span className="text-foreground/70 font-mono">event_name</span>
+                                    <span className="text-foreground/50 text-sm">string</span>
+                                    <span className="text-foreground/50 text-sm">Nom de l&apos;événement</span>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <span className="text-foreground/70 font-mono">value</span>
+                                    <span className="text-foreground/50 text-sm">number (optionnel)</span>
+                                    <span className="text-foreground/50 text-sm">Valeur à incrémenter (défaut: 1)</span>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <span className="text-foreground/70 font-mono">date</span>
+                                    <span className="text-foreground/50 text-sm">string</span>
+                                    <span className="text-foreground/50 text-sm">Date au format ISO</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 className="text-lg font-medium text-foreground mb-2">Exemple de requête</h4>
+                            <div className="relative">
+                                <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
+                                    <code>{`{
+    "user_id": "user_123",
+    "event_name": "${isObjectiveCircuit ? circuit.steps[0].eventName : firstStep.eventName}",
+    ${!isObjectiveCircuit ? '"value": 1,' : ''}
+    "date": "2024-03-20T10:00:00.000Z"
+}`}</code>
+                                </pre>
+                                <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    className="absolute top-2 right-2 text-white/50 hover:text-white"
+                                >
+                                    <Copy className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+            </div>
+        </div>
+    );
+} 
