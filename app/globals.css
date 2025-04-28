@@ -2,24 +2,19 @@
 
 @layer base {
   :root {
-    /* Une couleur primaire violet plus vive pour le light mode */
     --primary: oklch(0.45 0.25 300);
     --primary-foreground: oklch(1 0 0);
-    /* Un jaune doré plus vif */
     --secondary: oklch(0.8 0.2 85);
     --secondary-foreground: oklch(0.2 0 0);
-    /* Un fond encore plus clair */
     --background: oklch(0.99 0 0);
     --foreground: oklch(0.2 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.2 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.2 0 0);
-    /* Muted plus contrasté */
     --muted: oklch(0.95 0.02 300);
     --muted-foreground: oklch(0.35 0 0);
-    /* Accent plus vif */
-    --accent: oklch(0.55 0.2 85);
+    --accent: oklch(0.75 0.15 85);
     --accent-foreground: oklch(0.1 0 0);
     --destructive: oklch(0.65 0.3 30);
     --destructive-foreground: oklch(1 0 0);

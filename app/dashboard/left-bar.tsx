@@ -1,4 +1,4 @@
-import { FolderGit2, ChevronDown, Settings, Users, CircuitBoard, LayoutDashboard, Check, LogOut, Loader2, ChartBar } from "lucide-react"
+import { FolderGit2, ChevronDown, Settings, Users, CircuitBoard, LayoutDashboard, Check, LogOut, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
@@ -15,7 +15,6 @@ export default function LeftBar() {
         { name: 'Projets', href: '/dashboard/projects', icon: FolderGit2 },
         { name: 'Parcours', href: '/dashboard/circuits', icon: CircuitBoard },
         { name: 'Utilisateurs', href: '/dashboard/users', icon: Users },
-        { name: 'Analytiques', href: '/dashboard/analytics', icon: ChartBar },
         { name: 'Paramètres', href: '/dashboard/settings', icon: Settings },
     ]
 

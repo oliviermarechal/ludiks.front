@@ -9,17 +9,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { Star, RotateCw, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const circuitSchema = z.object({
+const stepSchema = z.object({
+    name: z.string(),
+    points: z.number().optional(),
+    actions: z.array(z.string()).optional(),
+    objective: z.string().optional(),
+});
+
+export const circuitSchema = z.object({
     name: z.string().min(3, "Le nom du circuit doit contenir au moins 3 caractères"),
     type: z.enum(["points", "actions", "objective"]),
     description: z.string().max(500, "La description ne peut pas dépasser 500 caractères").optional(),
+    steps: z.array(stepSchema),
 });
 
 export type CircuitFormData = z.infer<typeof circuitSchema>;
-
-interface CircuitFormProps {
-    onSubmit: (data: CircuitFormData) => Promise<void>;
-}
 
 const circuitTypes = [
     {
@@ -42,16 +46,30 @@ const circuitTypes = [
     },
 ];
 
-export function CircuitForm({ onSubmit }: CircuitFormProps) {
+export function CircuitForm({
+    defaultValues,
+    onSubmit,
+}: {
+    defaultValues?: Partial<CircuitFormData>;
+    onSubmit: (data: CircuitFormData) => Promise<void>;
+}) {
+    const form = useForm<CircuitFormData>({
+        resolver: zodResolver(circuitSchema),
+        defaultValues: {
+            name: defaultValues?.name ?? "",
+            type: defaultValues?.type ?? "points",
+            description: defaultValues?.description ?? "",
+            steps: defaultValues?.steps ?? [],
+        },
+    });
+
     const {
         register,
         handleSubmit,
         watch,
         setValue,
         formState: { errors, isSubmitting },
-    } = useForm<CircuitFormData>({
-        resolver: zodResolver(circuitSchema),
-    });
+    } = form;
 
     const selectedType = watch("type");
 
@@ -59,40 +77,40 @@ export function CircuitForm({ onSubmit }: CircuitFormProps) {
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto space-y-12">
             <div className="space-y-8">
                 <div className="space-y-2 max-w-2xl">
-                    <h2 className="text-2xl font-bold text-white">Informations du circuit</h2>
-                    <p className="text-lg text-white/70">
+                    <h2 className="text-2xl font-bold text-foreground">Informations du circuit</h2>
+                    <p className="text-lg text-muted-foreground">
                         Donnez un nom et une description à votre circuit pour le retrouver facilement
                     </p>
                 </div>
 
                 <div className="grid gap-8 max-w-2xl">
                     <div className="space-y-3">
-                        <label htmlFor="name" className="block text-sm font-medium text-white">
+                        <label htmlFor="name" className="block text-sm font-medium text-foreground">
                             Nom du circuit
                         </label>
                         <Input
                             id="name"
                             placeholder="Ex: Onboarding utilisateur, Programme fidélité..."
-                            className="bg-black/40 border-primary/20 focus:border-primary/40 placeholder:text-white/30"
+                            className="bg-card border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
                             {...register("name")}
                         />
                         {errors.name && (
-                            <p className="text-sm text-red-500">{errors.name.message}</p>
+                            <p className="text-sm text-destructive">{errors.name.message}</p>
                         )}
                     </div>
 
                     <div className="space-y-3">
-                        <label htmlFor="description" className="block text-sm font-medium text-white">
+                        <label htmlFor="description" className="block text-sm font-medium text-foreground">
                             Description
                         </label>
                         <Textarea
                             id="description"
                             placeholder="Décrivez le but de ce circuit et comment il va engager vos utilisateurs..."
-                            className="min-h-[120px] bg-black/40 border-primary/20 focus:border-primary/40 placeholder:text-white/30"
+                            className="min-h-[120px] bg-card border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
                             {...register("description")}
                         />
                         {errors.description && (
-                            <p className="text-sm text-red-500">{errors.description.message}</p>
+                            <p className="text-sm text-destructive">{errors.description.message}</p>
                         )}
                     </div>
                 </div>
@@ -100,8 +118,8 @@ export function CircuitForm({ onSubmit }: CircuitFormProps) {
 
             <div className="space-y-8">
                 <div className="space-y-2">
-                    <h2 className="text-2xl font-bold text-white">Type de circuit</h2>
-                    <p className="text-lg text-white/70">
+                    <h2 className="text-2xl font-bold text-foreground">Type de circuit</h2>
+                    <p className="text-lg text-muted-foreground">
                         Choisissez le type qui correspond le mieux à votre stratégie d&apos;engagement
                     </p>
                 </div>
@@ -113,28 +131,28 @@ export function CircuitForm({ onSubmit }: CircuitFormProps) {
                             type="button"
                             onClick={() => setValue("type", type.value as "points" | "actions" | "objective")}
                             className={cn(
-                                "flex flex-col items-start text-left p-6 rounded-xl border transition-all duration-200",
-                                "hover:border-primary/40 hover:bg-black/40",
+                                "flex flex-col items-center text-center p-6 rounded-xl border transition-all duration-200",
+                                "hover:border-primary/40 hover:bg-card",
                                 selectedType === type.value
-                                    ? "border-secondary bg-black/40 ring-2 ring-secondary ring-offset-2 ring-offset-background"
-                                    : "border-primary/20 bg-black/20"
+                                    ? "border-secondary bg-card"
+                                    : "border-primary/20 bg-card"
                             )}
                         >
                             <div className={cn(
-                                "p-3 rounded-lg mb-4",
+                                "p-4 rounded-full mb-4",
                                 selectedType === type.value
                                     ? "bg-secondary/20"
                                     : "bg-primary/10"
                             )}>
                                 <type.icon className={cn(
-                                    "w-6 h-6",
+                                    "w-8 h-8",
                                     selectedType === type.value
                                         ? "text-secondary"
                                         : "text-primary/60"
                                 )} />
                             </div>
-                            <h3 className="text-lg font-semibold text-white mb-2">{type.label}</h3>
-                            <p className="text-sm text-white/70">{type.description}</p>
+                            <h3 className="text-lg font-semibold mb-2">{type.label}</h3>
+                            <p className="text-sm text-foreground/70">{type.description}</p>
                         </button>
                     ))}
                 </div>
@@ -144,7 +162,7 @@ export function CircuitForm({ onSubmit }: CircuitFormProps) {
                 <Button
                     type="submit"
                     disabled={!selectedType || isSubmitting}
-                    className="bg-secondary hover:bg-secondary/90 text-black font-medium px-8"
+                    className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-medium px-8"
                 >
                     Créer le circuit
                 </Button>

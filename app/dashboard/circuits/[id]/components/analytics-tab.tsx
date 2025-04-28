@@ -13,10 +13,10 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, BarChart, Bar } from "recharts";
-import { Circuit, Step } from "@/lib/stores/circuit-store";
+import { ExtendedCircuit, ExtendedStep } from "@/app/dashboard/circuits/[id]/page";
 
 interface AnalyticsTabProps {
-    circuit: Circuit;
+    circuit: ExtendedCircuit;
 }
 
 function getCompletionColor(rate: number) {
@@ -50,7 +50,7 @@ function CustomTooltip({ active, payload }: { active?: boolean, payload?: {paylo
 }
 
 export function AnalyticsTab({ circuit }: AnalyticsTabProps) {
-    const chartData = circuit.steps?.map((step: Step) => ({
+    const chartData = circuit.steps?.map((step: ExtendedStep) => ({
         name: step.name,
         usersCompleted: step.usersCompleted,
         completionRate: step.completionRate,
@@ -232,19 +232,12 @@ export function AnalyticsTab({ circuit }: AnalyticsTabProps) {
                 </div>
 
                 <div className="grid gap-4">
-                    {circuit.steps.map((step: Step) => (
+                    {circuit.steps.map((step: ExtendedStep) => (
                         <div 
                             key={step.id}
                             className="p-6 rounded-xl border border-secondary/20 bg-surface-2 hover:bg-surface-3 transition-all duration-200"
                         >
                             <div className="flex items-center gap-6">
-                                <div className={cn(
-                                    "h-12 w-12 rounded-lg flex items-center justify-center",
-                                    getCompletionColor(step.completionRate)
-                                )}>
-                                    <step.icon className="h-6 w-6" />
-                                </div>
-
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-3">
                                         <h3 className="text-lg font-semibold text-foreground">

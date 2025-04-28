@@ -332,11 +332,12 @@ interface CompletionDrop {
 }
 
 type PageProps = {
-    params: { id: string }
+    params: Promise<{ id: string }>
 }
 
 export default function CircuitAnalyticsPage({ params }: PageProps) {
-    const data = params.id === "2" ? pointsCircuitData : circuitData;
+    const {id} = use(params);
+    const data = id === "2" ? pointsCircuitData : circuitData;
     const [selectedStep, setSelectedStep] = useState<Step | null>(null);
     
     // Calculer la plus grande chute de taux de complétion pour les parcours de type "objective"
@@ -366,9 +367,6 @@ export default function CircuitAnalyticsPage({ params }: PageProps) {
         completionRate: step.completionRate,
         avgTime: step.avgTime
     }));
-
-    const formatPercentage = (p: number) => `${p}%`;
-    const formatNumber = (p: number) => p.toString();
 
     return (
         <div className="container mx-auto py-12">

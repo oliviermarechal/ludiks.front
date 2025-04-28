@@ -13,9 +13,9 @@ interface GeneratorStep {
     question: string;
     placeholder: string;
     field: keyof GeneratorFormData;
-    type?: "number" | "select";
+    type?: "number" | "select" | "range";
     options?: { value: string; label: string; }[];
-    validation: (value: number | string) => boolean;
+    validation: (value: number | string | undefined) => boolean;
     errorMessage?: string;
     hint?: string;
 }
@@ -79,7 +79,7 @@ export function generatePreviewSteps(values: GeneratorFormData, circuitName: str
             completionRate: 0,
             completionThreshold: Math.max(1, threshold),
             usersCompleted: 0,
-            eventName: `${baseEventName}_level_${i + 1}`,
+            eventName: `${baseEventName}`,
         });
     }
 
@@ -90,7 +90,7 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
     const [currentStep, setCurrentStep] = useState(0);
     const [showPreview, setShowPreview] = useState(false);
     const [values, setValues] = useState<GeneratorFormData>({
-        numberOfSteps: 5,
+        numberOfSteps: 3,
         maxValue: 100,
         startValue: 1,
         curve: "power",
@@ -109,27 +109,16 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
         },
         {
             question: type === "points" 
-                ? "Combien de points faut-il pour le premier niveau ?"
-                : "Combien d'actions faut-il pour le premier palier ?",
+                ? "Définissez la plage de points pour votre parcours"
+                : "Définissez la plage d'actions pour votre parcours",
             placeholder: "Ex: 1",
             field: "startValue",
-            type: "number",
-            validation: (value) => typeof value === "number" && value >= 1,
-            errorMessage: "La valeur doit être supérieure à 0",
-            hint: "Cette valeur représente l'objectif initial du parcours"
-        },
-        {
-            question: type === "points" 
-                ? "Quel est le nombre maximum de points à atteindre ?"
-                : "Quel est le nombre maximum de répétitions à effectuer ?",
-            placeholder: "Ex: 100",
-            field: "maxValue",
-            type: "number",
-            validation: (value) => typeof value === "number" && value >= values.startValue,
-            errorMessage: "La valeur doit être supérieure à la valeur de départ",
+            type: "range",
+            validation: (value) => typeof value === "number" && value >= 1 && values.maxValue > values.startValue,
+            errorMessage: "La valeur de départ doit être supérieure à 0 et inférieure à la valeur maximale",
             hint: type === "points" 
-                ? "Cette valeur représente le nombre total de points pour le dernier niveau"
-                : "Cette valeur représente le nombre d'actions à effectuer pour le dernier palier"
+                ? "Ces valeurs représentent le nombre de points nécessaires pour le premier et le dernier niveau"
+                : "Ces valeurs représentent le nombre d'actions nécessaires pour le premier et le dernier palier"
         },
         {
             question: "Quel type de progression souhaitez-vous ?",
@@ -218,7 +207,7 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                 <div className="flex gap-3">
                                     {currentQuestion.type === "select" ? (
                                         <Select
-                                            value={values[currentQuestion.field]?.toString() || ""}
+                                            value={(values[currentQuestion.field]?.toString() || "").toString()}
                                             onValueChange={(value) => handleValueChange(value, currentQuestion.field)}
                                         >
                                             <SelectTrigger className="flex-1">
@@ -232,6 +221,31 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                                 ))}
                                             </SelectContent>
                                         </Select>
+                                    ) : currentQuestion.type === "range" ? (
+                                        <div className="flex-1 space-y-4">
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="space-y-2">
+                                                    <Label>Valeur de départ</Label>
+                                                    <Input
+                                                        type="number"
+                                                        value={values.startValue}
+                                                        onChange={(e) => handleValueChange(parseInt(e.target.value) || 1, "startValue")}
+                                                        placeholder="Ex: 1"
+                                                        min={1}
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label>Valeur maximale</Label>
+                                                    <Input
+                                                        type="number"
+                                                        value={values.maxValue}
+                                                        onChange={(e) => handleValueChange(parseInt(e.target.value) || 100, "maxValue")}
+                                                        placeholder="Ex: 100"
+                                                        min={values.startValue + 1}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
                                     ) : (
                                         <Input
                                             type={currentQuestion.type}
@@ -247,7 +261,11 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                     )}
                                     <Button 
                                         onClick={handleNext}
-                                        disabled={!currentQuestion.validation(values[currentQuestion.field])}
+                                        disabled={
+                                            currentQuestion.type === "range" 
+                                                ? !currentQuestion.validation(values.startValue) || values.maxValue <= values.startValue
+                                                : !currentQuestion.validation(values[currentQuestion.field] as number | string)
+                                        }
                                         size="icon"
                                         className="h-10 w-10 bg-secondary hover:bg-secondary/90"
                                     >
