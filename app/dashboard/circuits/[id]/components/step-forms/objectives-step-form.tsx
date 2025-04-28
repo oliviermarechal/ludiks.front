@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Pencil, Check, X, ArrowRight } from "lucide-react";
+import { Plus, Pencil, Check, X, ArrowRight, Target } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -284,7 +284,7 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
             validation: (value: string) => value.length >= 3,
             errorMessage: "Le nom doit contenir au moins 3 caractères",
             onChange: (value: string) => {
-                if (currentStep === 0) { // Si on est sur la première question (nom)
+                if (currentStep === 0) {
                     setStepData(prev => ({
                         ...prev,
                         eventName: slugify(value)
@@ -469,6 +469,31 @@ export function ObjectivesStepForm({ onStepsChange, initialSteps = [] }: Objecti
     return (
         <div className="space-y-4">
             <AnimatePresence mode="popLayout">
+                {steps.length === 0 && !isAddingStep && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="flex flex-col items-center justify-center p-8 rounded-xl border border-dashed border-border bg-muted/50 text-center"
+                    >
+                        <div className="h-12 w-12 rounded-full bg-secondary/10 flex items-center justify-center mb-4">
+                            <Target className="h-6 w-6 text-secondary" />
+                        </div>
+                        <h3 className="text-lg font-semibold text-foreground mb-2">Aucun objectif défini</h3>
+                        <p className="text-sm text-muted-foreground mb-6">
+                            Commencez par ajouter un premier objectif à atteindre pour vos utilisateurs
+                        </p>
+                        <Button
+                            type="button"
+                            onClick={() => setIsAddingStep(true)}
+                            className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                        >
+                            <Plus className="h-4 w-4 mr-2" />
+                            Ajouter un objectif
+                        </Button>
+                    </motion.div>
+                )}
+
                 {steps.map((step, index) => (
                     <StepItem
                         key={step.id}
@@ -486,7 +511,7 @@ export function ObjectivesStepForm({ onStepsChange, initialSteps = [] }: Objecti
                 )}
             </AnimatePresence>
 
-            {!isAddingStep && (
+            {!isAddingStep && steps.length > 0 && (
                 <motion.div layout>
                     <Button
                         type="button"

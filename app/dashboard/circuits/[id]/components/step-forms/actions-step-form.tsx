@@ -87,7 +87,7 @@ export function ActionsStepForm({ circuitName, onStepsChange, initialSteps }: Ac
                 <Button
                     variant="outline"
                     onClick={() => setIsGeneratorOpen(true)}
-                    className="relative group"
+                    className="relative group  dark:!border-primary/40 dark:hover:!border-primary/60"
                 >
                     <div className="absolute inset-0 bg-gradient-to-r from-secondary/10 via-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-md" />
                     <Wand2 className="w-4 h-4 mr-2 transition-transform duration-500 group-hover:scale-110" />
@@ -100,11 +100,11 @@ export function ActionsStepForm({ circuitName, onStepsChange, initialSteps }: Ac
                 </Button>
             </div>
 
-            <div className="space-y-3 bg-muted/50 rounded-lg p-4">
+            <div className="space-y-3 bg-card/50 rounded-lg p-4">
                 {fields.map((field, index) => (
                     <div 
                         key={field.id} 
-                        className="flex items-center gap-3 p-3 bg-background rounded-lg"
+                        className="flex items-center gap-3 p-3 bg-card rounded-lg border border-border hover:border-border/80 transition-colors duration-200"
                     >
                         <div className="w-16 shrink-0 text-sm text-muted-foreground">
                             Palier {index + 1}
@@ -152,7 +152,7 @@ export function ActionsStepForm({ circuitName, onStepsChange, initialSteps }: Ac
                         append({ completionThreshold: Math.max(1, fields[fields.length - 1]?.completionThreshold || 0) + 10 });
                         handleStepsChange();
                     }}
-                    className="w-full h-9 text-sm mt-2"
+                    className="w-full h-9 text-sm mt-2 border-border hover:border-border/80 dark:!border-primary/40 dark:hover:!border-primary/60"
                 >
                     <Plus className="h-4 w-4 mr-2" />
                     Ajouter un palier
@@ -167,11 +167,11 @@ export function ActionsStepForm({ circuitName, onStepsChange, initialSteps }: Ac
                             Visualisez la courbe de progression des actions à effectuer
                         </p>
                     </div>
-                    <div className="bg-muted/50 rounded-lg p-4">
+                    <div className="bg-card/50 rounded-lg p-4">
                         <StepPreviewChart steps={previewSteps} />
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-4">
                             {previewSteps.map((step, index) => (
-                                <div key={index} className="text-sm">
+                                <div key={index} className="text-sm bg-card p-2 rounded-md border border-border/60">
                                     <span className="text-muted-foreground">Palier {index + 1}:</span>
                                     <br />
                                     <span className="text-secondary font-medium">
