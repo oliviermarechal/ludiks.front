@@ -148,15 +148,17 @@ export function AnalyticsTab({ circuit }: AnalyticsTabProps) {
                                             <stop offset="95%" stopColor="var(--secondary)" stopOpacity={0}/>
                                         </linearGradient>
                                     </defs>
-                                    <CartesianGrid strokeDasharray="3 3" className="stroke-white/5" />
+                                    <CartesianGrid strokeDasharray="3 3" className="stroke-foreground/5" />
                                     <XAxis 
                                         dataKey="name" 
-                                        tick={{ fill: 'rgba(255,255,255,0.5)' }}
-                                        tickLine={{ stroke: 'rgba(255,255,255,0.1)' }}
+                                        tick={{ fill: 'var(--foreground)' }}
+                                        tickLine={{ stroke: 'var(--foreground)' }}
+                                        opacity={0.5}
                                     />
                                     <YAxis
-                                        tick={{ fill: 'rgba(255,255,255,0.5)' }}
-                                        tickLine={{ stroke: 'rgba(255,255,255,0.1)' }}
+                                        tick={{ fill: 'var(--foreground)' }}
+                                        tickLine={{ stroke: 'var(--foreground)' }}
+                                        opacity={0.5}
                                         tickFormatter={(value) => `${value}%`}
                                     />
                                     <Tooltip content={<CustomTooltip />} />

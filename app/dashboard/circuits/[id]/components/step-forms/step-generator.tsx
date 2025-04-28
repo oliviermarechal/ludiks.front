@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -119,19 +119,6 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
             hint: type === "points" 
                 ? "Ces valeurs représentent le nombre de points nécessaires pour le premier et le dernier niveau"
                 : "Ces valeurs représentent le nombre d'actions nécessaires pour le premier et le dernier palier"
-        },
-        {
-            question: "Quel type de progression souhaitez-vous ?",
-            placeholder: "Choisissez un type",
-            field: "curve",
-            type: "select",
-            options: [
-                { value: "linear", label: "Linéaire (progression régulière)" },
-                { value: "power", label: "Exponentielle (progression de plus en plus difficile)" },
-                { value: "logarithmic", label: "Logarithmique (progression de plus en plus facile)" }
-            ],
-            validation: () => true,
-            hint: "La courbe de progression détermine la difficulté entre chaque étape"
         }
     ];
 
@@ -177,7 +164,10 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-xl">
+            <DialogContent className="sm:max-w-3xl">
+                <DialogTitle className="sr-only">
+                    {type === "points" ? "Générateur de niveaux" : "Générateur de paliers"}
+                </DialogTitle>
                 <AnimatePresence mode="wait">
                     {!showPreview ? (
                         <motion.div
@@ -272,28 +262,6 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                         <ArrowRight className="h-5 w-5" />
                                     </Button>
                                 </div>
-
-                                {values.curve === "power" && currentStep === steps.length - 1 && (
-                                    <div className="space-y-3 pt-4">
-                                        <div className="flex justify-between items-center">
-                                            <Label className="text-sm">Intensité de la progression</Label>
-                                            <span className="text-sm text-secondary">
-                                                {values.exponent?.toFixed(2)}
-                                            </span>
-                                        </div>
-                                        <Slider
-                                            min={1.5}
-                                            max={2.5}
-                                            step={0.1}
-                                            value={[values.exponent || 2]}
-                                            onValueChange={([value]) => handleValueChange(value, "exponent")}
-                                            className="py-2"
-                                        />
-                                        <p className="text-xs text-muted-foreground">
-                                            Ajustez l&apos;intensité de la progression exponentielle
-                                        </p>
-                                    </div>
-                                )}
                             </div>
 
                             <div className="flex justify-between items-center pt-4">
@@ -327,17 +295,73 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                 </div>
 
                                 <div className="space-y-6">
-                                    <StepPreviewChart steps={previewSteps} />
-                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                                        {previewSteps.map((step, index) => (
-                                            <div key={index} className="text-sm">
-                                                <span className="text-muted-foreground">Niveau {index + 1}:</span>
-                                                <br />
-                                                <span className="text-secondary font-medium">
-                                                    {step.completionThreshold} {type === "points" ? "points" : "actions"}
-                                                </span>
+                                    <div className="space-y-4">
+                                        <div className="space-y-2">
+                                            <Label className="text-base">Type de progression</Label>
+                                            <Select
+                                                value={values.curve}
+                                                onValueChange={(value) => handleValueChange(value, "curve")}
+                                            >
+                                                <SelectTrigger className="h-12 bg-secondary/5">
+                                                    <SelectValue placeholder="Choisissez un type" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {[
+                                                        { value: "linear", label: "Linéaire (progression régulière)" },
+                                                        { value: "power", label: "Exponentielle (progression de plus en plus difficile)" },
+                                                        { value: "logarithmic", label: "Logarithmique (progression de plus en plus facile)" }
+                                                    ].map(option => (
+                                                        <SelectItem key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <p className="text-xs text-muted-foreground">
+                                                La courbe de progression détermine la difficulté entre chaque étape
+                                            </p>
+                                        </div>
+
+                                        {values.curve === "power" && (
+                                            <div className="space-y-3">
+                                                <div className="flex justify-between items-center">
+                                                    <Label className="text-sm">Intensité de la progression</Label>
+                                                    <span className="text-sm text-secondary">
+                                                        {values.exponent?.toFixed(2)}
+                                                    </span>
+                                                </div>
+                                                <Slider
+                                                    min={1.5}
+                                                    max={2.5}
+                                                    step={0.1}
+                                                    value={[values.exponent || 2]}
+                                                    onValueChange={([value]) => handleValueChange(value, "exponent")}
+                                                    className="py-2"
+                                                />
+                                                <p className="text-xs text-muted-foreground">
+                                                    Ajustez l&apos;intensité de la progression exponentielle
+                                                </p>
                                             </div>
-                                        ))}
+                                        )}
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <StepPreviewChart steps={previewSteps} />
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                            {previewSteps.map((step, index) => (
+                                                <div 
+                                                    key={index} 
+                                                    className="p-3 rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-md transition-shadow"
+                                                >
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <span className="text-sm font-medium text-muted-foreground">Niveau {index + 1}</span>
+                                                    </div>
+                                                    <div className="text-lg font-semibold text-secondary">
+                                                        {step.completionThreshold} {type === "points" ? "points" : "actions"}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
