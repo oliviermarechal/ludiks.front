@@ -54,12 +54,6 @@ export function CircuitHeader({ name, description, type, className }: CircuitHea
                     </div>
                     <div className="flex gap-3">
                         <Button 
-                            variant="outline" 
-                            className="border-border hover:bg-accent hover:text-accent-foreground"
-                        >
-                            Prévisualiser
-                        </Button>
-                        <Button 
                             variant="outline"
                             className="border-secondary/20 hover:border-secondary/40 bg-secondary/10 hover:bg-secondary/20 text-secondary"
                         >

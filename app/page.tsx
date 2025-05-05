@@ -2,8 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { 
   Eye, 
   Lightbulb, 
@@ -30,6 +28,11 @@ import {
   Area
 } from 'recharts';
 import { useEffect, useState } from 'react';
+import { StrategyFormData, StrategyGenerator } from "@/components/strategy/generator";
+import { StrategySuggestions } from "@/components/strategy/suggestions";
+import { Modal } from "@/components/ui/modal";
+import { useRouter } from "next/navigation";
+import { Card } from "@/components/ui/card";
 
 const completionData = [
   { name: 'Inscription', completion: 100, users: 450 },
@@ -61,18 +64,34 @@ function useWindowSize() {
 export default function Home() {
   const { width } = useWindowSize();
   const isMobile = width < 640;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [strategyData, setStrategyData] = useState<StrategyFormData | null>(null);
+  const router = useRouter();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleComplete = (data: StrategyFormData) => {
+    setStrategyData(data);
+    setShowSuggestions(true);
+  };
+
+  const handleGenerate = () => {
+    router.push('/signup');
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    setShowSuggestions(false);
+    setStrategyData(null);
   };
 
   return (
     <main className="min-h-screen">
       <div className="relative landing-hero">
         <div className="container mx-auto pt-24 pb-16 relative px-4 md:px-8">
-          <div className="absolute top-8 right-8">
-            <ThemeToggle />
-          </div>
           <div className="flex flex-col items-center text-center space-y-8">
             <Badge variant="outline" className="bg-yellow-300 text-black font-bold">
               🚧 Bêta en cours
@@ -101,37 +120,52 @@ export default function Home() {
                 <span className="font-medium text-foreground/90">Motivez vos users</span>
               </div>
             </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
+              <Button
+                size="lg"
+                onClick={() => setIsModalOpen(true)}
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+              >
+                Démarrer le générateur
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Section Soyez les premiers informés du lancement */}
       <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent px-4">
         <div className="w-full max-w-md mt-8 mx-auto relative z-10">
-            <Card className="dark:bg-black bg-white shadow-sm border !border-primary/20 hover:!border-primary">
-              <div className="p-6 relative">
-                <p className="dark:text-white text-black text-lg mb-4 font-medium">
-                  Soyez les premiers informés du lancement
-                </p>
-                
-                <div className="bg-white rounded-lg p-4 mx-auto relative">
-                  <iframe 
-                    src="https://tally.so/embed/wQEqpg?alignLeft=1&hideTitle=1&transparentBackground=0&dynamicHeight=1" 
-                    loading="lazy" 
-                    width="100%" 
-                    height="120" 
-                    className="relative z-10"
-                  ></iframe>
-                </div>
-
-                <p className="dark:text-white/80 text-black/80 text-sm mt-4 font-mono">
-                  🔓 Accès prioritaire à la bêta, démo personnalisée & 
-                  <strong className="text-secondary"> 3 mois gratuits</strong>
-                </p>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-2">
+            Soyez les premiers informés du lancement
+          </h2>
+          <p className="text-muted-foreground text-center mb-6">
+            Rejoignez la liste d&apos;attente pour être informé du lancement, recevoir une démo personnalisée et profiter de 3 mois gratuits.
+          </p>
+          <Card className="dark:bg-black bg-white shadow-sm border !border-primary/20 hover:!border-primary">
+            <div className="p-6 relative">
+              <div className="bg-white rounded-lg p-4 mx-auto relative">
+                <iframe 
+                  src="https://tally.so/embed/wQEqpg?alignLeft=1&hideTitle=1&transparentBackground=0&dynamicHeight=1" 
+                  loading="lazy" 
+                  width="100%" 
+                  height="120" 
+                  className="relative z-10"
+                ></iframe>
               </div>
-            </Card>
-          </div>
+              <p className="dark:text-white/80 text-black/80 text-sm mt-4 font-mono text-center">
+                🔓 Accès prioritaire à la bêta, démo personnalisée &nbsp;
+                <strong className="text-secondary">3 mois gratuits</strong>
+              </p>
+            </div>
+          </Card>
+        </div>
       </div>
-      <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-transparent before:via-primary/5 before:to-transparent px-4">
+
+      {/* Section Problématiques */}
+      <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent px-4">
         <div className="container mx-auto relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -141,7 +175,6 @@ export default function Home() {
               Identifiez et résolvez les points de friction qui freinent l&apos;adoption de votre produit
             </p>
           </div>
-
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="flex gap-4 items-start">
               <div className="bg-card p-3 rounded-lg border border-primary/20">
@@ -152,7 +185,6 @@ export default function Home() {
                 <p className="text-foreground/70">Mesurez et optimisez chaque étape du parcours utilisateur</p>
               </div>
             </div>
-
             <div className="flex gap-4 items-start">
               <div className="bg-card p-3 rounded-lg border border-primary/20">
                 <BarChart3 className="text-secondary h-6 w-6" />
@@ -162,7 +194,6 @@ export default function Home() {
                 <p className="text-foreground/70">Créez des parcours guidés pour maximiser l&apos;adoption</p>
               </div>
             </div>
-
             <div className="flex gap-4 items-start">
               <div className="bg-card p-3 rounded-lg border border-primary/20">
                 <Users2 className="text-secondary h-6 w-6" />
@@ -172,7 +203,6 @@ export default function Home() {
                 <p className="text-foreground/70">Ajoutez points et récompenses via notre API simple</p>
               </div>
             </div>
-
             <div className="flex gap-4 items-start">
               <div className="bg-card p-3 rounded-lg border border-primary/20">
                 <TrendingUp className="text-secondary h-6 w-6" />
@@ -186,74 +216,197 @@ export default function Home() {
         </div>
       </div>
 
-      {/* How it works Section */}
+      {/* Section Comment ça marche */}
       <div className="relative gradient-section py-16 before:absolute before:inset-0 before:bg-gradient-to-b before:from-transparent before:via-primary/5 before:to-transparent">
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Comment ça marche ?
+              Comment ça marche&nbsp;?
             </h2>
             <p className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto">
-              Une intégration simple pour des résultats immédiats
+              Ludiks vous permet de créer des parcours d&apos;engagement sur-mesure, adaptés à vos objectifs business, et de les intégrer à votre produit en quelques minutes.
             </p>
           </div>
-
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="group">
               <div className="bg-card p-6 rounded-xl border border-primary/20 transition-colors duration-300 hover:border-primary relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100"></div>
-                <div className="relative">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="bg-card rounded-lg p-2 border border-primary/20">
-                      <Map className="text-secondary h-7 w-7" />
-                    </div>
-                    <h3 className="text-xl font-bold font-mono text-foreground/90">
-                      1. Créez vos parcours
-                    </h3>
-                  </div>
-                  <p className="text-foreground/70">Définissez vos objectifs et structurez vos parcours sans code</p>
+                <div className="flex items-center gap-3 mb-4">
+                  <Map className="text-secondary h-7 w-7" />
+                  <h3 className="text-xl font-bold font-mono text-foreground/90">
+                    1. Choisissez votre type de parcours
+                  </h3>
+                </div>
+                <p className="text-foreground/70 mb-2">
+                  Sélectionnez le parcours adapté à votre objectif&nbsp;:
+                </p>
+                <ul className="text-foreground/80 text-sm list-disc list-inside space-y-1">
+                  <li>
+                    <strong>Parcours d&apos;objectifs</strong> (ex&nbsp;: onboarding, funnel d&apos;achat, découverte de fonctionnalités)
+                  </li>
+                  <li>
+                    <strong>Parcours récurrents</strong> (ex&nbsp;: utilisation répétée d&apos;une fonctionnalité, création de contenu, parrainage)
+                  </li>
+                  <li>
+                    <strong>Parcours à points</strong> (ex&nbsp;: programme de fidélité, progression, &quot;pexing&quot; façon jeu vidéo)
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="group">
+              <div className="bg-card p-6 rounded-xl border border-primary/20 transition-colors duration-300 hover:border-primary relative overflow-hidden">
+                <div className="flex items-center gap-3 mb-4">
+                  <Trophy className="text-secondary h-7 w-7" />
+                  <h3 className="text-xl font-bold font-mono text-foreground/90">
+                    2. Intégrez Ludiks en quelques minutes
+                  </h3>
+                </div>
+                <p className="text-foreground/70">
+                  Copiez quelques lignes de code ou connectez notre API. Aucun développement complexe requis&nbsp;: vous pouvez suivre et récompenser vos utilisateurs instantanément.
+                </p>
+                <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+                  <pre className="text-sm text-foreground/70 font-mono">
+                    <code>
+                      {`// Installation du SDK
+npm install @ludiks/sdk
+
+// Initialisation
+const ludiks = new Ludiks({
+  apiKey: 'votre-clé-api',
+  projectId: 'votre-projet'
+});
+
+// Suivi d'une action
+ludiks.track('event_name', {
+  userId: 'user_123',
+  metadata: { /* ... */ }
+});`}
+                    </code>
+                  </pre>
                 </div>
               </div>
             </div>
-
             <div className="group">
               <div className="bg-card p-6 rounded-xl border border-primary/20 transition-colors duration-300 hover:border-primary relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100"></div>
-                <div className="relative">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="bg-card rounded-lg p-2 border border-primary/20">
-                      <Trophy className="text-secondary h-7 w-7" />
-                    </div>
-                    <h3 className="text-xl font-bold font-mono text-foreground/90">
-                      2. Intégrez l&apos;API
-                    </h3>
-                  </div>
-                  <p className="text-foreground/70">Quelques lignes de code pour tracker et récompenser vos users</p>
+                <div className="flex items-center gap-3 mb-4">
+                  <Presentation className="text-secondary h-7 w-7" />
+                  <h3 className="text-xl font-bold font-mono text-foreground/90">
+                    3. Analysez et optimisez
+                  </h3>
                 </div>
-              </div>
-            </div>
-
-            <div className="group">
-              <div className="bg-card p-6 rounded-xl border border-primary/20 transition-colors duration-300 hover:border-primary relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100"></div>
-                <div className="relative">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="bg-card rounded-lg p-2 border border-primary/20">
-                      <Presentation className="text-secondary h-7 w-7" />
-                    </div>
-                    <h3 className="text-xl font-bold font-mono text-foreground/90">
-                      3. Optimisez
-                    </h3>
-                  </div>
-                  <p className="text-foreground/70">Analysez les données et améliorez vos parcours en continu</p>
-                </div>
+                <p className="text-foreground/70">
+                  Visualisez la progression de vos utilisateurs, identifiez les points de friction et ajustez vos parcours pour maximiser l&apos;engagement, la conversion ou la rétention.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Demo Section - Moved up */}
+      {/* Nouvelle section Fonctionnalités avancées */}
+      <div className="py-16 bg-gradient-to-b from-background to-secondary/10">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Une solution complète pour vos besoins d&apos;engagement
+            </h2>
+            <p className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto">
+              Des fonctionnalités avancées pour personnaliser, mesurer et optimiser vos parcours utilisateurs
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300">
+              <div className="flex items-center gap-3 mb-4">
+                <Users2 className="text-secondary h-7 w-7" />
+                <h3 className="text-xl font-bold text-foreground">Segmentation avancée</h3>
+              </div>
+              <ul className="space-y-2 text-foreground/70">
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary">•</span>
+                  <span>Segmentation par comportement, profil ou historique</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary">•</span>
+                  <span>Parcours personnalisés selon les segments</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary">•</span>
+                  <span>A/B testing des parcours et des récompenses</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300">
+              <div className="flex items-center gap-3 mb-4">
+                <BarChart3 className="text-secondary h-7 w-7" />
+                <h3 className="text-xl font-bold text-foreground">Analytics en temps réel</h3>
+              </div>
+              <ul className="space-y-2 text-foreground/70">
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary">•</span>
+                  <span>Suivi des KPIs d&apos;engagement en direct</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary">•</span>
+                  <span>Détection automatique des points de friction</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary">•</span>
+                  <span>Export des données vers vos outils d&apos;analytics</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300">
+              <div className="flex items-center gap-3 mb-4">
+                <Activity className="text-secondary h-7 w-7" />
+                <h3 className="text-xl font-bold text-foreground">Intégrations natives</h3>
+              </div>
+              <ul className="space-y-2 text-foreground/70">
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary">•</span>
+                  <span>API REST complète et documentation détaillée</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary">•</span>
+                  <span>SDK JavaScript et React pour une intégration rapide</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary">•</span>
+                  <span>Webhooks pour synchroniser avec votre stack</span>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* Section du générateur de stratégie */}
+      <section className="py-16 bg-gradient-to-b from-background to-secondary/10">
+        <div className="container mx-auto text-center max-w-3xl">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Essayez notre générateur de stratégie de gamification
+          </h2>
+          <p className="text-lg md:text-xl text-muted-foreground mb-6">
+            En quelques questions, obtenez des recommandations personnalisées pour booster l&apos;engagement, la conversion ou la rétention de vos utilisateurs. 
+            <br />
+            <span className="font-semibold text-secondary">C&apos;est l&apos;une des fonctionnalités phares de Ludiks.</span>
+          </p>
+          <Button
+            size="lg"
+            onClick={() => setIsModalOpen(true)}
+            className="bg-secondary hover:bg-secondary/90 text-secondary-foreground mb-4"
+          >
+            Démarrer le générateur
+          </Button>
+          <p className="text-sm text-muted-foreground">
+            Testez gratuitement et découvrez comment Ludiks peut transformer vos parcours utilisateurs.
+          </p>
+        </div>
+      </section>
+
+      {/* Demo Section */}
       <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-transparent before:via-primary/5 before:to-transparent">
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="text-center mb-12">
@@ -483,6 +636,24 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleClose}
+        title="Générez votre stratégie de gamification"
+        className="max-h-[90vh] overflow-y-auto"
+      >
+        {!showSuggestions ? (
+          <StrategyGenerator mode="landing" onComplete={handleComplete} />
+        ) : (
+          <StrategySuggestions
+            formData={strategyData as StrategyFormData}
+            onGenerate={handleGenerate}
+            onClose={handleClose}
+            mode="landing"
+          />
+        )}
+      </Modal>
     </main>
   );
 }
