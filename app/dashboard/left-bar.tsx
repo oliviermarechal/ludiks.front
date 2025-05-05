@@ -7,7 +7,6 @@ import { useState, useEffect } from "react"
 import { useProjects } from "@/lib/hooks/use-projects.hook"
 import { Project } from "@/lib/stores/project-store"
 import { useCircuitStore } from "@/lib/stores/circuit-store"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function LeftBar() {
     const navigation = [
@@ -114,7 +113,6 @@ export default function LeftBar() {
                             <LogOut className="h-5 w-5 mr-3" />
                             Déconnexion
                         </Button>
-                        <ThemeToggle />
                     </div>
                 </div>
             </div>

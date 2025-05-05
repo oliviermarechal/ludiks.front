@@ -8,6 +8,7 @@ import { AnalyticsTab } from './components/analytics-tab';
 import * as Tabs from "@radix-ui/react-tabs";
 import { CircuitType } from "@/lib/stores/circuit-store";
 import { ApiDocTab } from './components/api-doc-tab';
+import { RewardsTab } from "./components/rewards-tab";
 
 export interface ExtendedStep {
     id: string;
@@ -261,6 +262,10 @@ export default function CircuitPage({ params }: PageProps) {
 
                     <Tabs.Content value="settings" className="mt-6">
                         <SettingsTab circuit={circuitData} />
+                    </Tabs.Content>
+
+                    <Tabs.Content value="rewards" className="mt-6">
+                        <RewardsTab circuit={circuitData} />
                     </Tabs.Content>
 
                     <Tabs.Content value="analytics" className="mt-6">
