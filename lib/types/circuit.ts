@@ -11,6 +11,13 @@ export interface CircuitStep {
   completionThreshold: number;
 }
 
+export interface Circuit {
+  id: string;
+  name: string;
+  description: string;
+  steps: CircuitStep[];
+}
+
 export interface CircuitStepGeneratorConfig {
   circuitType: CircuitType.POINTS | CircuitType.ACTIONS;
   numberOfSteps: number;
