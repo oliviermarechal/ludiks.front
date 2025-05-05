@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Circuit } from '@/lib/types/circuit';
 import { useCircuitStore } from '@/lib/stores/circuit-store';
-
+import { Circuit } from '@/lib/types/circuit';
 interface UseCircuitReturn {
     circuit: Circuit | null;
     isLoading: boolean;
@@ -25,7 +24,7 @@ export function useCircuit(circuitId: string): UseCircuitReturn {
                     throw new Error('Circuit non trouvé');
                 }
 
-                setCircuit(foundCircuit);
+                setCircuit(foundCircuit as Circuit);
                 setError(null);
             } catch (err) {
                 setError(err instanceof Error ? err : new Error('Une erreur est survenue'));
