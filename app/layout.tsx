@@ -40,7 +40,7 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>
-          <ThemeProvider attribute="class" defaultTheme="light">
+          <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
             {children}
           </ThemeProvider>
         </Providers>
