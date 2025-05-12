@@ -440,7 +440,7 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
               <div className="bg-primary/10 rounded-lg p-4 mb-2">
                 <h4 className="text-lg font-bold text-primary mb-1">Comment ça marche&nbsp;?</h4>
                 <p className="text-base text-foreground">
-                  Créez un parcours pour suivre les étapes clés de vos utilisateurs (ex&nbsp;: inscription, achat, utilisation d'une fonctionnalité). Ludiks vous aide à visualiser où vos utilisateurs avancent ou bloquent, et à ajouter des mécaniques de motivation (récompenses, badges, points).
+                  Créez un parcours pour suivre les étapes clés de vos utilisateurs (ex&nbsp;: inscription, achat, utilisation d&apos;une fonctionnalité). Ludiks vous aide à visualiser où vos utilisateurs avancent ou bloquent, et à ajouter des mécaniques de motivation (récompenses, badges, points).
                 </p>
               </div>
 
@@ -503,20 +503,36 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
 
                       <div>
                         <h5 className="font-medium mb-2 text-foreground/70">Étapes du parcours</h5>
-                        <div className="relative">
-                          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-primary/20" />
-                          <ul className="space-y-4 relative">
+                        {/* Timeline visuelle avec flèches */}
+                        <div className="w-full">
+                          <div className="flex flex-col sm:flex-row sm:flex-wrap items-center sm:justify-start gap-y-4 gap-x-0">
                             {circuit.steps.map((step, i) => (
-                              <li key={i} className="flex items-start gap-4">
-                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                                  <span className="text-primary font-medium">{i + 1}</span>
+                              <div key={i} className="flex flex-col sm:flex-row items-center mb-2 sm:mb-0">
+                                {/* Bulle + texte */}
+                                <div className="flex flex-row items-center gap-x-2 sm:gap-x-2">
+                                  <div className="flex-shrink-0 w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center border-2 border-primary font-bold text-primary text-base">
+                                    {i + 1}
+                                  </div>
+                                  <span className="text-foreground text-base font-medium whitespace-nowrap">
+                                    {step}
+                                  </span>
                                 </div>
-                                <div className="flex-1 pt-1">
-                                  <span className="text-foreground">{step}</span>
-                                </div>
-                              </li>
+                                {/* Flèche sauf pour la dernière étape */}
+                                {i < circuit.steps.length - 1 && (
+                                  <>
+                                    <div className="mx-2 sm:mx-3 my-1">
+                                      <svg className="hidden sm:block" width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2 10h22m0 0l-5-5m5 5l-5 5" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                      </svg>
+                                      <svg className="block sm:hidden mx-auto" width="20" height="28" viewBox="0 0 20 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10 2v22m0 0l5-5m-5 5l-5-5" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                      </svg>
+                                    </div>
+                                  </>
+                                )}
+                              </div>
                             ))}
-                          </ul>
+                          </div>
                         </div>
                       </div>
 
