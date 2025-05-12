@@ -69,8 +69,11 @@ export default function Home() {
   const [strategyData, setStrategyData] = useState<StrategyFormData | null>(null);
   const router = useRouter();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollToWaitlist = () => {
+    const waitlistSection = document.getElementById('waitlist-section');
+    if (waitlistSection) {
+      waitlistSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleComplete = (data: StrategyFormData) => {
@@ -98,7 +101,7 @@ export default function Home() {
             </Badge>
 
             <h1 className="text-4xl md:text-6xl font-black landing-title pb-2">
-              Transformez chaque parcours utilisateur en levier d&apos;engagement
+              Transformez chaque parcours utilisateur en moteur de croissance
             </h1>
 
             <p className="text-lg md:text-xl text-foreground/90 max-w-2xl font-light">
@@ -107,36 +110,47 @@ export default function Home() {
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 mt-8 text-left max-w-3xl">
-              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20 hover:border-primary transition-colors">
+              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20">
                 <Eye className="text-secondary h-6 w-6" />
                 <span className="font-medium text-foreground/90">Suivez chaque étape</span>
               </div>
-              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20 hover:border-primary transition-colors">
+              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20">
                 <Lightbulb className="text-secondary h-6 w-6" />
                 <span className="font-medium text-foreground/90">Déclenchez des actions</span>
               </div>
-              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20 hover:border-primary transition-colors">
+              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20">
                 <TrendingUp className="text-secondary h-6 w-6" />
                 <span className="font-medium text-foreground/90">Motivez vos users</span>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-8">
-              <Button
-                size="lg"
-                onClick={() => setIsModalOpen(true)}
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
-              >
-                Démarrer le générateur
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+            <div className="w-full max-w-3xl mt-12">
+              <div className="bg-card/40 backdrop-blur-sm p-8 rounded-2xl border border-primary/20">
+                <h2 className="text-2xl md:text-3xl font-bold mb-4">
+                  Découvrez votre stratégie d&apos;engagement
+                </h2>
+                <p className="text-lg text-muted-foreground mb-6">
+                  En quelques questions, obtenez des recommandations personnalisées pour booster l&apos;engagement, la conversion ou la rétention de vos utilisateurs.
+                </p>
+                <Button
+                  size="lg"
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-secondary hover:bg-secondary/90 text-secondary-foreground cursor-pointer w-full md:w-auto"
+                >
+                  Démarrer le générateur
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <p className="text-sm text-muted-foreground mt-4">
+                  Testez gratuitement et découvrez comment Ludiks peut transformer vos parcours utilisateurs.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Section Soyez les premiers informés du lancement */}
-      <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent px-4">
+      <div id="waitlist-section" className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent px-4">
         <div className="w-full max-w-md mt-8 mx-auto relative z-10">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-2">
             Soyez les premiers informés du lancement
@@ -169,7 +183,7 @@ export default function Home() {
         <div className="container mx-auto relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Arrêtez de deviner pourquoi vos utilisateurs churn
+              Comprenez pourquoi vos utilisateurs vous quittent
             </h2>
             <p className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto">
               Identifiez et résolvez les points de friction qui freinent l&apos;adoption de votre produit
@@ -382,30 +396,6 @@ ludiks.track('event_name', {
         </div>
       </div>
 
-      {/* Section du générateur de stratégie */}
-      <section className="py-16 bg-gradient-to-b from-background to-secondary/10">
-        <div className="container mx-auto text-center max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Essayez notre générateur de stratégie de gamification
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground mb-6">
-            En quelques questions, obtenez des recommandations personnalisées pour booster l&apos;engagement, la conversion ou la rétention de vos utilisateurs. 
-            <br />
-            <span className="font-semibold text-secondary">C&apos;est l&apos;une des fonctionnalités phares de Ludiks.</span>
-          </p>
-          <Button
-            size="lg"
-            onClick={() => setIsModalOpen(true)}
-            className="bg-secondary hover:bg-secondary/90 text-secondary-foreground mb-4"
-          >
-            Démarrer le générateur
-          </Button>
-          <p className="text-sm text-muted-foreground">
-            Testez gratuitement et découvrez comment Ludiks peut transformer vos parcours utilisateurs.
-          </p>
-        </div>
-      </section>
-
       {/* Demo Section */}
       <div className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-transparent before:via-primary/5 before:to-transparent">
         <div className="container mx-auto px-4 md:px-8 relative z-10">
@@ -431,10 +421,10 @@ ludiks.track('event_name', {
               </div>
 
               {/* Dashboard content */}
-              <div className="p-4 md:p-8 space-y-8 bg-gradient-to-b from-background/50 to-background dark:from-black/50 dark:to-black/80">
+              <div className="p-4 md:p-8 space-y-8 bg-gradient-to-b from-background/50 to-background dark:from-gray-900/50 dark:to-gray-900/80">
                 {/* Circuits Overview Demo */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="group p-4 md:p-6 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+                  <div className="group p-4 md:p-6 bg-white dark:bg-gray-800/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
                     <div className="flex flex-col sm:flex-row items-start justify-between mb-4 gap-3">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
@@ -482,7 +472,7 @@ ludiks.track('event_name', {
                   </div>
 
                   {/* Second card with same responsive adjustments */}
-                  <div className="group p-4 md:p-6 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+                  <div className="group p-4 md:p-6 bg-white dark:bg-gray-800/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
                     <div className="flex flex-col sm:flex-row items-start justify-between mb-4 gap-3">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
@@ -528,7 +518,7 @@ ludiks.track('event_name', {
                 </div>
 
                 {/* Friction Point Analysis with Recharts */}
-                <div className="p-4 md:p-8 bg-card dark:bg-black/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+                <div className="p-4 md:p-8 bg-white dark:bg-gray-800/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
                   <div className="flex flex-col sm:flex-row items-start gap-4 mb-6">
                     <div className="p-3 rounded-lg bg-red-500/10">
                       <AlertTriangle className="h-6 w-6 text-red-500" />
@@ -618,19 +608,19 @@ ludiks.track('event_name', {
         <div className="container mx-auto text-center relative z-10">
           <div className="max-w-3xl mx-auto p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-primary/20 flex flex-col items-center">
             <h2 className="text-2xl md:text-3xl font-black gradient-text mb-6">
-              Créez des parcours d&apos;objectifs en quelques minutes
+              Prêt à transformer vos parcours utilisateurs ?
             </h2>
             <p className="text-lg md:text-xl text-foreground/80 mb-8 max-w-2xl mx-auto font-light">
               Rejoignez les premiers testeurs et bénéficiez de 
               <strong className="text-secondary"> 3 mois d&apos;accès illimité offert</strong>
             </p>
             <Button 
-              onClick={scrollToTop}
+              onClick={scrollToWaitlist}
               size="lg"
               variant="secondary"
-              className="px-10 py-6 text-lg font-bold shadow-xl hover:shadow-primary/20 transition-all duration-300 rounded-xl text-black group"
+              className="px-10 py-6 text-lg font-bold shadow-xl hover:shadow-primary/20 transition-all duration-300 rounded-xl text-black group cursor-pointer"
             >
-              Je crée mon premier parcours
+              Rejoindre la liste d&apos;attente
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>

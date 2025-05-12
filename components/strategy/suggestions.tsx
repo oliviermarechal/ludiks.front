@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Target, Activity } from "lucide-react";
+import { ArrowRight, Target, Activity } from "lucide-react";
 import { StrategyFormData, MainGoal } from "./generator";
 
 interface StrategySuggestion {
@@ -404,14 +404,22 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
   return (
     <div className="container mx-auto py-12">
       <div className="max-w-4xl mx-auto space-y-12">
-        <div className="space-y-4">
-          <h2 className="text-3xl font-bold text-foreground">
-            {mode === "dashboard" ? "Votre stratégie de gamification" : "Votre stratégie personnalisée"}
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            {mode === "dashboard" 
-              ? "Voici les suggestions adaptées à votre contexte"
-              : "Voici comment Ludiks peut vous aider à transformer votre parcours utilisateur"}
+        {/* Introduction pédagogique */}
+        <div className="bg-primary/5 border border-primary/10 rounded-xl p-6 mb-8">
+          <h2 className="text-2xl font-bold mb-2 text-primary">Qu&apos;est-ce qu&apos;un parcours Ludiks&nbsp;?</h2>
+          <p className="text-base text-foreground mb-2">
+            Un <strong>parcours</strong> Ludiks, c&apos;est une suite d&apos;étapes importantes pour vos utilisateurs dans votre application&nbsp;: par exemple, un tunnel d&apos;inscription, un funnel d&apos;achat, la découverte d&apos;une fonctionnalité, ou un programme de fidélité à points.
+          </p>
+          <p className="text-base text-foreground mb-2">
+            <strong>Pourquoi les créer&nbsp;?</strong> Pour&nbsp;:
+          </p>
+          <ul className="list-disc list-inside text-base text-foreground mb-2 ml-4">
+            <li>Suivre la progression de vos utilisateurs à chaque étape (tracking)</li>
+            <li>Identifier les points de blocage ou d&apos;abandon</li>
+            <li>Motiver vos utilisateurs à avancer grâce à des récompenses, badges ou points</li>
+          </ul>
+          <p className="text-base text-foreground">
+            Ludiks vous permet de configurer ces parcours facilement, de les visualiser, et d&apos;agir pour améliorer l&apos;engagement, la conversion ou la rétention.
           </p>
         </div>
 
@@ -422,21 +430,32 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card className="p-6 space-y-6">
+            <Card className="p-6 space-y-6 bg-white/90 dark:bg-gray-800/90">
               <div className="space-y-2">
-                <h3 className="text-2xl font-semibold">{strategy.name}</h3>
-                <p className="text-lg text-muted-foreground">{strategy.description}</p>
+                <h3 className="text-2xl font-semibold text-foreground/70">{strategy.name}</h3>
+                <p className="text-lg text-foreground">{strategy.description}</p>
+              </div>
+
+              {/* Encart explicatif */}
+              <div className="bg-primary/10 rounded-lg p-4 mb-2">
+                <h4 className="text-lg font-bold text-primary mb-1">Comment ça marche&nbsp;?</h4>
+                <p className="text-base text-foreground">
+                  Créez un parcours pour suivre les étapes clés de vos utilisateurs (ex&nbsp;: inscription, achat, utilisation d'une fonctionnalité). Ludiks vous aide à visualiser où vos utilisateurs avancent ou bloquent, et à ajouter des mécaniques de motivation (récompenses, badges, points).
+                </p>
+              </div>
+
+              {/* Exemple d'expérience utilisateur */}
+              <div className="bg-secondary/10 rounded-lg p-4 mb-2">
+                <h4 className="text-base font-semibold text-secondary mb-1">Exemple d&apos;expérience utilisateur</h4>
+                <p className="text-base text-foreground">
+                  &quot;L&apos;utilisateur gagne un badge après avoir utilisé la fonctionnalité 5 fois&quot; ou &quot;L&apos;utilisateur reçoit des points à chaque étape franchie dans le tunnel d&apos;achat.&quot;
+                </p>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-lg font-medium mb-2">Explication</h4>
-                  <p className="text-muted-foreground">{strategy.explanation}</p>
-                </div>
-
-                <div>
-                  <h4 className="text-lg font-medium mb-2">Quand utiliser cette stratégie ?</h4>
-                  <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                  <h4 className="text-lg font-medium mb-2 text-foreground/70">Quand utiliser cette stratégie&nbsp;?</h4>
+                  <ul className="list-disc list-inside space-y-1 text-foreground">
                     {strategy.whenToUse.map((useCase, i) => (
                       <li key={i}>{useCase}</li>
                     ))}
@@ -449,7 +468,7 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
 
         {circuits.length > 0 && (
           <div className="space-y-6">
-            <h3 className="text-2xl font-semibold">Parcours suggérés</h3>
+            <h3 className="text-2xl font-semibold text-foreground/70">Parcours suggérés</h3>
             <div className="grid gap-6">
               {circuits.map((circuit, index) => (
                 <motion.div
@@ -458,7 +477,7 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: (strategies.length + index) * 0.1 }}
                 >
-                  <Card className="p-6 space-y-6">
+                  <Card className="p-6 space-y-6 bg-white/90 dark:bg-gray-800/90">
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         {circuit.type === "objectives" ? (
@@ -466,37 +485,44 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
                         ) : (
                           <Activity className="w-5 h-5 text-primary" />
                         )}
-                        <h4 className="text-xl font-semibold">{circuit.name}</h4>
+                        <h4 className="text-xl font-semibold text-foreground/70">{circuit.name}</h4>
                       </div>
-                      <p className="text-muted-foreground">{circuit.description}</p>
+                      <p className="text-foreground">{circuit.description}</p>
                     </div>
 
                     <div className="space-y-4">
                       <div>
-                        <h5 className="font-medium mb-2">Type de parcours</h5>
-                        <p className="text-muted-foreground">{circuit.typeExplanation}</p>
+                        <h5 className="font-medium mb-2 text-foreground/70">Type de parcours</h5>
+                        <p className="text-foreground">{circuit.typeExplanation}</p>
                       </div>
 
                       <div>
-                        <h5 className="font-medium mb-2">Pertinence pour votre contexte</h5>
-                        <p className="text-muted-foreground">{circuit.relevance}</p>
+                        <h5 className="font-medium mb-2 text-foreground/70">Pertinence pour votre contexte</h5>
+                        <p className="text-foreground">{circuit.relevance}</p>
                       </div>
 
                       <div>
-                        <h5 className="font-medium mb-2">Étapes du parcours</h5>
-                        <ul className="space-y-2">
-                          {circuit.steps.map((step, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                              <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                              <span className="text-muted-foreground">{step}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        <h5 className="font-medium mb-2 text-foreground/70">Étapes du parcours</h5>
+                        <div className="relative">
+                          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-primary/20" />
+                          <ul className="space-y-4 relative">
+                            {circuit.steps.map((step, i) => (
+                              <li key={i} className="flex items-start gap-4">
+                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                  <span className="text-primary font-medium">{i + 1}</span>
+                                </div>
+                                <div className="flex-1 pt-1">
+                                  <span className="text-foreground">{step}</span>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
 
                       <div>
-                        <h5 className="font-medium mb-2">Avantages</h5>
-                        <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                        <h5 className="font-medium mb-2 text-foreground/70">Avantages</h5>
+                        <ul className="list-disc list-inside space-y-1 text-foreground">
                           {circuit.benefits.map((benefit, i) => (
                             <li key={i}>{benefit}</li>
                           ))}
@@ -522,14 +548,14 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
           ) : (
             <div className="w-full max-w-md mx-auto flex flex-col items-center">
               <div className="mb-4 text-center">
-                <p className="text-base font-semibold text-foreground mb-1">
+                <p className="text-base font-semibold text-foreground/70 mb-1">
                   Inscription à la liste d&apos;attente
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-foreground">
                   Recevez un accès prioritaire à la bêta et une démo personnalisée
                 </p>
               </div>
-              <div className="bg-white/90 dark:bg-black/80 rounded-2xl shadow-lg border border-primary/20 p-6 w-full flex flex-col items-center transition-all duration-200">
+              <div className="bg-white/90 dark:bg-gray-800/90 rounded-2xl shadow-lg border border-primary/20 p-6 w-full flex flex-col items-center transition-all duration-200">
                 <iframe 
                   src="https://tally.so/embed/wQEqpg?alignLeft=1&hideTitle=1&transparentBackground=0&dynamicHeight=1" 
                   loading="lazy" 
@@ -540,7 +566,7 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
                   title="Inscription Ludiks"
                 ></iframe>
               </div>
-              <p className="text-sm text-muted-foreground mt-4 text-center">
+              <p className="text-sm text-foreground mt-4 text-center">
                 <span role="img" aria-label="lock">🔓</span> Accès prioritaire à la bêta, démo personnalisée &nbsp;
                 <strong className="text-secondary">3 mois gratuits</strong>
               </p>
@@ -557,4 +583,4 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
       </div>
     </div>
   );
-} 
+}
