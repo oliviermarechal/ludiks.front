@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus, Gift, Trophy } from "lucide-react";
+import { Plus, Gift, Trophy, Target } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreateRewardForm } from "./rewards-tab/create-reward-form";
 
@@ -114,39 +114,30 @@ export function RewardsTab({ circuit }: RewardsTabProps) {
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.9 }}
-                                        className="p-4 rounded-lg border border-border bg-card hover:border-border/80 transition-colors duration-200"
+                                        className="p-3 rounded-lg border border-border bg-card hover:border-border/80 transition-colors duration-200 flex items-center gap-4 min-h-[72px]"
                                     >
-                                        <div className="space-y-3">
-                                            <div className="aspect-square rounded-lg bg-muted overflow-hidden">
-                                                {reward.image_url ? (
-                                                    <img
-                                                        src={reward.image_url}
-                                                        alt={reward.name}
-                                                        className="w-full h-full object-cover"
-                                                    />
-                                                ) : (
-                                                    <div className="w-full h-full flex items-center justify-center">
-                                                        {reward.is_completion_reward ? (
-                                                            <Trophy className="h-8 w-8 text-secondary" />
-                                                        ) : (
-                                                            <Gift className="h-8 w-8 text-muted-foreground" />
-                                                        )}
-                                                    </div>
-                                                )}
+                                        <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
+                                            {reward.is_completion_reward ? (
+                                                <Trophy className="h-6 w-6 text-primary" />
+                                            ) : (
+                                                <Target className="h-6 w-6 text-primary" />
+                                            )}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h4 className="font-semibold truncate text-foreground">{reward.name}</h4>
+                                                <span className={`text-xs px-2 py-0.5 rounded-full ${reward.is_completion_reward ? 'bg-secondary/10 text-secondary' : 'bg-muted text-foreground/70'}`}>
+                                                    {reward.is_completion_reward ? 'Fin du parcours' : circuit.type === "objective" ? 'Étape' : 'Palier'}
+                                                </span>
                                             </div>
-                                            <div>
-                                                <h4 className="font-medium">{reward.name}</h4>
-                                                <p className="text-sm text-muted-foreground">
-                                                    {reward.description}
-                                                </p>
-                                                <p className="text-xs text-secondary mt-2">
-                                                    {reward.is_completion_reward ? (
-                                                        "Débloquée à la fin du parcours"
-                                                    ) : (
-                                                        `Débloquée à ${circuit.type === "objective" ? "l'étape" : "le palier"} : ${getStepDisplay(reward.step_id!)}`
-                                                    )}
-                                                </p>
-                                            </div>
+                                            {reward.description && (
+                                                <p className="text-xs text-muted-foreground mb-1 truncate">{reward.description}</p>
+                                            )}
+                                            <p className="text-xs text-foreground/70">
+                                                {reward.is_completion_reward
+                                                    ? "Débloquée à la fin du parcours"
+                                                    : `Débloquée à ${circuit.type === "objective" ? "l'étape" : "le palier"} : ${getStepDisplay(reward.step_id!)}`}
+                                            </p>
                                         </div>
                                     </motion.div>
                                 ))}
