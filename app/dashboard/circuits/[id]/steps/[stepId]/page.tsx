@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { CircuitType } from "@/lib/types/circuit";
 
 const stepData = {
@@ -36,8 +36,14 @@ const usersData = Array.from({ length: 50 }, (_, i) => ({
     fullName: `Utilisateur ${i + 1}`,
     email: `user${i + 1}@example.com`,
     avatar: i % 3 === 0 ? `https://i.pravatar.cc/150?u=${i}` : null,
-    circuitCompletionRate: Math.floor(Math.random() * 70), // Taux de complétion aléatoire entre 0 et 70%
-    createdAt: new Date(2024, 0, Math.floor(Math.random() * 90) + 1) // Date aléatoire entre 1er janvier et 31 mars 2024
+    createdAt: new Date(2024, 0, Math.floor(Math.random() * 90) + 1),
+    stuckSince: new Date(2024, 2, Math.floor(Math.random() * 15) + 1), // Date aléatoire dans les 15 derniers jours
+    metadata: {
+        isPremium: Math.random() > 0.7, // 30% de chance d'être premium
+        role: Math.random() > 0.9 ? 'admin' : Math.random() > 0.7 ? 'moderator' : 'user',
+        userType: ['new', 'returning', 'power', 'inactive'][Math.floor(Math.random() * 4)],
+        lastActivity: new Date(2024, 2, Math.floor(Math.random() * 15) + 1)
+    }
 }));
 
 function getCompletionColor(rate: number) {
@@ -64,6 +70,18 @@ function formatDate(date: Date): string {
     return date.toLocaleDateString('fr-FR', options);
 }
 
+function formatDuration(date: Date): string {
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    
+    if (days === 0) {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        return `${hours}h`;
+    }
+    return `${days}j`;
+}
+
 function getObjectiveLabel(type: CircuitType): string {
     switch (type) {
         case CircuitType.ACTIONS:
@@ -84,12 +102,37 @@ function getObjectiveSuffix(type: CircuitType): string {
 export default function StepDetailPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
-    const totalPages = Math.ceil(usersData.length / itemsPerPage);
     
-    const paginatedUsers = usersData.slice(
+    // Filtres
+    const [premiumFilter, setPremiumFilter] = useState<string>("all");
+    const [roleFilter, setRoleFilter] = useState<string>("all");
+    const [typeFilter, setTypeFilter] = useState<string>("all");
+
+    // Générer dynamiquement les options de filtre
+    const roleOptions = useMemo(() => Array.from(new Set(usersData.map(u => u.metadata.role))), []);
+    const typeOptions = useMemo(() => Array.from(new Set(usersData.map(u => u.metadata.userType))), []);
+
+    // Filtrage des utilisateurs
+    const filteredUsers = useMemo(() => {
+        return usersData.filter(user => {
+            if (premiumFilter !== "all" && (premiumFilter === "premium" ? !user.metadata.isPremium : user.metadata.isPremium)) {
+                return false;
+            }
+            if (roleFilter !== "all" && user.metadata.role !== roleFilter) {
+                return false;
+            }
+            if (typeFilter !== "all" && user.metadata.userType !== typeFilter) {
+                return false;
+            }
+            return true;
+        });
+    }, [premiumFilter, roleFilter, typeFilter]);
+
+    const paginatedUsers = filteredUsers.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
+    const filteredTotalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
     return (
         <div className="container mx-auto py-12">
@@ -112,7 +155,7 @@ export default function StepDetailPage() {
                 </div>
 
                 {/* Info de l'étape */}
-                <Card className="p-6 border-primary/20 bg-black/40 backdrop-blur-sm">
+                <Card className="p-6 border-primary/20 bg-surface-2 backdrop-blur-sm">
                     <div className="flex items-start gap-6">
                         <div className={cn(
                             "h-12 w-12 rounded-lg flex items-center justify-center shrink-0",
@@ -123,7 +166,7 @@ export default function StepDetailPage() {
 
                         <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-3 mb-2">
-                                <h2 className="text-lg font-semibold text-white">
+                                <h2 className="text-lg font-semibold text-foreground">
                                     {stepData.name}
                                 </h2>
                                 {stepData.alert && (
@@ -133,24 +176,24 @@ export default function StepDetailPage() {
                                     </div>
                                 )}
                             </div>
-                            <p className="text-sm text-white/70 mb-4">
+                            <p className="text-sm text-foreground/70 mb-4">
                                 {stepData.description}
                             </p>
 
                             <div className="grid grid-cols-3 gap-6">
-                                <div className="bg-black/20 rounded-lg p-4">
-                                    <p className="text-sm text-white/60 mb-1">Taux de complétion</p>
-                                    <p className="text-2xl font-bold text-white">{stepData.completionRate}%</p>
+                                <div className="bg-surface-3 rounded-lg p-4">
+                                    <p className="text-sm text-foreground/60 mb-1">Taux de complétion</p>
+                                    <p className="text-2xl font-bold text-foreground">{stepData.completionRate}%</p>
                                 </div>
-                                <div className="bg-black/20 rounded-lg p-4">
-                                    <p className="text-sm text-white/60 mb-1">Utilisateurs bloqués</p>
-                                    <p className="text-2xl font-bold text-white">
+                                <div className="bg-surface-3 rounded-lg p-4">
+                                    <p className="text-sm text-foreground/60 mb-1">Utilisateurs bloqués</p>
+                                    <p className="text-2xl font-bold text-foreground">
                                         {stepData.totalUsers - stepData.usersCompleted}
                                     </p>
                                 </div>
-                                <div className="bg-black/20 rounded-lg p-4">
-                                    <p className="text-sm text-white/60 mb-1">{getObjectiveLabel(stepData.circuitType)}</p>
-                                    <p className="text-2xl font-bold text-white">
+                                <div className="bg-surface-3 rounded-lg p-4">
+                                    <p className="text-sm text-foreground/60 mb-1">{getObjectiveLabel(stepData.circuitType)}</p>
+                                    <p className="text-2xl font-bold text-foreground">
                                         {stepData.completionThreshold}{getObjectiveSuffix(stepData.circuitType)}
                                     </p>
                                 </div>
@@ -162,54 +205,101 @@ export default function StepDetailPage() {
                 {/* Liste des utilisateurs */}
                 <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-xl font-bold text-white">
-                            Utilisateurs bloqués
+                        <h2 className="text-xl font-bold text-foreground">
+                            Utilisateurs sur cette étape
                         </h2>
-                        <Button variant="outline" className="border-primary/20">
-                            <Download className="h-4 w-4 mr-2" />
-                            Exporter en CSV
-                        </Button>
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
+                                <select
+                                    className="border border-secondary/20 rounded px-2 py-1 text-sm bg-background"
+                                    value={premiumFilter}
+                                    onChange={e => {
+                                        setPremiumFilter(e.target.value);
+                                        setCurrentPage(1);
+                                    }}
+                                >
+                                    <option value="all">Premium (tous)</option>
+                                    <option value="premium">Oui</option>
+                                    <option value="non-premium">Non</option>
+                                </select>
+                                <select
+                                    className="border border-secondary/20 rounded px-2 py-1 text-sm bg-background"
+                                    value={roleFilter}
+                                    onChange={e => {
+                                        setRoleFilter(e.target.value);
+                                        setCurrentPage(1);
+                                    }}
+                                >
+                                    <option value="all">Rôle (tous)</option>
+                                    {roleOptions.map(role => (
+                                        <option key={role} value={role}>{role}</option>
+                                    ))}
+                                </select>
+                                <select
+                                    className="border border-secondary/20 rounded px-2 py-1 text-sm bg-background"
+                                    value={typeFilter}
+                                    onChange={e => {
+                                        setTypeFilter(e.target.value);
+                                        setCurrentPage(1);
+                                    }}
+                                >
+                                    <option value="all">Type (tous)</option>
+                                    {typeOptions.map(type => (
+                                        <option key={type} value={type}>{type}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <Button variant="outline" className="border-secondary/20">
+                                <Download className="h-4 w-4 mr-2" />
+                                Exporter en CSV
+                            </Button>
+                        </div>
                     </div>
 
-                    <Card className="border-primary/20 bg-black/40 backdrop-blur-sm divide-y divide-primary/10">
+                    <Card className="border-secondary/20 bg-surface-2 backdrop-blur-sm divide-y divide-secondary/10">
                         {paginatedUsers.map((user) => (
-                            <div key={user.id} className="flex items-center gap-4 p-4">
-                                <Avatar className="h-10 w-10">
-                                    <AvatarImage src={user.avatar || ''} />
-                                    <AvatarFallback className="bg-secondary/10 text-secondary">
-                                        {getInitials(user.fullName)}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <div className="flex-1 min-w-0 flex items-center gap-6">
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-medium text-white truncate">
+                            <div key={user.id} className="flex flex-wrap md:flex-nowrap items-center justify-between gap-4 p-4">
+                                {/* Bloc gauche : Avatar, nom, email */}
+                                <div className="flex items-center gap-4 min-w-0 w-full md:w-1/3">
+                                    <Avatar className="h-10 w-10">
+                                        <AvatarImage src={user.avatar || ''} />
+                                        <AvatarFallback className="bg-secondary/10 text-secondary">
+                                            {getInitials(user.fullName)}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div className="min-w-0">
+                                        <p className="text-sm font-medium text-foreground truncate">
                                             {user.fullName}
                                         </p>
-                                        <p className="text-sm text-white/60 truncate">
+                                        <p className="text-sm text-foreground/60 truncate">
                                             {user.email}
                                         </p>
                                     </div>
-                                    <div className="flex items-center gap-6">
-                                        <div className="text-right">
-                                            <p className="text-sm text-white/60">Inscrit le</p>
-                                            <p className="text-sm font-medium text-white">
-                                                {formatDate(user.createdAt)}
-                                            </p>
-                                        </div>
-                                        <div className="text-right min-w-[100px]">
-                                            <p className="text-sm text-white/60">Complétion du parcours</p>
-                                            <div className="flex items-center gap-2">
-                                                <div className="flex-1 h-1.5 rounded-full bg-white/5">
-                                                    <div 
-                                                        className="h-full rounded-full bg-secondary/50"
-                                                        style={{ width: `${user.circuitCompletionRate}%` }}
-                                                    />
-                                                </div>
-                                                <span className="text-sm font-medium text-white">
-                                                    {user.circuitCompletionRate}%
-                                                </span>
-                                            </div>
-                                        </div>
+                                </div>
+                                {/* Bloc centre : Métadonnées */}
+                                <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 w-full md:w-1/3 bg-secondary/10 rounded-lg py-2 px-3">
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-xs text-foreground/60">Premium:</span>
+                                        <span className="text-xs font-semibold text-secondary">{user.metadata.isPremium ? 'Oui' : 'Non'}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-xs text-foreground/60">Rôle:</span>
+                                        <span className="text-xs font-semibold text-secondary">{user.metadata.role}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-xs text-foreground/60">Type:</span>
+                                        <span className="text-xs font-semibold text-secondary">{user.metadata.userType}</span>
+                                    </div>
+                                </div>
+                                {/* Bloc droite : Dates */}
+                                <div className="flex flex-col items-end w-full md:w-1/3">
+                                    <div>
+                                        <span className="text-xs text-foreground/60">Inscrit le</span>
+                                        <span className="text-sm font-semibold text-secondary ml-1">{formatDate(user.createdAt)}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-xs text-foreground/60">Sur l&apos;étape depuis</span>
+                                        <span className="text-sm font-semibold text-secondary ml-1">{formatDuration(user.stuckSince)}</span>
                                     </div>
                                 </div>
                             </div>
@@ -218,14 +308,14 @@ export default function StepDetailPage() {
 
                     {/* Pagination */}
                     <div className="flex justify-between items-center pt-4">
-                        <p className="text-sm text-white/60">
-                            Page {currentPage} sur {totalPages}
+                        <p className="text-sm text-foreground/60">
+                            Page {currentPage} sur {filteredTotalPages}
                         </p>
                         <div className="flex gap-2">
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="border-primary/20"
+                                className="border-secondary/20"
                                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                 disabled={currentPage === 1}
                             >
@@ -234,9 +324,9 @@ export default function StepDetailPage() {
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="border-primary/20"
-                                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                                disabled={currentPage === totalPages}
+                                className="border-secondary/20"
+                                onClick={() => setCurrentPage(p => Math.min(filteredTotalPages, p + 1))}
+                                disabled={currentPage === filteredTotalPages}
                             >
                                 <ChevronRight className="h-4 w-4" />
                             </Button>

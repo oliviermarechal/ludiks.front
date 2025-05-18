@@ -41,7 +41,9 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
-        <script defer id="fairlytics-id-ajcu6jd9k7ysd6" data-fairlyticskey="3684570dd2885e085c78bf7630e599db" src="https://app.fairlytics.tech/tag/tag.js"></script>
+        {process.env.NODE_ENV === "production" && (
+          <script defer id="fairlytics-id-ajcu6jd9k7ysd6" data-fairlyticskey="3684570dd2885e085c78bf7630e599db" src="https://app.fairlytics.tech/tag/tag.js"></script>
+        )}
       </body>
     </html>
   );

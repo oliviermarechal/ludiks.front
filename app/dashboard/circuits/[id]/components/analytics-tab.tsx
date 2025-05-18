@@ -129,7 +129,7 @@ export function AnalyticsTab({ circuit }: AnalyticsTabProps) {
                     )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6">
                     {/* Completion Rate Chart */}
                     <Card className="p-6 border-secondary/20 bg-surface-2 backdrop-blur-sm">
                         <div className="mb-4">

@@ -300,18 +300,6 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
             optional: true,
         },
         {
-            question: "Quel est l'identifiant technique pour tracker la progression ?",
-            placeholder: "Ex: completer_profil",
-            field: "eventName" as const,
-            validation: (value: string) => value.length >= 3,
-            errorMessage: "Le nom de l'événement doit contenir au moins 3 caractères",
-            defaultValue: (data: Partial<Step>) => data.eventName || "",
-            onChange: (value: string) => {
-                setCurrentValue(slugify(value));
-            },
-            hint: "Cet identifiant sera utilisé pour suivre la progression de l'utilisateur"
-        },
-        {
             question: "Combien de fois l'utilisateur doit-il réussir pour valider ?",
             placeholder: "Ex: 1",
             field: "completionThreshold" as const,
@@ -324,11 +312,7 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
     const currentQuestion = questions[currentStep];
 
     useEffect(() => {
-        if (currentQuestion.defaultValue) {
-            setCurrentValue(currentQuestion.defaultValue(stepData));
-        } else {
-            setCurrentValue("");
-        }
+        setCurrentValue("");
     }, [currentStep]);
 
     const handleNext = () => {
@@ -383,9 +367,6 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
                             className="h-10 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
                             min={currentQuestion.type === "number" ? 1 : undefined}
                         />
-                        {currentQuestion.hint && (
-                            <p className="text-xs text-foreground/50">{currentQuestion.hint}</p>
-                        )}
                     </div>
                     <Button
                         type="button"

@@ -2,10 +2,13 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Code, Copy, Terminal } from "lucide-react";
 import { ExtendedCircuit } from "../page";
+import { useState } from "react";
 
 export function ApiDocTab({ circuit }: { circuit: ExtendedCircuit }) {
     const isObjectiveCircuit = circuit.type === "objective";
     const firstStep = circuit.steps[0];
+    const [selectedStepId, setSelectedStepId] = useState<string>(firstStep.id);
+    const selectedStep = circuit.steps.find(s => s.id === selectedStepId) || firstStep;
 
     return (
         <div className="space-y-8">
@@ -79,36 +82,85 @@ const tracking = new LudiksTracking({
                     <div className="space-y-6">
                         {isObjectiveCircuit ? (
                             <>
-                                <p className="text-foreground/70">
-                                    Pour un circuit d&apos;objectif, vous devez envoyer un événement pour chaque étape complétée :
+                                <p className="text-foreground/70 mb-4">
+                                    Pour un circuit d&apos;objectif, vous devez envoyer un événement pour chaque étape complétée. Sélectionnez une étape pour voir l&apos;exemple correspondant&nbsp;:
                                 </p>
-                                {circuit.steps.map((step, index) => (
-                                    <div key={step.id} className="relative">
-                                        <div className="mb-2 text-sm text-foreground/70">
-                                            Étape {index + 1} : {step.name}
-                                        </div>
-                                        <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
-                                            <code>{`await tracking.trackEvent({
-    eventName: '${step.eventName}',
+                                <div className="mb-4">
+                                    <label htmlFor="step-select" className="text-sm text-foreground/70 mr-2">Étape :</label>
+                                    <select
+                                        id="step-select"
+                                        className="border border-secondary/20 rounded px-2 py-1 text-sm bg-background"
+                                        value={selectedStepId}
+                                        onChange={e => setSelectedStepId(e.target.value)}
+                                    >
+                                        {circuit.steps.map((step, idx) => (
+                                            <option key={step.id} value={step.id}>{`Étape ${idx + 1} : ${step.name}`}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="relative mb-8">
+                                    <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
+                                        <code>{`await tracking.trackEvent({
+    eventName: '${selectedStep.eventName}',
     date: new Date().toISOString()
 });`}</code>
+                                    </pre>
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        className="absolute top-2 right-2 text-white/50 hover:text-white"
+                                    >
+                                        <Copy className="h-4 w-4" />
+                                    </Button>
+                                    {/* Exemple de réponse */}
+                                    <div className="mt-2">
+                                        <div className="text-xs text-foreground/60 mb-1">Exemple de réponse&nbsp;:</div>
+                                        <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-xs overflow-x-auto">
+{`{
+  "success": true, // L'appel a réussi
+  "updated": true, // Progression mise à jour
+  "stepCompleted": true, // L'étape vient d'être complétée
+  "circuitCompleted": false, // Le parcours complet n'est pas encore terminé
+  "alreadyCompleted": false, // L'étape n'était pas déjà terminée
+  "points": 3, // Points cumulés sur le parcours
+  "rewards": [ // Récompenses obtenues lors de cet event (peut être vide)
+    {
+      "name": "Badge Expert", // Nom de la récompense
+      "description": "Avoir complété l'étape 2", // Description
+      "step_id": "${selectedStep.id}", // ID de l'étape associée (null si récompense de parcours)
+    }
+  ]
+}`}
                                         </pre>
-                                        <Button 
-                                            variant="ghost" 
-                                            size="icon" 
-                                            className="absolute top-2 right-2 text-white/50 hover:text-white"
-                                        >
-                                            <Copy className="h-4 w-4" />
-                                        </Button>
                                     </div>
-                                ))}
+                                </div>
+                                {/* Tableau des eventName */}
+                                <div className="mb-8">
+                                    <div className="text-sm font-medium text-foreground mb-2">Liste des events disponibles :</div>
+                                    <table className="w-full text-sm border-collapse">
+                                        <thead>
+                                            <tr className="bg-surface-2">
+                                                <th className="text-left p-2 font-semibold text-foreground/80">Étape</th>
+                                                <th className="text-left p-2 font-semibold text-foreground/80">eventName</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {circuit.steps.map((step, idx) => (
+                                                <tr key={step.id} className={idx % 2 === 0 ? "bg-background" : "bg-surface-2/50"}>
+                                                    <td className="p-2">{step.name}</td>
+                                                    <td className="p-2 font-mono text-xs">{step.eventName}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </>
                         ) : (
                             <>
                                 <p className="text-foreground/70">
                                     Pour un circuit à points ou à actions, envoyez un événement avec la valeur à incrémenter :
                                 </p>
-                                <div className="relative">
+                                <div className="relative mb-8">
                                     <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
                                         <code>{`await tracking.trackEvent({
     eventName: '${firstStep.eventName}',
@@ -123,6 +175,21 @@ const tracking = new LudiksTracking({
                                     >
                                         <Copy className="h-4 w-4" />
                                     </Button>
+                                    {/* Exemple de réponse */}
+                                    <div className="mt-2">
+                                        <div className="text-xs text-foreground/60 mb-1">Exemple de réponse&nbsp;:</div>
+                                        <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-xs overflow-x-auto">
+{`{
+  "success": true, // L'appel a réussi
+  "updated": true, // Progression mise à jour
+  "stepCompleted": false, // Cette action n'a pas complété d'étape
+  "circuitCompleted": false, // Le parcours complet n'est pas encore terminé
+  "alreadyCompleted": false, // Le parcours n'était pas déjà terminé
+  "points": 5, // Points cumulés sur le parcours
+  "rewards": [] // Récompenses obtenues lors de cet event (peut être vide)
+}`}
+                                        </pre>
+                                    </div>
                                 </div>
                             </>
                         )}
