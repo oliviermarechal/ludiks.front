@@ -58,7 +58,6 @@ export function CircuitForm({
         defaultValues: {
             name: defaultValues?.name ?? "",
             type: defaultValues?.type ?? "points",
-            description: defaultValues?.description ?? "",
             steps: defaultValues?.steps ?? [],
         },
     });

@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Pencil, Check, X, ArrowRight, Target } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Plus, Check, X, ArrowRight, Target, Pencil } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
+import { Step } from "@/lib/stores/circuit-store";
 
 const stepSchema = z.object({
     name: z.string().min(3, "Le nom de l'objectif doit contenir au moins 3 caractères"),
@@ -19,26 +20,18 @@ const stepSchema = z.object({
 
 type StepFormData = z.infer<typeof stepSchema>;
 
-interface Step {
-    id: string;
-    name: string;
-    description: string;
-    completionRate: number;
-    completionThreshold: number;
-    usersCompleted: number;
-    eventName: string;
-}
-
 interface ObjectivesStepFormProps {
-    circuitName: string;
-    onStepsChange: (steps: Step[]) => void;
+    onStepUpdate: (step: Step) => Promise<void>;
+    onStepDelete: (stepId: string) => Promise<void>;
+    onStepAdd: (step: Step) => Promise<Step | null>;
+    onStepsOrderUpdate: (steps: Step[]) => Promise<void>;
     initialSteps?: Step[];
 }
 
 interface StepItemProps {
     step: Step;
-    index: number;
     onUpdate: (updatedStep: Step) => void;
+    onDelete: () => void;
 }
 
 const slugify = (text: string): string => {
@@ -50,7 +43,14 @@ const slugify = (text: string): string => {
         .replace(/^_+|_+$/g, '');
 };
 
-const StepItem = ({ step, index, onUpdate }: StepItemProps) => {
+// Nouveau composant pour le grip minimaliste
+const MinimalGrip = () => (
+    <span className="flex items-center justify-center mr-3 cursor-grab text-secondary transition-colors duration-150" title="Déplacer">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="4" r="1.5" fill="currentColor"/><circle cx="10" cy="10" r="1.5" fill="currentColor"/><circle cx="10" cy="16" r="1.5" fill="currentColor"/></svg>
+    </span>
+);
+
+const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<StepFormData>({
         resolver: zodResolver(stepSchema),
@@ -92,176 +92,134 @@ const StepItem = ({ step, index, onUpdate }: StepItemProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="group relative"
+            className="flex-1 flex flex-col justify-center"
         >
-            <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-surface-2/50 transition-all duration-300 hover:shadow-[0_0_0_1px_rgba(var(--secondary-rgb),0.2),0_2px_4px_rgba(var(--secondary-rgb),0.1)]">
-                <div className="shrink-0 mt-1">
-                    <div className="relative">
-                        <motion.div
-                            initial={false}
-                            animate={{
-                                scale: isEditing ? 1.1 : 1,
-                                rotate: isEditing ? -10 : 0,
-                            }}
-                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        >
-                            <Badge 
-                                variant="outline" 
-                                className={`
-                                    h-8 w-8 flex items-center justify-center p-0 text-sm font-medium 
-                                    bg-gradient-to-br from-background to-surface-2
-                                    border-2 border-secondary/20 shadow-sm
-                                    group-hover:border-secondary/30 group-hover:shadow-md
-                                    transition-all duration-300
-                                    ${isEditing ? 'border-secondary shadow-[0_0_0_4px_rgba(var(--secondary-rgb),0.1)]' : ''}
-                                `}
-                            >
-                                {index + 1}
-                            </Badge>
-                        </motion.div>
-                        {index < 3 && (
-                            <motion.div 
-                                className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0.5 h-4"
-                                style={{
-                                    background: "linear-gradient(to bottom, rgba(var(--secondary-rgb), 0.3), transparent)"
-                                }}
-                                initial={{ scaleY: 0 }}
-                                animate={{ scaleY: 1 }}
-                                transition={{ delay: 0.2 }}
-                            />
-                        )}
-                    </div>
-                </div>
+            <AnimatePresence mode="wait">
+                {isEditing ? (
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="flex-1 space-y-4"
+                    >
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Input
+                                    {...register("name")}
+                                    placeholder="Nom de l'objectif"
+                                    className="h-9 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
+                                />
+                                {errors.name && (
+                                    <motion.p 
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        className="text-xs text-red-500"
+                                    >
+                                        {errors.name.message}
+                                    </motion.p>
+                                )}
+                            </div>
 
-                <AnimatePresence mode="wait">
-                    {isEditing ? (
-                        <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
-                            className="flex-1 space-y-4"
-                        >
-                            <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Textarea
+                                    {...register("description")}
+                                    placeholder="Description (optionnelle)"
+                                    className="text-sm min-h-[60px] bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 resize-none transition-all duration-300"
+                                />
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Input
-                                        {...register("name")}
-                                        placeholder="Nom de l'objectif"
-                                        className="h-9 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
-                                    />
-                                    {errors.name && (
+                                    <div className="relative">
+                                        <Input
+                                            {...register("eventName")}
+                                            placeholder="nom_de_levenement"
+                                            className="h-9 text-sm pl-8 bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
+                                        />
+                                        <div className="absolute inset-y-0 left-0 flex items-center pl-2.5">
+                                            <span className="text-xs text-secondary/70">#</span>
+                                        </div>
+                                    </div>
+                                    <p className="text-xs text-foreground/50">Identifiant technique pour le tracking (ex: completer_profil)</p>
+                                    {errors.eventName && (
                                         <motion.p 
                                             initial={{ opacity: 0, x: -10 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             className="text-xs text-red-500"
                                         >
-                                            {errors.name.message}
+                                            {errors.eventName.message}
                                         </motion.p>
                                     )}
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Textarea
-                                        {...register("description")}
-                                        placeholder="Description (optionnelle)"
-                                        className="text-sm min-h-[60px] bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 resize-none transition-all duration-300"
+                                    <Input
+                                        type="number"
+                                        {...register("completionThreshold", { valueAsNumber: true })}
+                                        placeholder="Répétitions"
+                                        className="h-9 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
                                     />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <div className="relative">
-                                            <Input
-                                                {...register("eventName")}
-                                                placeholder="nom_de_levenement"
-                                                className="h-9 text-sm pl-8 bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
-                                            />
-                                            <div className="absolute inset-y-0 left-0 flex items-center pl-2.5">
-                                                <span className="text-xs text-secondary/70">#</span>
-                                            </div>
-                                        </div>
-                                        <p className="text-xs text-foreground/50">Identifiant technique pour le tracking (ex: completer_profil)</p>
-                                        {errors.eventName && (
-                                            <motion.p 
-                                                initial={{ opacity: 0, x: -10 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                className="text-xs text-red-500"
-                                            >
-                                                {errors.eventName.message}
-                                            </motion.p>
-                                        )}
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Input
-                                            type="number"
-                                            {...register("completionThreshold", { valueAsNumber: true })}
-                                            placeholder="Répétitions"
-                                            className="h-9 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
-                                        />
-                                        {errors.completionThreshold && (
-                                            <motion.p 
-                                                initial={{ opacity: 0, x: -10 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                className="text-xs text-red-500"
-                                            >
-                                                {errors.completionThreshold.message}
-                                            </motion.p>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex justify-end gap-2">
-                                <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => setIsEditing(false)}
-                                    className="h-8 hover:bg-red-500/10 hover:text-red-500 transition-colors duration-300"
-                                >
-                                    <X className="h-4 w-4" />
-                                </Button>
-                                <Button
-                                    onClick={handleSubmit(handleSave)}
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-8 text-green-500 hover:text-green-600 hover:bg-green-500/10 transition-colors duration-300"
-                                >
-                                    <Check className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="flex-1 min-h-[2.5rem] flex items-center"
-                        >
-                            <div className="flex-1">
-                                <div className="flex items-baseline gap-3">
-                                    <h4 className="font-medium text-sm">{step.name}</h4>
-                                    {step.description && (
-                                        <p className="text-sm text-foreground/70">{step.description}</p>
+                                    {errors.completionThreshold && (
+                                        <motion.p 
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            className="text-xs text-red-500"
+                                        >
+                                            {errors.completionThreshold.message}
+                                        </motion.p>
                                     )}
                                 </div>
-                                <div className="mt-0.5 space-x-2 text-xs flex">
-                                    <p className="text-foreground/70">{step.completionThreshold}x pour valider</p>
-                                    <p className="text-secondary/70">#{step.eventName}</p>
-                                </div>
                             </div>
+                        </div>
+
+                        <div className="flex justify-end gap-2">
                             <Button
+                                type="button"
                                 variant="ghost"
-                                size="icon"
+                                size="sm"
+                                onClick={() => setIsEditing(false)}
+                                className="h-8 hover:bg-red-500/10 hover:text-red-500 transition-colors duration-300"
+                            >
+                                <X className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                onClick={handleSubmit(handleSave)}
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 text-green-500 hover:text-green-600 hover:bg-green-500/10 transition-colors duration-300"
+                            >
+                                <Check className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    </motion.div>
+                ) : (
+                    <div className="flex items-center gap-2">
+                        {/* Badge numéro */}
+                        <span className="flex items-center justify-center h-6 w-6 rounded-full border border-secondary/40 bg-secondary/10 text-sm font-semibold text-secondary mr-1">
+                            {step.stepNumber ?? ''}
+                        </span>
+                        <h4 className="font-medium text-base leading-tight flex-1">{step.name}</h4>
+                        <div className="flex items-center gap-1 ml-auto">
+                            <button
+                                type="button"
                                 onClick={() => setIsEditing(true)}
-                                className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-secondary/10 hover:text-secondary"
+                                className="h-8 w-8 flex items-center justify-center rounded hover:bg-secondary/10 hover:text-secondary transition-all duration-200"
+                                title="Éditer l'étape"
                             >
                                 <Pencil className="h-4 w-4" />
-                            </Button>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={onDelete}
+                                className="h-8 w-8 flex items-center justify-center rounded hover:bg-red-100 hover:text-red-500 transition-all duration-200"
+                                title="Supprimer l'étape"
+                            >
+                                <X className="h-4 w-4" />
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 };
@@ -419,36 +377,77 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
     );
 };
 
-export function ObjectivesStepForm({ onStepsChange, initialSteps = [] }: ObjectivesStepFormProps) {
+export function ObjectivesStepForm({ 
+    onStepUpdate, 
+    onStepDelete, 
+    onStepAdd,
+    onStepsOrderUpdate,
+    initialSteps = [] 
+}: ObjectivesStepFormProps) {
     const [steps, setSteps] = useState<Step[]>(initialSteps);
     const [isAddingStep, setIsAddingStep] = useState(false);
 
-    const handleAddStep = (newStepData: Partial<Step>) => {
+    useEffect(() => {
+        setSteps(initialSteps);
+    }, [initialSteps]);
+
+    const handleDragEnd = async (result: DropResult) => {
+        if (!result.destination) return;
+
+        const items = Array.from(steps);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+
+        const updatedSteps = items.map((step, index) => ({
+            ...step,
+            stepNumber: index + 1
+        }));
+
+        setSteps(updatedSteps);
+
+        try {
+            await onStepsOrderUpdate(updatedSteps);
+        } catch (error) {
+            console.error('Error updating steps ordering:', error);
+            setSteps(steps);
+        }
+    };
+
+    const handleAddStep = async (newStepData: Partial<Step>) => {
         const newStep: Step = {
-            id: Math.random().toString(36).substr(2, 9),
+            id: "", // L'ID sera défini par l'API
             name: newStepData.name || "",
             description: newStepData.description || "",
             eventName: newStepData.eventName || "",
             completionThreshold: newStepData.completionThreshold || 1,
-            completionRate: 0,
-            usersCompleted: 0,
+            stepNumber: steps.length + 1,
         };
 
-        const updatedSteps = [...steps, newStep];
-        setSteps(updatedSteps);
-        onStepsChange(updatedSteps);
+        const addedStep = await onStepAdd(newStep);
+        if (addedStep) {
+            setSteps(prevSteps => [...prevSteps, addedStep]);
+        }
         setIsAddingStep(false);
     };
 
-    const handleUpdateStep = (index: number, updatedStep: Step) => {
-        const updatedSteps = [...steps];
-        updatedSteps[index] = updatedStep;
-        setSteps(updatedSteps);
-        onStepsChange(updatedSteps);
+    const handleUpdateStep = async (stepId: string, updatedStep: Step) => {
+        await onStepUpdate(updatedStep);
+        setSteps(prevSteps => 
+            prevSteps.map(step => 
+                step.id === stepId ? updatedStep : step
+            )
+        );
+    };
+
+    const handleDeleteStep = async (stepId: string) => {
+        await onStepDelete(stepId);
+        setSteps(prevSteps => 
+            prevSteps.filter(step => step.id !== stepId)
+        );
     };
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-8">
             <AnimatePresence mode="popLayout">
                 {steps.length === 0 && !isAddingStep && (
                     <motion.div
@@ -475,14 +474,44 @@ export function ObjectivesStepForm({ onStepsChange, initialSteps = [] }: Objecti
                     </motion.div>
                 )}
 
-                {steps.map((step, index) => (
-                    <StepItem
-                        key={step.id}
-                        step={step}
-                        index={index}
-                        onUpdate={(updatedStep) => handleUpdateStep(index, updatedStep)}
-                    />
-                ))}
+                <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId="steps">
+                        {(provided) => (
+                            <div
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                                className="space-y-4"
+                            >
+                                {steps.map((step, index) => (
+                                    <Draggable
+                                        key={step.id}
+                                        draggableId={step.id}
+                                        index={index}
+                                    >
+                                        {(provided) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                className="group relative flex items-center gap-4 p-4 rounded-xl bg-white border border-border border-l-4 border-secondary transition-all duration-200 shadow-sm hover:shadow-md"
+                                                style={{ minHeight: 64 }}
+                                            >
+                                                <div {...provided.dragHandleProps} className="flex items-center h-full">
+                                                    <MinimalGrip />
+                                                </div>
+                                                <StepItem
+                                                    step={{ ...step, stepNumber: index + 1 }}
+                                                    onUpdate={(updatedStep) => handleUpdateStep(step.id, updatedStep)}
+                                                    onDelete={() => handleDeleteStep(step.id)}
+                                                />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
 
                 {isAddingStep && (
                     <ChatStep
@@ -493,7 +522,7 @@ export function ObjectivesStepForm({ onStepsChange, initialSteps = [] }: Objecti
             </AnimatePresence>
 
             {!isAddingStep && steps.length > 0 && (
-                <motion.div layout>
+                <motion.div layout className="space-y-4">
                     <Button
                         type="button"
                         variant="outline"

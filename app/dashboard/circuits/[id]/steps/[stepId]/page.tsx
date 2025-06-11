@@ -14,7 +14,7 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { useState, useMemo } from "react";
-import { CircuitType } from "@/lib/types/circuit";
+import { CircuitType } from "@/lib/stores/circuit-store";
 
 const stepData = {
     id: "3",
@@ -37,7 +37,7 @@ const usersData = Array.from({ length: 50 }, (_, i) => ({
     email: `user${i + 1}@example.com`,
     avatar: i % 3 === 0 ? `https://i.pravatar.cc/150?u=${i}` : null,
     createdAt: new Date(2024, 0, Math.floor(Math.random() * 90) + 1),
-    stuckSince: new Date(2024, 2, Math.floor(Math.random() * 15) + 1), // Date aléatoire dans les 15 derniers jours
+    stuckSince: new Date(2024, 2, Math.floor(Math.random() * 15) + 1),
     metadata: {
         isPremium: Math.random() > 0.7, // 30% de chance d'être premium
         role: Math.random() > 0.9 ? 'admin' : Math.random() > 0.7 ? 'moderator' : 'user',

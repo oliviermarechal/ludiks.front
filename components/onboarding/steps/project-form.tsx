@@ -40,7 +40,7 @@ export function ProjectCreation({ onNext }: ProjectCreationProps) {
           <Input
             id="name"
             placeholder="Mon super projet"
-            className="bg-black/40 border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
+            className="border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
             {...register("name")}
           />
           {errors.name && (

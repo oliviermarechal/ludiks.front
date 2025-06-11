@@ -1,255 +1,154 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import {
-    Users,
-    CircuitBoard,
-    Target,
-    ArrowUpRight,
-    AlertTriangle,
-    Trophy,
-    Clock,
-} from "lucide-react"
-import { redirect } from "next/navigation"
-import { useAuth } from "@/lib/hooks/use-auth.hook"
-import { useEffect } from "react"
-import Link from "next/link"
+import { useProjectOverview } from '@/lib/hooks/use-project-overview.hook'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
+import { Users, Target, PlusCircle, CheckCircle } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { CircuitCard } from './circuit-card'
 
-// Mock data
-const projectStats = {
-    totalUsers: 2451,
-    activeUsers: 1890,
-    completionRate: 67,
-    circuits: [
-        {
-            id: 1,
-            name: "Onboarding",
-            type: "objective",
-            status: "active",
-            users: 450,
-            completionRate: 72,
-            steps: 5,
-            frictionPoints: [
-                {
-                    step: 3,
-                    name: "Configuration API",
-                    dropRate: 35,
-                    previousStepRate: 85
-                }
-            ]
-        },
-        {
-            id: 2,
-            name: "Découverte Features",
-            type: "points",
-            status: "active",
-            users: 890,
-            completionRate: 45,
-            steps: 8,
-            frictionPoints: []
-        },
-        {
-            id: 3,
-            name: "Programme fidélité",
-            type: "points",
-            status: "draft",
-            users: 0,
-            completionRate: 0,
-            steps: 3,
-            frictionPoints: []
-        }
-    ]
+export interface CircuitOverview {
+  id: string
+  name: string
+  type: string
+  active: boolean
+  completionRate: number
+  averageCompletionTime: number
 }
 
-function getCompletionColor(rate: number) {
-    if (rate >= 75) return "text-emerald-500";
-    if (rate >= 50) return "text-blue-500";
-    if (rate >= 25) return "text-secondary";
-    return "text-red-500";
+// Fonction utilitaire pour formater les pourcentages
+const formatPercentage = (value: number): string => {
+  return value.toFixed(1)
 }
 
 export default function DashboardPage() {
-    const { isAuthenticated, isLoading } = useAuth()
+  const { overview, isLoading } = useProjectOverview()
 
-    useEffect(() => {
-        if (!isLoading && !isAuthenticated) {
-            redirect('/login')
-        }
-    }, [isAuthenticated, isLoading])
+  if (isLoading) {
+    return <div>Chargement...</div>
+  }
 
-    if (isLoading) {
-        return <div>Loading...</div>
-    }
+  if (!overview) {
+    return <div>Veuillez sélectionner un projet</div>
+  }
 
-    const activeCircuits = projectStats.circuits.filter(c => c.status === 'active')
-    const hasFrictionPoints = activeCircuits.some(c => c.frictionPoints.length > 0)
+  return (
+    <div className="container mx-auto py-12">
+      <div className="max-w-6xl mx-auto space-y-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">
+              Vue d&apos;ensemble
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              Suivez l&apos;activité de vos parcours et identifiez les points d&apos;attention
+            </p>
+          </div>
+          <Link href="/dashboard/circuits/new">
+            <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+              <PlusCircle className="mr-2 h-5 w-5" />
+              Nouveau parcours
+            </Button>
+          </Link>
+        </div>
 
-    return (
-        <main className="flex-1 overflow-y-auto p-8">
-            <div className="max-w-7xl mx-auto space-y-8">
-                {/* Welcome Section */}
-                <div className="space-y-1">
-                    <h1 className="text-3xl font-bold landing-title">
-                        Vue d&apos;ensemble
-                    </h1>
-                    <p className="text-muted-foreground">Voici un aperçu de l&apos;activité de votre projet</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card className="p-6 border border-border hover:border-secondary transition-colors bg-background">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="space-y-1">
+                <CardTitle className="text-sm font-medium text-foreground">Parcours</CardTitle>
+                <p className="text-xs text-muted-foreground">Nombre total de parcours dans le projet</p>
+              </div>
+              <Target className="h-5 w-5 text-secondary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{overview.KPIs.total}</div>
+              <div className="flex items-center gap-4 mt-2">
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className="text-sm text-muted-foreground">{overview.KPIs.active} actifs</span>
                 </div>
-
-                {/* Quick Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <Card className="stats-card">
-                        <div className="flex items-start gap-4">
-                            <div className="icon-container">
-                                <Users className="h-6 w-6 text-secondary" />
-                            </div>
-                            <div className="space-y-1">
-                                <p className="metric-label">Utilisateurs actifs</p>
-                                <h3 className="metric-value">{projectStats.activeUsers}</h3>
-                                <p className="text-xs text-accent">sur {projectStats.totalUsers} inscrits</p>
-                            </div>
-                        </div>
-                    </Card>
-
-                    <Card className="stats-card">
-                        <div className="flex items-start gap-4">
-                            <div className="icon-container">
-                                <CircuitBoard className="h-6 w-6 text-secondary" />
-                            </div>
-                            <div className="space-y-1">
-                                <p className="metric-label">Circuits actifs</p>
-                                <h3 className="metric-value">{activeCircuits.length}</h3>
-                                <p className="text-xs text-accent">{projectStats.circuits.length - activeCircuits.length} en brouillon</p>
-                            </div>
-                        </div>
-                    </Card>
-
-                    <Card className="stats-card">
-                        <div className="flex items-start gap-4">
-                            <div className="icon-container">
-                                <Trophy className="h-6 w-6 text-secondary" />
-                            </div>
-                            <div className="space-y-1">
-                                <p className="metric-label">Taux complétion</p>
-                                <h3 className="metric-value">{projectStats.completionRate}%</h3>
-                                <p className="text-xs text-accent">moyenne globale</p>
-                            </div>
-                        </div>
-                    </Card>
-
-                    <Card className="stats-card">
-                        <div className="flex items-start gap-4">
-                            <div className="icon-container">
-                                <Clock className="h-6 w-6 text-secondary" />
-                            </div>
-                            <div className="space-y-1">
-                                <p className="metric-label">Point de friction</p>
-                                <h3 className="metric-value">{hasFrictionPoints ? "Détecté" : "Aucun"}</h3>
-                                <p className="text-xs text-accent">sur vos parcours</p>
-                            </div>
-                        </div>
-                    </Card>
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 rounded-full bg-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">{overview.KPIs.inactive} inactifs</span>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
 
-                {/* Friction Points Alert */}
-                {hasFrictionPoints && (
-                    <Card className="alert-card">
-                        <div className="flex items-start gap-4">
-                            <div className="icon-container">
-                                <AlertTriangle className="h-6 w-6 text-primary" />
-                            </div>
-                            <div className="flex-1 space-y-4">
-                                <div>
-                                    <h3 className="text-lg font-semibold text-primary">Point de friction détecté</h3>
-                                </div>
-                                <div className="space-y-3">
-                                    {activeCircuits.map(circuit => {
-                                        if (circuit.frictionPoints.length > 0) {
-                                            const frictionPoint = circuit.frictionPoints[0];
-                                            return (
-                                                <Link 
-                                                    href={`/dashboard/analytics/${circuit.id}`}
-                                                    key={circuit.id}
-                                                    className="block p-4 rounded-lg bg-surface-1 hover:bg-surface-2 transition-colors"
-                                                >
-                                                    <div className="flex items-center justify-between mb-2">
-                                                        <span className="font-medium">{circuit.name}</span>
-                                                        <span className="text-primary font-bold">
-                                                            -{frictionPoint.previousStepRate - frictionPoint.dropRate}%
-                                                        </span>
-                                                    </div>
-                                                    <p className="text-sm text-muted-foreground">
-                                                        Chute du taux de complétion à l&apos;étape &quot;{frictionPoint.name}&quot;
-                                                    </p>
-                                                    <div className="flex items-center gap-2 mt-2 text-xs text-primary/60">
-                                                        <span>Voir les détails</span>
-                                                        <ArrowUpRight className="h-3 w-3" />
-                                                    </div>
-                                                </Link>
-                                            );
-                                        }
-                                        return null;
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                    </Card>
-                )}
+          <Card className="p-6 border border-border hover:border-secondary transition-colors bg-background">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="space-y-1">
+                <CardTitle className="text-sm font-medium text-foreground">Taux de complétion moyen</CardTitle>
+                <p className="text-xs text-muted-foreground">Moyenne de complétion sur tous les parcours</p>
+              </div>
+              <CheckCircle className="h-5 w-5 text-secondary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{formatPercentage(overview.KPIs.averageCompletionRate)}%</div>
+              <Progress value={overview.KPIs.averageCompletionRate} className="mt-2" />
+            </CardContent>
+          </Card>
+        </div>
 
-                {/* Circuits Overview */}
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <h2 className="text-xl font-bold">Parcours actifs</h2>
-                        </div>
-                        <Link href="/dashboard/circuits">
-                            <Button variant="outline" size="sm" className="text-accent border-secondary/20 hover:bg-secondary/5">
-                                Voir tout
-                                <ArrowUpRight className="h-4 w-4 ml-2" />
-                            </Button>
-                        </Link>
-                    </div>
-                    <div className="grid gap-3">
-                        {activeCircuits.map(circuit => (
-                            <Link key={circuit.id} href={`/dashboard/analytics/${circuit.id}`}>
-                                <Card className="circuit-card">
-                                    <div className="flex items-center gap-6">
-                                        <div className="h-12 w-12 rounded-lg bg-secondary/10 flex items-center justify-center">
-                                            {circuit.type === 'objective' ? (
-                                                <Target className="h-6 w-6 text-secondary" />
-                                            ) : (
-                                                <Trophy className="h-6 w-6 text-secondary" />
-                                            )}
-                                        </div>
-                                        <div className="flex-1">
-                                            <div className="flex items-center justify-between mb-2">
-                                                <h3 className="text-lg font-semibold">{circuit.name}</h3>
-                                                <span className={`text-lg font-bold ${getCompletionColor(circuit.completionRate)}`}>
-                                                    {circuit.completionRate}%
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                                <span>{circuit.users} utilisateurs</span>
-                                                <span>•</span>
-                                                <span>{circuit.steps} étapes</span>
-                                                {circuit.frictionPoints.length > 0 && (
-                                                    <>
-                                                        <span>•</span>
-                                                        <span className="text-primary flex items-center gap-2">
-                                                            <AlertTriangle className="h-4 w-4" />
-                                                        </span>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <ArrowUpRight className="h-5 w-5 text-muted-foreground" />
-                                    </div>
-                                </Card>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </main>
-    )
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card className="p-6 border border-border hover:border-secondary transition-colors bg-background">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="space-y-1">
+                <CardTitle className="text-sm font-medium text-foreground">Utilisateurs totaux</CardTitle>
+                <p className="text-xs text-muted-foreground">Nombre total d&apos;utilisateurs enregistrés</p>
+              </div>
+              <Users className="h-5 w-5 text-secondary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{overview.users.total}</div>
+            </CardContent>
+          </Card>
+
+          <Card className="p-6 border border-border hover:border-secondary transition-colors bg-background">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="space-y-1">
+                <CardTitle className="text-sm font-medium text-foreground">Utilisateurs actifs</CardTitle>
+                <p className="text-xs text-muted-foreground">Connectés dans les 7 derniers jours</p>
+              </div>
+              <Users className="h-5 w-5 text-secondary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{overview.users.activeLastWeek}</div>
+              <p className="text-xs text-muted-foreground mt-1">
+                {overview.users.total === 0 ? 0 : formatPercentage((overview.users.activeLastWeek / overview.users.total) * 100)}% des utilisateurs
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="p-6 border border-border hover:border-secondary transition-colors bg-background">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="space-y-1">
+                <CardTitle className="text-sm font-medium text-foreground">Parcours complétés</CardTitle>
+                <p className="text-xs text-muted-foreground">Utilisateurs ayant terminé au moins un parcours</p>
+              </div>
+              <CheckCircle className="h-5 w-5 text-secondary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{overview.users.completedAtLeastOne}</div>
+              <p className="text-xs text-muted-foreground mt-1">
+                {overview.users.total === 0 ? 0 : formatPercentage((overview.users.completedAtLeastOne / overview.users.total) * 100)}% des utilisateurs
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-bold text-foreground mb-6">Parcours actifs</h2>
+
+          <div className="grid grid-cols-1 gap-4">
+            {overview.circuits.filter((circuit: CircuitOverview) => !!circuit.active).map((circuit: CircuitOverview) => (
+              <CircuitCard key={circuit.id} circuit={circuit} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }  
