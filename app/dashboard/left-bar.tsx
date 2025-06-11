@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
 import { useProjects } from "@/lib/hooks/use-projects.hook"
-import { Project } from "@/lib/stores/project-store"
+import { Project, useProjectStore } from "@/lib/stores/project-store"
 import { useCircuitStore } from "@/lib/stores/circuit-store"
 
 export default function LeftBar() {
@@ -21,17 +21,21 @@ export default function LeftBar() {
     const { projects, isLoading } = useProjects()
     const [currentProject, setCurrentProject] = useState<Project | null>(null)
     const { setProjectId } = useCircuitStore()
+    const { setSelectedProject } = useProjectStore()
 
     useEffect(() => {
         if (!currentProject && projects.length > 0 && !isLoading) {
-            setCurrentProject(projects[0])
-            setProjectId(projects[0].id)
+            const firstProject = projects[0]
+            setCurrentProject(firstProject)
+            setProjectId(firstProject.id)
+            setSelectedProject(firstProject)
         }
-    }, [projects, isLoading, currentProject, setProjectId])
+    }, [projects, isLoading, currentProject, setProjectId, setSelectedProject])
 
     const handleProjectChange = (project: Project) => {
         setCurrentProject(project)
         setProjectId(project.id)
+        setSelectedProject(project)
     }
 
     return (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Toaster } from "@/components/ui/sonner"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>
           {children}
+          <Toaster />
         </Providers>
         {process.env.NODE_ENV === "production" && (
           <script defer id="fairlytics-id-ajcu6jd9k7ysd6" data-fairlyticskey="3684570dd2885e085c78bf7630e599db" src="https://app.fairlytics.tech/tag/tag.js"></script>

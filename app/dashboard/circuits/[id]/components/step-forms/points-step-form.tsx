@@ -1,83 +1,236 @@
-import { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Trash2, Wand2, Sparkles } from "lucide-react";
+import { Plus, Trash2, Wand2, Sparkles, Pencil, Check, X, Star } from "lucide-react";
 import { StepPreviewChart } from "@/components/circuit/chart/step-preview-chart";
 import { StepGenerator, generatePreviewSteps, GeneratorFormData } from "./step-generator";
+import { Step } from "@/lib/stores/circuit-store";
+import { AnimatePresence, motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 const stepSchema = z.object({
     completionThreshold: z.number().min(1, "Le seuil doit être supérieur à 0"),
 });
 
-const manualStepsSchema = z.object({
-    steps: z.array(stepSchema).min(1, "Ajoutez au moins une étape"),
-});
-
-type ManualStepsFormData = z.infer<typeof manualStepsSchema>;
-
-interface Step {
-    id: string;
-    name: string;
-    description: string;
-    completionRate: number;
-    completionThreshold: number;
-    usersCompleted: number;
-    eventName: string;
-}
-
 interface PointsStepFormProps {
     circuitName: string;
-    onStepsChange: (steps: Step[]) => void;
+    onStepUpdate: (step: Step) => Promise<void>;
+    onStepDelete: (stepId: string) => Promise<void>;
+    onStepAdd: (step: Step) => Promise<Step | null>;
+    onStepsReset: (steps: Step[]) => Promise<void>;
     initialSteps?: Step[];
 }
 
-export function PointsStepForm({ circuitName, onStepsChange, initialSteps }: PointsStepFormProps) {
-    const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
+interface StepItemProps {
+    step: Step;
+    index: number;
+    totalSteps: number;
+    onUpdate: (updatedStep: Step) => void;
+    onDelete: () => void;
+}
 
-    const {
-        register: registerManual,
-        control,
-        formState: { errors: manualErrors },
-        watch: watchManual,
-    } = useForm<ManualStepsFormData>({
-        resolver: zodResolver(manualStepsSchema),
+const sortStepsByOrder = (steps: Step[]) => {
+    return [...steps].sort((a, b) => {
+        const orderA = a.completionThreshold ?? 0
+        const orderB = b.completionThreshold ?? 0
+        return orderA - orderB
+    })
+}
+
+const StepItem = ({ step, index, onUpdate, onDelete }: StepItemProps) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<{ completionThreshold: number }>({
+        resolver: zodResolver(stepSchema),
         defaultValues: {
-            steps: initialSteps?.map(step => ({
-                completionThreshold: step.completionThreshold,
-            })) || [{ completionThreshold: 1 }],
+            completionThreshold: step.completionThreshold,
         },
     });
 
-    const { fields, append, remove, replace } = useFieldArray({
-        control,
-        name: "steps",
+    useEffect(() => {
+        reset({ completionThreshold: step.completionThreshold });
+    }, [step, reset]);
+
+    const handleSave = (data: { completionThreshold: number }) => {
+        onUpdate({ ...step, completionThreshold: data.completionThreshold });
+        setIsEditing(false);
+    };
+
+    return (
+        <motion.div
+            layout
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="relative"
+        >
+            <div className={cn(
+                "relative overflow-hidden rounded-xl",
+                "transition-all duration-300 ease-in-out",
+                "hover:shadow-lg hover:shadow-secondary/10",
+                "bg-gradient-to-br from-card to-card/80 backdrop-blur-sm",
+                "border border-border/50 hover:border-secondary/30"
+            )}>
+                <div className="absolute inset-0 bg-gradient-to-r from-secondary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative p-4">
+                    <div className="flex items-center gap-3">
+                        <div className={cn(
+                            "w-8 h-8 rounded-full flex items-center justify-center",
+                            "bg-gradient-to-br from-secondary/20 to-secondary/10",
+                            "border border-secondary/20",
+                            "shadow-md shadow-secondary/5"
+                        )}>
+                            <Star className="w-4 h-4 text-secondary" />
+                        </div>
+
+                        <AnimatePresence mode="wait">
+                            {isEditing ? (
+                                <motion.div
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 10 }}
+                                    className="flex-1 flex items-center gap-2"
+                                >
+                                    <Input
+                                        type="number"
+                                        min={1}
+                                        {...register("completionThreshold", { valueAsNumber: true })}
+                                        placeholder="Points requis"
+                                        className="h-8 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30"
+                                    />
+                                    {errors.completionThreshold && (
+                                        <p className="text-xs text-red-500">
+                                            {errors.completionThreshold.message}
+                                        </p>
+                                    )}
+
+                                    <div className="flex gap-1">
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => setIsEditing(false)}
+                                            className="h-8 w-8 text-destructive/70 hover:text-destructive hover:bg-destructive/10"
+                                        >
+                                            <X className="h-3 w-3" />
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={handleSubmit(handleSave)}
+                                            className="h-8 w-8 text-green-500 hover:text-green-600 hover:bg-green-500/10"
+                                        >
+                                            <Check className="h-3 w-3" />
+                                        </Button>
+                                    </div>
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    className="flex-1 flex items-center justify-between"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-2xl font-bold text-secondary">
+                                            {step.completionThreshold}
+                                        </div>
+                                        <div className="text-sm text-foreground/60">
+                                            points
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-1">
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => setIsEditing(true)}
+                                            className="h-8 w-8 hover:bg-secondary/10 hover:text-secondary"
+                                        >
+                                            <Pencil className="h-3 w-3" />
+                                        </Button>
+                                        {index > 0 && (
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={onDelete}
+                                                className="h-8 w-8 text-destructive/70 hover:text-destructive hover:bg-destructive/10"
+                                            >
+                                                <Trash2 className="h-3 w-3" />
+                                            </Button>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+export function PointsStepForm({ 
+    circuitName, 
+    onStepUpdate, 
+    onStepDelete, 
+    onStepAdd, 
+    onStepsReset,
+    initialSteps = [] 
+}: PointsStepFormProps) {
+    const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
+    const [sortedSteps, setSortedSteps] = useState<Step[]>([]);
+    const [isAddingStep, setIsAddingStep] = useState(false);
+    const { register, handleSubmit, formState: { errors } } = useForm<{ completionThreshold: number }>({
+        resolver: zodResolver(stepSchema),
     });
 
-    const manualSteps = watchManual("steps");
+    useEffect(() => {
+        setSortedSteps(sortStepsByOrder(initialSteps));
+    }, [initialSteps]);
 
-    const previewSteps = fields.map((field, index) => ({
-        id: `${index}`,
-        name: `${circuitName} niveau ${index + 1}`,
-        description: `Atteindre ${manualSteps[index]?.completionThreshold || 0} points`,
-        completionRate: 0,
-        completionThreshold: manualSteps[index]?.completionThreshold || 0,
-        usersCompleted: 0,
-        eventName: `${circuitName.toLowerCase().replace(/[^a-z0-9]/g, "_")}_level_${index + 1}`,
-    }));
+    const handleStepUpdate = async (stepId: string, updatedStep: Step) => {
+        await onStepUpdate(updatedStep);
+        setSortedSteps(prevSteps => 
+            sortStepsByOrder(prevSteps.map(step => 
+                step.id === stepId ? updatedStep : step
+            ))
+        );
+    };
 
-    const handleStepsChange = () => {
-        onStepsChange(previewSteps);
+    const handleStepDelete = async (stepId: string) => {
+        await onStepDelete(stepId);
+        setSortedSteps(prevSteps => 
+            sortStepsByOrder(prevSteps.filter(step => step.id !== stepId))
+        );
+    };
+
+    const handleAddStep = async (data: { completionThreshold: number }) => {
+        const newStep: Step = {
+            id: "", // L'ID sera défini par l'API
+            name: `${circuitName} niveau ${sortedSteps.length + 1}`,
+            description: `Atteindre ${data.completionThreshold} points`,
+            completionThreshold: data.completionThreshold,
+            stepNumber: sortedSteps.length + 1,
+            eventName: `${circuitName.toLowerCase().replace(/[^a-z0-9]/g, "_")}_level_${sortedSteps.length + 1}`,
+        };
+
+        const addedStep = await onStepAdd(newStep);
+        console.log("addedStep", addedStep);
+        if (addedStep) {
+            setSortedSteps(prevSteps => sortStepsByOrder([...prevSteps, addedStep]));
+        }
+        setIsAddingStep(false);
     };
 
     const handleGenerateSteps = (values: GeneratorFormData) => {
         const generatedSteps = generatePreviewSteps(values, circuitName, "points");
-        replace(generatedSteps.map(step => ({
-            completionThreshold: step.completionThreshold
-        })));
-        handleStepsChange();
+        onStepsReset(generatedSteps);
     };
 
     return (
@@ -100,66 +253,110 @@ export function PointsStepForm({ circuitName, onStepsChange, initialSteps }: Poi
                 </Button>
             </div>
 
-            <div className="space-y-3 bg-card/50 rounded-lg p-4">
-                {fields.map((field, index) => (
-                    <div 
-                        key={field.id} 
-                        className="flex items-center gap-3 p-3 bg-card rounded-lg border border-border hover:border-border/80 transition-colors duration-200"
-                    >
-                        <div className="w-16 shrink-0 text-sm font-medium text-foreground/70">
-                            Niveau {index + 1}
-                        </div>
-                        
-                        <div className="flex-1">
-                            <Input
-                                type="number"
-                                min={1}
-                                {...registerManual(`steps.${index}.completionThreshold`, { 
-                                    valueAsNumber: true,
-                                    onChange: handleStepsChange
-                                })}
-                                placeholder="Points requis"
-                                className="h-9 text-sm bg-card border-border focus:border-border/80 shadow-[0_0_0_1px_rgba(var(--primary-rgb),0.1)]"
+            <div className="relative">
+                {/* Progress track */}
+                <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-secondary/30 via-secondary/20 to-secondary/10" />
+
+                {/* Steps */}
+                <div className="space-y-3 pl-8">
+                    <AnimatePresence mode="popLayout">
+                        {sortedSteps.map((step, index) => (
+                            <StepItem
+                                key={step.id}
+                                step={step}
+                                index={index}
+                                totalSteps={sortedSteps.length}
+                                onUpdate={(updatedStep) => handleStepUpdate(step.id, updatedStep)}
+                                onDelete={() => handleStepDelete(step.id)}
                             />
-                            {manualErrors.steps?.[index]?.completionThreshold && (
-                                <p className="text-xs text-destructive mt-1">
-                                    {manualErrors.steps[index]?.completionThreshold?.message}
-                                </p>
-                            )}
-                        </div>
+                        ))}
+                    </AnimatePresence>
 
-                        {index > 0 && (
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => {
-                                    remove(index);
-                                    handleStepsChange();
-                                }}
-                                className="text-destructive/70 hover:text-destructive hover:bg-destructive/10 h-9 w-9"
+                    <AnimatePresence mode="wait">
+                        {isAddingStep ? (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="relative"
                             >
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        )}
-                    </div>
-                ))}
+                                <div className={cn(
+                                    "relative overflow-hidden rounded-xl",
+                                    "transition-all duration-300 ease-in-out",
+                                    "hover:shadow-lg hover:shadow-secondary/10",
+                                    "bg-gradient-to-br from-card to-card/80 backdrop-blur-sm",
+                                    "border border-border/50 hover:border-secondary/30"
+                                )}>
+                                    <div className="relative p-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className={cn(
+                                                "w-8 h-8 rounded-full flex items-center justify-center",
+                                                "bg-gradient-to-br from-secondary/20 to-secondary/10",
+                                                "border border-secondary/20",
+                                                "shadow-md shadow-secondary/5"
+                                            )}>
+                                                <Star className="w-4 h-4 text-secondary" />
+                                            </div>
 
-                <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-                        append({ completionThreshold: Math.max(1, fields[fields.length - 1]?.completionThreshold || 0) + 10 });
-                        handleStepsChange();
-                    }}
-                    className="w-full h-9 text-sm mt-2 border-border hover:border-border/80 dark:!border-primary/40 dark:hover:!border-primary/60"
-                >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Ajouter un niveau
-                </Button>
+                                            <form onSubmit={handleSubmit(handleAddStep)} className="flex-1 flex items-center gap-2">
+                                                <Input
+                                                    type="number"
+                                                    min={1}
+                                                    {...register("completionThreshold", { valueAsNumber: true })}
+                                                    placeholder="Points requis"
+                                                    className="h-8 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30"
+                                                />
+                                                {errors.completionThreshold && (
+                                                    <p className="text-xs text-red-500">
+                                                        {errors.completionThreshold.message}
+                                                    </p>
+                                                )}
+
+                                                <div className="flex gap-1">
+                                                    <Button
+                                                        type="button"
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        onClick={() => setIsAddingStep(false)}
+                                                        className="h-8 w-8 text-destructive/70 hover:text-destructive hover:bg-destructive/10"
+                                                    >
+                                                        <X className="h-3 w-3" />
+                                                    </Button>
+                                                    <Button
+                                                        type="submit"
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="h-8 w-8 text-green-500 hover:text-green-600 hover:bg-green-500/10"
+                                                    >
+                                                        <Check className="h-3 w-3" />
+                                                    </Button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                            >
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => setIsAddingStep(true)}
+                                    className="w-full h-9 text-sm border-border hover:border-border/80 dark:!border-primary/40 dark:hover:!border-primary/60"
+                                >
+                                    <Plus className="h-4 w-4 mr-2" />
+                                    Ajouter un niveau
+                                </Button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </div>
 
-            {previewSteps.length > 1 && (
+            {sortedSteps.length > 1 && (
                 <div className="space-y-4">
                     <div className="space-y-1">
                         <h3 className="font-medium">Aperçu de la progression</h3>
@@ -168,18 +365,7 @@ export function PointsStepForm({ circuitName, onStepsChange, initialSteps }: Poi
                         </p>
                     </div>
                     <div className="bg-card/50 rounded-lg p-4">
-                        <StepPreviewChart steps={previewSteps} />
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-4">
-                            {previewSteps.map((step, index) => (
-                                <div key={index} className="text-sm bg-card p-2 rounded-md border border-border/60">
-                                    <span className="text-foreground/70">Niveau {index + 1}:</span>
-                                    <br />
-                                    <span className="text-secondary font-medium">
-                                        {step.completionThreshold} points
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
+                        <StepPreviewChart steps={sortedSteps} />
                     </div>
                 </div>
             )}

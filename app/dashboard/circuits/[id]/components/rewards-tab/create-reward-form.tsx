@@ -1,45 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trophy, Target } from "lucide-react";
-
-interface Step {
-    id: string;
-    name: string;
-    description: string;
-    completionThreshold: number;
-}
+import { Step } from "@/lib/stores/circuit-store";
+import { Reward } from "@/lib/hooks/use-rewards.hook";
 
 interface CreateRewardFormProps {
     isOpen: boolean;
     onClose: () => void;
-    onCreate: (reward: { name: string; description: string; image_url: string; step_id: string | null; is_completion_reward: boolean }) => void;
+    onCreate: (reward: { name: string; description: string; stepId: string | null; unlockOnCircuitCompletion: boolean }) => void;
     steps: Step[];
     circuitType: "points" | "actions" | "objective";
+    initialData?: Reward | null;
 }
 
-export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType }: CreateRewardFormProps) {
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [stepId, setStepId] = useState<string | null>(null);
-    const [isCompletionReward, setIsCompletionReward] = useState(false);
+export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType, initialData }: CreateRewardFormProps) {
+    const [name, setName] = useState(initialData?.name || "");
+    const [description, setDescription] = useState(initialData?.description || "");
+    const [stepId, setStepId] = useState<string | null>(initialData?.stepId || null);
+    const [unlockOnCircuitCompletion, setUnlockOnCircuitCompletion] = useState(initialData?.unlockOnCircuitCompletion || false);
+
+    useEffect(() => {
+        if (initialData) {
+            setName(initialData.name);
+            setDescription(initialData.description);
+            setStepId(initialData.stepId);
+            setUnlockOnCircuitCompletion(initialData.unlockOnCircuitCompletion);
+        } else {
+            setName("");
+            setDescription("");
+            setStepId(null);
+            setUnlockOnCircuitCompletion(false);
+        }
+    }, [initialData]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onCreate({ 
             name, 
             description, 
-            image_url: "", // plus d'image
-            step_id: isCompletionReward ? null : stepId,
-            is_completion_reward: isCompletionReward
+            stepId: unlockOnCircuitCompletion ? null : stepId,
+            unlockOnCircuitCompletion
         });
-        setName("");
-        setDescription("");
-        setStepId(null);
-        setIsCompletionReward(false);
+        if (!initialData) {
+            setName("");
+            setDescription("");
+            setStepId(null);
+            setUnlockOnCircuitCompletion(false);
+        }
         onClose();
     };
 
@@ -85,11 +96,11 @@ export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        setIsCompletionReward(true);
+                                        setUnlockOnCircuitCompletion(true);
                                         setStepId(null);
                                     }}
                                     className={`p-4 rounded-lg border-2 flex flex-col items-center gap-2 transition-colors ${
-                                        isCompletionReward
+                                        unlockOnCircuitCompletion
                                             ? 'border-primary bg-primary/5'
                                             : 'border-border/50 hover:border-primary/50'
                                     }`}
@@ -103,10 +114,10 @@ export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        setIsCompletionReward(false);
+                                        setUnlockOnCircuitCompletion(false);
                                     }}
                                     className={`p-4 rounded-lg border-2 flex flex-col items-center gap-2 transition-colors ${
-                                        !isCompletionReward
+                                        !unlockOnCircuitCompletion
                                             ? 'border-primary bg-primary/5'
                                             : 'border-border/50 hover:border-primary/50'
                                     }`}
@@ -119,10 +130,10 @@ export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType
                                 </button>
                             </div>
                         </div>
-                        {!isCompletionReward && (
+                        {!unlockOnCircuitCompletion && (
                             <div className="space-y-2">
                                 <Label>{circuitType === "objective" ? "Étape associée" : "Palier associé"}</Label>
-                                <Select value={stepId || ""} onValueChange={setStepId} required={!isCompletionReward}>
+                                <Select value={stepId || ""} onValueChange={setStepId} required={!unlockOnCircuitCompletion}>
                                     <SelectTrigger className="border-border/50 focus:border-border/80">
                                         <SelectValue placeholder={`Sélectionnez ${circuitType === "objective" ? "une étape" : "un palier"}`} />
                                     </SelectTrigger>
@@ -138,8 +149,11 @@ export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType
                         )}
                     </div>
                     <DialogFooter>
-                        <Button type="submit" disabled={!name || (!isCompletionReward && !stepId)}>
-                            Créer
+                        <Button type="button" variant="outline" onClick={onClose}>
+                            Annuler
+                        </Button>
+                        <Button type="submit" disabled={!name || (!unlockOnCircuitCompletion && !stepId)}>
+                            {initialData ? "Modifier" : "Créer"}
                         </Button>
                     </DialogFooter>
                 </form>

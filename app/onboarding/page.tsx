@@ -6,15 +6,14 @@ import { ProjectCreation } from "@/components/onboarding/steps/project-form";
 import { CircuitCreation } from "@/components/onboarding/steps/circuit-creation";
 import { StepsSetup } from "@/components/onboarding/steps/steps-setup";
 import { ObjectivesSetup } from "@/components/onboarding/steps/objectives-setup";
-import { ApiSetup } from "@/components/onboarding/steps/api-setup";
 import { useRouter } from "next/navigation";
 import createProject from "@/lib/actions/project/create-project.action";
 import { Project, useProjectStore } from "@/lib/stores/project-store";
 import { useProjects } from "@/lib/hooks/use-projects.hook";
 import { useCircuits } from "@/lib/hooks/use-circuits.hook";
-import { CircuitStep, CircuitType } from "@/lib/types/circuit";
 import createCircuit from "@/lib/actions/circuit/create-circuit.action";
-import { useCircuitStore } from "@/lib/stores/circuit-store";
+import { Circuit, Step, useCircuitStore, CircuitType } from "@/lib/stores/circuit-store";
+import setCircuitSteps from "@/lib/actions/circuit/set-circuit-steps.action";
 
 const steps = [
   {
@@ -22,37 +21,25 @@ const steps = [
     description: "Créez votre projet",
   },
   {
-    title: "Circuit",
-    description: "Configurez votre premier circuit",
+    title: "Parcours",
+    description: "Configurez votre premier parcours",
   },
   {
     title: "Configuration",
     description: "Définissez les étapes",
-  },
-  {
-    title: "API",
-    description: "Récupérez votre clé API",
   },
 ];
 
 export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [projectData, setProjectData] = useState<Project | null>(null);
-  const [circuitData, setCircuitData] = useState<{ 
-    name: string; 
-    type: CircuitType; 
-    projectId: string;
-  } | null>(null);
-  const [stepsData, setStepsData] = useState<CircuitStep[] | null>(null);
+  const [circuitData, setCircuitData] = useState<Circuit & { projectId: string } | null>(null);
   const router = useRouter();
   const { addProject } = useProjectStore();
   const { projects, isLoading: projectsLoading } = useProjects();
   const { setProjectId, addCircuit } = useCircuitStore();
   const { circuits, isLoading: circuitsLoading } = useCircuits(projectData?.id);
   
-  // Dans un vrai projet, cette clé serait générée par le backend
-  const dummyApiKey = "sk_test_ludiks_123456789";
-
   useEffect(() => {
     if (!projectsLoading && projects.length > 0 && !projectData) {
       const firstProject = projects[0];
@@ -65,9 +52,10 @@ export default function OnboardingPage() {
     if (currentStep === 0 && !circuitsLoading && projectData) {
       if (circuits.length > 0) {
         setCircuitData({
+          id: circuits[0].id,
           name: circuits[0].name,
           type: circuits[0].type,
-          projectId: projectData.id
+          projectId: projectData.id,
         });
         setCurrentStep(2);
       } else {
@@ -85,36 +73,45 @@ export default function OnboardingPage() {
   };
 
   const handleCircuitCreation = async (data: {name: string, type: CircuitType, projectId: string, description?: string}) => {
+    if (circuitData?.id) {
+      setCurrentStep(2);
+      setCircuitData({
+        ...circuitData,
+        name: data.name,
+        type: data.type,
+        projectId: data.projectId,
+        description: data.description,
+      });
+
+      return;
+    }
+
     const circuit = await createCircuit(data.name, data.type, data.projectId, data.description);
+  
     addCircuit(circuit);
     setCircuitData(circuit);
     setCurrentStep(2);
   };
 
-  const handleStepsSetup = (data: CircuitStep[]) => {
-    setStepsData(data);
-    setCurrentStep(3);
+  const handleStepsSetup = (data: Step[]) => {
+    if (circuitData?.id) {
+      setCircuitSteps(circuitData?.id, data);
+      router.push(`/dashboard/circuits/${circuitData?.id}`);
+    }
   };
 
-  const handleObjectivesSetup = (data: { objectives: CircuitStep[] }) => {
-    setStepsData(data.objectives);
-    setCurrentStep(3);
+  const handleObjectivesSetup = (data: { objectives: Step[] }) => {
+    if (circuitData?.id) {
+      setCircuitSteps(circuitData?.id, data.objectives);
+      router.push(`/dashboard/circuits/${circuitData?.id}`);
+    }
   };
 
   const handleBack = () => {
-    setCurrentStep(1);
-  };
-
-  const handleFinish = async () => {
-    if (!circuitData || !stepsData || !projectData) {
-      console.error("Missing data for circuit creation");
-      return;
-    }
-
-    try {
-      router.push("/dashboard");
-    } catch (error) {
-      console.error("Error creating circuit:", error);
+    if (currentStep === 2) {
+      setCurrentStep(1);
+    } else {
+      setCurrentStep(prev => prev - 1);
     }
   };
 
@@ -135,12 +132,16 @@ export default function OnboardingPage() {
           <Stepper currentStep={currentStep} steps={steps} />
 
           <div className="mt-8">
-            <div className="bg-black/40 backdrop-blur-sm border border-primary/20 rounded-xl p-8 shadow-xl">
+            <div className="bg-white/80 backdrop-blur-sm border border-primary/20 rounded-xl p-8 shadow-xl">
               {currentStep === 0 && (
                 <ProjectCreation onNext={handleProjectCreation} />
               )}
               {currentStep === 1 && projectData && (
-                <CircuitCreation onNext={handleCircuitCreation} projectId={projectData.id} />
+                <CircuitCreation 
+                  onNext={handleCircuitCreation} 
+                  projectId={projectData.id}
+                  initialData={circuitData}
+                />
               )}
               {currentStep === 2 && circuitData && (
                 circuitData.type === "objective" ? (
@@ -153,9 +154,6 @@ export default function OnboardingPage() {
                     circuitType={circuitData.type}
                   />
                 )
-              )}
-              {currentStep === 3 && (
-                <ApiSetup onNext={handleFinish} apiKey={dummyApiKey} />
               )}
             </div>
           </div>

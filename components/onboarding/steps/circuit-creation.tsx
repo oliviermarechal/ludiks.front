@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ArrowRight, Star, RotateCw, Target } from "lucide-react"
-import { CircuitType } from "@/lib/types/circuit";
+import { CircuitType } from "@/lib/stores/circuit-store";
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 
 const circuitSchema = z.object({
-  name: z.string().min(3, "Le nom du circuit doit contenir au moins 3 caractères"),
+  name: z.string().min(3, "Le nom du parcours doit contenir au moins 3 caractères"),
   type: z.enum([CircuitType.POINTS, CircuitType.ACTIONS, CircuitType.OBJECTIVE]),
   projectId: z.string(),
   description: z.string().max(500, "La description ne peut pas dépasser 500 caractères").optional(),
@@ -21,6 +21,12 @@ type CircuitFormData = z.infer<typeof circuitSchema>
 interface CircuitCreationProps {
   onNext: (data: CircuitFormData) => void
   projectId: string
+  initialData?: {
+    name: string
+    type: CircuitType
+    projectId: string
+    description?: string
+  } | null
 }
 
 const circuitTypes = [
@@ -44,7 +50,7 @@ const circuitTypes = [
   },
 ]
 
-export function CircuitCreation({ onNext, projectId }: CircuitCreationProps) {
+export function CircuitCreation({ onNext, projectId, initialData }: CircuitCreationProps) {
   const {
     register,
     handleSubmit,
@@ -55,6 +61,9 @@ export function CircuitCreation({ onNext, projectId }: CircuitCreationProps) {
     resolver: zodResolver(circuitSchema),
     defaultValues: {
       projectId,
+      name: initialData?.name || "",
+      type: initialData?.type,
+      description: initialData?.description || "",
     }
   })
 
@@ -70,7 +79,7 @@ export function CircuitCreation({ onNext, projectId }: CircuitCreationProps) {
   return (
     <div className="space-y-8">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-foreground">Créez votre parcours de gamification</h2>
+        <h2 className="text-2xl font-bold text-foreground">Créez votre parcours</h2>
         <p className="text-foreground/70">
           Commencez par définir les informations de base de votre parcours
         </p>
@@ -83,7 +92,7 @@ export function CircuitCreation({ onNext, projectId }: CircuitCreationProps) {
             <Input
               id="name"
               placeholder="Parcours principal"
-              className="bg-black/40 border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
+              className="border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
               {...register("name")}
             />
             {errors.name && (
@@ -96,7 +105,7 @@ export function CircuitCreation({ onNext, projectId }: CircuitCreationProps) {
             <textarea
               id="description"
               placeholder="Décrivez le but de votre parcours..."
-              className="w-full min-h-[100px] rounded-md bg-black/40 border border-primary/20 focus:border-primary/40 placeholder:text-foreground/50 p-3 text-sm"
+              className="w-full min-h-[100px] rounded-md border border-primary/20 focus:border-primary/40 placeholder:text-foreground/50 p-3 text-sm"
               maxLength={500}
               {...register("description")}
             />
@@ -122,23 +131,23 @@ export function CircuitCreation({ onNext, projectId }: CircuitCreationProps) {
                 onClick={() => setValue("type", type.value as CircuitType)}
                 className={cn(
                   "flex flex-col items-center text-center p-6 rounded-xl border transition-all duration-200",
-                  "hover:border-primary/40 hover:bg-black/40",
+                  "hover:border-secondary hover:bg-secondary/5",
                   selectedType === type.value
-                    ? "border-secondary bg-black/40"
-                    : "border-primary/20 bg-black/20"
+                    ? "border-secondary bg-secondary/5"
+                    : "border-primary/20 bg-white/50"
                 )}
               >
                 <div className={cn(
-                  "p-4 rounded-full mb-4",
+                  "p-4 rounded-full mb-4 transition-colors duration-200",
                   selectedType === type.value
                     ? "bg-secondary/20"
-                    : "bg-primary/10"
+                    : "bg-primary/10 group-hover:bg-secondary/10"
                 )}>
                   <type.icon className={cn(
-                    "w-8 h-8",
+                    "w-8 h-8 transition-colors duration-200",
                     selectedType === type.value
                       ? "text-secondary"
-                      : "text-primary/60"
+                      : "text-primary/60 group-hover:text-secondary/80"
                   )} />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">{type.label}</h3>

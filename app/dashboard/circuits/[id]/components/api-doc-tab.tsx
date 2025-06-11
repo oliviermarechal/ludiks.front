@@ -1,10 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Code, Copy, Terminal } from "lucide-react";
-import { ExtendedCircuit } from "../page";
 import { useState } from "react";
+import { Circuit } from "@/lib/stores/circuit-store";
 
-export function ApiDocTab({ circuit }: { circuit: ExtendedCircuit }) {
+export function ApiDocTab({ circuit }: { circuit: Circuit }) {
     const isObjectiveCircuit = circuit.type === "objective";
     const firstStep = circuit.steps[0];
     const [selectedStepId, setSelectedStepId] = useState<string>(firstStep.id);
@@ -12,7 +12,6 @@ export function ApiDocTab({ circuit }: { circuit: ExtendedCircuit }) {
 
     return (
         <div className="space-y-8">
-            {/* Introduction */}
             <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">Documentation API</h2>
                 <p className="text-foreground/70">
@@ -20,7 +19,6 @@ export function ApiDocTab({ circuit }: { circuit: ExtendedCircuit }) {
                 </p>
             </div>
 
-            {/* Installation */}
             <div className="space-y-4">
                 <h3 className="text-xl font-semibold text-foreground">Installation</h3>
                 <Card className="p-6 border-secondary/20 bg-surface-2">
