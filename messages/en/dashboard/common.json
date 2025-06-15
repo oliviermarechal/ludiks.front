@@ -1,0 +1,44 @@
+{
+  "sidebar": {
+    "overview": "Overview",
+    "circuits": "Circuits",
+    "strategy": "Strategy",
+    "analytics": "Analytics",
+    "projects": "Projects",
+    "users": "Users",
+    "settings": "Settings"
+  },
+  "header": {
+    "welcome": "Welcome back",
+    "notifications": "Notifications",
+    "profile": "Profile"
+  },
+  "description": "Track your circuit activity and identify areas of attention",
+  "loading": "Loading...",
+  "noProject": "Please select a project",
+  "newCircuit": "New Circuit",
+  "activeCircuits": "Active Circuits",
+  "projectSelector": {
+    "noProjects": "No projects",
+    "loading": "Loading projects..."
+  },
+  "actions": {
+    "logout": "Logout",
+    "logoutConfirm": "Are you sure you want to logout?"
+  },
+  "stats": {
+    "totalCircuits": "Circuits",
+    "totalCircuitsDescription": "Total number of circuits in the project",
+    "activeCircuits": "active",
+    "inactiveCircuits": "inactive",
+    "winRate": "Average Completion Rate",
+    "winRateDescription": "Average completion rate across all circuits",
+    "totalUsers": "Total Users",
+    "totalUsersDescription": "Total number of registered users",
+    "activeUsers": "Active Users",
+    "activeUsersDescription": "Connected in the last 7 days",
+    "completedCircuits": "Completed Circuits",
+    "completedCircuitsDescription": "Users who completed at least one circuit",
+    "ofUsers": "of users"
+  }
+} 

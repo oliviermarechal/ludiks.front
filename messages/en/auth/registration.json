@@ -1,0 +1,25 @@
+{
+  "title": "Create your account",
+  "form": {
+    "email": "Email",
+    "password": "Password",
+    "placeholders": {
+      "email": "Enter your email",
+      "password": "Enter your password"
+    }
+  },
+  "actions": {
+    "register": "Create account",
+    "registerLoading": "Creating account...",
+    "loginQuestion": "Already have an account?",
+    "loginAction": "Sign in"
+  },
+  "social": {
+    "continueWith": "Or continue with"
+  },
+  "errors": {
+    "emailExists": "This email is already registered",
+    "invalidEmail": "Please enter a valid email address",
+    "passwordTooShort": "Password must be at least 8 characters long"
+  }
+} 

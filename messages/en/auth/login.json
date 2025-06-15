@@ -1,0 +1,26 @@
+{
+  "title": "Login",
+  "form": {
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "placeholders": {
+      "email": "Enter your email",
+      "password": "Enter your password"
+    }
+  },
+  "actions": {
+    "login": "Sign in",
+    "loginLoading": "Signing in...",
+    "registerQuestion": "Don't have an account?",
+    "registerAction": "Sign up"
+  },
+  "social": {
+    "continueWith": "Or continue with"
+  },
+  "errors": {
+    "invalidCredentials": "Invalid email or password",
+    "accountLocked": "Account locked. Please try again later"
+  }
+} 

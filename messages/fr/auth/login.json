@@ -1,0 +1,26 @@
+{
+  "title": "Connexion",
+  "form": {
+    "email": "Email",
+    "password": "Mot de passe",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié ?",
+    "placeholders": {
+      "email": "Entrez votre email",
+      "password": "Entrez votre mot de passe"
+    }
+  },
+  "actions": {
+    "login": "Se connecter",
+    "loginLoading": "Connexion en cours...",
+    "registerQuestion": "Vous n'avez pas de compte ?",
+    "registerAction": "S'inscrire"
+  },
+  "social": {
+    "continueWith": "Ou continuer avec"
+  },
+  "errors": {
+    "invalidCredentials": "Email ou mot de passe invalide",
+    "accountLocked": "Compte verrouillé. Veuillez réessayer plus tard"
+  }
+} 

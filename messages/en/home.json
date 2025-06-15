@@ -1,0 +1,148 @@
+{
+    "hero": {
+        "beta": "🚧 Beta in progress",
+        "title": "Optimize your customer journeys, increase your sales",
+        "subtitle": "Discover why your customers abandon and how to bring them back. Visualize every step of their journey, identify friction points and increase your sales.",
+        "features": {
+            "track": "Track every step of your customer journey",
+            "identify": "Identify where your customers abandon",
+            "increase": "Increase your sales"
+        }
+    },
+    "waitlist": {
+        "priority": "Priority access",
+        "title": "Be the first to know about the launch",
+        "subtitle": "VIP access to beta, personalized demo, 3 months free"
+    },
+    "problems": {
+        "title": "You're losing users without knowing it",
+        "subtitle": "Without visibility on your conversion rates, you can't optimize your user journeys",
+        "issues": {
+            "conversion": {
+                "title": "Unidentified conversion losses",
+                "description": "You don't know where users abandon your purchase or onboarding funnels"
+            },
+            "visibility": {
+                "title": "No visibility on engagement",
+                "description": "Unable to measure the effectiveness of your user journeys"
+            },
+            "retention": {
+                "title": "Difficult to act on retention",
+                "description": "No simple levers to engage and retain your users"
+            },
+            "cost": {
+                "title": "High development cost",
+                "description": "Developing engagement solutions takes time and resources"
+            }
+        }
+    },
+    "solution": {
+        "title": "Visualize and optimize your journeys",
+        "subtitle": "Track every step of your conversion funnels and identify friction points in real-time",
+        "funnel": {
+            "title": "Purchase funnel",
+            "description": "Conversion tracking and abandonment detection",
+            "type": "Conversion",
+            "stats": {
+                "visitors": "Visitors",
+                "conversion": "Conversion",
+                "orders": "Orders"
+            },
+            "steps": {
+                "1": "Cart",
+                "2": "Delivery",
+                "3": "Payment",
+                "4": "Confirmation"
+            },
+            "chart": {
+                "steps": {
+                    "1": "Cart",
+                    "2": "Delivery",
+                    "3": "Payment",
+                    "4": "Confirmation"
+                }
+            }
+        },
+        "onboarding": {
+            "title": "Onboarding",
+            "description": "New user integration journey",
+            "type": "Engagement",
+            "stats": {
+                "registered": "Registered",
+                "completion": "Completion",
+                "steps": "Steps"
+            },
+            "steps": {
+                "1": "Registration",
+                "2": "Profile",
+                "3": "First purchase",
+                "4": "Loyalty"
+            }
+        },
+        "friction": {
+            "title": "Friction point detected",
+            "description": "Significant drop in conversion rate at the \"Delivery\" step",
+            "conversion": "conversion",
+            "users": "users",
+            "conversion_rate": "Conversion rate"
+        },
+        "advice": {
+            "title": "Ludiks advice",
+            "without": {
+                "title": "Without Ludiks",
+                "description": "Facing a sales drop, you might be tempted to lower prices or launch a promotion."
+            },
+            "with": {
+                "title": "With Ludiks",
+                "description": "Data reveals that the issue isn't price, but delivery options. You can now make informed decisions and act on the real problem."
+            }
+        }
+    },
+    "features": {
+        "title": "Ready-to-use engagement levers",
+        "subtitle": "Increase user engagement without complex development",
+        "gamification": {
+            "title": "Ready-to-use gamification",
+            "items": {
+                "1": "Points and rewards system ready to use",
+                "2": "Customizable badges and levels",
+                "3": "Integration in a few lines of code"
+            }
+        },
+        "export": {
+            "title": "Export and automation",
+            "items": {
+                "1": "Export disengaged users",
+                "2": "Webhooks to automate your actions",
+                "3": "Integration with your existing tools"
+            }
+        },
+        "segmentation": {
+            "title": "Advanced segmentation",
+            "items": {
+                "1": "Identify at-risk users",
+                "2": "Personalized journeys by segment",
+                "3": "A/B testing of journeys"
+            }
+        },
+        "analytics": {
+            "title": "Real-time analytics",
+            "items": {
+                "1": "Track engagement KPIs",
+                "2": "Detect friction points",
+                "3": "Optimization reports"
+            }
+        }
+    },
+    "bonus": {
+        "title": "Bonus: Try our gamification strategy generator",
+        "description": "In a few questions, get personalized recommendations to boost user engagement, conversion, or retention through gamification.",
+        "button": "Start the generator",
+        "note": "Try for free and discover how Ludiks can transform your user journeys."
+    },
+    "cta": {
+        "title": "Ready to optimize your conversion rates?",
+        "subtitle": "Join the first testers and get 3 months of unlimited access free",
+        "button": "Join the waitlist"
+    }
+} 
