@@ -1,0 +1,26 @@
+{
+  "welcome": {
+    "title": "Welcome to Ludiks",
+    "subtitle": "Let's get you started with your trading journey",
+    "start": "Get Started"
+  },
+  "steps": {
+    "profile": {
+      "title": "Create Your Profile",
+      "description": "Tell us about yourself and your trading experience"
+    },
+    "preferences": {
+      "title": "Set Your Preferences",
+      "description": "Configure your trading preferences and risk tolerance"
+    },
+    "verification": {
+      "title": "Verify Your Account",
+      "description": "Complete the verification process to start trading"
+    }
+  },
+  "navigation": {
+    "next": "Next Step",
+    "previous": "Previous Step",
+    "complete": "Complete Setup"
+  }
+} 

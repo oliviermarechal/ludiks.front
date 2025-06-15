@@ -1,0 +1,44 @@
+{
+  "sidebar": {
+    "overview": "Tableau de bord",
+    "circuits": "Parcours",
+    "strategy": "Stratégie",
+    "analytics": "Analyses",
+    "projects": "Projets",
+    "users": "Utilisateurs",
+    "settings": "Paramètres"
+  },
+  "header": {
+    "welcome": "Bienvenue",
+    "notifications": "Notifications",
+    "profile": "Profil"
+  },
+  "description": "Suivez l'activité de vos parcours et repérez les points d'amélioration",
+  "loading": "Chargement en cours...",
+  "noProject": "Veuillez sélectionner un projet",
+  "newCircuit": "Créer un parcours",
+  "activeCircuits": "Parcours en cours",
+  "projectSelector": {
+    "noProjects": "Aucun projet",
+    "loading": "Chargement des projets..."
+  },
+  "actions": {
+    "logout": "Déconnexion",
+    "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
+  },
+  "stats": {
+    "totalCircuits": "Parcours",
+    "totalCircuitsDescription": "Nombre total de parcours dans votre projet",
+    "activeCircuits": "en cours",
+    "inactiveCircuits": "inactifs",
+    "winRate": "Taux de complétion",
+    "winRateDescription": "Taux moyen de complétion de vos parcours",
+    "totalUsers": "Utilisateurs",
+    "totalUsersDescription": "Nombre total d'utilisateurs inscrits",
+    "activeUsers": "Utilisateurs actifs",
+    "activeUsersDescription": "Utilisateurs connectés cette semaine",
+    "completedCircuits": "Parcours terminés",
+    "completedCircuitsDescription": "Utilisateurs ayant terminé un parcours",
+    "ofUsers": "de vos utilisateurs"
+  }
+} 

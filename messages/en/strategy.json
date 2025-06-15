@@ -1,0 +1,421 @@
+{
+  "generator": {
+    "title": "Generate your gamification strategy",
+    "subtitle": "Answer the questions to get personalized suggestions",
+    "questions": {
+      "projectType": {
+        "label": "Project type",
+        "placeholder": "Select your project type",
+        "options": {
+          "saas": "SaaS",
+          "marketplace": "Marketplace",
+          "mobile": "Mobile app",
+          "web": "Web app",
+          "other": "Other"
+        }
+      },
+      "targetAudience": {
+        "label": "Target audience",
+        "placeholder": "Select your audience",
+        "options": {
+          "b2b": "B2B",
+          "b2c": "B2C",
+          "b2b2c": "B2B2C"
+        }
+      },
+      "mainGoal": {
+        "label": "Main goal",
+        "placeholder": "What is your main goal?",
+        "options": {
+          "retention": "Improve retention",
+          "engagement": "Increase engagement",
+          "conversion": "Improve conversion",
+          "onboarding": "Optimize onboarding"
+        }
+      },
+      "userExpertise": {
+        "label": "Expertise level",
+        "placeholder": "User expertise level",
+        "options": {
+          "beginner": "Beginner",
+          "intermediate": "Intermediate",
+          "expert": "Expert"
+        },
+        "hint": "Optional - Helps adapt journey complexity"
+      },
+      "actionFrequency": {
+        "label": "Desired frequency",
+        "placeholder": "How often?",
+        "options": {
+          "daily": "Daily",
+          "weekly": "Weekly",
+          "monthly": "Monthly",
+          "onboarding": "During onboarding"
+        },
+        "hint": "Optional - Helps define journey rhythm"
+      },
+      "desiredActions": {
+        "label": "Actions to encourage",
+        "placeholder": "Select actions to encourage",
+        "default": "Main action"
+      }
+    },
+    "actions": {
+      "retention": {
+        "feature_usage": "Regular feature usage",
+        "login": "Recurring login",
+        "content_consumption": "Content consumption"
+      },
+      "engagement": {
+        "content_creation": "Content creation",
+        "social_interaction": "Social interaction",
+        "feature_discovery": "Feature discovery"
+      },
+      "conversion": {
+        "first_purchase": "First purchase",
+        "add_to_cart": "Add to cart",
+        "request_demo": "Request demo",
+        "subscription": "Subscription",
+        "lead_capture": "Lead capture"
+      },
+      "onboarding": {
+        "profile_completion": "Profile completion",
+        "first_action": "First key action",
+        "tutorial_completion": "Tutorial completion"
+      }
+    },
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "generate": "Generate strategy",
+      "viewSuggestions": "View suggestions"
+    }
+  },
+  "suggestions": {
+    "introduction": {
+      "title": "What is a Ludiks journey?",
+      "description": "A Ludiks journey is a series of important steps for your users in your application: for example, a signup funnel, a purchase funnel, feature discovery, or a points-based loyalty program.",
+      "why": {
+        "title": "Why create them?",
+        "description": "To:",
+        "bullets": [
+          "Track user progress at each step",
+          "Identify blocking points or drop-offs",
+          "Motivate users to move forward with rewards, badges, or points"
+        ]
+      },
+      "conclusion": "Ludiks allows you to easily configure these journeys, visualize them, and take action to improve engagement, conversion, or retention."
+    },
+    "howItWorks": {
+      "title": "How does it work?",
+      "description": "Create a journey to track key user steps (e.g., signup, purchase, feature usage). Ludiks helps you visualize where users progress or get stuck, and add motivation mechanics (rewards, badges, points)."
+    },
+    "userExperience": {
+      "title": "User experience example",
+      "description": "User earns a badge after using the feature 5 times or User receives points at each step completed in the purchase funnel."
+    },
+    "whenToUse": {
+      "title": "When to use this strategy?"
+    },
+    "strategies": {
+      "retention": {
+        "name": "Retention Strategy",
+        "description": "Encourage users to return regularly.",
+        "whenToUse": [
+          "For apps requiring regular usage.",
+          "To retain an existing audience."
+        ]
+      },
+      "engagement": {
+        "name": "Engagement Strategy",
+        "description": "Increase interaction and participation.",
+        "whenToUse": [
+          "For community or social platforms.",
+          "To increase time spent on the app."
+        ]
+      },
+      "conversion": {
+        "name": "Conversion Strategy",
+        "description": "Optimize the path to key action.",
+        "whenToUse": [
+          "For marketplaces, SaaS, e-commerce.",
+          "When the goal is to increase conversion rate."
+        ]
+      },
+      "onboarding": {
+        "name": "Onboarding Strategy",
+        "description": "Guide new users to your product's value.",
+        "whenToUse": [
+          "For any product requiring onboarding.",
+          "To reduce initial drop-off."
+        ]
+      }
+    },
+    "circuits": {
+      "title": "Suggested journeys",
+      "type": {
+        "title": "Journey type"
+      },
+      "relevance": {
+        "title": "Relevance for your context"
+      },
+      "steps": {
+        "title": "Journey steps"
+      },
+      "benefits": {
+        "title": "Benefits"
+      },
+      "feature_usage_retention": {
+        "name": "Regular feature usage",
+        "description": "Encourage frequent use of key features.",
+        "steps": [
+          "Points for each feature usage",
+          "Loyalty badges for regularity",
+          "Rewards for usage over several weeks"
+        ],
+        "typeExplanation": "Tracks repeated use of a key action.",
+        "relevance": "Ideal for long-term user retention.",
+        "benefits": [
+          "Strengthens loyalty",
+          "Increases perceived value",
+          "Reduces churn"
+        ]
+      },
+      "login_retention": {
+        "name": "Recurring login",
+        "description": "Encourage users to log in regularly.",
+        "steps": [
+          "Rewards for consecutive logins",
+          "Series badges",
+          "Monthly bonus for attendance"
+        ],
+        "typeExplanation": "Tracks login recurrence.",
+        "relevance": "Perfect for apps requiring regular presence.",
+        "benefits": [
+          "Creates a habit",
+          "Increases usage frequency"
+        ]
+      },
+      "content_consumption_retention": {
+        "name": "Content consumption",
+        "description": "Encourage regular content reading or viewing.",
+        "steps": [
+          "Points for each content consumed",
+          "Weekly consumption challenges",
+          "Rewards for discovering new content"
+        ],
+        "typeExplanation": "Tracks repeated content consumption.",
+        "relevance": "For media platforms, e-learning, etc.",
+        "benefits": [
+          "Increases time spent",
+          "Promotes discovery",
+          "Strengthens engagement"
+        ]
+      },
+      "content_creation_engagement": {
+        "name": "Content creation",
+        "description": "Encourage active contribution.",
+        "steps": [
+          "Points for each contribution",
+          "Creator badges",
+          "Contribution levels with rewards"
+        ],
+        "typeExplanation": "Tracks repeated content creation.",
+        "relevance": "Essential for community platforms.",
+        "benefits": [
+          "Creates a community",
+          "Increases content quantity"
+        ]
+      },
+      "social_interaction_engagement": {
+        "name": "Social interaction",
+        "description": "Promote exchanges between users.",
+        "steps": [
+          "Points for each interaction",
+          "Help badges",
+          "Community challenges"
+        ],
+        "typeExplanation": "Tracks interactions between members.",
+        "relevance": "For social apps, forums, etc.",
+        "benefits": [
+          "Creates social bonds",
+          "Increases retention"
+        ]
+      },
+      "feature_discovery_engagement": {
+        "name": "Feature discovery",
+        "description": "Encourage exploration of all possibilities.",
+        "steps": [
+          "Points for each feature discovered",
+          "Explorer badges",
+          "Rewards for advanced usage"
+        ],
+        "typeExplanation": "Tracks progression in discovery.",
+        "relevance": "For feature-rich products.",
+        "benefits": [
+          "Reduces underutilization",
+          "Increases satisfaction"
+        ]
+      },
+      "first_purchase_conversion": {
+        "name": "First purchase",
+        "description": "Guide users to their first purchase.",
+        "steps": [
+          "Step-by-step guidance to purchase",
+          "Reward at first order",
+          "New customer badge"
+        ],
+        "typeExplanation": "Follows a logical purchase funnel.",
+        "relevance": "Ideal for marketplace, e-commerce, SaaS.",
+        "benefits": [
+          "Increases conversion rate",
+          "Reduces cart abandonment"
+        ]
+      },
+      "add_to_cart_conversion": {
+        "name": "Add to cart",
+        "description": "Encourage adding items to cart.",
+        "steps": [
+          "Points for each cart addition",
+          "Multiple addition challenges",
+          "Reward at cart validation"
+        ],
+        "typeExplanation": "Tracks cart addition action.",
+        "relevance": "For e-commerce, marketplace.",
+        "benefits": [
+          "Increases cart value",
+          "Prepares for final conversion"
+        ]
+      },
+      "request_demo_conversion": {
+        "name": "Request demo",
+        "description": "Encourage requesting a demo or sales contact.",
+        "steps": [
+          "Points for each request",
+          "Reward at appointment booking",
+          "Engaged user badge"
+        ],
+        "typeExplanation": "Tracks contact journey.",
+        "relevance": "For SaaS, B2B, services.",
+        "benefits": [
+          "Increases number of leads",
+          "Accelerates sales cycle"
+        ]
+      },
+      "subscription_conversion": {
+        "name": "Subscription",
+        "description": "Guide users to subscription.",
+        "steps": [
+          "Guidance in offer selection",
+          "Reward at subscription",
+          "New subscriber badge"
+        ],
+        "typeExplanation": "Follows subscription funnel.",
+        "relevance": "For SaaS, subscriptions, services.",
+        "benefits": [
+          "Increases subscription rate",
+          "Reduces funnel abandonment"
+        ]
+      },
+      "lead_capture_conversion": {
+        "name": "Lead capture",
+        "description": "Encourage contact or interest form submission.",
+        "steps": [
+          "Points for each lead submitted",
+          "Reward at lead qualification",
+          "Active prospect badge"
+        ],
+        "typeExplanation": "Tracks lead submission.",
+        "relevance": "For B2B, SaaS, services.",
+        "benefits": [
+          "Increases lead volume",
+          "Improves prospect quality"
+        ]
+      },
+      "default_conversion": {
+        "name": "Conversion journey",
+        "description": "Optimize the path to key action.",
+        "steps": [
+          "Step-by-step guidance",
+          "Reward at conversion",
+          "Converted user badge"
+        ],
+        "typeExplanation": "Follows a logical funnel.",
+        "relevance": "For any product requiring conversion.",
+        "benefits": [
+          "Increases conversion",
+          "Reduces drop-off"
+        ]
+      },
+      "profile_completion_onboarding": {
+        "name": "Profile completion",
+        "description": "Guide users to complete their profile.",
+        "steps": [
+          "Points for each field completed",
+          "Complete profile badge",
+          "Reward at completion"
+        ],
+        "typeExplanation": "Tracks onboarding progression.",
+        "relevance": "For any product requiring onboarding.",
+        "benefits": [
+          "Improves personalization",
+          "Accelerates adoption"
+        ]
+      },
+      "first_action_onboarding": {
+        "name": "First key action",
+        "description": "Guide users to their first important action.",
+        "steps": [
+          "Guidance to key action",
+          "Immediate reward",
+          "Welcome badge"
+        ],
+        "typeExplanation": "Tracks onboarding progression.",
+        "relevance": "For any product with a key activation step.",
+        "benefits": [
+          "Increases activation",
+          "Reduces initial drop-off"
+        ]
+      },
+      "tutorial_completion_onboarding": {
+        "name": "Tutorial completion",
+        "description": "Encourage completing the tutorial.",
+        "steps": [
+          "Points for each tutorial step",
+          "Tutorial completion badge",
+          "Reward at completion"
+        ],
+        "typeExplanation": "Tracks onboarding progression.",
+        "relevance": "For any product requiring onboarding.",
+        "benefits": [
+          "Reduces learning curve",
+          "Increases initial satisfaction"
+        ]
+      },
+      "default_onboarding": {
+        "name": "Onboarding journey",
+        "description": "Guide users through essential steps.",
+        "steps": [
+          "Progressive steps with rewards",
+          "Progression badges",
+          "Final reward at completion"
+        ],
+        "typeExplanation": "Tracks onboarding progression.",
+        "relevance": "For any product requiring onboarding.",
+        "benefits": [
+          "Facilitates adoption",
+          "Increases initial retention"
+        ]
+      }
+    },
+    "buttons": {
+      "generate": "Generate journeys",
+      "close": "Close"
+    },
+    "waitlist": {
+      "title": "Join the waitlist",
+      "description": "Get priority access to beta and a personalized demo",
+      "benefits": "Priority beta access, personalized demo, 3 months free"
+    }
+  }
+} 

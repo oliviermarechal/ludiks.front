@@ -1,0 +1,148 @@
+{
+    "hero": {
+        "beta": "🚧 Bêta en cours",
+        "title": "Optimisez vos parcours clients, augmentez vos ventes",
+        "subtitle": "Découvrez pourquoi vos clients abandonnent et comment les faire revenir. Visualisez chaque étape de leur parcours, identifiez les points de friction et augmentez vos ventes.",
+        "features": {
+            "track": "Suivez chaque étape de votre parcours client",
+            "identify": "Identifiez où vos clients abandonnent",
+            "increase": "Augmentez vos ventes"
+        }
+    },
+    "waitlist": {
+        "priority": "Accès prioritaire",
+        "title": "Soyez les premiers informés du lancement",
+        "subtitle": "Accès VIP à la bêta, démo personnalisée, 3 mois gratuits"
+    },
+    "problems": {
+        "title": "Vous perdez des utilisateurs sans le savoir",
+        "subtitle": "Sans visibilité sur vos taux de transformation, vous ne pouvez pas optimiser vos parcours utilisateurs",
+        "issues": {
+            "conversion": {
+                "title": "Des pertes de conversion non identifiées",
+                "description": "Vous ne savez pas où vos utilisateurs abandonnent vos tunnels d'achat ou d'onboarding"
+            },
+            "visibility": {
+                "title": "Pas de visibilité sur l'engagement",
+                "description": "Impossible de mesurer l'efficacité de vos parcours utilisateurs"
+            },
+            "retention": {
+                "title": "Difficile d'agir sur la rétention",
+                "description": "Pas de leviers simples pour engager et fidéliser vos utilisateurs"
+            },
+            "cost": {
+                "title": "Coût de développement élevé",
+                "description": "Développer des solutions d'engagement prend du temps et des ressources"
+            }
+        }
+    },
+    "solution": {
+        "title": "Visualisez et optimisez vos parcours",
+        "subtitle": "Suivez chaque étape de vos tunnels de conversion et identifiez les points de friction en temps réel",
+        "funnel": {
+            "title": "Tunnel d'achat",
+            "description": "Suivi des conversions et détection des abandons",
+            "type": "Conversion",
+            "stats": {
+                "visitors": "Visiteurs",
+                "conversion": "Conversion",
+                "orders": "Commandes"
+            },
+            "steps": {
+                "1": "Panier",
+                "2": "Livraison",
+                "3": "Paiement",
+                "4": "Confirmation"
+            },
+            "chart": {
+                "steps": {
+                    "1": "Panier",
+                    "2": "Livraison",
+                    "3": "Paiement",
+                    "4": "Confirmation"
+                }
+            }
+        },
+        "onboarding": {
+            "title": "Onboarding",
+            "description": "Parcours d'intégration des nouveaux utilisateurs",
+            "type": "Engagement",
+            "stats": {
+                "registered": "Inscrits",
+                "completion": "Complétion",
+                "steps": "Étapes"
+            },
+            "steps": {
+                "1": "Inscription",
+                "2": "Profil",
+                "3": "Premier achat",
+                "4": "Fidélisation"
+            }
+        },
+        "friction": {
+            "title": "Point de friction détecté",
+            "description": "Chute importante du taux de conversion à l'étape \"Livraison\"",
+            "conversion": "de conversion",
+            "users": "utilisateurs",
+            "conversion_rate": "Taux de conversion"
+        },
+        "advice": {
+            "title": "Conseil Ludiks",
+            "without": {
+                "title": "Sans Ludiks",
+                "description": "Face à une baisse des ventes, vous pourriez être tenté de baisser vos prix ou de lancer une promotion."
+            },
+            "with": {
+                "title": "Avec Ludiks",
+                "description": "Les données révèlent que le problème n'est pas le prix, mais les options de livraison. Vous pouvez maintenant prendre des décisions éclairées et agir sur le vrai problème."
+            }
+        }
+    },
+    "features": {
+        "title": "Des leviers d'engagement prêts à l'emploi",
+        "subtitle": "Augmentez l'engagement de vos utilisateurs sans développement complexe",
+        "gamification": {
+            "title": "Gamification clé en main",
+            "items": {
+                "1": "Système de points et récompenses prêt à l'emploi",
+                "2": "Badges et niveaux personnalisables",
+                "3": "Intégration en quelques lignes de code"
+            }
+        },
+        "export": {
+            "title": "Export et automatisation",
+            "items": {
+                "1": "Export des utilisateurs désengagés",
+                "2": "Webhooks pour automatiser vos actions",
+                "3": "Intégration avec vos outils existants"
+            }
+        },
+        "segmentation": {
+            "title": "Segmentation avancée",
+            "items": {
+                "1": "Identification des utilisateurs à risque",
+                "2": "Parcours personnalisés par segment",
+                "3": "A/B testing des parcours"
+            }
+        },
+        "analytics": {
+            "title": "Analytics en temps réel",
+            "items": {
+                "1": "Suivi des KPIs d'engagement",
+                "2": "Détection des points de friction",
+                "3": "Rapports d'optimisation"
+            }
+        }
+    },
+    "bonus": {
+        "title": "Bonus : Essayez notre générateur de stratégie de gamification",
+        "description": "En quelques questions, obtenez des recommandations personnalisées pour booster l'engagement, la conversion ou la rétention de vos utilisateurs grâce à la gamification.",
+        "button": "Démarrer le générateur",
+        "note": "Testez gratuitement et découvrez comment Ludiks peut transformer vos parcours utilisateurs."
+    },
+    "cta": {
+        "title": "Prêt à optimiser vos taux de conversion ?",
+        "subtitle": "Rejoignez les premiers testeurs et bénéficiez de 3 mois d'accès illimité offert",
+        "button": "Rejoindre la liste d'attente"
+    }
+} 

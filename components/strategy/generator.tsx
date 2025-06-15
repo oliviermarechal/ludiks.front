@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, ArrowRight, Check, HelpCircle } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
 export type MainGoal = "retention" | "engagement" | "conversion" | "onboarding";
 
@@ -19,9 +20,9 @@ export interface StrategyFormData {
 interface Question {
   id: string;
   type: "select" | "number" | "text" | "multi-select";
-  label: string;
+  label?: string;
   placeholder?: string;
-  options?: { value: string; label: string }[];
+  options?: { value: string; label?: string }[];
   hint?: string;
   required?: boolean;
   dependsOn?: {
@@ -31,28 +32,28 @@ interface Question {
 }
 
 // Actions dynamiques selon l'objectif principal
-const ACTIONS_BY_GOAL: Record<MainGoal, { value: string; label: string }[]> = {
+const ACTIONS_BY_GOAL: Record<MainGoal, { value: string }[]> = {
   retention: [
-    { value: "feature_usage", label: "Utilisation régulière des fonctionnalités" },
-    { value: "login", label: "Connexion récurrente" },
-    { value: "content_consumption", label: "Consommation de contenu" },
+    { value: "feature_usage" },
+    { value: "login" },
+    { value: "content_consumption" },
   ],
   engagement: [
-    { value: "content_creation", label: "Création de contenu" },
-    { value: "social_interaction", label: "Interaction sociale" },
-    { value: "feature_discovery", label: "Découverte de nouvelles fonctionnalités" },
+    { value: "content_creation" },
+    { value: "social_interaction" },
+    { value: "feature_discovery" },
   ],
   conversion: [
-    { value: "first_purchase", label: "Premier achat" },
-    { value: "add_to_cart", label: "Ajout au panier" },
-    { value: "request_demo", label: "Demande de démo" },
-    { value: "subscription", label: "Souscription à une offre" },
-    { value: "lead_capture", label: "Soumission d'un lead" },
+    { value: "first_purchase" },
+    { value: "add_to_cart" },
+    { value: "request_demo" },
+    { value: "subscription" },
+    { value: "lead_capture" },
   ],
   onboarding: [
-    { value: "profile_completion", label: "Complétion du profil" },
-    { value: "first_action", label: "Première action clé" },
-    { value: "tutorial_completion", label: "Finir le tutoriel" },
+    { value: "profile_completion" },
+    { value: "first_action" },
+    { value: "tutorial_completion" },
   ],
 };
 
@@ -60,77 +61,65 @@ const questions: Question[] = [
   {
     id: "projectType",
     type: "select",
-    label: "Type de projet",
-    placeholder: "Sélectionnez le type de votre projet",
-    options: [
-      { value: "saas", label: "SaaS" },
-      { value: "marketplace", label: "Marketplace" },
-      { value: "mobile", label: "Application mobile" },
-      { value: "web", label: "Application web" },
-      { value: "other", label: "Autre" },
-    ],
     required: true,
+    options: [
+      { value: "saas" },
+      { value: "marketplace" },
+      { value: "mobile" },
+      { value: "web" },
+      { value: "other" }
+    ]
   },
   {
     id: "targetAudience",
     type: "select",
-    label: "Audience cible",
-    placeholder: "Sélectionnez votre audience",
-    options: [
-      { value: "b2b", label: "B2B" },
-      { value: "b2c", label: "B2C" },
-      { value: "b2b2c", label: "B2B2C" },
-    ],
     required: true,
+    options: [
+      { value: "b2b" },
+      { value: "b2c" },
+      { value: "b2b2c" }
+    ]
   },
   {
     id: "mainGoal",
     type: "select",
-    label: "Objectif principal",
-    placeholder: "Quel est votre objectif principal ?",
-    options: [
-      { value: "retention", label: "Améliorer la rétention" },
-      { value: "engagement", label: "Augmenter l'engagement" },
-      { value: "conversion", label: "Améliorer la conversion" },
-      { value: "onboarding", label: "Optimiser l'onboarding" },
-    ],
     required: true,
+    options: [
+      { value: "retention" },
+      { value: "engagement" },
+      { value: "conversion" },
+      { value: "onboarding" }
+    ]
   },
   {
     id: "userExpertise",
     type: "select",
-    label: "Niveau d'expertise",
-    placeholder: "Niveau d'expertise de vos utilisateurs",
-    options: [
-      { value: "beginner", label: "Débutant" },
-      { value: "intermediate", label: "Intermédiaire" },
-      { value: "expert", label: "Expert" },
-    ],
     required: false,
-    hint: "Optionnel - Aide à adapter la complexité des parcours",
     dependsOn: {
       field: "mainGoal",
-      value: "onboarding",
+      value: "onboarding"
     },
+    options: [
+      { value: "beginner" },
+      { value: "intermediate" },
+      { value: "expert" }
+    ]
   },
   {
     id: "actionFrequency",
     type: "select",
-    label: "Fréquence souhaitée",
-    placeholder: "À quelle fréquence ?",
-    options: [
-      { value: "daily", label: "Quotidienne" },
-      { value: "weekly", label: "Hebdomadaire" },
-      { value: "monthly", label: "Mensuelle" },
-      { value: "onboarding", label: "Pendant l'onboarding" },
-    ],
     required: false,
-    hint: "Optionnel - Aide à définir le rythme des parcours",
     dependsOn: {
       field: "mainGoal",
-      value: "retention",
+      value: "retention"
     },
-  },
+    options: [
+      { value: "daily" },
+      { value: "weekly" },
+      { value: "monthly" },
+      { value: "onboarding" }
+    ]
+  }
 ];
 
 interface StrategyGeneratorProps {
@@ -139,6 +128,7 @@ interface StrategyGeneratorProps {
 }
 
 export function StrategyGenerator({ mode = "dashboard", onComplete }: StrategyGeneratorProps) {
+  const t = useTranslations('strategy');
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<Partial<StrategyFormData>>({});
   const [steps, setSteps] = useState<Question[][]>([]);
@@ -147,47 +137,64 @@ export function StrategyGenerator({ mode = "dashboard", onComplete }: StrategyGe
   // Met à jour dynamiquement les actions selon le mainGoal
   useEffect(() => {
     if (formData.mainGoal) {
-      setDynamicActions(ACTIONS_BY_GOAL[formData.mainGoal]);
+      setDynamicActions(ACTIONS_BY_GOAL[formData.mainGoal].map(action => ({
+        ...action,
+        label: t(`generator.actions.${formData.mainGoal}.${action.value}`)
+      })));
     } else {
       setDynamicActions([]);
     }
-  }, [formData.mainGoal]);
+  }, [formData.mainGoal, t]);
 
   useEffect(() => {
-    // Grouper les questions en étapes
     const groupedQuestions: Question[][] = [];
     let currentGroup: Question[] = [];
 
-    // Première étape : questions de base
     currentGroup = questions.filter(q => 
       !q.dependsOn && 
       q.id !== "desiredActions"
-    );
+    ).map(q => ({
+      ...q,
+      label: t(`generator.questions.${q.id}.label`),
+      placeholder: t(`generator.questions.${q.id}.placeholder`),
+      options: q.options?.map(opt => ({
+        ...opt,
+        label: t(`generator.questions.${q.id}.options.${opt.value}`)
+      })),
+      hint: q.hint ? t(`generator.questions.${q.id}.hint`) : undefined
+    }));
     groupedQuestions.push(currentGroup);
 
-    // Deuxième étape : questions conditionnelles
     currentGroup = questions.filter(q => 
       q.dependsOn && 
       formData[q.dependsOn.field as keyof StrategyFormData] === q.dependsOn.value
-    );
+    ).map(q => ({
+      ...q,
+      label: t(`generator.questions.${q.id}.label`),
+      placeholder: t(`generator.questions.${q.id}.placeholder`),
+      options: q.options?.map(opt => ({
+        ...opt,
+        label: t(`generator.questions.${q.id}.options.${opt.value}`)
+      })),
+      hint: q.hint ? t(`generator.questions.${q.id}.hint`) : undefined
+    }));
     if (currentGroup.length > 0) {
       groupedQuestions.push(currentGroup);
     }
 
-    // Dernière étape : actions souhaitées (toujours présent)
     groupedQuestions.push([
       {
         id: "desiredActions",
         type: "multi-select",
-        label: "Actions à encourager",
-        placeholder: "Sélectionnez les actions à encourager",
-        options: dynamicActions.length > 0 ? dynamicActions : [{ value: "default", label: "Action principale" }],
+        label: t('generator.questions.desiredActions.label'),
+        placeholder: t('generator.questions.desiredActions.placeholder'),
+        options: dynamicActions.length > 0 ? dynamicActions : [{ value: "default", label: t('generator.questions.desiredActions.default') }],
         required: true,
       }
     ]);
 
     setSteps(groupedQuestions);
-  }, [formData, dynamicActions]);
+  }, [formData, dynamicActions, t]);
 
   const handleValueChange = (field: string, value: string | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -228,10 +235,10 @@ export function StrategyGenerator({ mode = "dashboard", onComplete }: StrategyGe
       <div className="max-w-2xl mx-auto space-y-8">
         <div className="space-y-2">
           <h2 className="text-2xl font-bold text-foreground">
-            Générez votre stratégie de gamification
+            {t('generator.title')}
           </h2>
           <p className="text-lg text-muted-foreground">
-            Répondez aux questions pour obtenir des suggestions personnalisées
+            {t('generator.subtitle')}
           </p>
         </div>
 
@@ -317,7 +324,7 @@ export function StrategyGenerator({ mode = "dashboard", onComplete }: StrategyGe
             className="px-8"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour
+            {t('generator.buttons.back')}
           </Button>
 
           <Button
@@ -328,12 +335,12 @@ export function StrategyGenerator({ mode = "dashboard", onComplete }: StrategyGe
             {currentStep === steps.length - 1 ? (
               <>
                 <Check className="w-4 h-4 mr-2" />
-                {mode === "dashboard" ? "Générer la stratégie" : "Voir les suggestions"}
+                {mode === "dashboard" ? t('generator.buttons.generate') : t('generator.buttons.viewSuggestions')}
               </>
             ) : (
               <>
                 <ArrowRight className="w-4 h-4 mr-2" />
-                Suivant
+                {t('generator.buttons.next')}
               </>
             )}
           </Button>

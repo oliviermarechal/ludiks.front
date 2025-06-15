@@ -1,0 +1,34 @@
+{
+    "dashboard": {
+        "title": "Tableau de bord",
+        "description": "Visualisez vos parcours utilisateurs en temps réel"
+    },
+    "common": {
+        "welcome": "Bienvenue",
+        "language": "Langue",
+        "english": "Anglais",
+        "french": "Français",
+        "beta": "Bêta"
+    },
+    "buttons": {
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "submit": "Valider",
+        "delete": "Supprimer",
+        "edit": "Modifier",
+        "back": "Retour",
+        "next": "Suivant"
+    },
+    "errors": {
+        "required": "Ce champ est requis",
+        "invalid": "Valeur invalide",
+        "generic": "Une erreur est survenue"
+    },
+    "navigation": {
+        "home": "Accueil",
+        "dashboard": "Tableau de bord",
+        "profile": "Profil",
+        "settings": "Paramètres",
+        "logout": "Déconnexion"
+    }
+} 

@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Toaster } from "@/components/ui/sonner"
+import { getMessages } from 'next-intl/server';
+import { headers } from 'next/headers';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,32 +16,61 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Ludiks - Plateforme de Gamification et d'Engagement Utilisateur",
-  description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience sans recoder votre produit. Solution de gamification simple et puissante.",
-  keywords: "gamification, engagement utilisateur, parcours utilisateur, onboarding, analytics, rétention utilisateur, product analytics",
-  openGraph: {
-    title: "Ludiks - Transformez vos Parcours Utilisateurs",
-    description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience sans recoder votre produit.",
-    type: "website",
-    locale: "fr_FR",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Ludiks - Plateforme de Gamification",
-    description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience.",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const headersList = await headers();
+  const locale = headersList.get('x-next-intl-locale') || 'en';
 
-export default function RootLayout({
+  const metadata = {
+    fr: {
+      title: "Ludiks - Plateforme de Gamification et d'Engagement Utilisateur",
+      description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience sans recoder votre produit. Solution de gamification simple et puissante.",
+      keywords: "gamification, engagement utilisateur, parcours utilisateur, onboarding, analytics, rétention utilisateur, product analytics",
+      openGraph: {
+        title: "Ludiks - Transformez vos Parcours Utilisateurs",
+        description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience sans recoder votre produit.",
+        type: "website",
+        locale: "fr_FR",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "Ludiks - Plateforme de Gamification",
+        description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience.",
+      },
+    },
+    en: {
+      title: "Ludiks - Gamification and User Engagement Platform",
+      description: "Create engaging user journeys, measure their progress and optimize their experience without recoding your product. Simple and powerful gamification solution.",
+      keywords: "gamification, user engagement, user journey, onboarding, analytics, user retention, product analytics",
+      openGraph: {
+        title: "Ludiks - Transform Your User Journeys",
+        description: "Create engaging user journeys, measure their progress and optimize their experience without recoding your product.",
+        type: "website",
+        locale: "en_US",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "Ludiks - Gamification Platform",
+        description: "Create engaging user journeys, measure their progress and optimize their experience.",
+      },
+    },
+  };
+
+  return metadata[locale as keyof typeof metadata] || metadata.en;
+}
+
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const headersList = await headers();
+  const locale = headersList.get('x-next-intl-locale') || 'en';
+  const messages = await getMessages();
+
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>
+        <Providers locale={locale} messages={messages}>
           {children}
           <Toaster />
         </Providers>
