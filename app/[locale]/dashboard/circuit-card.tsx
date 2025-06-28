@@ -3,6 +3,7 @@ import { ChevronRight, AlertTriangle } from 'lucide-react'
 import { formatDuration } from '@/lib/utils'
 import Link from 'next/link'
 import { CircuitOverview } from './page'
+import { useTranslations } from 'next-intl'
 
 interface CircuitCardProps {
   circuit: CircuitOverview
@@ -13,6 +14,8 @@ const formatPercentage = (value: number): string => {
 }
 
 export function CircuitCard({ circuit }: CircuitCardProps) {
+  const t = useTranslations('dashboard.common')
+
   return (
     <Link href={`/dashboard/circuits/${circuit.id}`}>
       <Card 
@@ -33,7 +36,7 @@ export function CircuitCard({ circuit }: CircuitCardProps) {
           <div className="grid grid-cols-2 gap-6 mb-6">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-foreground">Taux de complétion</span>
+                <span className="text-sm font-medium text-foreground">{t('circuitCard.completionRate')}</span>
                 <span className="text-sm font-bold text-foreground">{formatPercentage(circuit.completionRate)}%</span>
               </div>
               <div className="relative h-1.5 bg-muted rounded-full overflow-hidden">
@@ -46,7 +49,7 @@ export function CircuitCard({ circuit }: CircuitCardProps) {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-foreground">Temps moyen</span>
+                <span className="text-sm font-medium text-foreground">{t('circuitCard.averageTime')}</span>
                 <span className="text-sm font-bold text-foreground">{formatDuration(circuit.averageCompletionTime)}</span>
               </div>
               <div className="relative h-1.5 bg-muted rounded-full overflow-hidden">
@@ -62,7 +65,7 @@ export function CircuitCard({ circuit }: CircuitCardProps) {
             <div className="pt-4 border-t border-border">
               <div className="flex items-center gap-2 mb-3">
                 <AlertTriangle className="h-4 w-4 text-amber-500" />
-                <span className="text-sm font-medium text-foreground">Points d&apos;attention</span>
+                <span className="text-sm font-medium text-foreground">{t('circuitCard.attentionPoints')}</span>
               </div>
               <div className="space-y-2">
                 {circuit.frictionPoints.map((point) => (
@@ -71,13 +74,13 @@ export function CircuitCard({ circuit }: CircuitCardProps) {
                     className="p-3 bg-muted/50 rounded-lg hover:bg-muted transition-colors"
                   >
                     <p className="text-sm font-medium text-foreground">
-                      Taux de conversion en baisse de {formatPercentage(point.dropoffRate)}%
+                      {t('circuitCard.conversionDrop', { rate: formatPercentage(point.dropoffRate) })}
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Entre l&apos;étape &quot;{point.stepName}&quot; et la suivante
+                      {t('circuitCard.betweenSteps', { step: point.stepName })}
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Temps moyen : {formatDuration(point.averageTime)}
+                      {t('circuitCard.averageTimeLabel')} : {formatDuration(point.averageTime)}
                     </p>
                   </div>
                 ))}

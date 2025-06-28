@@ -1,0 +1,248 @@
+{
+  "welcome": {
+    "title": "Welcome to Ludiks",
+    "subtitle": "Let's set up your first project together"
+  },
+  "steps": {
+    "project": {
+      "title": "Project",
+      "description": "Create your project"
+    },
+    "circuit": {
+      "title": "Circuit",
+      "description": "Configure your first circuit"
+    },
+    "configuration": {
+      "title": "Configuration",
+      "description": "Define the steps"
+    }
+  },
+  "form": {
+    "title": "Create your project",
+    "subtitle": "Give your project a name to start the adventure",
+    "name": {
+      "label": "Project name",
+      "placeholder": "My awesome project"
+    },
+    "validation": {
+      "name": {
+        "required": "Project name is required",
+        "minLength": "Project name must be at least 3 characters long"
+      }
+    },
+    "submit": {
+      "default": "Continue",
+      "loading": "Creating..."
+    }
+  },
+  "projectForm": {
+    "title": "Create your project",
+    "subtitle": "Give your project a name to start the adventure",
+    "name": {
+      "label": "Project name",
+      "placeholder": "My awesome project",
+      "error": "Project name must be at least 3 characters long"
+    },
+    "continue": "Continue"
+  },
+  "circuitCreation": {
+    "title": "Create your circuit",
+    "subtitle": "Start by defining the basic information of your circuit",
+    "name": {
+      "label": "Circuit name",
+      "placeholder": "Main circuit",
+      "error": "Circuit name must be at least 3 characters long"
+    },
+    "description": {
+      "label": "Description (optional)",
+      "placeholder": "Describe the purpose of your circuit...",
+      "error": "Description cannot exceed 500 characters"
+    },
+    "type": {
+      "title": "Circuit type",
+      "subtitle": "Select the circuit type that best fits your needs",
+      "points": {
+        "label": "Points",
+        "description": "Assign points for each completed action. Define levels to reward your users as they progress."
+      },
+      "actions": {
+        "label": "Actions",
+        "description": "Encourage users to repeat specific actions. Reward them when they reach milestones."
+      },
+      "objective": {
+        "label": "Objective list",
+        "description": "Define a series of objectives that users must complete to unlock rewards."
+      }
+    },
+    "actions": {
+      "skip": "Skip onboarding",
+      "continue": "Continue"
+    }
+  },
+  "stepsSetup": {
+    "title": "Step Configuration",
+    "what": {
+      "title": "What is a step?"
+    },
+    "level": "Level",
+    "points": "points",
+    "empty": {
+      "title": "No steps have been added",
+      "description": {
+        "points": "Start by adding a point level by clicking the button below",
+        "actions": "Start by adding an action by clicking the button below"
+      }
+    },
+    "subtitle": {
+      "points": "Define the point thresholds to reach",
+      "actions": "Define the number of repetitions to complete"
+    },
+    "description": {
+      "points": "A step represents a progression level in your circuit. Each level defines a number of points to reach for the user to progress. For example, level 1 might require 100 points, level 2 might require 250 points, and so on.",
+      "actions": "A step represents an action in your circuit. Each action defines a number of repetitions to perform for the user to progress. For example, action 1 might require 5 repetitions, action 2 might require 10 repetitions, and so on."
+    },
+    "manual": {
+      "title": "Manual addition",
+      "description": {
+        "points": "Manually add each point level. You can precisely define the number of points required for each level. For example, you could have levels at 100, 250, 500, 1000 points, etc.",
+        "actions": "Manually add each action. You can precisely define the number of repetitions required for each action. For example, you could have actions at 5, 10, 20, 50 repetitions, etc."
+      },
+      "add": "Add level",
+      "placeholder": "Points required",
+      "actions_placeholder": "Actions required"
+    },
+    "generator": {
+      "title": "Step Generator",
+      "description": {
+        "points": "Generate steps automatically with a predefined progression. You can choose the number of levels, start and maximum values, as well as the type of progression (linear, exponential or logarithmic).",
+        "actions": "Generate steps automatically with a predefined progression. You can choose the number of actions, start and maximum values, as well as the type of progression (linear, exponential or logarithmic)."
+      },
+      "curve": {
+        "title": "Progression type",
+        "placeholder": "Choose a type"
+      },
+      "exponent": {
+        "title": "Progression intensity",
+        "description": "Adjust the intensity of exponential progression. A higher exponent makes progression more difficult."
+      },
+      "range": {
+        "startValue": "Starting value",
+        "maxValue": "Maximum value",
+        "startValueHint": {
+          "points": "The number of points required for the first level",
+          "actions": "The number of repetitions required for the first action"
+        },
+        "maxValueHint": {
+          "points": "The number of points required for the last level",
+          "actions": "The number of repetitions required for the last action"
+        }
+      },
+      "steps": {
+        "count": {
+          "question": "How many {type} do you want to create?",
+          "placeholder": "Ex: 5",
+          "error": "Number must be between 2 and 100",
+          "hint": {
+            "points": "A good journey typically contains between 3 and 7 steps",
+            "actions": "A good journey typically contains between 3 and 7 steps"
+          }
+        },
+        "range": {
+          "question": "Define the {type} range for your journey",
+          "placeholder": "Ex: 1 to 1000"
+        },
+        "curve": {
+          "question": "What progression curve do you want?",
+          "placeholder": "Choose a type",
+          "options": {
+            "linear": "Linear (regular progression)",
+            "power": "Exponential (increasingly difficult progression)",
+            "logarithmic": "Logarithmic (increasingly easy progression)"
+          }
+        }
+      },
+      "preview": {
+        "title": "Progression preview",
+        "description": "View the progression curve of {type} to {action}",
+        "step": "Step {index}",
+        "level": "Level {index}",
+        "points": "{value} points",
+        "actions": "{value} actions"
+      },
+      "actions": {
+        "back": "Back",
+        "next": "Next",
+        "generate": "Generate"
+      }
+    },
+    "actions": {
+      "label": "actions",
+      "back": "Back",
+      "continue": "Continue",
+      "next": "Next"
+    }
+  },
+  "objectivesSetup": {
+    "title": "Objective Configuration",
+    "description": "Configure objectives to achieve",
+    "add": "Add objective",
+    "empty": {
+      "title": "No objectives defined",
+      "description": "Start by adding a first objective for your users to achieve"
+    },
+    "form": {
+      "name": {
+        "label": "Objective name",
+        "placeholder": "Ex: Complete profile",
+        "error": "Objective name must be at least 3 characters long"
+      },
+      "description": {
+        "label": "Description (optional)",
+        "placeholder": "Ex: Fill in all profile fields"
+      },
+      "threshold": {
+        "label": "Repetitions",
+        "placeholder": "Ex: 1",
+        "error": "Number must be greater than 0"
+      }
+    },
+    "chat": {
+      "name": {
+        "question": "What is this objective called?",
+        "placeholder": "Ex: Complete profile",
+        "error": "Name must be at least 3 characters long"
+      },
+      "description": {
+        "question": "In one sentence, describe what the user must do (optional)",
+        "placeholder": "Ex: Fill in all profile fields",
+        "error": "Description must be at least 10 characters long"
+      },
+      "threshold": {
+        "question": "How many times must the user succeed to validate?",
+        "placeholder": "Ex: 1",
+        "error": "Number must be greater than 0"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "skip": "Skip"
+      }
+    },
+    "actions": {
+      "back": "Back",
+      "continue": "Continue"
+    }
+  },
+  "toast": {
+    "success": {
+      "projectCreated": "Project created successfully",
+      "circuitCreated": "Circuit created successfully",
+      "configurationCompleted": "Configuration completed successfully"
+    },
+    "error": {
+      "projectCreationFailed": "Error creating project",
+      "circuitCreationFailed": "Error creating circuit",
+      "stepsConfigurationFailed": "Error configuring steps",
+      "objectivesConfigurationFailed": "Error configuring objectives"
+    }
+  }
+} 

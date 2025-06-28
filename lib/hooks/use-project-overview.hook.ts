@@ -1,11 +1,26 @@
 import { useQuery } from '@tanstack/react-query'
 import { useProjectStore } from '../stores/project-store'
+import { useOrganizations } from './use-organizations.hook'
+import { useEffect } from 'react'
 import api from '../api'
 
 export function useProjectOverview(projectId?: string) {
-  const { overview, setOverview, selectedProject } = useProjectStore()
+  const { overview, setOverview, selectedProject, setSelectedProject, setSelectedOrganization } = useProjectStore()
+  const { organizations, isLoading: isOrgLoading } = useOrganizations()
 
   const effectiveProjectId = projectId || selectedProject?.id
+
+  // Sélection automatique du premier projet si aucun n'est sélectionné
+  useEffect(() => {
+    if (!isOrgLoading && organizations.length > 0 && !selectedProject) {
+      const firstOrg = organizations[0]
+      const firstProject = firstOrg?.projects[0]
+      if (firstProject) {
+        setSelectedProject(firstProject)
+        setSelectedOrganization(firstOrg)
+      }
+    }
+  }, [isOrgLoading, organizations, selectedProject, setSelectedProject, setSelectedOrganization])
 
   const query = useQuery({
     queryKey: ['project-overview', effectiveProjectId],

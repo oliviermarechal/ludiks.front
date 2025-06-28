@@ -8,6 +8,7 @@ import { Slider } from "@/components/ui/slider";
 import { Wand2, ArrowRight, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { StepPreviewChart } from "@/components/circuit/chart/step-preview-chart";
+import { useTranslations } from "next-intl";
 
 interface GeneratorStep {
     question: string;
@@ -46,11 +47,14 @@ export interface GeneratorFormData {
     exponent?: number;
 }
 
-export function generatePreviewSteps(values: GeneratorFormData, circuitName: string, type: "points" | "actions"): Step[] {
+export function generatePreviewSteps(
+    values: GeneratorFormData, 
+    circuitName: string, 
+    t: (key: string, values?: Record<string, string | number>) => string
+): Step[] {
     const { numberOfSteps, curve, maxValue, startValue, exponent } = values;
     const steps: Step[] = [];
     const baseEventName = circuitName.toLowerCase().replace(/[^a-z0-9]/g, "_");
-    const actionWord = type === "points" ? "points" : "actions";
 
     for (let i = 0; i < numberOfSteps; i++) {
         let threshold: number;
@@ -74,8 +78,8 @@ export function generatePreviewSteps(values: GeneratorFormData, circuitName: str
 
         steps.push({
             id: `${i}`,
-            name: `${circuitName} niveau ${i + 1}`,
-            description: `${type === "points" ? "Atteindre" : "Effectuer"} ${Math.max(1, threshold)} ${actionWord}`,
+            name: t('step.name', { circuitName, index: i + 1 }),
+            description: t('step.description', { threshold: Math.max(1, threshold) }),
             completionRate: 0,
             completionThreshold: Math.max(1, threshold),
             usersCompleted: 0,
@@ -87,6 +91,9 @@ export function generatePreviewSteps(values: GeneratorFormData, circuitName: str
 }
 
 export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }: StepGeneratorProps) {
+    const t = useTranslations('dashboard.circuits.steps.generator');
+    
+    const formT = useTranslations('dashboard.circuits.steps.forms.' + type);
     const [currentStep, setCurrentStep] = useState(0);
     const [showPreview, setShowPreview] = useState(false);
     const [values, setValues] = useState<GeneratorFormData>({
@@ -99,31 +106,30 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
 
     const steps: GeneratorStep[] = [
         {
-            question: `Combien de ${type === "points" ? "niveaux" : "paliers"} souhaitez-vous créer ?`,
-            placeholder: "Ex: 5",
+            question: t('steps.count.question', { type: type === "points" ? "levels" : "levels" }),
+            placeholder: t('steps.count.placeholder'),
             field: "numberOfSteps",
             type: "number",
             validation: (value) => typeof value === "number" && value >= 2 && value <= 100,
-            errorMessage: "Le nombre doit être entre 2 et 100",
-            hint: "Un bon parcours contient généralement entre 3 et 7 étapes"
+            errorMessage: t('steps.count.error'),
+            hint: t('steps.count.hint')
         },
         {
-            question: type === "points" 
-                ? "Définissez la plage de points pour votre parcours"
-                : "Définissez la plage d'actions pour votre parcours",
-            placeholder: "Ex: 1",
+            question: t('steps.range.question', { type: type === "points" ? "points" : "actions" }),
+            placeholder: t('steps.range.placeholder'),
             field: "startValue",
             type: "range",
             validation: (value) => typeof value === "number" && value >= 1 && values.maxValue > values.startValue,
-            errorMessage: "La valeur de départ doit être supérieure à 0 et inférieure à la valeur maximale",
-            hint: type === "points" 
-                ? "Ces valeurs représentent le nombre de points nécessaires pour le premier et le dernier niveau"
-                : "Ces valeurs représentent le nombre d'actions nécessaires pour le premier et le dernier palier"
+            errorMessage: t('steps.range.error'),
+            hint: t('steps.range.hint', { 
+                type: type === "points" ? "points" : "actions",
+                level: type === "points" ? "level" : "level"
+            })
         }
     ];
 
     const currentQuestion = steps[currentStep];
-    const previewSteps = generatePreviewSteps(values, circuitName, type);
+    const previewSteps = generatePreviewSteps(values, circuitName, formT);
 
     const handleNext = () => {
         if (currentStep === steps.length - 1) {
@@ -166,7 +172,7 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-3xl">
                 <DialogTitle className="sr-only">
-                    {type === "points" ? "Générateur de niveaux" : "Générateur de paliers"}
+                    {t('title.' + type)}
                 </DialogTitle>
                 <AnimatePresence mode="wait">
                     {!showPreview ? (
@@ -215,22 +221,22 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                         <div className="flex-1 space-y-4">
                                             <div className="grid grid-cols-2 gap-4">
                                                 <div className="space-y-2">
-                                                    <Label>Valeur de départ</Label>
+                                                    <Label>{t('steps.range.start')}</Label>
                                                     <Input
                                                         type="number"
                                                         value={values.startValue}
                                                         onChange={(e) => handleValueChange(parseInt(e.target.value) || 1, "startValue")}
-                                                        placeholder="Ex: 1"
+                                                        placeholder={t('steps.range.placeholder')}
                                                         min={1}
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <Label>Valeur maximale</Label>
+                                                    <Label>{t('steps.range.max')}</Label>
                                                     <Input
                                                         type="number"
                                                         value={values.maxValue}
                                                         onChange={(e) => handleValueChange(parseInt(e.target.value) || 100, "maxValue")}
-                                                        placeholder="Ex: 100"
+                                                        placeholder={t('steps.range.placeholder')}
                                                         min={values.startValue + 1}
                                                     />
                                                 </div>
@@ -270,11 +276,11 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                     onClick={handleBack}
                                     className="text-sm"
                                 >
-                                    Retour
+                                    {t('navigation.back')}
                                 </Button>
                                 <div className="flex items-center gap-2">
                                     <span className="text-sm text-muted-foreground">
-                                        Étape {currentStep + 1} sur {steps.length}
+                                        {t('navigation.step', { current: currentStep + 1, total: steps.length })}
                                     </span>
                                 </div>
                             </div>
@@ -288,28 +294,28 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                         >
                             <div className="space-y-4">
                                 <div className="space-y-1">
-                                    <h3 className="text-lg font-semibold">Aperçu de la progression</h3>
+                                    <h3 className="text-lg font-semibold">{t('preview.title')}</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        Vérifiez la répartition des {type === "points" ? "points" : "actions"} avant de valider
+                                        {t('preview.description')}
                                     </p>
                                 </div>
 
                                 <div className="space-y-6">
                                     <div className="space-y-4">
                                         <div className="space-y-2">
-                                            <Label className="text-base">Type de progression</Label>
+                                            <Label className="text-base">{t('progression.title')}</Label>
                                             <Select
                                                 value={values.curve}
                                                 onValueChange={(value) => handleValueChange(value, "curve")}
                                             >
                                                 <SelectTrigger className="h-12 bg-secondary/5">
-                                                    <SelectValue placeholder="Choisissez un type" />
+                                                    <SelectValue placeholder={t('progression.placeholder')} />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {[
-                                                        { value: "linear", label: "Linéaire (progression régulière)" },
-                                                        { value: "power", label: "Exponentielle (progression de plus en plus difficile)" },
-                                                        { value: "logarithmic", label: "Logarithmique (progression de plus en plus facile)" }
+                                                        { value: "linear", label: t('progression.types.linear') },
+                                                        { value: "power", label: t('progression.types.power') },
+                                                        { value: "logarithmic", label: t('progression.types.logarithmic') }
                                                     ].map(option => (
                                                         <SelectItem key={option.value} value={option.value}>
                                                             {option.label}
@@ -318,14 +324,14 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                                 </SelectContent>
                                             </Select>
                                             <p className="text-xs text-muted-foreground">
-                                                La courbe de progression détermine la difficulté entre chaque étape
+                                                {t('progression.hint')}
                                             </p>
                                         </div>
 
                                         {values.curve === "power" && (
                                             <div className="space-y-3">
                                                 <div className="flex justify-between items-center">
-                                                    <Label className="text-sm">Intensité de la progression</Label>
+                                                    <Label className="text-sm">{t('progression.intensity.label')}</Label>
                                                     <span className="text-sm text-secondary">
                                                         {values.exponent?.toFixed(2)}
                                                     </span>
@@ -339,7 +345,7 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                                     className="py-2"
                                                 />
                                                 <p className="text-xs text-muted-foreground">
-                                                    Ajustez l&apos;intensité de la progression exponentielle
+                                                    {t('progression.intensity.hint')}
                                                 </p>
                                             </div>
                                         )}
@@ -354,10 +360,15 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                                     className="p-3 rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-md transition-shadow"
                                                 >
                                                     <div className="flex items-center gap-2 mb-1">
-                                                        <span className="text-sm font-medium text-muted-foreground">Niveau {index + 1}</span>
+                                                        <span className="text-sm font-medium text-muted-foreground">
+                                                            {t('preview.level', { index: index + 1 })}
+                                                        </span>
                                                     </div>
                                                     <div className="text-lg font-semibold text-secondary">
-                                                        {step.completionThreshold} {type === "points" ? "points" : "actions"}
+                                                        {type === "points" 
+                                                            ? t('preview.points', { value: step.completionThreshold })
+                                                            : t('preview.actions', { value: step.completionThreshold })
+                                                        }
                                                     </div>
                                                 </div>
                                             ))}
@@ -372,14 +383,14 @@ export function StepGenerator({ isOpen, onClose, onGenerate, type, circuitName }
                                     onClick={handleBack}
                                     className="text-sm"
                                 >
-                                    Modifier
+                                    {t('navigation.modify')}
                                 </Button>
                                 <Button
                                     onClick={handleGenerate}
                                     className="bg-secondary hover:bg-secondary/90"
                                 >
                                     <Check className="h-4 w-4 mr-2" />
-                                    Générer les niveaux
+                                    {t(`navigation.generate.${type}`)}
                                 </Button>
                             </DialogFooter>
                         </motion.div>

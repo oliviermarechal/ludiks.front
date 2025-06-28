@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trophy, Target } from "lucide-react";
-import { Step } from "@/lib/stores/circuit-store";
+import { Step } from "@/lib/types/circuit.types";
 import { Reward } from "@/lib/hooks/use-rewards.hook";
+import { useTranslations } from "next-intl";
 
 interface CreateRewardFormProps {
     isOpen: boolean;
@@ -18,6 +19,7 @@ interface CreateRewardFormProps {
 }
 
 export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType, initialData }: CreateRewardFormProps) {
+    const t = useTranslations('dashboard.circuits.rewards');
     const [name, setName] = useState(initialData?.name || "");
     const [description, setDescription] = useState(initialData?.description || "");
     const [stepId, setStepId] = useState<string | null>(initialData?.stepId || null);
@@ -58,40 +60,40 @@ export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType
         if (circuitType === "objective") {
             return step.name;
         }
-        return `Palier ${index + 1}`;
+        return t('fields.associated_level') + ` ${index + 1}`;
     };
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
-                    <DialogTitle>Créer une récompense</DialogTitle>
+                    <DialogTitle>{initialData ? t('edit') : t('create')}</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-6 py-4">
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="name">Nom de la récompense</Label>
+                            <Label htmlFor="name">{t('fields.name')}</Label>
                             <Input
                                 id="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Ex: Badge Expert"
+                                placeholder={t('fields.name_placeholder')}
                                 required
                                 className="border-border/50 focus:border-border/80"
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="description">Description (optionnel)</Label>
+                            <Label htmlFor="description">{t('fields.description')}</Label>
                             <Input
                                 id="description"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                placeholder="Décrivez la récompense..."
+                                placeholder={t('fields.description_placeholder')}
                                 className="border-border/50 focus:border-border/80"
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label>Condition de déblocage</Label>
+                            <Label>{t('fields.unlock_condition')}</Label>
                             <div className="flex gap-4">
                                 <button
                                     type="button"
@@ -106,9 +108,9 @@ export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType
                                     }`}
                                 >
                                     <Trophy className="h-6 w-6" />
-                                    <span className="font-medium">À la complétion</span>
+                                    <span className="font-medium">{t('fields.completion')}</span>
                                     <span className="text-sm text-muted-foreground text-center">
-                                        La récompense sera débloquée à la fin du parcours
+                                        {t('fields.completion_hint')}
                                     </span>
                                 </button>
                                 <button
@@ -123,19 +125,19 @@ export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType
                                     }`}
                                 >
                                     <Target className="h-6 w-6" />
-                                    <span className="font-medium">À une étape</span>
+                                    <span className="font-medium">{t('fields.step')}</span>
                                     <span className="text-sm text-muted-foreground text-center">
-                                        La récompense sera débloquée à une étape spécifique
+                                        {t('fields.step_hint')}
                                     </span>
                                 </button>
                             </div>
                         </div>
                         {!unlockOnCircuitCompletion && (
                             <div className="space-y-2">
-                                <Label>{circuitType === "objective" ? "Étape associée" : "Palier associé"}</Label>
+                                <Label>{circuitType === "objective" ? t('fields.associated_step') : t('fields.associated_level')}</Label>
                                 <Select value={stepId || ""} onValueChange={setStepId} required={!unlockOnCircuitCompletion}>
                                     <SelectTrigger className="border-border/50 focus:border-border/80">
-                                        <SelectValue placeholder={`Sélectionnez ${circuitType === "objective" ? "une étape" : "un palier"}`} />
+                                        <SelectValue placeholder={circuitType === "objective" ? t('fields.select_step') : t('fields.select_level')} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {steps.map((step, index) => (
@@ -150,10 +152,10 @@ export function CreateRewardForm({ isOpen, onClose, onCreate, steps, circuitType
                     </div>
                     <DialogFooter>
                         <Button type="button" variant="outline" onClick={onClose}>
-                            Annuler
+                            {t('form.cancel')}
                         </Button>
                         <Button type="submit" disabled={!name || (!unlockOnCircuitCompletion && !stepId)}>
-                            {initialData ? "Modifier" : "Créer"}
+                            {initialData ? t('form.update') : t('form.create')}
                         </Button>
                     </DialogFooter>
                 </form>

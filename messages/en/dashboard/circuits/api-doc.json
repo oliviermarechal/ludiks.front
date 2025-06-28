@@ -1,0 +1,73 @@
+{
+  "title": "Integration",
+  "subtitle": "Easily integrate user tracking into your application with our JavaScript SDK.",
+  "installation": {
+    "title": "Installation",
+    "npm_install": "Installation via npm"
+  },
+  "initialization": {
+    "title": "Initialization",
+    "sdk_config": "SDK Configuration"
+  },
+  "tracking_events": {
+    "title": "Event Tracking",
+    "send_event": "Sending an event",
+    "objective_description": "For an objective circuit, you need to send an event for each completed step. Select a step to see the corresponding example:",
+    "progressive_description": "For a points or actions circuit, send an event with the value to increment:",
+    "step_label": "Step:",
+    "step_option": "Step {index}: {name}",
+    "available_events": "List of available events:",
+    "step_column": "Step",
+    "event_name_column": "eventName"
+  },
+  "response_format": {
+    "title": "Response Format",
+    "structure": "Response Structure",
+    "examples": "Response Examples",
+    "success_step": "Step completed successfully:",
+    "circuit_completed": "Circuit completed:",
+    "already_completed": "Step already completed:",
+    "error": "Error:"
+  },
+  "api_reference": {
+    "title": "API Reference",
+    "types": "Types",
+    "methods": "Methods",
+    "setup_description": "Initializes the SDK with user information. This method must be called once at application startup.",
+    "track_event_description": "Sends an event to the server. For objective circuits, use the eventName corresponding to the step. For points/actions circuits, include the value to increment. Returns an object containing the operation status and unlocked rewards."
+  },
+  "code": {
+    "comments": {
+      "sdk_init": "Initialize the SDK with user information",
+      "api_key": "API key for your project",
+      "user_id": "Unique user ID",
+      "full_name": "User's full name",
+      "email": "Email (optional)",
+      "picture": "Avatar URL (optional)",
+      "metadata": "Custom metadata (optional)",
+      "send_step_event": "Send an event for a step",
+      "send_value_event": "Send an event with a value",
+      "timestamp_optional": "Optional, default: Date.now()",
+      "increment_value": "Number of points/actions to increment",
+      "operation_status": "Indicates if the operation was successful",
+      "progression_updated": "Indicates if the progression was updated",
+      "error_message": "Error message (if success = false)",
+      "step_completed": "Indicates if a step was completed",
+      "circuit_completed": "Indicates if the entire circuit was completed",
+      "already_completed": "Indicates if the step/circuit was already completed",
+      "total_points": "Total current points",
+      "unlocked_rewards": "Unlocked rewards (if configured)"
+    },
+    "examples": {
+      "beginner_badge": "Beginner Badge",
+      "completion_certificate": "Completion Certificate"
+    }
+  },
+  "api_key_warning": {
+    "title": "No API Key Found",
+    "description": "You need to create an API key to use the SDK. The example below uses a test key for demonstration purposes.",
+    "create_key": "Create your first API key in the",
+    "settings": "Settings",
+    "tab": "tab"
+  }
+} 

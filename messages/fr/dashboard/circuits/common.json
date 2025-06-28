@@ -1,0 +1,199 @@
+{
+  "title": "Parcours",
+  "actions": {
+    "create": "Créer un parcours",
+    "edit": "Modifier le parcours",
+    "delete": "Supprimer",
+    "duplicate": "Dupliquer le parcours",
+    "activate": "Activer",
+    "deactivate": "Désactiver",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "back": "Retour"
+  },
+  "status": {
+    "active": "Actif",
+    "inactive": "Inactif",
+    "draft": "Brouillon"
+  },
+  "loading": "Chargement des parcours...",
+  "errors": {
+    "loadFailed": "Échec du chargement des parcours",
+    "saveFailed": "Échec de la sauvegarde du parcours",
+    "deleteFailed": "Échec de la suppression du parcours",
+    "projectRequired": {
+      "title": "Sélection du projet requise",
+      "description": "Veuillez d'abord sélectionner un projet dans le menu pour créer un nouveau parcours."
+    },
+    "notFound": "Parcours non trouvé",
+    "nameTooShort": "Le nom du parcours doit contenir au moins 3 caractères",
+    "updateFailed": "Une erreur est survenue lors de la mise à jour",
+    "stepUpdateFailed": "Erreur lors de la mise à jour de l'étape",
+    "stepDeleteFailed": "Erreur lors de la suppression de l'étape",
+    "stepAddFailed": "Erreur lors de l'ajout de l'étape",
+    "stepsResetFailed": "Erreur lors de la réinitialisation des étapes",
+    "stepsOrderUpdateFailed": "Erreur lors de la mise à jour de l'ordre des étapes"
+  },
+  "success": {
+    "nameUpdated": "Le nom du parcours a été mis à jour",
+    "stepUpdated": "L'étape a été mise à jour",
+    "stepDeleted": "L'étape a été supprimée",
+    "stepAdded": "Une nouvelle étape a été ajoutée",
+    "stepsReset": "Les étapes ont été réinitialisées",
+    "stepsOrderUpdated": "L'ordre des étapes a été mis à jour",
+    "circuitDeleted": "Parcours \"{name}\" supprimé avec succès"
+  },
+  "form": {
+    "info": {
+      "title": "Informations du parcours",
+      "subtitle": "Donnez un nom et une description à votre parcours pour le retrouver facilement",
+      "name": {
+        "label": "Nom du parcours",
+        "placeholder": "Ex: Onboarding utilisateur, Programme fidélité..."
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Décrivez le but de ce parcours..."
+      }
+    },
+    "type": {
+      "title": "Type de parcours",
+      "subtitle": "Choisissez le type qui correspond le mieux à votre stratégie d'engagement",
+      "points": {
+        "label": "Système de points",
+        "description": "Créez un système de points personnalisé pour récompenser les actions de vos utilisateurs et stimuler leur engagement à long terme."
+      },
+      "actions": {
+        "label": "Suivi d'actions",
+        "description": "Définissez des actions clés à suivre et encouragez leur répétition pour créer des habitudes d'utilisation durables."
+      },
+      "objective": {
+        "label": "Parcours d'objectifs",
+        "description": "Construisez un parcours progressif avec des objectifs à atteindre et des récompenses à débloquer à chaque étape."
+      }
+    },
+    "validation": {
+      "name": {
+        "minLength": "Le nom du parcours doit contenir au moins 3 caractères"
+      },
+      "description": {
+        "maxLength": "La description ne peut pas dépasser 500 caractères"
+      }
+    },
+    "submit": "Créer le parcours"
+  },
+  "activate": {
+    "description": "Activer ce parcours va :",
+    "consequences": {
+      "steps": "Désactiver tous les autres parcours du projet",
+      "data": "Réinitialiser toutes les données de progression des utilisateurs",
+      "stats": "Effacer toutes les statistiques et récompenses"
+    },
+    "confirm": "Êtes-vous sûr de vouloir activer ce parcours ?"
+  },
+  "delete": {
+    "title": "Supprimer le parcours",
+    "description": "Cette action est irréversible et va :",
+    "consequences": {
+      "steps": "Supprimer définitivement le parcours et toutes ses étapes",
+      "data": "Effacer toutes les données de progression des utilisateurs",
+      "stats": "Supprimer toutes les statistiques et récompenses associées"
+    },
+    "confirm": "Êtes-vous sûr de vouloir supprimer ce parcours ?"
+  },
+  "buttons": {
+    "cancel": "Annuler"
+  },
+  "tabs": {
+    "settings": "Paramètres",
+    "overview": "Aperçu",
+    "rewards": "Récompenses",
+    "analytics": "Analyse",
+    "api": "Intégration"
+  },
+  "overview": {
+    "summary": "Résumé du parcours",
+    "summaryDescription": "Vue d'ensemble de la configuration actuelle de votre parcours",
+    "steps": "Étapes",
+    "rewards": "Récompenses",
+    "status": "Statut",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "stepsTitle": "Étapes du parcours",
+    "stepsDescription": "Liste des étapes configurées pour ce parcours",
+    "rewardsTitle": "Récompenses du parcours",
+    "rewardsDescription": "Liste des récompenses associées à ce parcours",
+    "noSteps": "Aucune étape configurée",
+    "noRewards": "Aucune récompense configurée",
+    "stepReward": "Récompense d'étape",
+    "completionReward": "Récompense de fin",
+    "unknownStep": "Étape inconnue"
+  },
+  "settings": {
+    "title": "Configuration du parcours",
+    "description": {
+      "points": "Définissez les paliers de points à atteindre",
+      "actions": "Définissez le nombre de répétitions à accomplir",
+      "objective": "Définissez les objectifs que vos utilisateurs devront accomplir"
+    },
+    "name": {
+      "label": "Nom du parcours",
+      "edit": "Modifier",
+      "cancel": "Annuler",
+      "save": "Valider"
+    },
+    "steps": {
+      "title": "Gestion des étapes",
+      "description": {
+        "points": "Configurez les paliers de points",
+        "actions": "Configurez les paliers d'actions",
+        "objective": "Configurez les objectifs à atteindre"
+      },
+      "generator": {
+        "title": "Générateur d'étapes",
+        "description": "Générez des étapes automatiquement avec une progression prédéfinie",
+        "points": {
+          "title": "Configuration des niveaux",
+          "description": "Configurez les paliers de points",
+          "generate": "Générer des niveaux",
+          "threshold": "Points requis",
+          "points": "points"
+        },
+        "actions": {
+          "title": "Configuration des paliers",
+          "description": "Configurez les paliers d'actions",
+          "generate": "Générer des paliers",
+          "threshold": "Actions requises",
+          "actions": "actions"
+        },
+        "objectives": {
+          "title": "Configuration des objectifs",
+          "description": "Configurez les objectifs à atteindre",
+          "name": "Nom de l'objectif",
+          "description": "Description (optionnelle)",
+          "eventName": "Identifiant technique pour le tracking (ex: completer_profil)",
+          "repetitions": "Répétitions"
+        },
+        "form": {
+          "numberOfSteps": {
+            "question": "Combien de {type} souhaitez-vous créer ?",
+            "placeholder": "Ex: 5",
+            "hint": "Un bon parcours contient généralement entre 3 et 7 étapes"
+          },
+          "range": {
+            "question": "Définissez la plage de {type} pour votre parcours",
+            "startValue": "Valeur de départ",
+            "maxValue": "Valeur maximale",
+            "hint": "Ces valeurs représentent le nombre de {type} nécessaires pour le premier et le dernier {stepType}"
+          }
+        }
+      }
+    },
+    "deleteStep": {
+      "title": "Supprimer l'étape",
+      "description": "Êtes-vous sûr de vouloir supprimer cette étape ?",
+      "warning": "Si une récompense est associée à cette étape, elle sera également supprimée.",
+      "confirm": "Supprimer"
+    }
+  }
+} 

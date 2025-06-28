@@ -1,0 +1,248 @@
+{
+  "welcome": {
+    "title": "Bienvenue sur Ludiks",
+    "subtitle": "Configurons ensemble votre premier projet"
+  },
+  "steps": {
+    "project": {
+      "title": "Projet",
+      "description": "Créez votre projet"
+    },
+    "circuit": {
+      "title": "Parcours",
+      "description": "Configurez votre premier parcours"
+    },
+    "configuration": {
+      "title": "Configuration",
+      "description": "Définissez les étapes"
+    }
+  },
+  "form": {
+    "title": "Créez votre projet",
+    "subtitle": "Donnez un nom à votre projet pour commencer l'aventure",
+    "name": {
+      "label": "Nom du projet",
+      "placeholder": "Mon super projet"
+    },
+    "validation": {
+      "name": {
+        "required": "Le nom du projet est requis",
+        "minLength": "Le nom du projet doit contenir au moins 3 caractères"
+      }
+    },
+    "submit": {
+      "default": "Continuer",
+      "loading": "Création en cours..."
+    }
+  },
+  "projectForm": {
+    "title": "Créez votre projet",
+    "subtitle": "Donnez un nom à votre projet pour commencer l'aventure",
+    "name": {
+      "label": "Nom du projet",
+      "placeholder": "Mon super projet",
+      "error": "Le nom du projet doit contenir au moins 3 caractères"
+    },
+    "continue": "Continuer"
+  },
+  "circuitCreation": {
+    "title": "Créez votre parcours",
+    "subtitle": "Commencez par définir les informations de base de votre parcours",
+    "name": {
+      "label": "Nom du parcours",
+      "placeholder": "Parcours principal",
+      "error": "Le nom du parcours doit contenir au moins 3 caractères"
+    },
+    "description": {
+      "label": "Description (optionnelle)",
+      "placeholder": "Décrivez le but de votre parcours...",
+      "error": "La description ne peut pas dépasser 500 caractères"
+    },
+    "type": {
+      "title": "Type de parcours",
+      "subtitle": "Sélectionnez le type de parcours qui correspond le mieux à vos besoins",
+      "points": {
+        "label": "Points",
+        "description": "Attribuez des points pour chaque action complétée. Définissez des niveaux pour récompenser vos utilisateurs au fil de leur progression."
+      },
+      "actions": {
+        "label": "Actions",
+        "description": "Encouragez les utilisateurs à répéter des actions spécifiques. Récompensez-les lorsqu'ils atteignent des jalons."
+      },
+      "objective": {
+        "label": "Liste d'objectifs",
+        "description": "Définissez une série d'objectifs que les utilisateurs doivent compléter pour débloquer des récompenses."
+      }
+    },
+    "actions": {
+      "skip": "Passer l'onboarding",
+      "continue": "Continuer"
+    }
+  },
+  "stepsSetup": {
+    "title": "Configuration des étapes",
+    "what": {
+      "title": "Qu'est-ce qu'une étape ?"
+    },
+    "level": "Niveau",
+    "points": "points",
+    "empty": {
+      "title": "Aucune étape n'a été ajoutée",
+      "description": {
+        "points": "Commencez par ajouter un niveau de points en cliquant sur le bouton ci-dessous",
+        "actions": "Commencez par ajouter une action en cliquant sur le bouton ci-dessous"
+      }
+    },
+    "subtitle": {
+      "points": "Définissez les paliers de points à atteindre",
+      "actions": "Définissez le nombre de répétitions à accomplir"
+    },
+    "description": {
+      "points": "Une étape représente un niveau de progression dans votre parcours. Chaque niveau définit un nombre de points à atteindre pour que l'utilisateur progresse. Par exemple, le niveau 1 pourrait nécessiter 100 points, le niveau 2 pourrait nécessiter 250 points, et ainsi de suite.",
+      "actions": "Une étape représente une action dans votre parcours. Chaque action définit un nombre de répétitions à effectuer pour que l'utilisateur progresse. Par exemple, l'action 1 pourrait nécessiter 5 répétitions, l'action 2 pourrait nécessiter 10 répétitions, et ainsi de suite."
+    },
+    "manual": {
+      "title": "Ajout manuel",
+      "description": {
+        "points": "Ajoutez manuellement chaque niveau de points. Vous pouvez définir précisément le nombre de points requis pour chaque niveau. Par exemple, vous pourriez avoir des niveaux à 100, 250, 500, 1000 points, etc.",
+        "actions": "Ajoutez manuellement chaque action. Vous pouvez définir précisément le nombre de répétitions requises pour chaque action. Par exemple, vous pourriez avoir des actions à 5, 10, 20, 50 répétitions, etc."
+      },
+      "add": "Ajouter un niveau",
+      "placeholder": "Points requis",
+      "actions_placeholder": "Actions requises"
+    },
+    "generator": {
+      "title": "Générateur d'étapes",
+      "description": {
+        "points": "Générez des étapes automatiquement avec une progression prédéfinie. Vous pouvez choisir le nombre de niveaux, les valeurs de départ et maximale, ainsi que le type de progression (linéaire, exponentielle ou logarithmique).",
+        "actions": "Générez des étapes automatiquement avec une progression prédéfinie. Vous pouvez choisir le nombre d'actions, les valeurs de départ et maximale, ainsi que le type de progression (linéaire, exponentielle ou logarithmique)."
+      },
+      "curve": {
+        "title": "Type de progression",
+        "placeholder": "Choisissez un type"
+      },
+      "exponent": {
+        "title": "Intensité de la progression",
+        "description": "Ajustez l'intensité de la progression exponentielle. Un exposant plus élevé rend la progression plus difficile."
+      },
+      "range": {
+        "startValue": "Valeur de départ",
+        "maxValue": "Valeur maximale",
+        "startValueHint": {
+          "points": "Le nombre de points requis pour le premier niveau",
+          "actions": "Le nombre de répétitions requises pour la première action"
+        },
+        "maxValueHint": {
+          "points": "Le nombre de points requis pour le dernier niveau",
+          "actions": "Le nombre de répétitions requises pour la dernière action"
+        }
+      },
+      "steps": {
+        "count": {
+          "question": "Combien de {type} souhaitez-vous créer ?",
+          "placeholder": "Ex: 5",
+          "error": "Le nombre doit être entre 2 et 100",
+          "hint": {
+            "points": "Un bon parcours contient généralement entre 3 et 7 étapes",
+            "actions": "Un bon parcours contient généralement entre 3 et 7 étapes"
+          }
+        },
+        "range": {
+          "question": "Définissez la plage de {type} pour votre parcours",
+          "placeholder": "Ex: 1 à 1000"
+        },
+        "curve": {
+          "question": "Quelle courbe de progression souhaitez-vous ?",
+          "placeholder": "Choisissez un type",
+          "options": {
+            "linear": "Linéaire (progression régulière)",
+            "power": "Exponentielle (progression de plus en plus difficile)",
+            "logarithmic": "Logarithmique (progression de plus en plus facile)"
+          }
+        }
+      },
+      "preview": {
+        "title": "Aperçu de la progression",
+        "description": "Visualisez la courbe de progression des {type} à {action}",
+        "step": "Étape {index}",
+        "level": "Niveau {index}",
+        "points": "{value} points",
+        "actions": "{value} actions"
+      },
+      "actions": {
+        "back": "Retour",
+        "next": "Suivant",
+        "generate": "Générer"
+      }
+    },
+    "actions": {
+      "label": "actions",
+      "back": "Retour",
+      "continue": "Continuer",
+      "next": "Suivant"
+    }
+  },
+  "objectivesSetup": {
+    "title": "Configuration des objectifs",
+    "description": "Configurez les objectifs à atteindre",
+    "add": "Ajouter un objectif",
+    "empty": {
+      "title": "Aucun objectif défini",
+      "description": "Commencez par ajouter un premier objectif à atteindre pour vos utilisateurs"
+    },
+    "form": {
+      "name": {
+        "label": "Nom de l'objectif",
+        "placeholder": "Ex: Compléter son profil",
+        "error": "Le nom de l'objectif doit contenir au moins 3 caractères"
+      },
+      "description": {
+        "label": "Description (optionnelle)",
+        "placeholder": "Ex: Remplir tous les champs de son profil"
+      },
+      "threshold": {
+        "label": "Répétitions",
+        "placeholder": "Ex: 1",
+        "error": "Le nombre doit être supérieur à 0"
+      }
+    },
+    "chat": {
+      "name": {
+        "question": "Comment s'appelle cet objectif ?",
+        "placeholder": "Ex: Compléter son profil",
+        "error": "Le nom doit contenir au moins 3 caractères"
+      },
+      "description": {
+        "question": "En une phrase, décris ce que l'utilisateur doit faire (optionnel)",
+        "placeholder": "Ex: Remplir tous les champs de son profil",
+        "error": "La description doit contenir au moins 10 caractères"
+      },
+      "threshold": {
+        "question": "Combien de fois l'utilisateur doit-il réussir pour valider ?",
+        "placeholder": "Ex: 1",
+        "error": "Le nombre doit être supérieur à 0"
+      },
+      "actions": {
+        "cancel": "Annuler",
+        "skip": "Passer"
+      }
+    },
+    "actions": {
+      "back": "Retour",
+      "continue": "Continuer"
+    }
+  },
+  "toast": {
+    "success": {
+      "projectCreated": "Projet créé avec succès",
+      "circuitCreated": "Parcours créé avec succès",
+      "configurationCompleted": "Configuration terminée avec succès"
+    },
+    "error": {
+      "projectCreationFailed": "Erreur lors de la création du projet",
+      "circuitCreationFailed": "Erreur lors de la création du parcours",
+      "stepsConfigurationFailed": "Erreur lors de la configuration des étapes",
+      "objectivesConfigurationFailed": "Erreur lors de la configuration des objectifs"
+    }
+  }
+} 

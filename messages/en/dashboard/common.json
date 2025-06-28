@@ -1,10 +1,8 @@
 {
   "sidebar": {
     "overview": "Overview",
-    "circuits": "Circuits",
-    "strategy": "Strategy",
-    "analytics": "Analytics",
     "projects": "Projects",
+    "circuits": "Circuits",
     "users": "Users",
     "settings": "Settings"
   },
@@ -13,9 +11,9 @@
     "notifications": "Notifications",
     "profile": "Profile"
   },
-  "description": "Track your circuit activity and identify areas of attention",
+  "description": "Welcome to your dashboard. Here you can manage your projects, circuits, and users.",
   "loading": "Loading...",
-  "noProject": "Please select a project",
+  "noProject": "No project selected",
   "newCircuit": "New Circuit",
   "activeCircuits": "Active Circuits",
   "projectSelector": {
@@ -27,18 +25,152 @@
     "logoutConfirm": "Are you sure you want to logout?"
   },
   "stats": {
-    "totalCircuits": "Circuits",
-    "totalCircuitsDescription": "Total number of circuits in the project",
+    "totalCircuits": "Total Circuits",
+    "totalCircuitsDescription": "Total number of circuits in your project",
     "activeCircuits": "active",
     "inactiveCircuits": "inactive",
-    "winRate": "Average Completion Rate",
+    "winRate": "Win Rate",
     "winRateDescription": "Average completion rate across all circuits",
     "totalUsers": "Total Users",
-    "totalUsersDescription": "Total number of registered users",
+    "totalUsersDescription": "Total number of users in your project",
     "activeUsers": "Active Users",
-    "activeUsersDescription": "Connected in the last 7 days",
+    "activeUsersDescription": "Users active in the last 7 days",
     "completedCircuits": "Completed Circuits",
     "completedCircuitsDescription": "Users who completed at least one circuit",
     "ofUsers": "of users"
+  },
+  "circuitCard": {
+    "completionRate": "Completion rate",
+    "averageTime": "Average time",
+    "attentionPoints": "Attention points",
+    "conversionDrop": "Conversion rate drop of {rate}%",
+    "betweenSteps": "Between step \"{step}\" and the next one",
+    "averageTimeLabel": "Average time"
+  },
+  "buttons": {
+    "cancel": "Cancel"
+  },
+  "emptyState": {
+    "description": "Get started by creating your first user journey to analyze user behavior and optimize conversions.",
+    "title": "Ready to create your first circuit?",
+    "subtitle": "Circuits help you track user progress through defined steps and identify friction points in your user experience.",
+    "browseTemplates": "Browse Templates",
+    "comingSoon": "Coming Soon",
+    "quickStart": "Quick Start Guide",
+    "step1": "Create your first circuit",
+    "step2": "Configure steps and objectives",
+    "step3": "Start tracking user progress"
+  },
+  "leftBar": {
+    "sections": {
+      "project": "PROJECT",
+      "organization": "ORGANIZATION"
+    },
+    "navigation": {
+      "overview": "Overview",
+      "circuits": "Circuits",
+      "users": "Users",
+      "settings": "Settings"
+    },
+    "organization": {
+      "members": "Members & Roles",
+      "invites": "Received Invitations",
+      "billing": "Billing & Plan"
+    },
+    "account": {
+      "logout": "Logout"
+    }
+  },
+  "eventsConsumption": {
+    "title": "Events Consumption",
+    "events": "events",
+    "unlimited": "Unlimited",
+    "quotaWarning": "You're approaching your events quota limit. Consider upgrading your plan.",
+    "quotaExceeded": "You've exceeded your events quota. Please upgrade your plan to continue."
+  },
+  "members": {
+    "title": "Members & Roles",
+    "description": "Manage who has access to your organization and what they can do.",
+    "invite": "Invite Member",
+    "table": {
+      "member": "Member",
+      "email": "Email",
+      "role": "Role",
+      "joined": "Joined",
+      "actions": "Actions"
+    },
+    "you": "You",
+    "pendingInvitations": {
+      "title": "Pending Invitations",
+      "invited": "Invited",
+      "resend": "Resend Invitation"
+    }
+  },
+  "invites": {
+    "title": "Received Invitations",
+    "description": "Manage your organization invitations",
+    "pendingInvitations": "Pending Invitations",
+    "noInvitations": "No invitations",
+    "noInvitationsDescription": "You don't have any pending invitations at the moment.",
+    "table": {
+      "organization": "Organization",
+      "role": "Role",
+      "invitedBy": "Invited by",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "actions": {
+      "accept": "Accept",
+      "reject": "Reject"
+    }
+  },
+  "settings": {
+    "title": "Project Settings",
+    "description": "Manage your project's general settings, API keys, and more.",
+    "general": {
+      "title": "General",
+      "name": "Project Name",
+      "updateSuccess": "Project updated successfully.",
+      "updateError": "Failed to update project. Please try again.",
+      "save": "Save",
+      "saving": "Saving...",
+      "description": "Project Description"
+    },
+    "apiKeys": {
+      "title": "API Keys",
+      "description": "Manage your API keys for this project.",
+      "generate": "Generate New Key",
+      "key": "Key",
+      "name": "Name",
+      "created": "Created",
+      "actions": "Actions",
+      "copy": "Copy",
+      "revoke": "Revoke",
+      "empty": "No API keys found. Create your first API key to get started.",
+      "createDialog": {
+        "title": "Create New API Key",
+        "description": "Create a new API key for your project. Give it a descriptive name to help you identify it later.",
+        "name": "API Key Name",
+        "namePlaceholder": "e.g., Production Server, Development Environment",
+        "create": "Create API Key",
+        "creating": "Creating...",
+        "cancel": "Cancel"
+      },
+      "confirmDelete": {
+        "title": "Delete API Key",
+        "description": "Are you sure you want to delete this API key? This action cannot be undone.",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      }
+    },
+    "dangerZone": {
+      "title": "Danger Zone",
+      "description": "These actions are permanent and cannot be undone.",
+      "deleteProject": "Delete this project",
+      "deleteWarning": "This will permanently delete the project and all its data."
+    },
+    "emptyState": {
+      "comingSoon": "Coming Soon"
+    }
   }
 } 

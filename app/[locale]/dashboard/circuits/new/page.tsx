@@ -1,17 +1,21 @@
 'use client'
 
 import { CircuitForm, CircuitFormData } from "@/components/circuit/form/circuit-form"
-import { useCircuitStore, CircuitType } from "@/lib/stores/circuit-store"
+import { CircuitType } from "@/lib/types/circuit.types"
+import { useProjectStore } from "@/lib/stores/project-store"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useCircuits } from "@/lib/hooks/use-circuits.hook"
+import { useTranslations } from "next-intl"
 
 export default function NewCircuitPage() {
   const router = useRouter()
-  const { projectId } = useCircuitStore()
+  const { selectedProject } = useProjectStore()
+  const projectId = selectedProject?.id
   const { createCircuit } = useCircuits()
+  const t = useTranslations('dashboard.circuits.common')
 
   const handleSubmit = async (data: CircuitFormData) => {
     if (!data.name || !data.type) return
@@ -32,10 +36,10 @@ export default function NewCircuitPage() {
       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
         <div className="text-center max-w-md mx-auto p-6">
           <h2 className="text-xl font-semibold text-white mb-3">
-            Sélection du projet requise
+            {t('errors.projectRequired.title')}
           </h2>
           <p className="text-white/70">
-            Veuillez d&apos;abord sélectionner un projet dans le menu pour créer un nouveau parcours.
+            {t('errors.projectRequired.description')}
           </p>
         </div>
       </div>
@@ -55,10 +59,10 @@ export default function NewCircuitPage() {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-medium text-foreground">
-              Informations
+              {t('form.info.title')}
             </span>
             <span className="text-xs text-muted-foreground">
-              Configuration du parcours
+              {t('form.info.subtitle')}
             </span>
           </div>
         </div>

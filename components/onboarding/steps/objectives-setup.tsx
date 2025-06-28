@@ -9,16 +9,11 @@ import { ArrowRight, Plus, Trash2, Target, Check, X, Settings } from "lucide-rea
 import { motion, AnimatePresence } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
-
-const objectiveSchema = z.object({
-  name: z.string().min(3, "Le nom de l'objectif doit contenir au moins 3 caractères"),
-  description: z.string().optional(),
-  eventName: z.string(),
-  completionThreshold: z.number().min(1, "Le seuil doit être supérieur à 0"),
-})
+import { useTranslations } from "next-intl"
+import { Step } from "@/lib/types/circuit.types"
 
 type ObjectivesFormData = {
-  objectives: z.infer<typeof objectiveSchema>[]
+  objectives: Step[]
 }
 
 interface ObjectivesSetupProps {
@@ -27,13 +22,24 @@ interface ObjectivesSetupProps {
 }
 
 interface ObjectiveItemProps {
-  objective: z.infer<typeof objectiveSchema>
+  objective: Step
   index: number
-  onUpdate: (updatedObjective: z.infer<typeof objectiveSchema>) => void
+  onUpdate: (updatedObjective: Step) => void
   onRemove: () => void
 }
 
+function createObjectiveSchema(t: (key: string) => string) {
+  return z.object({
+    name: z.string().min(3, t('objectivesSetup.form.name.error')),
+    description: z.string().optional(),
+    eventName: z.string(),
+    completionThreshold: z.number().min(1, t('objectivesSetup.form.threshold.error')),
+  })
+}
+
 const ObjectiveItem = ({ objective, index, onUpdate, onRemove }: ObjectiveItemProps) => {
+  const t = useTranslations('onboarding.project');
+  const objectiveSchema = createObjectiveSchema(t);
   const [isEditing, setIsEditing] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof objectiveSchema>>({
     resolver: zodResolver(objectiveSchema),
@@ -50,7 +56,7 @@ const ObjectiveItem = ({ objective, index, onUpdate, onRemove }: ObjectiveItemPr
       ...data,
       eventName: data.name.toLowerCase().replace(/[^a-z0-9]/g, "_")
     }
-    onUpdate(updatedData)
+    onUpdate(updatedData as Step)
     setIsEditing(false)
   }
 
@@ -111,10 +117,10 @@ const ObjectiveItem = ({ objective, index, onUpdate, onRemove }: ObjectiveItemPr
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nom de l&apos;objectif</Label>
+                  <Label htmlFor="name">{t('objectivesSetup.form.name.label')}</Label>
                   <Input
                     {...register("name")}
-                    placeholder="Ex: Première connexion"
+                    placeholder={t('objectivesSetup.form.name.placeholder')}
                     className="border-primary/20 focus:border-primary/40"
                   />
                   {errors.name && (
@@ -123,10 +129,10 @@ const ObjectiveItem = ({ objective, index, onUpdate, onRemove }: ObjectiveItemPr
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description">{t('objectivesSetup.form.description.label')}</Label>
                   <Input
                     {...register("description")}
-                    placeholder="Ex: Se connecter pour la première fois à l'application"
+                    placeholder={t('objectivesSetup.form.description.placeholder')}
                     className="border-primary/20 focus:border-primary/40"
                   />
                   {errors.description && (
@@ -135,12 +141,12 @@ const ObjectiveItem = ({ objective, index, onUpdate, onRemove }: ObjectiveItemPr
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="completionThreshold">Seuil de complétion</Label>
+                  <Label htmlFor="completionThreshold">{t('objectivesSetup.form.threshold.label')}</Label>
                   <Input
                     type="number"
                     min={1}
                     {...register("completionThreshold", { valueAsNumber: true })}
-                    placeholder="1"
+                    placeholder={t('objectivesSetup.form.threshold.placeholder')}
                     className="border-primary/20 focus:border-primary/40"
                   />
                   {errors.completionThreshold && (
@@ -202,7 +208,7 @@ const ObjectiveItem = ({ objective, index, onUpdate, onRemove }: ObjectiveItemPr
                     variant="ghost"
                     size="sm"
                     onClick={onRemove}
-                    className="h-8 text-red-500 hover:text-red-600 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-red-500 hover:text-red-600 hover:bg-red-500/10"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -217,37 +223,43 @@ const ObjectiveItem = ({ objective, index, onUpdate, onRemove }: ObjectiveItemPr
 }
 
 interface ChatObjectiveProps {
-  onComplete: (objective: z.infer<typeof objectiveSchema>) => void
+  onComplete: (objective: Step) => void
   onCancel: () => void
 }
 
 const ChatObjective = ({ onComplete, onCancel }: ChatObjectiveProps) => {
+  const t = useTranslations('onboarding.project');
   const [currentStep, setCurrentStep] = useState(0)
-  const [objectiveData, setObjectiveData] = useState<Partial<z.infer<typeof objectiveSchema>>>({})
+  const [objectiveData, setObjectiveData] = useState<Partial<Step>>({})
   const [currentValue, setCurrentValue] = useState("")
 
   const questions = [
     {
-      question: "Comment s'appelle cet objectif ?",
-      placeholder: "Ex: Première connexion",
+      question: t('objectivesSetup.chat.name.question'),
+      placeholder: t('objectivesSetup.chat.name.placeholder'),
       field: "name" as const,
+      type: "text" as const,
       validation: (value: string) => value.length >= 3,
-      errorMessage: "Le nom doit contenir au moins 3 caractères",
+      errorMessage: t('objectivesSetup.chat.name.error'),
     },
     {
-      question: "En une phrase, décris ce que l'utilisateur doit faire",
-      placeholder: "Ex: Se connecter pour la première fois à l'application",
+      question: t('objectivesSetup.chat.description.question'),
+      placeholder: t('objectivesSetup.chat.description.placeholder'),
       field: "description" as const,
+      type: "text" as const,
       validation: () => true,
-      errorMessage: "La description doit contenir au moins 10 caractères",
+      errorMessage: t('objectivesSetup.chat.description.error'),
     },
     {
-      question: "Combien de fois l'utilisateur doit-il réussir pour valider ?",
-      placeholder: "Ex: 1",
+      question: t('objectivesSetup.chat.threshold.question'),
+      placeholder: t('objectivesSetup.chat.threshold.placeholder'),
       field: "completionThreshold" as const,
-      type: "number",
-      validation: (value: string) => parseInt(value) >= 1,
-      errorMessage: "Le nombre doit être supérieur à 0",
+      type: "number" as const,
+      validation: (value: string) => {
+        const num = parseInt(value)
+        return !isNaN(num) && num > 0
+      },
+      errorMessage: t('objectivesSetup.chat.threshold.error'),
     },
   ]
 
@@ -256,20 +268,20 @@ const ChatObjective = ({ onComplete, onCancel }: ChatObjectiveProps) => {
   const handleNext = () => {
     if (!currentQuestion.validation(currentValue)) return
 
-    const value = currentQuestion.type === "number" ? parseInt(currentValue) : currentValue
-    const updatedData = { ...objectiveData, [currentQuestion.field]: value }
-    
-    if (currentQuestion.field === "name" && typeof value === "string") {
-      updatedData.eventName = value.toLowerCase().replace(/[^a-z0-9]/g, "_")
+    const updatedData = {
+      ...objectiveData,
+      [currentQuestion.field]: currentQuestion.type === "number" ? parseInt(currentValue) : currentValue,
     }
-    
     setObjectiveData(updatedData)
 
     if (currentStep === questions.length - 1) {
-      onComplete(updatedData as z.infer<typeof objectiveSchema>)
+      const finalObjective = {
+        ...updatedData,
+        eventName: (updatedData.name || '').toLowerCase().replace(/[^a-z0-9]/g, "_")
+      } as Step
+      onComplete(finalObjective)
     } else {
       setCurrentStep(prev => prev + 1)
-      setCurrentValue("")
     }
   }
 
@@ -344,7 +356,7 @@ const ChatObjective = ({ onComplete, onCancel }: ChatObjectiveProps) => {
           onClick={onCancel}
           className="h-8 text-sm hover:bg-red-500/10 hover:text-red-500 transition-colors duration-300"
         >
-          Annuler
+          {t('objectivesSetup.chat.actions.cancel')}
         </Button>
       </div>
     </motion.div>
@@ -352,15 +364,16 @@ const ChatObjective = ({ onComplete, onCancel }: ChatObjectiveProps) => {
 }
 
 export function ObjectivesSetup({ onNext, onBack }: ObjectivesSetupProps) {
-  const [objectives, setObjectives] = useState<z.infer<typeof objectiveSchema>[]>([])
+  const t = useTranslations('onboarding.project');
+  const [objectives, setObjectives] = useState<Step[]>([])
   const [isAddingObjective, setIsAddingObjective] = useState(false)
 
-  const handleAddObjective = (newObjective: z.infer<typeof objectiveSchema>) => {
+  const handleAddObjective = (newObjective: Step) => {
     setObjectives(prev => [...prev, newObjective])
     setIsAddingObjective(false)
   }
 
-  const handleUpdateObjective = (index: number, updatedObjective: z.infer<typeof objectiveSchema>) => {
+  const handleUpdateObjective = (index: number, updatedObjective: Step) => {
     const updatedObjectives = [...objectives]
     updatedObjectives[index] = updatedObjective
     setObjectives(updatedObjectives)
@@ -379,9 +392,9 @@ export function ObjectivesSetup({ onNext, onBack }: ObjectivesSetupProps) {
   return (
     <div className="space-y-8">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-foreground">Configurez vos objectifs</h2>
+        <h2 className="text-2xl font-bold text-foreground">{t('objectivesSetup.title')}</h2>
         <p className="text-foreground/70">
-          Définissez les objectifs que vos utilisateurs devront accomplir
+          {t('objectivesSetup.description')}
         </p>
       </div>
 
@@ -397,9 +410,9 @@ export function ObjectivesSetup({ onNext, onBack }: ObjectivesSetupProps) {
               <div className="h-12 w-12 rounded-full bg-secondary/10 flex items-center justify-center mb-4">
                 <Target className="h-6 w-6 text-secondary" />
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">Aucun objectif défini</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-2">{t('objectivesSetup.empty.title')}</h3>
               <p className="text-sm text-muted-foreground mb-6">
-                Commencez par ajouter un premier objectif à atteindre pour vos utilisateurs
+                {t('objectivesSetup.empty.description')}
               </p>
               <Button
                 type="button"
@@ -407,7 +420,7 @@ export function ObjectivesSetup({ onNext, onBack }: ObjectivesSetupProps) {
                 className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
               >
                 <Plus className="h-4 w-4 mr-2" />
-                Ajouter un objectif
+                {t('objectivesSetup.add')}
               </Button>
             </motion.div>
           )}
@@ -444,7 +457,7 @@ export function ObjectivesSetup({ onNext, onBack }: ObjectivesSetupProps) {
               )}
             >
               <Plus className="h-4 w-4 mr-2" />
-              Ajouter un objectif
+              {t('objectivesSetup.add')}
             </Button>
           </div>
         )}
@@ -456,7 +469,7 @@ export function ObjectivesSetup({ onNext, onBack }: ObjectivesSetupProps) {
             onClick={onBack}
             className="flex-1 border-primary/20 hover:border-primary/40 hover:bg-primary/5"
           >
-            Retour
+            {t('objectivesSetup.actions.back')}
           </Button>
           <Button 
             type="button"
@@ -464,7 +477,7 @@ export function ObjectivesSetup({ onNext, onBack }: ObjectivesSetupProps) {
             disabled={objectives.length === 0}
             className="flex-1 bg-secondary hover:bg-secondary/90 text-black font-medium"
           >
-            Continuer
+            {t('objectivesSetup.actions.continue')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>

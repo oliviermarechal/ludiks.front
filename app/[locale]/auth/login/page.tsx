@@ -9,34 +9,31 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import GoogleAuth from '@/components/auth/google-auth';
 import Link from 'next/link';
-import { useAuthStore } from '@/lib/stores/user-store';
+import { useAuth } from '@/lib/hooks/use-auth.hook';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const { setUser, setToken } = useAuthStore();
+    const { loginAsync, isLoginLoading } = useAuth({ redirectToLogin: false });
     const t = useTranslations('auth.login');
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
 
         try {
+            await loginAsync({ email, password });
+            toast.success(t('success.login'));
             router.push('/dashboard');
         } catch (error) {
             console.error('Failed to login:', error);
-        } finally {
-            setLoading(false);
+            toast.error(t('errors.invalidCredentials'));
         }
     };
 
-    const handleGoogleAuth = (data: { token: string, user: { id: string, email: string } }) => {
-        setToken(data.token);
-        setUser(data.user);
-
+    const handleGoogleAuth = () => {
         router.push('/dashboard');
     }
 
@@ -89,9 +86,9 @@ export default function LoginPage() {
                             <Button 
                                 type="submit" 
                                 className="w-full bg-secondary text-black hover:bg-secondary/90" 
-                                disabled={loading}
+                                disabled={isLoginLoading}
                             >
-                                {loading ? t('actions.loginLoading') : t('actions.login')}
+                                {isLoginLoading ? t('actions.loginLoading') : t('actions.login')}
                             </Button>
                         </form>
 

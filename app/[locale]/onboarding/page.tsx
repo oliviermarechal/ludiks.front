@@ -7,54 +7,58 @@ import { CircuitCreation } from "@/components/onboarding/steps/circuit-creation"
 import { StepsSetup } from "@/components/onboarding/steps/steps-setup";
 import { ObjectivesSetup } from "@/components/onboarding/steps/objectives-setup";
 import { useRouter } from "next/navigation";
-import createProject from "@/lib/actions/project/create-project.action";
 import { Project, useProjectStore } from "@/lib/stores/project-store";
-import { useProjects } from "@/lib/hooks/use-projects.hook";
+import { useOrganizations } from "@/lib/hooks/use-organizations.hook";
 import { useCircuits } from "@/lib/hooks/use-circuits.hook";
-import createCircuit from "@/lib/actions/circuit/create-circuit.action";
-import { Circuit, Step, useCircuitStore, CircuitType } from "@/lib/stores/circuit-store";
+import { CircuitType, Step, Circuit } from "@/lib/types/circuit.types";
 import setCircuitSteps from "@/lib/actions/circuit/set-circuit-steps.action";
-
-const steps = [
-  {
-    title: "Projet",
-    description: "Créez votre projet",
-  },
-  {
-    title: "Parcours",
-    description: "Configurez votre premier parcours",
-  },
-  {
-    title: "Configuration",
-    description: "Définissez les étapes",
-  },
-];
+import { useTranslations } from "next-intl";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function OnboardingPage() {
+  const t = useTranslations('onboarding.project');
   const [currentStep, setCurrentStep] = useState(0);
   const [projectData, setProjectData] = useState<Project | null>(null);
-  const [circuitData, setCircuitData] = useState<Circuit & { projectId: string } | null>(null);
+  const [circuitData, setCircuitData] = useState<(Circuit & { projectId: string }) | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const { addProject } = useProjectStore();
-  const { projects, isLoading: projectsLoading } = useProjects();
-  const { setProjectId, addCircuit } = useCircuitStore();
-  const { circuits, isLoading: circuitsLoading } = useCircuits(projectData?.id);
+  const queryClient = useQueryClient();
+  const { addProject, setSelectedProject, setSelectedOrganization } = useProjectStore();
+  const { organizations, isLoading: organizationsLoading, createOrganization } = useOrganizations();
+  const { circuits, isLoading: circuitsLoading, createCircuit } = useCircuits(projectData?.id);
+  
+  const steps = [
+    {
+      title: t('steps.project.title'),
+      description: t('steps.project.description'),
+    },
+    {
+      title: t('steps.circuit.title'),
+      description: t('steps.circuit.description'),
+    },
+    {
+      title: t('steps.configuration.title'),
+      description: t('steps.configuration.description'),
+    },
+  ];
   
   useEffect(() => {
-    if (!projectsLoading && projects.length > 0 && !projectData) {
-      const firstProject = projects[0];
-      setProjectData(firstProject);
-      setProjectId(firstProject.id);
+    if (!organizationsLoading && organizations.length > 0 && !projectData) {
+      const firstProject = organizations[0]?.projects[0];
+      if (firstProject) {
+        setProjectData(firstProject);
+        setSelectedProject(firstProject);
+      }
     }
-  }, [projectsLoading, projects, projectData, setProjectId]);
+  }, [organizationsLoading, organizations, projectData, setSelectedProject]);
 
   useEffect(() => {
     if (currentStep === 0 && !circuitsLoading && projectData) {
       if (circuits.length > 0) {
+        const firstCircuit = circuits[0];
         setCircuitData({
-          id: circuits[0].id,
-          name: circuits[0].name,
-          type: circuits[0].type,
+          ...firstCircuit,
           projectId: projectData.id,
         });
         setCurrentStep(2);
@@ -65,45 +69,94 @@ export default function OnboardingPage() {
   }, [currentStep, circuitsLoading, circuits, projectData]);
 
   const handleProjectCreation = async (data: { name: string }) => {
-    const project = await createProject(data.name);
-    addProject(project);
-    setProjectData(project);
-    setProjectId(project.id);
-    setCurrentStep(1);
+    setError(null);
+    
+    try {
+      const organization = await createOrganization(data.name);
+      const project = organization.projects[0];
+      
+      addProject(project);
+      setProjectData(project);
+      setSelectedOrganization(organization);
+      setSelectedProject(project);
+      setCurrentStep(1);
+      toast.success(t('toast.success.projectCreated'));
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : t('toast.error.projectCreationFailed');
+      setError(errorMessage);
+      toast.error(errorMessage);
+    }
   };
 
   const handleCircuitCreation = async (data: {name: string, type: CircuitType, projectId: string, description?: string}) => {
-    if (circuitData?.id) {
+    setError(null);
+    
+    try {
+      if (circuitData?.id) {
+        setCurrentStep(2);
+        setCircuitData({
+          ...circuitData,
+          name: data.name,
+          type: data.type,
+          projectId: data.projectId,
+        });
+        return;
+      }
+
+      const circuit = await createCircuit({ name: data.name, type: data.type });
+      setCircuitData({ ...circuit, projectId: data.projectId });
+      
       setCurrentStep(2);
-      setCircuitData({
-        ...circuitData,
-        name: data.name,
-        type: data.type,
-        projectId: data.projectId,
-        description: data.description,
-      });
-
-      return;
-    }
-
-    const circuit = await createCircuit(data.name, data.type, data.projectId, data.description);
-  
-    addCircuit(circuit);
-    setCircuitData(circuit);
-    setCurrentStep(2);
-  };
-
-  const handleStepsSetup = (data: Step[]) => {
-    if (circuitData?.id) {
-      setCircuitSteps(circuitData?.id, data);
-      router.push(`/dashboard/circuits/${circuitData?.id}`);
+      toast.success(t('toast.success.circuitCreated'));
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : t('toast.error.circuitCreationFailed');
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
-  const handleObjectivesSetup = (data: { objectives: Step[] }) => {
-    if (circuitData?.id) {
-      setCircuitSteps(circuitData?.id, data.objectives);
-      router.push(`/dashboard/circuits/${circuitData?.id}`);
+  const handleStepsSetup = async (data: Step[]) => {
+    if (!circuitData?.id) return;
+    
+    setError(null);
+    
+    try {
+      await setCircuitSteps(circuitData.id, data);
+      
+      await queryClient.refetchQueries({ queryKey: ['circuits', circuitData.projectId] });
+      
+      router.push(`/dashboard/circuits/${circuitData.id}`);
+      toast.success(t('toast.success.configurationCompleted'));
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : t('toast.error.stepsConfigurationFailed');
+      setError(errorMessage);
+      toast.error(errorMessage);
+    }
+  };
+
+  const handleObjectivesSetup = async (data: {objectives: Step[]}) => {
+    if (!circuitData?.id) return;
+    
+    setError(null);
+    
+    try {
+      const objectives = data.objectives.map((obj: Step) => ({
+        id: obj.id || `obj_${Date.now()}_${Math.random()}`,
+        name: obj.name,
+        eventName: obj.eventName,
+        completionThreshold: obj.completionThreshold,
+        description: obj.description,
+      }));
+      await setCircuitSteps(circuitData.id, objectives);
+      
+      await queryClient.refetchQueries({ queryKey: ['circuits', circuitData.projectId] });
+      
+      router.push(`/dashboard/circuits/${circuitData.id}`);
+      toast.success(t('toast.success.configurationCompleted'));
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : t('toast.error.objectivesConfigurationFailed');
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -122,12 +175,18 @@ export default function OnboardingPage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-primary via-secondary to-secondary text-transparent bg-clip-text mb-4">
-              Bienvenue sur Ludiks
+              {t('welcome.title')}
             </h1>
             <p className="text-lg text-foreground/70">
-              Configurons ensemble votre premier projet
+              {t('welcome.subtitle')}
             </p>
           </div>
+
+          {error && (
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+              <p className="text-red-500 text-sm">{error}</p>
+            </div>
+          )}
 
           <Stepper currentStep={currentStep} steps={steps} />
 

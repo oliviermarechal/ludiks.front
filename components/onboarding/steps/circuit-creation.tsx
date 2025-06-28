@@ -5,18 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ArrowRight, Star, RotateCw, Target } from "lucide-react"
-import { CircuitType } from "@/lib/stores/circuit-store";
+import { CircuitType } from "@/lib/types/circuit.types";
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 
-const circuitSchema = z.object({
-  name: z.string().min(3, "Le nom du parcours doit contenir au moins 3 caractères"),
-  type: z.enum([CircuitType.POINTS, CircuitType.ACTIONS, CircuitType.OBJECTIVE]),
-  projectId: z.string(),
-  description: z.string().max(500, "La description ne peut pas dépasser 500 caractères").optional(),
-})
-
-type CircuitFormData = z.infer<typeof circuitSchema>
+type CircuitFormData = z.infer<ReturnType<typeof createCircuitSchema>>
 
 interface CircuitCreationProps {
   onNext: (data: CircuitFormData) => void
@@ -29,28 +23,36 @@ interface CircuitCreationProps {
   } | null
 }
 
-const circuitTypes = [
-  {
-    value: "points",
-    label: "Points",
-    description: "Attribuez des points pour chaque action complétée. Définissez des niveaux pour récompenser vos utilisateurs au fil de leur progression.",
-    icon: Star,
-  },
-  {
-    value: "actions",
-    label: "Actions",
-    description: "Encouragez les utilisateurs à répéter des actions spécifiques. Récompensez-les lorsqu'ils atteignent des jalons.",
-    icon: RotateCw,
-  },
-  {
-    value: "objective",
-    label: "Liste d'objectifs",
-    description: "Définissez une série d'objectifs que les utilisateurs doivent compléter pour débloquer des récompenses.",
-    icon: Target,
-  },
-]
-
 export function CircuitCreation({ onNext, projectId, initialData }: CircuitCreationProps) {
+  const t = useTranslations('onboarding.project');
+  
+  const circuitSchema = z.object({
+    name: z.string().min(3, t('circuitCreation.name.error')),
+    type: z.enum([CircuitType.POINTS, CircuitType.ACTIONS, CircuitType.OBJECTIVE]),
+    projectId: z.string(),
+  })
+
+  const circuitTypes = [
+    {
+      value: "points",
+      label: t('circuitCreation.type.points.label'),
+      description: t('circuitCreation.type.points.description'),
+      icon: Star,
+    },
+    {
+      value: "actions",
+      label: t('circuitCreation.type.actions.label'),
+      description: t('circuitCreation.type.actions.description'),
+      icon: RotateCw,
+    },
+    {
+      value: "objective",
+      label: t('circuitCreation.type.objective.label'),
+      description: t('circuitCreation.type.objective.description'),
+      icon: Target,
+    },
+  ]
+
   const {
     register,
     handleSubmit,
@@ -63,7 +65,6 @@ export function CircuitCreation({ onNext, projectId, initialData }: CircuitCreat
       projectId,
       name: initialData?.name || "",
       type: initialData?.type,
-      description: initialData?.description || "",
     }
   })
 
@@ -79,19 +80,19 @@ export function CircuitCreation({ onNext, projectId, initialData }: CircuitCreat
   return (
     <div className="space-y-8">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-foreground">Créez votre parcours</h2>
+        <h2 className="text-2xl font-bold text-foreground">{t('circuitCreation.title')}</h2>
         <p className="text-foreground/70">
-          Commencez par définir les informations de base de votre parcours
+          {t('circuitCreation.subtitle')}
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         <div className="max-w-md mx-auto space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-foreground/90">Nom du parcours</Label>
+            <Label htmlFor="name" className="text-foreground/90">{t('circuitCreation.name.label')}</Label>
             <Input
               id="name"
-              placeholder="Parcours principal"
+              placeholder={t('circuitCreation.name.placeholder')}
               className="border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
               {...register("name")}
             />
@@ -99,27 +100,13 @@ export function CircuitCreation({ onNext, projectId, initialData }: CircuitCreat
               <p className="text-sm text-red-500">{errors.name.message}</p>
             )}
           </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description" className="text-foreground/90">Description (optionnelle)</Label>
-            <textarea
-              id="description"
-              placeholder="Décrivez le but de votre parcours..."
-              className="w-full min-h-[100px] rounded-md border border-primary/20 focus:border-primary/40 placeholder:text-foreground/50 p-3 text-sm"
-              maxLength={500}
-              {...register("description")}
-            />
-            {errors.description && (
-              <p className="text-sm text-red-500">{errors.description.message}</p>
-            )}
-          </div>
         </div>
 
         <div className="space-y-4">
           <div className="text-center space-y-2">
-            <h3 className="text-xl font-bold text-foreground">Type de parcours</h3>
+            <h3 className="text-xl font-bold text-foreground">{t('circuitCreation.type.title')}</h3>
             <p className="text-foreground/70">
-              Sélectionnez le type de parcours qui correspond le mieux à vos besoins
+              {t('circuitCreation.type.subtitle')}
             </p>
           </div>
 
@@ -168,18 +155,26 @@ export function CircuitCreation({ onNext, projectId, initialData }: CircuitCreat
               "transition-colors"
             )}
           >
-            Passer l&apos;onboarding
+            {t('circuitCreation.actions.skip')}
           </Link>
           <Button 
             type="submit"
             disabled={!selectedType}
             className="flex-1 bg-secondary hover:bg-secondary/90 text-black font-medium"
           >
-            Continuer
+            {t('circuitCreation.actions.continue')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </form>
     </div>
   )
+}
+
+function createCircuitSchema(t: (key: string) => string) {
+  return z.object({
+    name: z.string().min(3, t('circuitCreation.name.error')),
+    type: z.enum([CircuitType.POINTS, CircuitType.ACTIONS, CircuitType.OBJECTIVE]),
+    projectId: z.string(),
+  })
 } 

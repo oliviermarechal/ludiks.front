@@ -1,0 +1,39 @@
+{
+  "comingSoon": "Bientôt disponible",
+  "title": "Membres de l'équipe",
+  "description": "Gérez les membres de votre organisation et leurs rôles",
+  "invite": "Inviter un membre",
+  "you": "Vous",
+  "table": {
+    "member": "Membre",
+    "role": "Rôle",
+    "joined": "Rejoint le",
+    "actions": "Actions"
+  },
+  "pendingInvitations": {
+    "title": "Invitations en attente",
+    "invited": "Invité le",
+    "cancel": "Annuler"
+  },
+  "dialog": {
+    "title": "Inviter un membre d'équipe",
+    "description": "Saisissez l'email et sélectionnez un rôle pour le nouveau membre.",
+    "email": "Email",
+    "emailPlaceholder": "nom@exemple.com",
+    "role": "Rôle",
+    "member": "Membre",
+    "admin": "Administrateur",
+    "cancel": "Annuler",
+    "sendInvitation": "Envoyer l'invitation",
+    "sending": "Envoi en cours..."
+  },
+  "search": {
+    "placeholder": "Rechercher des membres..."
+  },
+  "cardTitle": "Membres de l'organisation",
+  "dropdown": {
+    "editProfile": "Modifier le profil",
+    "changeRole": "Changer le rôle",
+    "removeFromOrganization": "Retirer de l'organisation"
+  }
+} 

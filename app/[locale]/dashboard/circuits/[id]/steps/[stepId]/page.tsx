@@ -6,12 +6,13 @@ import { ArrowLeft, Upload, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
-import { CircuitType } from "@/lib/stores/circuit-store";
+import { CircuitType } from "@/lib/types/circuit.types";
 import { useProjectMetadatas } from "@/lib/hooks/use-project-metadata.hook";
 import { useCircuitInsights } from "@/lib/hooks/use-circuit-insights.hook";
 import { useParams } from "next/navigation";
 import { useProjectStore } from "@/lib/stores/project-store";
 import { UserStepList } from "./user-step-list";
+import { useTranslations } from "next-intl";
 
 function getCompletionColor(rate: number) {
     if (rate >= 80) return "bg-emerald-500/20 text-emerald-500";
@@ -20,16 +21,16 @@ function getCompletionColor(rate: number) {
     return "bg-red-500/20 text-red-500";
 }
 
-function getObjectiveLabel(type: CircuitType): string {
+function getObjectiveLabel(type: CircuitType, t: (key: string) => string): string {
     switch (type) {
         case CircuitType.ACTIONS:
-            return 'Répétition requise';
+            return t('detail.stats.objective.actions');
         case CircuitType.POINTS:
-            return 'Points requis';
+            return t('detail.stats.objective.points');
         case CircuitType.OBJECTIVE:
-            return 'Nombre de répétitions requises';
+            return t('detail.stats.objective.objective');
         default:
-            return 'Objectif';
+            return t('detail.stats.objective.default');
     }
 }
 
@@ -38,6 +39,7 @@ function getObjectiveSuffix(type: CircuitType): string {
 }
 
 export default function StepDetailPage() {
+    const t = useTranslations('dashboard.circuits.steps');
     const params = useParams();
     const stepId = params.stepId as string;
     const circuitId = params.id as string;
@@ -67,7 +69,7 @@ export default function StepDetailPage() {
     }, [circuitInsights, stepId, circuitId]);
 
     if (!stepData) {
-        return <div>Loading...</div>;
+        return <div>{t('detail.loading')}</div>;
     }
 
     return (
@@ -105,24 +107,24 @@ export default function StepDetailPage() {
                                 {stepData.alert && (
                                     <div className="flex items-center gap-1.5 text-red-500 bg-red-500/10 px-2 py-1 rounded-full text-sm">
                                         <AlertTriangle className="h-4 w-4" />
-                                        Point de friction
+                                        {t('detail.friction_point')}
                                     </div>
                                 )}
                             </div>
 
                             <div className="grid grid-cols-3 gap-6">
                                 <div className="bg-surface-3 rounded-lg p-4">
-                                    <p className="text-sm text-foreground/60 mb-1">Taux de complétion</p>
+                                    <p className="text-sm text-foreground/60 mb-1">{t('detail.stats.completion_rate')}</p>
                                     <p className="text-2xl font-bold text-foreground">{stepData.completionRate}%</p>
                                 </div>
                                 <div className="bg-surface-3 rounded-lg p-4">
-                                    <p className="text-sm text-foreground/60 mb-1">Utilisateurs sur cette étape</p>
+                                    <p className="text-sm text-foreground/60 mb-1">{t('detail.stats.users_on_step')}</p>
                                     <p className="text-2xl font-bold text-foreground">
                                         {stepData.usersOnThisStep}
                                     </p>
                                 </div>
                                 <div className="bg-surface-3 rounded-lg p-4">
-                                    <p className="text-sm text-foreground/60 mb-1">{getObjectiveLabel(stepData.circuitType)}</p>
+                                    <p className="text-sm text-foreground/60 mb-1">{getObjectiveLabel(stepData.circuitType, t)}</p>
                                     <p className="text-2xl font-bold text-foreground">
                                         {stepData.completionThreshold}{getObjectiveSuffix(stepData.circuitType)}
                                     </p>

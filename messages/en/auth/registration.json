@@ -17,9 +17,21 @@
   "social": {
     "continueWith": "Or continue with"
   },
+  "success": {
+    "registration": "Registration successful"
+  },
   "errors": {
     "emailExists": "This email is already registered",
     "invalidEmail": "Please enter a valid email address",
-    "passwordTooShort": "Password must be at least 8 characters long"
+    "passwordTooShort": "Password must be at least 8 characters long",
+    "general": "Registration error"
+  },
+  "invitation": {
+    "title": "Join the team",
+    "description": "You've been invited to collaborate",
+    "loading": {
+      "title": "Loading invitation",
+      "description": "Please wait while we verify your invite"
+    }
   }
 } 

@@ -1,61 +1,91 @@
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ArrowRight } from "lucide-react"
+'use client';
 
-const projectSchema = z.object({
-  name: z.string().min(3, "Le nom du projet doit contenir au moins 3 caractères"),
-})
-
-type ProjectFormData = z.infer<typeof projectSchema>
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
+import { Loader2 } from "lucide-react";
 
 interface ProjectCreationProps {
-  onNext: (data: ProjectFormData) => void
+  onNext: (data: { name: string }) => Promise<void>;
 }
 
 export function ProjectCreation({ onNext }: ProjectCreationProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ProjectFormData>({
-    resolver: zodResolver(projectSchema),
-  })
+  const t = useTranslations('onboarding.project');
+  const [projectName, setProjectName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!projectName.trim()) {
+      setError(t('form.validation.name.required'));
+      return;
+    }
+    
+    if (projectName.trim().length < 3) {
+      setError(t('form.validation.name.minLength'));
+      return;
+    }
+    
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      await onNext({ name: projectName.trim() });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Une erreur est survenue");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="space-y-6">
-      <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-foreground">Créez votre projet</h2>
+    <div className="max-w-md mx-auto">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl font-bold text-foreground mb-2">
+          {t('form.title')}
+        </h2>
         <p className="text-foreground/70">
-          Donnez un nom à votre projet pour commencer l&apos;aventure
+          {t('form.subtitle')}
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onNext)} className="space-y-6 max-w-md mx-auto">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="name" className="text-foreground/90">Nom du projet</Label>
+          <label htmlFor="projectName" className="block text-sm font-medium text-foreground">
+            {t('form.name.label')}
+          </label>
           <Input
-            id="name"
-            placeholder="Mon super projet"
-            className="border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
-            {...register("name")}
+            id="projectName"
+            type="text"
+            value={projectName}
+            onChange={(e) => setProjectName(e.target.value)}
+            placeholder={t('form.name.placeholder')}
+            className="bg-card border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
+            disabled={isLoading}
           />
-          {errors.name && (
-            <p className="text-sm text-red-500">{errors.name.message}</p>
+          {error && (
+            <p className="text-sm text-destructive">{error}</p>
           )}
         </div>
 
-        <Button 
-          type="submit" 
-          className="w-full bg-secondary hover:bg-secondary/90 text-black font-medium"
+        <Button
+          type="submit"
+          disabled={isLoading || !projectName.trim()}
+          className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground font-medium"
         >
-          Continuer
-          <ArrowRight className="ml-2 h-4 w-4" />
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {t('form.submit.loading')}
+            </>
+          ) : (
+            t('form.submit.default')
+          )}
         </Button>
       </form>
     </div>
-  )
+  );
 } 

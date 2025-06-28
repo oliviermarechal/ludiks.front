@@ -1,0 +1,43 @@
+{
+  "loading": "Chargement...",
+  "error": "Erreur lors du chargement des données d'insight.",
+  "stats": {
+    "active_users": "Utilisateurs actifs",
+    "completion_rate": "Taux de complétion",
+    "steps": "Étapes",
+    "avg_time": "Temps moyen"
+  },
+  "overview": {
+    "title": "Vue d'ensemble",
+    "subtitle": "Visualisation du parcours utilisateur et des points de friction",
+    "drop_alert": "Chute de {rate}% à l'étape \"{step}\""
+  },
+  "charts": {
+    "completion_rate": {
+      "title": "Taux de complétion",
+      "subtitle": "Progression par étape"
+    },
+    "completion_time": {
+      "title": "Temps de complétion",
+      "subtitle": "Durée moyenne par étape"
+    }
+  },
+  "tooltip": {
+    "users": "utilisateurs",
+    "completion_rate": "Taux de complétion:",
+    "avg_time": "Temps moyen:"
+  },
+  "steps_progress": {
+    "title": "Progression des étapes",
+    "view_details": "Voir les détails",
+    "friction_point": "Point de friction",
+    "users": "Utilisateurs",
+    "completion_rate": "Taux de complétion",
+    "avg_time": "Temps moyen",
+    "progress": "Progression"
+  },
+  "step_labels": {
+    "actions": "{threshold} actions",
+    "points": "{threshold} points"
+  }
+} 

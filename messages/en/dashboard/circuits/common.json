@@ -1,0 +1,196 @@
+{
+  "title": "Circuits",
+  "actions": {
+    "create": "Create Circuit",
+    "edit": "Edit Circuit",
+    "delete": "Delete Circuit",
+    "duplicate": "Duplicate Circuit",
+    "activate": "Activate",
+    "deactivate": "Deactivate"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "draft": "Draft"
+  },
+  "loading": "Loading circuits...",
+  "errors": {
+    "projectRequired": {
+      "title": "Project Selection Required",
+      "description": "Please select a project from the menu first to create a new circuit."
+    },
+    "loadFailed": "Failed to load circuits",
+    "saveFailed": "Failed to save circuit",
+    "deleteFailed": "Failed to delete circuit",
+    "notFound": "Circuit not found",
+    "nameTooShort": "Circuit name must be at least 3 characters long",
+    "updateFailed": "An error occurred while updating",
+    "stepUpdateFailed": "Error updating step",
+    "stepDeleteFailed": "Error deleting step",
+    "stepAddFailed": "Error adding step",
+    "stepsResetFailed": "Error resetting steps",
+    "stepsOrderUpdateFailed": "Error updating steps order"
+  },
+  "success": {
+    "nameUpdated": "Circuit name has been updated",
+    "stepUpdated": "Step has been updated",
+    "stepDeleted": "Step has been deleted",
+    "stepAdded": "New step has been added",
+    "stepsReset": "Steps have been reset",
+    "stepsOrderUpdated": "Steps order has been updated",
+    "circuitDeleted": "Circuit \"{name}\" deleted successfully"
+  },
+  "form": {
+    "info": {
+      "title": "Circuit Information",
+      "subtitle": "Give your circuit a name and description to easily find it",
+      "name": {
+        "label": "Circuit Name",
+        "placeholder": "Ex: User Onboarding, Loyalty Program..."
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Describe the purpose of this circuit..."
+      }
+    },
+    "type": {
+      "title": "Circuit Type",
+      "subtitle": "Choose the type that best matches your engagement strategy",
+      "points": {
+        "label": "Points System",
+        "description": "Create a custom points system to reward your users' actions and stimulate long-term engagement."
+      },
+      "actions": {
+        "label": "Action Tracking",
+        "description": "Define key actions to track and encourage their repetition to create sustainable usage habits."
+      },
+      "objective": {
+        "label": "Objective Journey",
+        "description": "Build a progressive journey with objectives to achieve and rewards to unlock at each step."
+      }
+    },
+    "validation": {
+      "name": {
+        "minLength": "Circuit name must be at least 3 characters long"
+      },
+      "description": {
+        "maxLength": "Description cannot exceed 500 characters"
+      }
+    },
+    "submit": "Create Circuit"
+  },
+  "activate": {
+    "description": "You are about to activate this circuit. This action is irreversible and will have the following consequences:",
+    "consequences": {
+      "steps": "Circuit steps can no longer be modified",
+      "data": "User data will start being collected",
+      "stats": "Statistics will be available in the Analytics tab"
+    },
+    "confirm": "Are you sure you want to activate this circuit?"
+  },
+  "buttons": {
+    "cancel": "Cancel"
+  },
+  "tabs": {
+    "settings": "Settings",
+    "overview": "Overview",
+    "rewards": "Rewards",
+    "analytics": "Analytics",
+    "api": "Integration"
+  },
+  "overview": {
+    "summary": "Circuit Summary",
+    "summaryDescription": "Overview of your circuit's current configuration",
+    "steps": "Steps",
+    "rewards": "Rewards",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "stepsTitle": "Circuit Steps",
+    "stepsDescription": "List of steps configured for this circuit",
+    "rewardsTitle": "Circuit Rewards",
+    "rewardsDescription": "List of rewards associated with this circuit",
+    "noSteps": "No steps configured",
+    "noRewards": "No rewards configured",
+    "stepReward": "Step Reward",
+    "completionReward": "Completion Reward",
+    "unknownStep": "Unknown step"
+  },
+  "settings": {
+    "title": "Circuit Settings",
+    "description": {
+      "points": "Define the point thresholds to reach",
+      "actions": "Define the number of repetitions to complete",
+      "objective": "Define the objectives your users need to achieve"
+    },
+    "name": {
+      "label": "Circuit Name",
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "steps": {
+      "title": "Step Management",
+      "description": {
+        "points": "Configure point thresholds",
+        "actions": "Configure action thresholds",
+        "objective": "Configure objectives to achieve"
+      },
+      "generator": {
+        "title": "Step Generator",
+        "description": "Generate steps automatically with a predefined progression",
+        "points": {
+          "title": "Level Configuration",
+          "description": "Configure point thresholds",
+          "generate": "Generate levels",
+          "threshold": "Points required",
+          "points": "points"
+        },
+        "actions": {
+          "title": "Threshold Configuration",
+          "description": "Configure action thresholds",
+          "generate": "Generate thresholds",
+          "threshold": "Actions required",
+          "actions": "actions"
+        },
+        "objectives": {
+          "title": "Objective Configuration",
+          "description": "Configure objectives to achieve",
+          "name": "Objective name",
+          "description": "Description (optional)",
+          "eventName": "Technical identifier for tracking (e.g., complete_profile)",
+          "repetitions": "Repetitions"
+        },
+        "form": {
+          "numberOfSteps": {
+            "question": "How many {type} do you want to create?",
+            "placeholder": "Ex: 5",
+            "hint": "A good journey typically contains between 3 and 7 steps"
+          },
+          "range": {
+            "question": "Define the {type} range for your journey",
+            "startValue": "Starting value",
+            "maxValue": "Maximum value",
+            "hint": "These values represent the number of {type} needed for the first and last {stepType}"
+          }
+        }
+      }
+    },
+    "deleteStep": {
+      "title": "Delete Step",
+      "description": "Are you sure you want to delete this step?",
+      "warning": "If a reward is associated with this step, it will also be deleted.",
+      "confirm": "Delete"
+    }
+  },
+  "delete": {
+    "title": "Delete Circuit",
+    "description": "This action is irreversible and will:",
+    "consequences": {
+      "steps": "Permanently delete the circuit and all its steps",
+      "data": "Erase all user progression data",
+      "stats": "Remove all associated statistics and rewards"
+    },
+    "confirm": "Are you sure you want to delete this circuit?"
+  }
+} 

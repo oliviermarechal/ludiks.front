@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useCallback, useMemo } from "react";
 import { useStepUsers, StepUser } from "@/lib/hooks/use-step-users.hook";
+import { useTranslations } from "next-intl";
 
 function getInitials(name: string) {
     return name
@@ -27,14 +28,23 @@ function formatDate(date: Date): string {
 
 function formatDuration(date: Date): string {
     const now = new Date();
-    const diff = now.getTime() - date.getTime();
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const diff = Math.abs(now.getTime() - date.getTime());
     
-    if (days === 0) {
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        return `${hours}h`;
+    if (diff < 60000) {
+        return "Now";
     }
-    return `${days}j`;
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    if (days > 0) {
+        return `${days}j`;
+    } else if (hours > 0) {
+        return `${hours}h`;
+    } else {
+        return `${minutes}m`;
+    }
 }
 
 interface UserStepListContentProps {
@@ -47,6 +57,8 @@ interface UserStepListContentProps {
 }
 
 function UserList({ users }: { users: StepUser[] }) {
+    const t = useTranslations('dashboard.circuits.steps');
+
     return (
         <Card className="border-secondary/20 bg-surface-2 backdrop-blur-sm divide-y divide-secondary/10">
             {users.map((user) => (
@@ -67,35 +79,29 @@ function UserList({ users }: { users: StepUser[] }) {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 w-full md:w-1/3 bg-secondary/10 rounded-lg py-2 px-3">
-                        <div className="flex items-center gap-1">
-                            <span className="text-xs text-foreground/60">Streak actuel:</span>
-                            <span className="text-xs font-semibold text-secondary">{user.currentStreak}j</span>
+                    {user.metadata && Object.keys(user.metadata).length > 0 && (
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 w-full md:w-1/3 bg-secondary/10 rounded-lg py-2 px-3">
+                            {Object.entries(user.metadata).map(([key, value]) => (
+                                <div key={key} className="flex items-center gap-1">
+                                    <span className="text-xs text-foreground/60">{key}:</span>
+                                    <span className="text-xs font-semibold text-secondary">
+                                        {typeof value === 'boolean' ? (value ? t('detail.user_list.boolean.true') : t('detail.user_list.boolean.false')) : value}
+                                    </span>
+                                </div>
+                            ))}
                         </div>
-                        <div className="flex items-center gap-1">
-                            <span className="text-xs text-foreground/60">Meilleur streak:</span>
-                            <span className="text-xs font-semibold text-secondary">{user.longestStreak}j</span>
-                        </div>
-                        {Object.entries(user.metadata).map(([key, value]) => (
-                            <div key={key} className="flex items-center gap-1">
-                                <span className="text-xs text-foreground/60">{key}:</span>
-                                <span className="text-xs font-semibold text-secondary">
-                                    {typeof value === 'boolean' ? (value ? 'Oui' : 'Non') : value}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
+                    )}
                     <div className="flex flex-col items-end w-full md:w-1/3">
                         <div>
-                            <span className="text-xs text-foreground/60">Inscrit le</span>
+                            <span className="text-xs text-foreground/60">{t('detail.user_list.registered_on')}</span>
                             <span className="text-sm font-semibold text-secondary ml-1">{formatDate(user.createdAt)}</span>
                         </div>
                         <div>
-                            <span className="text-xs text-foreground/60">Sur l&apos;étape depuis</span>
+                            <span className="text-xs text-foreground/60">{t('detail.user_list.on_step_since')}</span>
                             <span className="text-sm font-semibold text-secondary ml-1">{formatDuration(user.startSince)}</span>
                         </div>
                         <div>
-                            <span className="text-xs text-foreground/60">Dernière connexion</span>
+                            <span className="text-xs text-foreground/60">{t('detail.user_list.last_connection')}</span>
                             <span className="text-sm font-semibold text-secondary ml-1">{formatDate(user.lastLoginAt)}</span>
                         </div>
                     </div>
@@ -113,6 +119,7 @@ export function UserStepListContent({
     filters,
     onPageChange 
 }: UserStepListContentProps) {
+    const t = useTranslations('dashboard.circuits.steps');
     const offset = useMemo(() => (currentPage - 1) * itemsPerPage, [currentPage, itemsPerPage]);
     const { data: paginatedUsers, isLoading: isLoadingUsers } = useStepUsers(circuitId, stepId, itemsPerPage, offset, filters);
 
@@ -131,9 +138,13 @@ export function UserStepListContent({
 
     const paginationInfo = useMemo(() => (
         <p className="text-sm text-foreground/60">
-            Page {currentPage} sur {totalPages} ({paginatedUsers?.total || 0} utilisateurs)
+            {t('detail.pagination.page_info', { 
+                current: currentPage, 
+                total: totalPages, 
+                count: paginatedUsers?.total || 0 
+            })}
         </p>
-    ), [currentPage, totalPages, paginatedUsers?.total]);
+    ), [currentPage, totalPages, paginatedUsers?.total, t]);
 
     const userList = useMemo(() => {
         if (!paginatedUsers?.data) return null;
@@ -141,7 +152,7 @@ export function UserStepListContent({
     }, [paginatedUsers?.data]);
 
     if (isLoadingUsers) {
-        return <div>Loading...</div>;
+        return <div>{t('detail.loading')}</div>;
     }
 
     if (!paginatedUsers) {

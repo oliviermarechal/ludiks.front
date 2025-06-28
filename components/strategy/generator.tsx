@@ -31,7 +31,6 @@ interface Question {
   };
 }
 
-// Actions dynamiques selon l'objectif principal
 const ACTIONS_BY_GOAL: Record<MainGoal, { value: string }[]> = {
   retention: [
     { value: "feature_usage" },
@@ -134,7 +133,6 @@ export function StrategyGenerator({ mode = "dashboard", onComplete }: StrategyGe
   const [steps, setSteps] = useState<Question[][]>([]);
   const [dynamicActions, setDynamicActions] = useState<{ value: string; label: string }[]>([]);
 
-  // Met à jour dynamiquement les actions selon le mainGoal
   useEffect(() => {
     if (formData.mainGoal) {
       setDynamicActions(ACTIONS_BY_GOAL[formData.mainGoal].map(action => ({

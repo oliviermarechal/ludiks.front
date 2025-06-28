@@ -1,0 +1,43 @@
+{
+  "loading": "Loading...",
+  "error": "Error loading insight data.",
+  "stats": {
+    "active_users": "Active users",
+    "completion_rate": "Completion rate",
+    "steps": "Steps",
+    "avg_time": "Average time"
+  },
+  "overview": {
+    "title": "Overview",
+    "subtitle": "User journey visualization and friction points",
+    "drop_alert": "Drop of {rate}% at step \"{step}\""
+  },
+  "charts": {
+    "completion_rate": {
+      "title": "Completion rate",
+      "subtitle": "Progress by step"
+    },
+    "completion_time": {
+      "title": "Completion time",
+      "subtitle": "Average duration per step"
+    }
+  },
+  "tooltip": {
+    "users": "users",
+    "completion_rate": "Completion rate:",
+    "avg_time": "Average time:"
+  },
+  "steps_progress": {
+    "title": "Steps progress",
+    "view_details": "View details",
+    "friction_point": "Friction point",
+    "users": "Users",
+    "completion_rate": "Completion rate",
+    "avg_time": "Average time",
+    "progress": "Progress"
+  },
+  "step_labels": {
+    "actions": "{threshold} actions",
+    "points": "{threshold} points"
+  }
+} 

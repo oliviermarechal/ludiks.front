@@ -1,0 +1,87 @@
+{
+  "title": "Facturation & Plan",
+  "description": "Gérez votre abonnement, vos moyens de paiement et consultez votre historique de facturation.",
+  "currentPlan": "Plan Actuel",
+  "yourPlan": "Votre Plan",
+  "upgrade": "Mettre à niveau",
+  "downgrade": "Rétrograder",
+  "manage": "Gérer",
+  "cancelSubscription": "Annuler l'abonnement",
+  "paymentMethod": "Moyen de paiement",
+  "addPaymentMethod": "Ajouter un moyen de paiement",
+  "billingHistory": "Historique de facturation",
+  "date": "Date",
+  "amount": "Montant",
+  "invoice": "Facture",
+  "billingCycle": "Cycle de facturation",
+  "monthly": "Mensuel",
+  "yearly": "Annuel",
+  "saveWithYearly": "Économisez 10% avec la facturation annuelle",
+  "plans": {
+    "free": {
+      "name": "Gratuit",
+      "price": "0€",
+      "period": "/ mois",
+      "yearlyPrice": "0€",
+      "yearlyPeriod": "/ an",
+      "features": [
+        "25 000 événements/mois",
+        "Projets illimités",
+        "Membres d'équipe illimités",
+        "Analyses de base",
+        "Support communautaire"
+      ],
+      "description": "Parfait pour commencer et découvrir l'outil"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "49€",
+      "period": "/ mois",
+      "yearlyPrice": "529€",
+      "yearlyPeriod": "/ an",
+      "features": [
+        "Tout du plan Gratuit",
+        "1 000 000 événements/mois",
+        "Liste des utilisateurs & suivi de progression",
+        "Export CSV pour l'engagement utilisateur",
+        "Analyses avancées",
+        "Support prioritaire"
+      ],
+      "current": "Plan Actuel",
+      "description": "Pour les équipes en croissance qui ont besoin d'analyses approfondies"
+    },
+    "scale": {
+      "name": "Scale",
+      "price": "299€",
+      "period": "/ mois",
+      "yearlyPrice": "3 229€",
+      "yearlyPeriod": "/ an",
+      "features": [
+        "Tout du plan Pro",
+        "Événements illimités",
+        "Performance de niveau entreprise",
+        "Limites de taux API avancées"
+      ],
+      "description": "Pour les applications à fort volume et les entreprises"
+    }
+  },
+  "faq": {
+    "title": "Questions Fréquemment Posées",
+    "changePlans": {
+      "question": "Puis-je changer de plan à tout moment ?",
+      "answer": "Oui, vous pouvez mettre à niveau ou rétrograder votre plan à tout moment. Les changements prennent effet immédiatement."
+    },
+    "eventLimit": {
+      "question": "Que se passe-t-il si je dépasse ma limite d'événements ?",
+      "answer": "Vous recevrez une notification lorsque vous approcherez de votre limite. Nous travaillerons avec vous pour trouver la bonne solution."
+    },
+    "freeTrial": {
+      "question": "Y a-t-il un essai gratuit ?",
+      "answer": "Le plan Gratuit est toujours disponible sans limite de temps. Commencez à l'utiliser dès maintenant !"
+    },
+    "cancelAnytime": {
+      "question": "Puis-je annuler à tout moment ?",
+      "answer": "Absolument. Vous pouvez annuler votre abonnement à tout moment sans pénalités ni frais cachés."
+    }
+  }
+} 

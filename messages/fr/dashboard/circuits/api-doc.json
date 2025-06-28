@@ -1,0 +1,73 @@
+{
+  "title": "Intégration",
+  "subtitle": "Intégrez facilement le suivi des utilisateurs dans votre application avec notre SDK JavaScript.",
+  "installation": {
+    "title": "Installation",
+    "npm_install": "Installation via npm"
+  },
+  "initialization": {
+    "title": "Initialisation",
+    "sdk_config": "Configuration du SDK"
+  },
+  "tracking_events": {
+    "title": "Suivi des événements",
+    "send_event": "Envoi d'un événement",
+    "objective_description": "Pour un circuit d'objectif, vous devez envoyer un événement pour chaque étape complétée. Sélectionnez une étape pour voir l'exemple correspondant :",
+    "progressive_description": "Pour un circuit à points ou à actions, envoyez un événement avec la valeur à incrémenter :",
+    "step_label": "Étape :",
+    "step_option": "Étape {index} : {name}",
+    "available_events": "Liste des events disponibles :",
+    "step_column": "Étape",
+    "event_name_column": "eventName"
+  },
+  "response_format": {
+    "title": "Format de réponse",
+    "structure": "Structure de la réponse",
+    "examples": "Exemples de réponses",
+    "success_step": "Étape complétée avec succès :",
+    "circuit_completed": "Circuit complété :",
+    "already_completed": "Étape déjà complétée :",
+    "error": "Erreur :"
+  },
+  "api_reference": {
+    "title": "Référence API",
+    "types": "Types",
+    "methods": "Méthodes",
+    "setup_description": "Initialise le SDK avec les informations de l'utilisateur. Cette méthode doit être appelée une seule fois au démarrage de l'application.",
+    "track_event_description": "Envoie un événement au serveur. Pour les circuits d'objectif, utilisez l'eventName correspondant à l'étape. Pour les circuits à points/actions, incluez la valeur à incrémenter. Retourne un objet contenant le statut de l'opération et les récompenses débloquées."
+  },
+  "code": {
+    "comments": {
+      "sdk_init": "Initialisation du SDK avec les informations de l'utilisateur",
+      "api_key": "Clé API de votre projet",
+      "user_id": "ID unique de l'utilisateur",
+      "full_name": "Nom complet de l'utilisateur",
+      "email": "Email (optionnel)",
+      "picture": "URL de l'avatar (optionnel)",
+      "metadata": "Métadonnées personnalisées (optionnel)",
+      "send_step_event": "Envoi d'un événement pour une étape",
+      "send_value_event": "Envoi d'un événement avec une valeur",
+      "timestamp_optional": "Optionnel, par défaut: Date.now()",
+      "increment_value": "Nombre de points/actions à incrémenter",
+      "operation_status": "Indique si l'opération s'est bien déroulée",
+      "progression_updated": "Indique si la progression a été mise à jour",
+      "error_message": "Message d'erreur (si success = false)",
+      "step_completed": "Indique si une étape a été complétée",
+      "circuit_completed": "Indique si le circuit entier a été complété",
+      "already_completed": "Indique si l'étape/circuit était déjà complété",
+      "total_points": "Nombre total de points actuels",
+      "unlocked_rewards": "Récompenses débloquées (si configurées)"
+    },
+    "examples": {
+      "beginner_badge": "Badge de débutant",
+      "completion_certificate": "Certificat de fin"
+    }
+  },
+  "api_key_warning": {
+    "title": "Aucune clé API trouvée",
+    "description": "Vous devez créer une clé API pour utiliser le SDK. L'exemple ci-dessous utilise une clé de test à des fins de démonstration.",
+    "create_key": "Créez votre première clé API dans l'onglet",
+    "settings": "Paramètres",
+    "tab": ""
+  }
+} 

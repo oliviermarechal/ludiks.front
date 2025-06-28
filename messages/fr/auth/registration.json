@@ -17,9 +17,21 @@
   "social": {
     "continueWith": "Ou continuer avec"
   },
+  "success": {
+    "registration": "Inscription réussie"
+  },
   "errors": {
     "emailExists": "Cet email est déjà enregistré",
     "invalidEmail": "Veuillez entrer une adresse email valide",
-    "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères"
+    "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+    "general": "Erreur lors de l'inscription"
+  },
+  "invitation": {
+    "title": "Rejoindre l'équipe",
+    "description": "Vous avez été invité à collaborer",
+    "loading": {
+      "title": "Chargement de l'invitation",
+      "description": "Veuillez patienter pendant que nous vérifions votre invitation"
+    }
   }
 } 
