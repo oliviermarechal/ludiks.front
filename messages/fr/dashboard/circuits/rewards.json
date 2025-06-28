@@ -1,0 +1,62 @@
+{
+  "types": {
+    "badge": "Badge",
+    "certificate": "Certificat",
+    "points": "Points",
+    "custom": "Récompense personnalisée"
+  },
+  "conditions": {
+    "completion": "À la complétion",
+    "score": "Score minimum",
+    "time": "Limite de temps"
+  },
+  "messages": {
+    "earned": "Vous avez gagné une récompense !",
+    "unlocked": "Nouvelle récompense débloquée"
+  },
+  "note": {
+    "title": "Note :",
+    "content": "Les informations de cette section sont purement indicatives. Elles permettent à Ludiks de vous signaler, via son API, lorsqu'un utilisateur a débloqué une récompense. C'est à votre système de gérer l'attribution réelle de la récompense à l'utilisateur. La manière dont ces informations sont transmises à votre système est détaillée dans la documentation."
+  },
+  "title": "Gestion des récompenses",
+  "subtitle": "Associez des récompenses aux étapes de votre parcours pour motiver vos utilisateurs",
+  "available": "Récompenses disponibles",
+  "create": "Créer une récompense",
+  "empty": {
+    "title": "Aucune récompense créée",
+    "description": "Commencez par créer une récompense à associer à vos étapes"
+  },
+  "edit": "Modifier la récompense",
+  "delete": "Supprimer la récompense",
+  "delete_confirm": "Êtes-vous sûr de vouloir supprimer la récompense \"{name}\" ? Cette action est irréversible.",
+  "cancel": "Annuler",
+  "confirm_delete": "Supprimer",
+  "fields": {
+    "name": "Nom de la récompense",
+    "name_placeholder": "Ex: Badge Expert",
+    "description": "Description (optionnel)",
+    "description_placeholder": "Décrivez la récompense...",
+    "unlock_condition": "Condition de déblocage",
+    "completion": "À la complétion",
+    "completion_hint": "La récompense sera débloquée à la fin du parcours",
+    "step": "À une étape",
+    "step_hint": "La récompense sera débloquée à une étape spécifique",
+    "associated_step": "Étape associée",
+    "associated_level": "Palier associé",
+    "select_step": "Sélectionnez une étape",
+    "select_level": "Sélectionnez un palier"
+  },
+  "unlocked": {
+    "circuit": "Débloquée à la fin du parcours",
+    "step": "Débloquée à {type} : {step}"
+  },
+  "actions": {
+    "edit": "Modifier",
+    "delete": "Supprimer"
+  },
+  "form": {
+    "cancel": "Annuler",
+    "create": "Créer",
+    "update": "Modifier"
+  }
+} 

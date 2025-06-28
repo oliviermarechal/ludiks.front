@@ -1,0 +1,191 @@
+{
+  "actions": {
+    "add": "Add Step",
+    "edit": "Edit Step",
+    "delete": "Delete Step",
+    "move": "Move Step"
+  },
+  "validation": {
+    "required": "This step is required",
+    "minTime": "Minimum time required",
+    "maxTime": "Maximum time exceeded",
+    "minLength": "Name must be at least 3 characters long",
+    "minValue": "Number must be greater than 0"
+  },
+  "preview": {
+    "step": "Step {index}",
+    "title": "Progression Preview",
+    "description": "View the progression curve",
+    "level": "Level {index}",
+    "points": "{value} points",
+    "actions": "{value} actions"
+  },
+  "generator": {
+    "title": {
+      "points": "Level Generator",
+      "actions": "Action Level Generator"
+    },
+    "steps": {
+      "count": {
+        "question": "How many {type} do you want to create?",
+        "placeholder": "Ex: 5",
+        "error": "Number must be between 2 and 100",
+        "hint": "A good journey usually contains between 3 and 7 steps"
+      },
+      "range": {
+        "question": "Define the range of {type} for your journey",
+        "placeholder": "Ex: 1",
+        "error": "Start value must be greater than 0 and less than maximum value",
+        "hint": "These values represent the number of {type} required for the first and last {level}",
+        "start": "Start value",
+        "max": "Maximum value"
+      }
+    },
+    "progression": {
+      "title": "Progression Type",
+      "placeholder": "Choose a type",
+      "hint": "The progression curve determines the difficulty between each step",
+      "types": {
+        "linear": "Linear (regular progression)",
+        "power": "Exponential (increasingly difficult progression)",
+        "logarithmic": "Logarithmic (increasingly easier progression)"
+      },
+      "intensity": {
+        "label": "Progression Intensity",
+        "hint": "Adjust the intensity of the exponential progression"
+      }
+    },
+    "navigation": {
+      "back": "Back",
+      "next": "Next",
+      "modify": "Modify",
+      "generate": {
+        "points": "Generate levels",
+        "actions": "Generate action levels"
+      },
+      "step": "Step {current} of {total}"
+    },
+    "preview": {
+      "title": "Progression Preview",
+      "description": "View the progression curve",
+      "level": "Level {index}",
+      "points": "{value} points",
+      "actions": "{value} actions"
+    }
+  },
+  "forms": {
+    "actions": {
+      "title": "Action Levels Configuration",
+      "generate": "Generate Levels",
+      "add": "Add Level",
+      "preview": {
+        "title": "Progression Preview",
+        "description": "View the progression curve of actions to complete"
+      },
+      "placeholder": {
+        "threshold": "Required Actions"
+      },
+      "label": {
+        "actions": "actions"
+      },
+      "step": {
+        "name": "{circuitName} level {index}",
+        "description": "Complete {threshold} actions"
+      }
+    },
+    "points": {
+      "title": "Points Levels Configuration",
+      "generate": "Generate Levels",
+      "add": "Add Level",
+      "preview": {
+        "title": "Progression Preview",
+        "description": "View the progression curve of points to reach"
+      },
+      "placeholder": {
+        "threshold": "Required Points"
+      },
+      "label": {
+        "points": "points"
+      },
+      "step": {
+        "name": "{circuitName} level {index}",
+        "description": "Reach {threshold} points"
+      }
+    },
+    "objectives": {
+      "title": "Objectives Configuration",
+      "add": "Add Objective",
+      "empty": {
+        "title": "No objectives defined",
+        "description": "Start by adding a first objective for your users to achieve"
+      },
+      "chat": {
+        "name": {
+          "question": "What is this objective called?",
+          "placeholder": "Ex: Complete profile",
+          "error": "Name must be at least 3 characters long"
+        },
+        "description": {
+          "question": "In one sentence, describe what the user must do (optional)",
+          "placeholder": "Ex: Fill in all profile fields"
+        },
+        "threshold": {
+          "question": "How many times must the user succeed to validate?",
+          "placeholder": "Ex: 1",
+          "error": "Number must be greater than 0"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "skip": "Skip"
+        }
+      },
+      "placeholder": {
+        "name": "Objective name",
+        "description": "Description (optional)",
+        "eventName": "event_name",
+        "threshold": "Repetitions"
+      },
+      "help": {
+        "eventName": "Technical identifier for tracking (ex: complete_profile)"
+      },
+      "actions": {
+        "edit": "Edit step",
+        "delete": "Delete step",
+        "move": "Move"
+      }
+    }
+  },
+  "detail": {
+    "loading": "Loading...",
+    "header": {
+      "title": "Users on this step"
+    },
+    "stats": {
+      "completion_rate": "Completion rate",
+      "users_on_step": "Users on this step",
+      "objective": {
+        "actions": "Required repetitions",
+        "points": "Required points",
+        "objective": "Required number of repetitions",
+        "default": "Objective"
+      }
+    },
+    "friction_point": "Friction point",
+    "export": "Export to CSV",
+    "filters": {
+      "all": "{key} (all)"
+    },
+    "user_list": {
+      "registered_on": "Registered on",
+      "on_step_since": "On step since",
+      "last_connection": "Last connection",
+      "boolean": {
+        "true": "Yes",
+        "false": "No"
+      }
+    },
+    "pagination": {
+      "page_info": "Page {current} of {total} ({count} users)"
+    }
+  }
+} 

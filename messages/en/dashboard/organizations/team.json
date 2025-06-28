@@ -1,0 +1,39 @@
+{
+  "comingSoon": "Coming Soon",
+  "title": "Team Members",
+  "description": "Manage your organization's team members and their roles",
+  "invite": "Invite Member",
+  "you": "You",
+  "table": {
+    "member": "Member",
+    "role": "Role",
+    "joined": "Joined",
+    "actions": "Actions"
+  },
+  "pendingInvitations": {
+    "title": "Pending Invitations",
+    "invited": "Invited on",
+    "cancel": "Cancel"
+  },
+  "dialog": {
+    "title": "Invite Team Member",
+    "description": "Enter the email and select a role for the new member.",
+    "email": "Email",
+    "emailPlaceholder": "name@example.com",
+    "role": "Role",
+    "member": "Member",
+    "admin": "Admin",
+    "cancel": "Cancel",
+    "sendInvitation": "Send Invitation",
+    "sending": "Sending..."
+  },
+  "search": {
+    "placeholder": "Search members..."
+  },
+  "cardTitle": "Organization Members",
+  "dropdown": {
+    "editProfile": "Edit Profile",
+    "changeRole": "Change Role",
+    "removeFromOrganization": "Remove from Organization"
+  }
+} 

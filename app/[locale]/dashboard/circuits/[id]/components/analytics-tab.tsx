@@ -5,7 +5,6 @@ import {
     Trophy,
     Activity,
     AlertTriangle,
-    ChevronRight,
     ArrowUpRight,
     TrendingDown,
     Clock
@@ -14,8 +13,8 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, BarChart, Bar } from "recharts";
 import { CircuitStepInsight, useCircuitInsights } from '@/lib/hooks/use-circuit-insights.hook';
-import { CircuitType } from "@/lib/stores/circuit-store";
-import { useLocale } from 'next-intl';
+import { CircuitType } from "@/lib/types/circuit.types";
+import { useLocale, useTranslations } from 'next-intl';
 
 interface AnalyticsTabProps {
     circuitId: string;
@@ -47,6 +46,7 @@ function formatDurationAbs(seconds?: number | null, locale: string = "en"): stri
 
 function CustomTooltip({ active, payload }: { active?: boolean, payload?: {payload: {name: string, usersCompleted: number, completionRate: number, avgTime: number}}[] }) {
     const locale = useLocale();
+    const t = useTranslations('dashboard.circuits.insight');
     if (active && payload && payload.length) {
         const data = payload[0].payload;
         return (
@@ -54,13 +54,13 @@ function CustomTooltip({ active, payload }: { active?: boolean, payload?: {paylo
                 <p className="text-white font-medium mb-1">{data.name}</p>
                 <div className="space-y-1 text-sm">
                     <p className="text-white/70">
-                        <span className="text-secondary">{data.usersCompleted}</span> utilisateurs
+                        <span className="text-secondary">{data.usersCompleted}</span> {t('tooltip.users')}
                     </p>
                     <p className="text-white/70">
-                        Taux de complétion: <span className="text-secondary">{data.completionRate}%</span>
+                        {t('tooltip.completion_rate')} <span className="text-secondary">{data.completionRate}%</span>
                     </p>
                     <p className="text-white/70">
-                        Temps moyen: <span className="text-secondary">{formatDurationAbs(data.avgTime, locale)}</span>
+                        {t('tooltip.avg_time')} <span className="text-secondary">{formatDurationAbs(data.avgTime, locale)}</span>
                     </p>
                 </div>
             </div>
@@ -71,13 +71,14 @@ function CustomTooltip({ active, payload }: { active?: boolean, payload?: {paylo
 
 export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
     const locale = useLocale();
+    const t = useTranslations('dashboard.circuits.insight');
     const { data: circuit, isLoading, error } = useCircuitInsights(circuitId);
 
     if (isLoading) {
-        return <div>Chargement...</div>;
+        return <div>{t('loading')}</div>;
     }
     if (error || !circuit) {
-        return <div>Erreur lors du chargement des données d&apos;insight.</div>;
+        return <div>{t('error')}</div>;
     }
 
     const getStepLabel = (step: CircuitStepInsight) => {
@@ -85,9 +86,9 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
             case CircuitType.OBJECTIVE:
                 return step.name;
             case CircuitType.ACTIONS:
-                return `${step.completionThreshold} actions`;
+                return t('step_labels.actions', { threshold: step.completionThreshold });
             case CircuitType.POINTS:
-                return `${step.completionThreshold} points`;
+                return t('step_labels.points', { threshold: step.completionThreshold });
             default:
                 return step.name;
         }
@@ -100,8 +101,24 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
         avgTime: step.avgTime
     }));
 
-    const previousStepRate = 100;
-    const dropRate = circuit.steps && circuit.steps[2] ? previousStepRate - circuit.steps[2].completionRate : 0;
+    // Calculer le drop rate entre les étapes consécutives
+    let maxDropRate = 0;
+    let dropStepName = '';
+    
+    if (circuit.steps && circuit.steps.length > 1) {
+        for (let i = 0; i < circuit.steps.length - 1; i++) {
+            const currentStep = circuit.steps[i];
+            const nextStep = circuit.steps[i + 1];
+            const dropRate = currentStep.completionRate - nextStep.completionRate;
+            
+            if (dropRate > maxDropRate) {
+                maxDropRate = dropRate;
+                dropStepName = getStepLabel(nextStep);
+            }
+        }
+    }
+
+    const dropRate = maxDropRate;
 
     return (
         <div className="space-y-8">
@@ -113,7 +130,7 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
                             <Users className="h-6 w-6 text-secondary" />
                         </div>
                         <div>
-                            <p className="text-sm text-foreground/70">Utilisateurs actifs</p>
+                            <p className="text-sm text-foreground/70">{t('stats.active_users')}</p>
                             <p className="text-2xl font-bold text-foreground">{circuit.activeUsers}</p>
                         </div>
                     </div>
@@ -124,7 +141,7 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
                             <Trophy className="h-6 w-6 text-secondary" />
                         </div>
                         <div>
-                            <p className="text-sm text-foreground/70">Taux de complétion</p>
+                            <p className="text-sm text-foreground/70">{t('stats.completion_rate')}</p>
                             <p className="text-2xl font-bold text-foreground">{circuit.completionRate}%</p>
                         </div>
                     </div>
@@ -135,7 +152,7 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
                             <Activity className="h-6 w-6 text-secondary" />
                         </div>
                         <div>
-                            <p className="text-sm text-foreground/70">Étapes</p>
+                            <p className="text-sm text-foreground/70">{t('stats.steps')}</p>
                             <p className="text-2xl font-bold text-foreground">{circuit.steps.length}</p>
                         </div>
                     </div>
@@ -146,7 +163,7 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
                             <Clock className="h-6 w-6 text-secondary" />
                         </div>
                         <div>
-                            <p className="text-sm text-foreground/70">Temps moyen</p>
+                            <p className="text-sm text-foreground/70">{t('stats.avg_time')}</p>
                             <p className="text-2xl font-bold text-foreground">{formatDurationAbs(circuit.avgCompletionTime, locale)}</p>
                         </div>
                     </div>
@@ -157,16 +174,16 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
             <div className="space-y-6">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h2 className="text-xl font-bold text-foreground">Vue d&apos;ensemble</h2>
+                        <h2 className="text-xl font-bold text-foreground">{t('overview.title')}</h2>
                         <p className="text-sm text-foreground/70 mt-1">
-                            Visualisation du parcours utilisateur et des points de friction
+                            {t('overview.subtitle')}
                         </p>
                     </div>
                     {dropRate > 50 && (
                         <div className="flex items-center gap-2 text-red-500 bg-red-500/10 px-3 py-2 rounded-lg">
                             <TrendingDown className="h-5 w-5" />
                             <span className="text-sm font-medium">
-                                Chute de {dropRate}% à l&apos;étape &quot;Upload photo&quot;
+                                {t('overview.drop_alert', { rate: dropRate, step: dropStepName })}
                             </span>
                         </div>
                     )}
@@ -176,8 +193,8 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
                     {/* Completion Rate Chart */}
                     <Card className="p-6 border-secondary/20 bg-surface-2 backdrop-blur-sm">
                         <div className="mb-4">
-                            <h3 className="text-lg font-semibold text-foreground">Taux de complétion</h3>
-                            <p className="text-sm text-foreground/70">Progression par étape</p>
+                            <h3 className="text-lg font-semibold text-foreground">{t('charts.completion_rate.title')}</h3>
+                            <p className="text-sm text-foreground/70">{t('charts.completion_rate.subtitle')}</p>
                         </div>
                         <div className="h-[300px]">
                             <ResponsiveContainer width="100%" height="100%">
@@ -220,8 +237,8 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
                     {/* Time Distribution Chart */}
                     <Card className="p-6 border-secondary/20 bg-surface-2 backdrop-blur-sm">
                         <div className="mb-4">
-                            <h3 className="text-lg font-semibold text-foreground">Temps de complétion</h3>
-                            <p className="text-sm text-foreground/70">Durée moyenne par étape</p>
+                            <h3 className="text-lg font-semibold text-foreground">{t('charts.completion_time.title')}</h3>
+                            <p className="text-sm text-foreground/70">{t('charts.completion_time.subtitle')}</p>
                         </div>
                         <div className="h-[300px]">
                             <ResponsiveContainer width="100%" height="100%">
@@ -265,15 +282,7 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
             {/* Steps Progress */}
             <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                    <h2 className="text-xl font-bold text-foreground">Progression des étapes</h2>
-                    <Link href={`/dashboard/analytics/${circuit.id}/steps`}>
-                        <Button 
-                            variant="outline"
-                            className="border-secondary/20 hover:border-secondary/40 bg-secondary/10 hover:bg-secondary/20 text-secondary"
-                        >
-                            Voir les détails <ChevronRight className="ml-2 h-4 w-4" />
-                        </Button>
-                    </Link>
+                    <h2 className="text-xl font-bold text-foreground">{t('steps_progress.title')}</h2>
                 </div>
 
                 <div className="grid gap-4">
@@ -291,29 +300,29 @@ export function AnalyticsTab({ circuitId }: AnalyticsTabProps) {
                                         {step.alert && (
                                             <div className="flex items-center gap-1.5 text-red-500 bg-red-500/10 px-2 py-1 rounded-full text-sm">
                                                 <AlertTriangle className="h-4 w-4" />
-                                                Point de friction
+                                                {t('steps_progress.friction_point')}
                                             </div>
                                         )}
                                     </div>
 
                                     <div className="mt-4 grid grid-cols-3 gap-4">
                                         <div>
-                                            <p className="text-sm text-foreground/50">Utilisateurs</p>
+                                            <p className="text-sm text-foreground/50">{t('steps_progress.users')}</p>
                                             <p className="text-lg font-semibold text-foreground">{step.usersCompleted}</p>
                                         </div>
                                         <div>
-                                            <p className="text-sm text-foreground/50">Taux de complétion</p>
+                                            <p className="text-sm text-foreground/50">{t('steps_progress.completion_rate')}</p>
                                             <p className="text-lg font-semibold text-foreground">{step.completionRate}%</p>
                                         </div>
                                         <div>
-                                            <p className="text-sm text-foreground/50">Temps moyen</p>
+                                            <p className="text-sm text-foreground/50">{t('steps_progress.avg_time')}</p>
                                             <p className="text-lg font-semibold text-foreground">{formatDurationAbs(step.avgTime, locale)}</p>
                                         </div>
                                     </div>
 
                                     <div className="mt-4 space-y-2">
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-foreground/70">Progression</span>
+                                            <span className="text-foreground/70">{t('steps_progress.progress')}</span>
                                             <span className={cn(
                                                 "font-medium",
                                                 getCompletionColor(step.completionRate).split(" ")[1]

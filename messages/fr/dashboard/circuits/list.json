@@ -1,0 +1,31 @@
+{
+  "title": "Parcours",
+  "description": "Créez et gérez vos parcours utilisateurs",
+  "filters": {
+    "title": "Filtres",
+    "status": "Statut",
+    "type": "Type",
+    "date": "Date"
+  },
+  "table": {
+    "name": "Nom",
+    "type": "Type",
+    "status": "Statut",
+    "completionRate": "Taux de complétion",
+    "averageTime": "Temps moyen",
+    "actions": "Actions"
+  },
+  "empty": {
+    "title": "Aucun circuit trouvé",
+    "description": "Créez votre premier circuit pour commencer"
+  },
+  "emptyState": {
+    "selectProject": "Veuillez sélectionner un projet",
+    "createFirst": {
+      "title": "Créer un nouveau parcours",
+      "description": "Définissez un nouveau parcours utilisateur à analyser"
+    }
+  },
+  "steps": "étapes",
+  "stepLevel": "Niveau {number}"
+} 

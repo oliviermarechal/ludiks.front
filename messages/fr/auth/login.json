@@ -19,6 +19,9 @@
   "social": {
     "continueWith": "Ou continuer avec"
   },
+  "success": {
+    "login": "Connexion réussie"
+  },
   "errors": {
     "invalidCredentials": "Email ou mot de passe invalide",
     "accountLocked": "Compte verrouillé. Veuillez réessayer plus tard"

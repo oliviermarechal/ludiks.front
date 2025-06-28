@@ -1,0 +1,55 @@
+{
+  "title": "Utilisateurs",
+  "description": "Gérez et suivez la progression de vos utilisateurs à travers tous les parcours",
+  "stats": {
+    "totalUsers": "Utilisateurs Totaux",
+    "activeUsers": "Utilisateurs Actifs",
+    "newUsers": "Nouveaux Utilisateurs",
+    "completionRate": "Taux de Complétion Moyen"
+  },
+  "filters": {
+    "all": "Tous",
+    "circuit": "Parcours",
+    "progression": "Progression",
+    "metadata": "Filtres métadonnées",
+    "search": "Recherche",
+    "search_placeholder": "Nom, email...",
+    "not_started": "Pas commencé",
+    "ended": "Terminé",
+    "reset": "Réinitialiser",
+    "apply": "Rechercher",
+    "export_csv": "Exporter CSV"
+  },
+  "export": "Exporter CSV",
+  "loading": "Chargement des utilisateurs...",
+  "pagination": {
+    "page_info": "Page {current} sur {total} ({count} utilisateurs)"
+  },
+  "user_list": {
+    "registered_on": "Inscrit le",
+    "last_connection": "Dernière connexion",
+    "last_connection_tooltip": "Temps écoulé depuis la dernière activité",
+    "current_streak": "Série actuelle",
+    "longest_streak": "Plus longue série",
+    "current_streak_tooltip": "Jours consécutifs d'activité actuels",
+    "longest_streak_tooltip": "Plus longue série de jours consécutifs jamais atteinte",
+    "circuits_completed": "Parcours complétés",
+    "total_points": "Points totaux",
+    "boolean": {
+      "true": "Oui",
+      "false": "Non"
+    }
+  },
+  "streak": {
+    "current": "Actuelle : {count}",
+    "longest": "Plus longue : {count}",
+    "days": "jours"
+  },
+  "circuit_progress": {
+    "title": "Progression des Parcours",
+    "completed": "Complétés",
+    "in_progress": "En Cours",
+    "not_started": "Non Commencés",
+    "progress": "{completed}/{total} parcours"
+  }
+} 

@@ -1,16 +1,19 @@
 'use client';
 
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Step } from "@/lib/types/circuit.types";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { CircuitStep } from "@/lib/types/circuit";
+import { useTranslations } from "next-intl";
 
 interface StepPreviewChartProps {
-    steps: CircuitStep[];
+    steps: Step[];
 }
 
 export function StepPreviewChart({ steps }: StepPreviewChartProps) {
+    const t = useTranslations('dashboard.circuits.steps.preview');
+    
     const data = steps.map((step, index) => ({
-        name: `Étape ${index + 1}`,
+        name: t('step', { index: index + 1 }),
         value: step.completionThreshold
     }));
 

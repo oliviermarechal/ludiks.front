@@ -19,6 +19,9 @@
   "social": {
     "continueWith": "Or continue with"
   },
+  "success": {
+    "login": "Login successful"
+  },
   "errors": {
     "invalidCredentials": "Invalid email or password",
     "accountLocked": "Account locked. Please try again later"

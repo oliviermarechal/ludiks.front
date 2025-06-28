@@ -1,42 +1,80 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
+import { Building2, UserCheck } from 'lucide-react';
 import GoogleAuth from '@/components/auth/google-auth';
 import Link from 'next/link';
-import { useAuthStore } from '@/lib/stores/user-store';
+import { useAuth } from '@/lib/hooks/use-auth.hook';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
+import api from '@/lib/api';
 
 export default function RegistrationPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [inviteId, setInviteId] = useState<string | null>(null);
+    const [inviteData, setInviteData] = useState<{id: string, role: string, organization: {name: string}} | null>(null);
+    const [isLoadingInvite, setIsLoadingInvite] = useState(false);
     const router = useRouter();
-    const { setUser, setToken } = useAuthStore();
+    const searchParams = useSearchParams();
+    const { registrationAsync, isRegistrationLoading } = useAuth({ redirectToLogin: false });
     const t = useTranslations('auth.registration');
+
+    useEffect(() => {
+        const token = searchParams.get('token');
+        if (token) {
+            setInviteId(token);
+            setIsLoadingInvite(true);
+            api.get(`/api/accounts/invite/${token}`).then((res) => {
+                setInviteData(res.data);
+                setEmail(res.data.toEmail);
+            }).catch((error) => {
+                console.error('Failed to load invitation:', error);
+                toast.error('Invalid or expired invitation link');
+            }).finally(() => {
+                setIsLoadingInvite(false);
+            });
+        }
+    }, [searchParams]);
 
     const handleRegistration = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
 
         try {
-            router.push('/onboarding');
+            const registrationData: { email: string; password: string; inviteId?: string } = {
+                email,
+                password
+            };
+
+            if (inviteId && inviteId.trim()) {
+                registrationData.inviteId = inviteId;
+            }
+
+            await registrationAsync(registrationData);
+            toast.success(t('success.registration'));
+            if (inviteId) {
+                router.push('/dashboard');
+            } else {
+                router.push('/onboarding');
+            }
         } catch (error) {
             console.error('Failed to registration:', error);
-        } finally {
-            setLoading(false);
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error(t('errors.general'));
+            }
         }
     };
 
-    const handleGoogleAuth = (data: { token: string, user: { id: string, email: string } }) => {
-        setToken(data.token);
-        setUser(data.user);
-
+    const handleGoogleAuth = () => {
         router.push('/onboarding');
     }
 
@@ -51,6 +89,57 @@ export default function RegistrationPage() {
                         {t('title')}
                     </p>
                 </div>
+
+                {/* Invitation Card */}
+                {inviteData && (
+                    <Card className="dark:bg-black/40 bg-white/80 backdrop-blur-sm border-primary/20 dark:border-primary/20 border shadow-lg">
+                        <CardContent className="pt-6">
+                            <div className="text-center space-y-4">
+                                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 flex items-center justify-center mx-auto">
+                                    <UserCheck className="h-6 w-6 text-primary" />
+                                </div>
+                                
+                                <div className="space-y-2">
+                                    <h3 className="text-lg font-semibold text-foreground">{t('invitation.title')}</h3>
+                                    <p className="text-sm text-muted-foreground">{t('invitation.description')}</p>
+                                </div>
+                                
+                                <div className="space-y-3 pt-2">
+                                    <div className="flex items-center justify-center gap-2 text-sm">
+                                        <Building2 className="h-4 w-4 text-muted-foreground" />
+                                        <span className="font-medium text-foreground">
+                                            {inviteData.organization.name}
+                                        </span>
+                                    </div>
+                                    
+                                    <div className="flex items-center justify-center gap-2">
+                                        <Badge variant="outline" className="border-primary/30 text-primary bg-primary/5">
+                                            {inviteData.role}
+                                        </Badge>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
+
+                {/* Loading state for invitation */}
+                {isLoadingInvite && (
+                    <Card className="dark:bg-black/40 bg-white/80 backdrop-blur-sm border-primary/20 dark:border-primary/20 border shadow-lg">
+                        <CardContent className="pt-6">
+                            <div className="text-center space-y-4">
+                                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 flex items-center justify-center mx-auto">
+                                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                                </div>
+                                
+                                <div className="space-y-2">
+                                    <h3 className="text-lg font-semibold text-foreground">{t('invitation.loading.title')}</h3>
+                                    <p className="text-sm text-muted-foreground">{t('invitation.loading.description')}</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
 
                 <Card className="dark:bg-black/40 bg-white/80 backdrop-blur-sm border-primary/20 dark:border-primary/20 border shadow-lg">
                     <CardContent className="pt-6">
@@ -82,9 +171,9 @@ export default function RegistrationPage() {
                             <Button 
                                 type="submit" 
                                 className="w-full bg-secondary text-black hover:bg-secondary/90" 
-                                disabled={loading}
+                                disabled={isRegistrationLoading || isLoadingInvite}
                             >
-                                {loading ? t('actions.registerLoading') : t('actions.register')}
+                                {isRegistrationLoading ? t('actions.registerLoading') : t('actions.register')}
                             </Button>
                         </form>
 
@@ -100,7 +189,7 @@ export default function RegistrationPage() {
                         </div>
 
                         <div className="grid gap-4">
-                            <GoogleAuth onSuccess={handleGoogleAuth}/>
+                            <GoogleAuth onSuccess={handleGoogleAuth} inviteId={inviteId || undefined} />
                         </div>
                     </CardContent>
                     <CardFooter className="flex flex-col gap-4 pt-4">

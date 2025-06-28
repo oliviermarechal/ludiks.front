@@ -1,10 +1,8 @@
 {
   "sidebar": {
-    "overview": "Tableau de bord",
-    "circuits": "Parcours",
-    "strategy": "Stratégie",
-    "analytics": "Analyses",
+    "overview": "Vue d'ensemble",
     "projects": "Projets",
+    "circuits": "Parcours",
     "users": "Utilisateurs",
     "settings": "Paramètres"
   },
@@ -13,11 +11,11 @@
     "notifications": "Notifications",
     "profile": "Profil"
   },
-  "description": "Suivez l'activité de vos parcours et repérez les points d'amélioration",
-  "loading": "Chargement en cours...",
-  "noProject": "Veuillez sélectionner un projet",
-  "newCircuit": "Créer un parcours",
-  "activeCircuits": "Parcours en cours",
+  "description": "Bienvenue sur votre tableau de bord. Ici, vous pouvez gérer vos projets, parcours et utilisateurs.",
+  "loading": "Chargement...",
+  "noProject": "Aucun projet sélectionné",
+  "newCircuit": "Nouveau Parcours",
+  "activeCircuits": "Parcours Actifs",
   "projectSelector": {
     "noProjects": "Aucun projet",
     "loading": "Chargement des projets..."
@@ -27,18 +25,152 @@
     "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
   },
   "stats": {
-    "totalCircuits": "Parcours",
+    "totalCircuits": "Parcours Totaux",
     "totalCircuitsDescription": "Nombre total de parcours dans votre projet",
-    "activeCircuits": "en cours",
+    "activeCircuits": "actifs",
     "inactiveCircuits": "inactifs",
-    "winRate": "Taux de complétion",
-    "winRateDescription": "Taux moyen de complétion de vos parcours",
-    "totalUsers": "Utilisateurs",
-    "totalUsersDescription": "Nombre total d'utilisateurs inscrits",
-    "activeUsers": "Utilisateurs actifs",
-    "activeUsersDescription": "Utilisateurs connectés cette semaine",
-    "completedCircuits": "Parcours terminés",
-    "completedCircuitsDescription": "Utilisateurs ayant terminé un parcours",
-    "ofUsers": "de vos utilisateurs"
+    "winRate": "Taux de Réussite",
+    "winRateDescription": "Taux de complétion moyen de tous les parcours",
+    "totalUsers": "Utilisateurs Totaux",
+    "totalUsersDescription": "Nombre total d'utilisateurs dans votre projet",
+    "activeUsers": "Utilisateurs Actifs",
+    "activeUsersDescription": "Utilisateurs actifs dans les 7 derniers jours",
+    "completedCircuits": "Parcours Complétés",
+    "completedCircuitsDescription": "Utilisateurs ayant complété au moins un parcours",
+    "ofUsers": "des utilisateurs"
+  },
+  "circuitCard": {
+    "completionRate": "Taux de complétion",
+    "averageTime": "Temps moyen",
+    "attentionPoints": "Points d'attention",
+    "conversionDrop": "Taux de conversion en baisse de {rate}%",
+    "betweenSteps": "Entre l'étape \"{step}\" et la suivante",
+    "averageTimeLabel": "Temps moyen"
+  },
+  "buttons": {
+    "cancel": "Annuler"
+  },
+  "emptyState": {
+    "description": "Commencez par créer votre premier parcours utilisateur pour analyser le comportement des utilisateurs et optimiser les conversions.",
+    "title": "Prêt à créer votre premier parcours ?",
+    "subtitle": "Les parcours vous aident à suivre la progression des utilisateurs à travers des étapes définies et à identifier les points de friction dans votre expérience utilisateur.",
+    "browseTemplates": "Parcourir les modèles",
+    "comingSoon": "Bientôt disponible",
+    "quickStart": "Guide de démarrage rapide",
+    "step1": "Créez votre premier parcours",
+    "step2": "Configurez les étapes et objectifs",
+    "step3": "Commencez à suivre la progression"
+  },
+  "leftBar": {
+    "sections": {
+      "project": "PROJET",
+      "organization": "ORGANISATION"
+    },
+    "navigation": {
+      "overview": "Vue d'ensemble",
+      "circuits": "Parcours",
+      "users": "Utilisateurs",
+      "settings": "Paramètres"
+    },
+    "organization": {
+      "members": "Membres & Rôles",
+      "invites": "Invitations reçues",
+      "billing": "Facturation & Plan"
+    },
+    "account": {
+      "logout": "Déconnexion"
+    }
+  },
+  "eventsConsumption": {
+    "title": "Consommation d'événements",
+    "events": "événements",
+    "unlimited": "Illimité",
+    "quotaWarning": "Vous approchez de votre limite de quota d'événements. Envisagez de mettre à niveau votre plan.",
+    "quotaExceeded": "Vous avez dépassé votre quota d'événements. Veuillez mettre à niveau votre plan pour continuer."
+  },
+  "members": {
+    "title": "Membres & Rôles",
+    "description": "Gérez qui a accès à votre organisation et ce qu'ils peuvent faire.",
+    "invite": "Inviter un membre",
+    "table": {
+      "member": "Membre",
+      "email": "Email",
+      "role": "Rôle",
+      "joined": "Rejoint le",
+      "actions": "Actions"
+    },
+    "you": "Vous",
+    "pendingInvitations": {
+      "title": "Invitations en attente",
+      "invited": "Invité",
+      "resend": "Renvoyer l'invitation"
+    }
+  },
+  "invites": {
+    "title": "Invitations reçues",
+    "description": "Gérez vos invitations d'organisations",
+    "pendingInvitations": "Invitations en attente",
+    "noInvitations": "Aucune invitation",
+    "noInvitationsDescription": "Vous n'avez pas d'invitations en attente pour le moment.",
+    "table": {
+      "organization": "Organisation",
+      "role": "Rôle",
+      "invitedBy": "Invitation de",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "actions": {
+      "accept": "Accepter",
+      "reject": "Rejeter"
+    }
+  },
+  "settings": {
+    "title": "Paramètres du Projet",
+    "description": "Gérez les paramètres généraux de votre projet, les clés API, et plus encore.",
+    "general": {
+      "title": "Général",
+      "name": "Nom du projet",
+      "updateSuccess": "Projet mis à jour avec succès.",
+      "updateError": "Échec de la mise à jour du projet. Veuillez réessayer.",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "description": "Description du projet"
+    },
+    "apiKeys": {
+      "title": "Clés API",
+      "description": "Gérez vos clés API pour ce projet.",
+      "generate": "Générer une nouvelle clé",
+      "key": "Clé",
+      "name": "Nom",
+      "created": "Créée le",
+      "actions": "Actions",
+      "copy": "Copier",
+      "revoke": "Révoquer",
+      "empty": "Aucune clé API trouvée. Créez votre première clé API pour commencer.",
+      "createDialog": {
+        "title": "Créer une nouvelle clé API",
+        "description": "Créez une nouvelle clé API pour votre projet. Donnez-lui un nom descriptif pour vous aider à l'identifier plus tard.",
+        "name": "Nom de la clé API",
+        "namePlaceholder": "ex: Serveur de production, Environnement de développement",
+        "create": "Créer la clé API",
+        "creating": "Création...",
+        "cancel": "Annuler"
+      },
+      "confirmDelete": {
+        "title": "Supprimer la clé API",
+        "description": "Êtes-vous sûr de vouloir supprimer cette clé API ? Cette action est irréversible.",
+        "cancel": "Annuler",
+        "delete": "Supprimer"
+      }
+    },
+    "dangerZone": {
+      "title": "Zone de Danger",
+      "description": "Ces actions sont permanentes et ne peuvent pas être annulées.",
+      "deleteProject": "Supprimer ce projet",
+      "deleteWarning": "Cela supprimera définitivement le projet et toutes ses données."
+    },
+    "emptyState": {
+      "comingSoon": "Bientôt disponible"
+    }
   }
 } 

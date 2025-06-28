@@ -6,7 +6,7 @@ export default async function setCircuitSteps(circuitId: string, steps: Step[]) 
         steps,
     })
 
-    if (response.status !== 200) {
+    if (response.status !== 201) {
         throw new Error('Failed to set circuit steps')
     }
 

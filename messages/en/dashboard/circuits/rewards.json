@@ -1,0 +1,62 @@
+{
+  "types": {
+    "badge": "Badge",
+    "certificate": "Certificate",
+    "points": "Points",
+    "custom": "Custom Reward"
+  },
+  "conditions": {
+    "completion": "On completion",
+    "score": "Minimum score",
+    "time": "Time limit"
+  },
+  "messages": {
+    "earned": "You earned a reward!",
+    "unlocked": "New reward unlocked"
+  },
+  "note": {
+    "title": "Note:",
+    "content": "The information in this section is for reference only. It allows Ludiks to notify you, via its API, when a user has unlocked a reward. Your system is responsible for actually granting the reward to the user. How this information is transmitted to your system is detailed in the documentation."
+  },
+  "title": "Reward Management",
+  "subtitle": "Associate rewards with the steps of your journey to motivate your users",
+  "available": "Available rewards",
+  "create": "Create a reward",
+  "empty": {
+    "title": "No rewards created",
+    "description": "Start by creating a reward to associate with your steps"
+  },
+  "edit": "Edit reward",
+  "delete": "Delete reward",
+  "delete_confirm": "Are you sure you want to delete the reward \"{name}\"? This action is irreversible.",
+  "cancel": "Cancel",
+  "confirm_delete": "Delete",
+  "fields": {
+    "name": "Reward name",
+    "name_placeholder": "Ex: Expert Badge",
+    "description": "Description (optional)",
+    "description_placeholder": "Describe the reward...",
+    "unlock_condition": "Unlock condition",
+    "completion": "On completion",
+    "completion_hint": "The reward will be unlocked at the end of the journey",
+    "step": "At a step",
+    "step_hint": "The reward will be unlocked at a specific step",
+    "associated_step": "Associated step",
+    "associated_level": "Associated level",
+    "select_step": "Select a step",
+    "select_level": "Select a level"
+  },
+  "unlocked": {
+    "circuit": "Unlocked at the end of the journey",
+    "step": "Unlocked at {type}: {step}"
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "form": {
+    "cancel": "Cancel",
+    "create": "Create",
+    "update": "Edit"
+  }
+} 

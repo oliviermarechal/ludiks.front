@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { ProjectMetadata, MetadataValue } from "@/lib/hooks/use-project-metadata.hook";
+import { useTranslations } from "next-intl";
 
 interface UserStepListHeaderProps {
     projectMetadatas?: ProjectMetadata[];
@@ -11,10 +12,12 @@ interface UserStepListHeaderProps {
 }
 
 export function UserStepListHeader({ projectMetadatas, filters, onFilterChange }: UserStepListHeaderProps) {
+    const t = useTranslations('dashboard.circuits.steps');
+
     return (
         <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold text-foreground">
-                Utilisateurs sur cette étape
+                {t('detail.header.title')}
             </h2>
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
@@ -25,7 +28,7 @@ export function UserStepListHeader({ projectMetadatas, filters, onFilterChange }
                             value={filters[metadata.keyName] || "all"}
                             onChange={e => onFilterChange(metadata.keyName, e.target.value)}
                         >
-                            <option value="all">{metadata.keyName} (tous)</option>
+                            <option value="all">{t('detail.filters.all', { key: metadata.keyName })}</option>
                             {metadata.values && metadata.values.map((value: MetadataValue) => (
                                 <option key={value.id} value={value.value}>
                                     {value.value}
@@ -36,7 +39,7 @@ export function UserStepListHeader({ projectMetadatas, filters, onFilterChange }
                 </div>
                 <Button variant="outline" className="border-secondary/20">
                     <Download className="h-4 w-4 mr-2" />
-                    Exporter en CSV
+                    {t('detail.export')}
                 </Button>
             </div>
         </div>

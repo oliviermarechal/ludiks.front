@@ -9,7 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Plus, Check, X, ArrowRight, Target, Pencil } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
-import { Step } from "@/lib/stores/circuit-store";
+import { Step } from "@/lib/types/circuit.types";
+import { useTranslations } from "next-intl";
 
 const stepSchema = z.object({
     name: z.string().min(3, "Le nom de l'objectif doit contenir au moins 3 caractères"),
@@ -43,14 +44,21 @@ const slugify = (text: string): string => {
         .replace(/^_+|_+$/g, '');
 };
 
-// Nouveau composant pour le grip minimaliste
-const MinimalGrip = () => (
-    <span className="flex items-center justify-center mr-3 cursor-grab text-secondary transition-colors duration-150" title="Déplacer">
-        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="4" r="1.5" fill="currentColor"/><circle cx="10" cy="10" r="1.5" fill="currentColor"/><circle cx="10" cy="16" r="1.5" fill="currentColor"/></svg>
-    </span>
-);
+const MinimalGrip = () => {
+    const t = useTranslations('dashboard.circuits.steps.forms.objectives.actions');
+    return (
+        <div className="flex items-center justify-center w-6 h-6 cursor-grab text-secondary/60 hover:text-secondary transition-colors duration-150" title={t('move')}>
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="4" r="1.5" fill="currentColor"/>
+                <circle cx="10" cy="10" r="1.5" fill="currentColor"/>
+                <circle cx="10" cy="16" r="1.5" fill="currentColor"/>
+            </svg>
+        </div>
+    );
+};
 
 const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
+    const t = useTranslations('dashboard.circuits.steps.forms.objectives');
     const [isEditing, setIsEditing] = useState(false);
     const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<StepFormData>({
         resolver: zodResolver(stepSchema),
@@ -87,13 +95,7 @@ const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
     };
 
     return (
-        <motion.div
-            layout
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="flex-1 flex flex-col justify-center"
-        >
+        <div className="flex-1 flex flex-col justify-center">
             <AnimatePresence mode="wait">
                 {isEditing ? (
                     <motion.div
@@ -106,7 +108,7 @@ const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
                             <div className="space-y-2">
                                 <Input
                                     {...register("name")}
-                                    placeholder="Nom de l'objectif"
+                                    placeholder={t('placeholder.name')}
                                     className="h-9 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
                                 />
                                 {errors.name && (
@@ -123,7 +125,7 @@ const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
                             <div className="space-y-2">
                                 <Textarea
                                     {...register("description")}
-                                    placeholder="Description (optionnelle)"
+                                    placeholder={t('placeholder.description')}
                                     className="text-sm min-h-[60px] bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 resize-none transition-all duration-300"
                                 />
                             </div>
@@ -133,14 +135,14 @@ const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
                                     <div className="relative">
                                         <Input
                                             {...register("eventName")}
-                                            placeholder="nom_de_levenement"
+                                            placeholder={t('placeholder.eventName')}
                                             className="h-9 text-sm pl-8 bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
                                         />
                                         <div className="absolute inset-y-0 left-0 flex items-center pl-2.5">
                                             <span className="text-xs text-secondary/70">#</span>
                                         </div>
                                     </div>
-                                    <p className="text-xs text-foreground/50">Identifiant technique pour le tracking (ex: completer_profil)</p>
+                                    <p className="text-xs text-foreground/50">{t('help.eventName')}</p>
                                     {errors.eventName && (
                                         <motion.p 
                                             initial={{ opacity: 0, x: -10 }}
@@ -156,7 +158,7 @@ const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
                                     <Input
                                         type="number"
                                         {...register("completionThreshold", { valueAsNumber: true })}
-                                        placeholder="Répétitions"
+                                        placeholder={t('placeholder.threshold')}
                                         className="h-9 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
                                     />
                                     {errors.completionThreshold && (
@@ -194,7 +196,6 @@ const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
                     </motion.div>
                 ) : (
                     <div className="flex items-center gap-2">
-                        {/* Badge numéro */}
                         <span className="flex items-center justify-center h-6 w-6 rounded-full border border-secondary/40 bg-secondary/10 text-sm font-semibold text-secondary mr-1">
                             {step.stepNumber ?? ''}
                         </span>
@@ -204,7 +205,7 @@ const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
                                 type="button"
                                 onClick={() => setIsEditing(true)}
                                 className="h-8 w-8 flex items-center justify-center rounded hover:bg-secondary/10 hover:text-secondary transition-all duration-200"
-                                title="Éditer l'étape"
+                                title={t('actions.edit')}
                             >
                                 <Pencil className="h-4 w-4" />
                             </button>
@@ -212,7 +213,7 @@ const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
                                 type="button"
                                 onClick={onDelete}
                                 className="h-8 w-8 flex items-center justify-center rounded hover:bg-red-100 hover:text-red-500 transition-all duration-200"
-                                title="Supprimer l'étape"
+                                title={t('actions.delete')}
                             >
                                 <X className="h-4 w-4" />
                             </button>
@@ -220,7 +221,7 @@ const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
                     </div>
                 )}
             </AnimatePresence>
-        </motion.div>
+        </div>
     );
 };
 
@@ -230,17 +231,18 @@ interface ChatStepProps {
 }
 
 const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
+    const t = useTranslations('dashboard.circuits.steps.forms.objectives.chat');
     const [currentStep, setCurrentStep] = useState(0);
     const [stepData, setStepData] = useState<Partial<Step>>({});
     const [currentValue, setCurrentValue] = useState("");
 
     const questions = [
         {
-            question: "Comment s'appelle cet objectif ?",
-            placeholder: "Ex: Compléter son profil",
+            question: t('name.question'),
+            placeholder: t('name.placeholder'),
             field: "name" as const,
             validation: (value: string) => value.length >= 3,
-            errorMessage: "Le nom doit contenir au moins 3 caractères",
+            errorMessage: t('name.error'),
             onChange: (value: string) => {
                 if (currentStep === 0) {
                     setStepData(prev => ({
@@ -251,19 +253,19 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
             }
         },
         {
-            question: "En une phrase, décris ce que l'utilisateur doit faire (optionnel)",
-            placeholder: "Ex: Remplir tous les champs de son profil",
+            question: t('description.question'),
+            placeholder: t('description.placeholder'),
             field: "description" as const,
             validation: () => true,
             optional: true,
         },
         {
-            question: "Combien de fois l'utilisateur doit-il réussir pour valider ?",
-            placeholder: "Ex: 1",
+            question: t('threshold.question'),
+            placeholder: t('threshold.placeholder'),
             field: "completionThreshold" as const,
             type: "number",
             validation: (value: string) => parseInt(value) >= 1,
-            errorMessage: "Le nombre doit être supérieur à 0",
+            errorMessage: t('threshold.error'),
         },
     ];
 
@@ -355,7 +357,7 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
                     onClick={onCancel}
                     className="h-8 text-sm hover:bg-red-500/10 hover:text-red-500 transition-colors duration-300"
                 >
-                    Annuler
+                    {t('actions.cancel')}
                 </Button>
                 {currentQuestion.optional && (
                     <Button
@@ -369,7 +371,7 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
                         }}
                         className="h-8 text-sm hover:bg-secondary/10 hover:text-secondary transition-colors duration-300"
                     >
-                        Passer
+                        {t('actions.skip')}
                     </Button>
                 )}
             </div>
@@ -384,6 +386,7 @@ export function ObjectivesStepForm({
     onStepsOrderUpdate,
     initialSteps = [] 
 }: ObjectivesStepFormProps) {
+    const t = useTranslations('dashboard.circuits.steps.forms.objectives');
     const [steps, setSteps] = useState<Step[]>(initialSteps);
     const [isAddingStep, setIsAddingStep] = useState(false);
 
@@ -409,13 +412,14 @@ export function ObjectivesStepForm({
             await onStepsOrderUpdate(updatedSteps);
         } catch (error) {
             console.error('Error updating steps ordering:', error);
-            setSteps(steps);
+            // Revert to original order on error
+            setSteps(initialSteps);
         }
     };
 
     const handleAddStep = async (newStepData: Partial<Step>) => {
         const newStep: Step = {
-            id: "", // L'ID sera défini par l'API
+            id: `temp_${Date.now()}_${Math.random()}`, // Temporary ID for drag & drop
             name: newStepData.name || "",
             description: newStepData.description || "",
             eventName: newStepData.eventName || "",
@@ -459,9 +463,9 @@ export function ObjectivesStepForm({
                         <div className="h-12 w-12 rounded-full bg-secondary/10 flex items-center justify-center mb-4">
                             <Target className="h-6 w-6 text-secondary" />
                         </div>
-                        <h3 className="text-lg font-semibold text-foreground mb-2">Aucun objectif défini</h3>
+                        <h3 className="text-lg font-semibold text-foreground mb-2">{t('empty.title')}</h3>
                         <p className="text-sm text-muted-foreground mb-6">
-                            Commencez par ajouter un premier objectif à atteindre pour vos utilisateurs
+                            {t('empty.description')}
                         </p>
                         <Button
                             type="button"
@@ -469,49 +473,62 @@ export function ObjectivesStepForm({
                             className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
                         >
                             <Plus className="h-4 w-4 mr-2" />
-                            Ajouter un objectif
+                            {t('add')}
                         </Button>
                     </motion.div>
                 )}
 
-                <DragDropContext onDragEnd={handleDragEnd}>
-                    <Droppable droppableId="steps">
-                        {(provided) => (
-                            <div
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                                className="space-y-4"
-                            >
-                                {steps.map((step, index) => (
-                                    <Draggable
-                                        key={step.id}
-                                        draggableId={step.id}
-                                        index={index}
-                                    >
-                                        {(provided) => (
-                                            <div
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                className="group relative flex items-center gap-4 p-4 rounded-xl bg-white border border-border border-l-4 border-secondary transition-all duration-200 shadow-sm hover:shadow-md"
-                                                style={{ minHeight: 64 }}
-                                            >
-                                                <div {...provided.dragHandleProps} className="flex items-center h-full">
-                                                    <MinimalGrip />
+                {steps.length > 0 && (
+                    <DragDropContext onDragEnd={handleDragEnd}>
+                        <Droppable droppableId="steps">
+                            {(provided) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                    className="space-y-4"
+                                >
+                                    {steps.map((step, index) => (
+                                        <Draggable
+                                            key={step.id}
+                                            draggableId={step.id}
+                                            index={index}
+                                        >
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    className={`
+                                                        group relative flex items-center gap-4 p-4 rounded-xl 
+                                                        border border-border border-l-4 border-secondary 
+                                                        transition-all duration-200 shadow-sm hover:shadow-md
+                                                        ${snapshot.isDragging ? 'shadow-lg rotate-2 scale-105 bg-secondary/5' : 'bg-white'}
+                                                    `}
+                                                    style={{ 
+                                                        minHeight: 64,
+                                                        ...provided.draggableProps.style
+                                                    }}
+                                                >
+                                                    <div 
+                                                        {...provided.dragHandleProps} 
+                                                        className="flex items-center justify-center w-8 h-full"
+                                                    >
+                                                        <MinimalGrip />
+                                                    </div>
+                                                    <StepItem
+                                                        step={{ ...step, stepNumber: index + 1 }}
+                                                        onUpdate={(updatedStep) => handleUpdateStep(step.id, updatedStep)}
+                                                        onDelete={() => handleDeleteStep(step.id)}
+                                                    />
                                                 </div>
-                                                <StepItem
-                                                    step={{ ...step, stepNumber: index + 1 }}
-                                                    onUpdate={(updatedStep) => handleUpdateStep(step.id, updatedStep)}
-                                                    onDelete={() => handleDeleteStep(step.id)}
-                                                />
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+                )}
 
                 {isAddingStep && (
                     <ChatStep
@@ -535,7 +552,7 @@ export function ObjectivesStepForm({
                         "
                     >
                         <Plus className="h-4 w-4 mr-2" />
-                        Ajouter un objectif
+                        {t('add')}
                     </Button>
                 </motion.div>
             )}

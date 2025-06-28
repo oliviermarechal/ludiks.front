@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Gift, Trophy, Target, Pencil, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreateRewardForm } from "./rewards-tab/create-reward-form";
-import { Circuit } from "@/lib/stores/circuit-store";
+import { Circuit } from "@/lib/types/circuit.types";
 import { useRewards, Reward } from "@/lib/hooks/use-rewards.hook";
 import {
     AlertDialog,
@@ -15,6 +15,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useTranslations } from "next-intl";
 
 interface RewardsTabProps {
     circuit: Circuit;
@@ -25,6 +26,7 @@ export function RewardsTab({ circuit }: RewardsTabProps) {
     const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
     const [editingReward, setEditingReward] = useState<Reward | null>(null);
     const [deletingReward, setDeletingReward] = useState<Reward | null>(null);
+    const t = useTranslations('dashboard.circuits.rewards');
 
     const handleCreateReward = (rewardData: { name: string; description: string; stepId: string | null; unlockOnCircuitCompletion: boolean }) => {
         const newReward: Reward = {
@@ -60,43 +62,36 @@ export function RewardsTab({ circuit }: RewardsTabProps) {
 
     const getStepDisplay = (stepId: string) => {
         const step = circuit.steps.find(step => step.id === stepId);
-        if (!step) return "Étape inconnue";
-
+        if (!step) return t('fields.associated_step');
         if (circuit.type === "objective") {
             return step.name;
         }
-
         const stepIndex = circuit.steps.findIndex(s => s.id === stepId);
-        return `Palier ${stepIndex + 1}`;
+        return t('fields.associated_level') + ` ${stepIndex + 1}`;
     };
 
     return (
         <div className="max-w-4xl mx-auto space-y-8">
             <div className="mb-4 p-4 rounded-lg border border-yellow-200 bg-yellow-50 text-yellow-900 text-sm">
-                <strong>Note :</strong> Les informations de cette section sont purement indicatives. Elles permettent à Ludiks de vous signaler, via son API, lorsqu&apos;un utilisateur a débloqué une récompense. C&apos;est à votre système de gérer l&apos;attribution réelle de la récompense à l&apos;utilisateur.<br />
-                La manière dont ces informations sont transmises à votre système est détaillée dans la documentation.
+                <strong>{t('note.title')}</strong> {t('note.content')}
             </div>
             <div className="space-y-6">
                 <div className="space-y-2">
-                    <h2 className="text-2xl font-bold text-foreground">Gestion des récompenses</h2>
-                    <p className="text-foreground/70">
-                        Associez des récompenses aux étapes de votre parcours pour motiver vos utilisateurs
-                    </p>
+                    <h2 className="text-2xl font-bold text-foreground">{t('title')}</h2>
+                    <p className="text-foreground/70">{t('subtitle')}</p>
                 </div>
-
                 <div className="grid gap-6">
                     <div className="flex justify-between items-center">
-                        <h3 className="text-lg font-medium">Récompenses disponibles</h3>
+                        <h3 className="text-lg font-medium">{t('available')}</h3>
                         <Button
                             variant="outline"
                             className="border-secondary/20 hover:border-secondary/40"
                             onClick={() => setIsCreateFormOpen(true)}
                         >
                             <Plus className="h-4 w-4 mr-2" />
-                            Créer une récompense
+                            {t('create')}
                         </Button>
                     </div>
-
                     <AnimatePresence mode="popLayout">
                         {rewards.length === 0 ? (
                             <motion.div
@@ -109,10 +104,10 @@ export function RewardsTab({ circuit }: RewardsTabProps) {
                                     <Gift className="h-6 w-6 text-secondary" />
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                                    Aucune récompense créée
+                                    {t('empty.title')}
                                 </h3>
                                 <p className="text-sm text-muted-foreground mb-6">
-                                    Commencez par créer une récompense à associer à vos étapes
+                                    {t('empty.description')}
                                 </p>
                                 <Button
                                     variant="outline"
@@ -120,7 +115,7 @@ export function RewardsTab({ circuit }: RewardsTabProps) {
                                     onClick={() => setIsCreateFormOpen(true)}
                                 >
                                     <Plus className="h-4 w-4 mr-2" />
-                                    Créer une récompense
+                                    {t('create')}
                                 </Button>
                             </motion.div>
                         ) : (
@@ -144,8 +139,8 @@ export function RewardsTab({ circuit }: RewardsTabProps) {
                                                 )}
                                                 <p className="text-sm text-foreground/70">
                                                     {reward.unlockOnCircuitCompletion
-                                                        ? "Débloquée à la fin du parcours"
-                                                        : `Débloquée à ${circuit.type === "objective" ? "l'étape" : "le palier"} : ${getStepDisplay(reward.stepId!)}`}
+                                                        ? t('unlocked.circuit')
+                                                        : t('unlocked.step', { type: circuit.type === "objective" ? t('fields.associated_step') : t('fields.associated_level'), step: getStepDisplay(reward.stepId!) })}
                                                 </p>
                                             </div>
                                         </div>
@@ -195,18 +190,18 @@ export function RewardsTab({ circuit }: RewardsTabProps) {
             <AlertDialog open={!!deletingReward} onOpenChange={() => setDeletingReward(null)}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Supprimer la récompense</AlertDialogTitle>
+                        <AlertDialogTitle>{t('delete')}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Êtes-vous sûr de vouloir supprimer la récompense &quot;{deletingReward?.name}&quot; ? Cette action est irréversible.
+                            {t('delete_confirm', { name: deletingReward?.name || "" })}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Annuler</AlertDialogCancel>
+                        <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
                         <AlertDialogAction
                             onClick={handleDeleteReward}
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
-                            Supprimer
+                            {t('confirm_delete')}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

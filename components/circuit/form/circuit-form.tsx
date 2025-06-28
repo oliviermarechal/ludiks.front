@@ -8,43 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Star, RotateCw, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const stepSchema = z.object({
-    name: z.string(),
-    points: z.number().optional(),
-    actions: z.array(z.string()).optional(),
-    objective: z.string().optional(),
-});
-
-export const circuitSchema = z.object({
-    name: z.string().min(3, "Le nom du circuit doit contenir au moins 3 caractères"),
-    type: z.enum(["points", "actions", "objective"]),
-    description: z.string().max(500, "La description ne peut pas dépasser 500 caractères").optional(),
-    steps: z.array(stepSchema),
-});
-
-export type CircuitFormData = z.infer<typeof circuitSchema>;
-
-const circuitTypes = [
-    {
-        value: "points",
-        label: "Système de points",
-        description: "Créez un système de points personnalisé pour récompenser les actions de vos utilisateurs et stimuler leur engagement à long terme.",
-        icon: Star,
-    },
-    {
-        value: "actions",
-        label: "Suivi d'actions",
-        description: "Définissez des actions clés à suivre et encouragez leur répétition pour créer des habitudes d'utilisation durables.",
-        icon: RotateCw,
-    },
-    {
-        value: "objective",
-        label: "Parcours d'objectifs",
-        description: "Construisez un parcours progressif avec des objectifs à atteindre et des récompenses à débloquer à chaque étape.",
-        icon: Target,
-    },
-];
+import { useTranslations } from "next-intl";
 
 export function CircuitForm({
     defaultValues,
@@ -53,6 +17,19 @@ export function CircuitForm({
     defaultValues?: Partial<CircuitFormData>;
     onSubmit: (data: CircuitFormData) => Promise<void>;
 }) {
+    const t = useTranslations('dashboard.circuits.common');
+
+    const circuitSchema = z.object({
+        name: z.string().min(3, t('form.validation.name.minLength')),
+        type: z.enum(["points", "actions", "objective"]),
+        steps: z.array(z.object({
+            name: z.string(),
+            points: z.number().optional(),
+            actions: z.array(z.string()).optional(),
+            objective: z.string().optional(),
+        })),
+    });
+
     const form = useForm<CircuitFormData>({
         resolver: zodResolver(circuitSchema),
         defaultValues: {
@@ -72,24 +49,39 @@ export function CircuitForm({
 
     const selectedType = watch("type");
 
+    const circuitTypes = [
+        {
+            value: "points",
+            icon: Star,
+        },
+        {
+            value: "actions",
+            icon: RotateCw,
+        },
+        {
+            value: "objective",
+            icon: Target,
+        },
+    ];
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto space-y-12">
             <div className="space-y-8">
                 <div className="space-y-2 max-w-2xl">
-                    <h2 className="text-2xl font-bold text-foreground">Informations du parcours</h2>
+                    <h2 className="text-2xl font-bold text-foreground">{t('form.info.title')}</h2>
                     <p className="text-lg text-muted-foreground">
-                        Donnez un nom et une description à votre parcours pour le retrouver facilement
+                        {t('form.info.subtitle')}
                     </p>
                 </div>
 
                 <div className="grid gap-8 max-w-2xl">
                     <div className="space-y-3">
                         <label htmlFor="name" className="block text-sm font-medium text-foreground">
-                            Nom du parcours
+                            {t('form.info.name.label')}
                         </label>
                         <Input
                             id="name"
-                            placeholder="Ex: Onboarding utilisateur, Programme fidélité..."
+                            placeholder={t('form.info.name.placeholder')}
                             className="bg-card border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
                             {...register("name")}
                         />
@@ -97,29 +89,14 @@ export function CircuitForm({
                             <p className="text-sm text-destructive">{errors.name.message}</p>
                         )}
                     </div>
-
-                    <div className="space-y-3">
-                        <label htmlFor="description" className="block text-sm font-medium text-foreground">
-                            Description
-                        </label>
-                        <Textarea
-                            id="description"
-                            placeholder="Décrivez le but de ce parcours..."
-                            className="min-h-[120px] bg-card border-primary/20 focus:border-primary/40 placeholder:text-foreground/50"
-                            {...register("description")}
-                        />
-                        {errors.description && (
-                            <p className="text-sm text-destructive">{errors.description.message}</p>
-                        )}
-                    </div>
                 </div>
             </div>
 
             <div className="space-y-8">
                 <div className="space-y-2">
-                    <h2 className="text-2xl font-bold text-foreground">Type de parcours</h2>
+                    <h2 className="text-2xl font-bold text-foreground">{t('form.type.title')}</h2>
                     <p className="text-lg text-muted-foreground">
-                        Choisissez le type qui correspond le mieux à votre stratégie d&apos;engagement
+                        {t('form.type.subtitle')}
                     </p>
                 </div>
 
@@ -150,8 +127,8 @@ export function CircuitForm({
                                         : "text-primary/60"
                                 )} />
                             </div>
-                            <h3 className="text-lg font-semibold mb-2">{type.label}</h3>
-                            <p className="text-sm text-foreground/70">{type.description}</p>
+                            <h3 className="text-lg font-semibold mb-2">{t(`form.type.${type.value}.label`)}</h3>
+                            <p className="text-sm text-foreground/70">{t(`form.type.${type.value}.description`)}</p>
                         </button>
                     ))}
                 </div>
@@ -163,9 +140,24 @@ export function CircuitForm({
                     disabled={!selectedType || isSubmitting}
                     className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-medium px-8"
                 >
-                    Créer le circuit
+                    {t('form.submit')}
                 </Button>
             </div>
         </form>
     );
+}
+
+export type CircuitFormData = z.infer<ReturnType<typeof createCircuitSchema>>;
+
+function createCircuitSchema(t: (key: string) => string) {
+    return z.object({
+        name: z.string().min(3, t('form.validation.name.minLength')),
+        type: z.enum(["points", "actions", "objective"]),
+        steps: z.array(z.object({
+            name: z.string(),
+            points: z.number().optional(),
+            actions: z.array(z.string()).optional(),
+            objective: z.string().optional(),
+        })),
+    });
 } 

@@ -7,9 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Plus, Trash2, Wand2, Sparkles, Pencil, Check, X, Star } from "lucide-react";
 import { StepPreviewChart } from "@/components/circuit/chart/step-preview-chart";
 import { StepGenerator, generatePreviewSteps, GeneratorFormData } from "./step-generator";
-import { Step } from "@/lib/stores/circuit-store";
+import { Step } from "@/lib/types/circuit.types";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 const stepSchema = z.object({
     completionThreshold: z.number().min(1, "Le seuil doit être supérieur à 0"),
@@ -41,6 +42,7 @@ const sortStepsByOrder = (steps: Step[]) => {
 }
 
 const StepItem = ({ step, index, onUpdate, onDelete }: StepItemProps) => {
+    const t = useTranslations('dashboard.circuits.steps.forms.actions');
     const [isEditing, setIsEditing] = useState(false);
     const { register, handleSubmit, formState: { errors }, reset } = useForm<{ completionThreshold: number }>({
         resolver: zodResolver(stepSchema),
@@ -98,7 +100,7 @@ const StepItem = ({ step, index, onUpdate, onDelete }: StepItemProps) => {
                                         type="number"
                                         min={1}
                                         {...register("completionThreshold", { valueAsNumber: true })}
-                                        placeholder="Actions requises"
+                                        placeholder={t('placeholder.threshold')}
                                         className="h-8 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30"
                                     />
                                     {errors.completionThreshold && (
@@ -140,7 +142,7 @@ const StepItem = ({ step, index, onUpdate, onDelete }: StepItemProps) => {
                                             {step.completionThreshold}
                                         </div>
                                         <div className="text-sm text-foreground/60">
-                                            actions
+                                            {t('label.actions')}
                                         </div>
                                     </div>
                                     <div className="flex gap-1">
@@ -183,6 +185,7 @@ export function ActionsStepForm({
     onStepsReset,
     initialSteps = [] 
 }: ActionsStepFormProps) {
+    const t = useTranslations('dashboard.circuits.steps.forms.actions');
     const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
     const [sortedSteps, setSortedSteps] = useState<Step[]>([]);
     const [isAddingStep, setIsAddingStep] = useState(false);
@@ -213,8 +216,8 @@ export function ActionsStepForm({
     const handleAddStep = async (data: { completionThreshold: number }) => {
         const newStep: Step = {
             id: "", // L'ID sera défini par l'API
-            name: `${circuitName} palier ${sortedSteps.length + 1}`,
-            description: `Effectuer ${data.completionThreshold} actions`,
+            name: t('step.name', { circuitName, index: sortedSteps.length + 1 }),
+            description: t('step.description', { threshold: data.completionThreshold }),
             completionThreshold: data.completionThreshold,
             stepNumber: sortedSteps.length + 1,
             eventName: `${circuitName.toLowerCase().replace(/[^a-z0-9]/g, "_")}_level_${sortedSteps.length + 1}`,
@@ -228,14 +231,14 @@ export function ActionsStepForm({
     };
 
     const handleGenerateSteps = (values: GeneratorFormData) => {
-        const generatedSteps = generatePreviewSteps(values, circuitName, "actions");
+        const generatedSteps = generatePreviewSteps(values, circuitName, t);
         onStepsReset(generatedSteps);
     };
 
     return (
         <div className="space-y-8">
             <div className="flex justify-between items-center">
-                <h3 className="text-lg font-medium">Configuration des paliers</h3>
+                <h3 className="text-lg font-medium">{t('title')}</h3>
                 <Button
                     variant="outline"
                     onClick={() => setIsGeneratorOpen(true)}
@@ -244,7 +247,7 @@ export function ActionsStepForm({
                     <div className="absolute inset-0 bg-gradient-to-r from-secondary/10 via-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-md" />
                     <Wand2 className="w-4 h-4 mr-2 transition-transform duration-500 group-hover:scale-110" />
                     <span className="relative">
-                        Générer des paliers
+                        {t('generate')}
                     </span>
                     <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2">
                         <Sparkles className="w-3.5 h-3.5 text-secondary animate-pulse" />
@@ -302,7 +305,7 @@ export function ActionsStepForm({
                                                     type="number"
                                                     min={1}
                                                     {...register("completionThreshold", { valueAsNumber: true })}
-                                                    placeholder="Actions requises"
+                                                    placeholder={t('placeholder.threshold')}
                                                     className="h-8 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30"
                                                 />
                                                 {errors.completionThreshold && (
@@ -347,7 +350,7 @@ export function ActionsStepForm({
                                     className="w-full h-9 text-sm border-border hover:border-border/80 dark:!border-primary/40 dark:hover:!border-primary/60"
                                 >
                                     <Plus className="h-4 w-4 mr-2" />
-                                    Ajouter un palier
+                                    {t('add')}
                                 </Button>
                             </motion.div>
                         )}
@@ -358,9 +361,9 @@ export function ActionsStepForm({
             {sortedSteps.length > 1 && (
                 <div className="space-y-4">
                     <div className="space-y-1">
-                        <h3 className="font-medium">Aperçu de la progression</h3>
+                        <h3 className="font-medium">{t('preview.title')}</h3>
                         <p className="text-sm text-muted-foreground">
-                            Visualisez la courbe de progression des actions à effectuer
+                            {t('preview.description')}
                         </p>
                     </div>
                     <div className="bg-card/50 rounded-lg p-4">

@@ -1,0 +1,55 @@
+{
+  "title": "Users",
+  "description": "Manage and track your users' progress across all circuits",
+  "stats": {
+    "totalUsers": "Total Users",
+    "activeUsers": "Active Users",
+    "newUsers": "New Users",
+    "completionRate": "Avg. Completion Rate"
+  },
+  "filters": {
+    "all": "All",
+    "circuit": "Circuit",
+    "progression": "Progression",
+    "metadata": "Metadata filters",
+    "search": "Search",
+    "search_placeholder": "Name, email...",
+    "not_started": "Not started",
+    "ended": "Completed",
+    "reset": "Reset",
+    "apply": "Apply",
+    "export_csv": "Export CSV"
+  },
+  "export": "Export CSV",
+  "loading": "Loading users...",
+  "pagination": {
+    "page_info": "Page {current} of {total} ({count} users)"
+  },
+  "user_list": {
+    "registered_on": "Registered on",
+    "last_connection": "Last connection",
+    "last_connection_tooltip": "Time since last user activity",
+    "current_streak": "Current streak",
+    "longest_streak": "Longest streak",
+    "current_streak_tooltip": "Current consecutive days of activity",
+    "longest_streak_tooltip": "Longest consecutive days of activity ever achieved",
+    "circuits_completed": "Circuits completed",
+    "total_points": "Total points",
+    "boolean": {
+      "true": "Yes",
+      "false": "No"
+    }
+  },
+  "streak": {
+    "current": "Current: {count}",
+    "longest": "Longest: {count}",
+    "days": "days"
+  },
+  "circuit_progress": {
+    "title": "Circuit Progress",
+    "completed": "Completed",
+    "in_progress": "In Progress",
+    "not_started": "Not Started",
+    "progress": "{completed}/{total} circuits"
+  }
+} 

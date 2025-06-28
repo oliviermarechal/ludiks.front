@@ -1,0 +1,31 @@
+{
+  "title": "Circuits",
+  "description": "Create and manage your user journeys",
+  "filters": {
+    "title": "Filters",
+    "status": "Status",
+    "type": "Type",
+    "date": "Date"
+  },
+  "table": {
+    "name": "Name",
+    "type": "Type",
+    "status": "Status",
+    "completionRate": "Completion Rate",
+    "averageTime": "Average Time",
+    "actions": "Actions"
+  },
+  "empty": {
+    "title": "No circuits found",
+    "description": "Create your first circuit to get started"
+  },
+  "emptyState": {
+    "selectProject": "Please select a project",
+    "createFirst": {
+      "title": "Create a new circuit",
+      "description": "Define a new user journey to analyze"
+    }
+  },
+  "steps": "steps",
+  "stepLevel": "Level {number}"
+} 

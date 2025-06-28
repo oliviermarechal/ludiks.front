@@ -9,7 +9,8 @@ import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import * as Tabs from '@radix-ui/react-tabs'
-import { Step, CircuitType } from "@/lib/stores/circuit-store"
+import { Step, CircuitType } from "@/lib/types/circuit.types"
+import { useTranslations } from "next-intl"
 
 type CurveType = "linear" | "power" | "logarithmic"
 
@@ -40,41 +41,43 @@ interface StepsSetupProps {
   circuitType: CircuitType
 }
 
-const generatorSteps: GeneratorStep[] = [
-  {
-    id: "numberOfSteps",
-    question: "Combien d'étapes souhaitez-vous générer ?",
-    placeholder: "Ex: 5",
-    field: "numberOfSteps",
-    type: "number",
-    validation: (value) => {
-      const num = typeof value === "string" ? parseInt(value) : value
-      return typeof num === "number" && !isNaN(num) && num >= 2 && num <= 100
+function createGeneratorSteps(t: (key: string, params?: Record<string, string>) => string, circuitType: CircuitType): GeneratorStep[] {
+  return [
+    {
+      id: "numberOfSteps",
+      question: t('stepsSetup.generator.steps.count.question', { type: circuitType === "points" ? "points" : "actions" }),
+      placeholder: t('stepsSetup.generator.steps.count.placeholder'),
+      field: "numberOfSteps",
+      type: "number",
+      validation: (value) => {
+        const num = typeof value === "string" ? parseInt(value) : value
+        return typeof num === "number" && !isNaN(num) && num >= 2 && num <= 100
+      },
+      errorMessage: t('stepsSetup.generator.steps.count.error'),
     },
-    errorMessage: "Le nombre d'étapes doit être compris entre 2 et 100",
-  },
-  {
-    id: "range",
-    question: "Quelles sont les valeurs de progression ?",
-    placeholder: "Ex: 1 à 1000",
-    field: "startValue",
-    type: "range",
-    validation: () => true,
-  },
-  {
-    id: "curve",
-    question: "Quelle courbe de progression souhaitez-vous ?",
-    placeholder: "Sélectionnez une courbe",
-    field: "curve",
-    type: "select",
-    options: [
-      { value: "linear", label: "Linéaire" },
-      { value: "power", label: "Exponentielle" },
-      { value: "logarithmic", label: "Logarithmique" },
-    ],
-    validation: (value) => ["linear", "power", "logarithmic"].includes(value as string),
-  },
-]
+    {
+      id: "range",
+      question: t('stepsSetup.generator.steps.range.question', { type: circuitType === "points" ? "points" : "actions" }),
+      placeholder: t('stepsSetup.generator.steps.range.placeholder'),
+      field: "startValue",
+      type: "range",
+      validation: () => true,
+    },
+    {
+      id: "curve",
+      question: t('stepsSetup.generator.steps.curve.question'),
+      placeholder: t('stepsSetup.generator.steps.curve.placeholder'),
+      field: "curve",
+      type: "select",
+      options: [
+        { value: "linear", label: t('stepsSetup.generator.steps.curve.options.linear') },
+        { value: "power", label: t('stepsSetup.generator.steps.curve.options.power') },
+        { value: "logarithmic", label: t('stepsSetup.generator.steps.curve.options.logarithmic') },
+      ],
+      validation: (value) => ["linear", "power", "logarithmic"].includes(value as string),
+    },
+  ]
+}
 
 function generateSteps(data: GeneratorFormData): Step[] {
   const { numberOfSteps, curve, maxValue, startValue, exponent } = data
@@ -97,6 +100,7 @@ function generateSteps(data: GeneratorFormData): Step[] {
     }
 
     steps.push({
+      id: `step_${i + 1}`,
       name: `Niveau ${i + 1}`,
       description: ``,
       eventName: "",
@@ -163,10 +167,13 @@ function StepPreviewChart({ steps }: { steps: Step[] }) {
 }
 
 export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSetupProps) {
+  const t = useTranslations('onboarding.project');
   const [mode, setMode] = useState<"manual" | "generator">("manual")
   const [steps, setSteps] = useState<Step[]>([])
   const [currentStep, setCurrentStep] = useState(0)
   const eventName = circuitName.toLowerCase().replace(/[^a-z0-9]/g, "_")
+
+  const generatorSteps = createGeneratorSteps(t, circuitType);
 
   const [generatorState, setGeneratorState] = useState<{
     values: GeneratorFormData
@@ -188,6 +195,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
     const numValue = parseInt(value)
     if (numValue >= 1) {
       const newStep: Step = {
+        id: `step_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         name: "",
         description: "",
         eventName,
@@ -255,34 +263,34 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
 
   const previewSteps = useMemo(() => steps.map((step, index) => ({
     id: `${index}`,
-    name: `${circuitName} niveau ${index + 1}`,
+    name: `${circuitName} ${circuitType === "points" ? t('stepsSetup.generator.preview.level', { index: index + 1 }) : t('stepsSetup.generator.preview.step', { index: index + 1 })}`,
     description: circuitType === "points" 
-      ? `Atteindre ${step.completionThreshold} points`
-      : `Effectuer ${step.completionThreshold} actions`,
+      ? t('stepsSetup.generator.preview.points', { value: step.completionThreshold })
+      : t('stepsSetup.generator.preview.actions', { value: step.completionThreshold }),
     completionRate: 0,
     completionThreshold: step.completionThreshold,
     usersCompleted: 0,
     eventName: `${eventName}_level_${index + 1}`,
-  })), [steps, circuitName, circuitType, eventName])
+  })), [steps, circuitName, circuitType, eventName, t])
 
   return (
     <div className="space-y-8">
       <div className="text-center space-y-4">
         <h2 className="text-2xl font-bold text-foreground">
-          Configurez les étapes de progression
+          {t('stepsSetup.title')}
         </h2>
         <div className="max-w-2xl mx-auto space-y-4">
           <p className="text-foreground/70">
             {circuitType === "points"
-              ? "Définissez les paliers de points que vos utilisateurs devront atteindre pour progresser"
-              : "Définissez le nombre d'actions que vos utilisateurs devront effectuer pour progresser"}
+              ? t('stepsSetup.subtitle.points')
+              : t('stepsSetup.subtitle.actions')}
           </p>
           <div className="bg-primary/5 rounded-lg p-4 border border-primary/20">
-            <h3 className="font-medium mb-2">Qu&apos;est-ce qu&apos;une étape ?</h3>
+            <h3 className="font-medium mb-2">{t('stepsSetup.what.title')}</h3>
             <p className="text-sm text-foreground/70">
               {circuitType === "points" 
-                ? "Une étape représente un niveau de progression dans votre parcours. Chaque niveau définit un nombre de points à atteindre pour que l'utilisateur progresse. Par exemple, le niveau 1 pourrait nécessiter 100 points, le niveau 2 pourrait nécessiter 250 points, etc."
-                : "Une étape représente un palier dans votre parcours. Chaque palier définit un nombre d'actions à effectuer pour que l'utilisateur progresse. Par exemple, le palier 1 pourrait nécessiter 5 actions, le palier 2 pourrait nécessiter 10 actions, etc."}
+                ? t('stepsSetup.description.points')
+                : t('stepsSetup.description.actions')}
             </p>
           </div>
         </div>
@@ -300,7 +308,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                 : "border-primary/20"
             )}
           >
-            Configuration manuelle
+            {t('stepsSetup.manual.title')}
           </Tabs.Trigger>
           <Tabs.Trigger 
             value="generator" 
@@ -314,7 +322,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
             )}
           >
             <Wand2 className="w-3.5 h-3.5" />
-            Générateur d&apos;étapes
+            {t('stepsSetup.generator.title')}
           </Tabs.Trigger>
         </Tabs.List>
 
@@ -327,22 +335,22 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
           >
             <div className="space-y-6">
               <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 mb-6">
-                <h3 className="font-medium mb-2">Configuration manuelle</h3>
+                <h3 className="font-medium mb-2">{t('stepsSetup.manual.title')}</h3>
                 <p className="text-sm text-foreground/70">
                   {circuitType === "points"
-                    ? "Ajoutez manuellement chaque niveau de points. Vous pouvez définir précisément le nombre de points requis pour chaque niveau. Par exemple, vous pourriez avoir des niveaux à 100, 250, 500, 1000 points, etc."
-                    : "Ajoutez manuellement chaque palier d'actions. Vous pouvez définir précisément le nombre d'actions requises pour chaque palier. Par exemple, vous pourriez avoir des paliers à 5, 10, 20, 50 actions, etc."}
+                    ? t('stepsSetup.manual.description.points')
+                    : t('stepsSetup.manual.description.actions')}
                 </p>
               </div>
 
               <div className="space-y-3 bg-card/50 rounded-lg p-4">
                 {steps.length === 0 && (
                   <div className="text-center py-8 text-muted-foreground">
-                    <p className="mb-2">Aucune étape n&apos;a été ajoutée</p>
+                    <p className="mb-2">{t('stepsSetup.empty.title')}</p>
                     <p className="text-sm">
                       {circuitType === "points"
-                        ? "Commencez par ajouter un niveau de points en cliquant sur le bouton ci-dessous"
-                        : "Commencez par ajouter un palier d'actions en cliquant sur le bouton ci-dessous"}
+                        ? t('stepsSetup.empty.description.points')
+                        : t('stepsSetup.empty.description.actions')}
                     </p>
                   </div>
                 )}
@@ -353,7 +361,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                     className="flex items-center gap-3 p-3 bg-card rounded-lg border border-border hover:border-border/80 transition-colors duration-200"
                   >
                     <div className="w-16 shrink-0 text-sm text-muted-foreground">
-                      {circuitType === "points" ? "Niveau" : "Palier"} {index + 1}
+                      {circuitType === "points" ? t('stepsSetup.level') : t('stepsSetup.actions.label')} {index + 1}
                     </div>
                     
                     <div className="flex-1">
@@ -362,7 +370,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                         min={1}
                         value={step.completionThreshold}
                         onChange={(e) => handleUpdateStep(index, e.target.value)}
-                        placeholder={circuitType === "points" ? "Points requis" : "Actions requises"}
+                        placeholder={circuitType === "points" ? t('stepsSetup.manual.placeholder') : t('stepsSetup.manual.actions_placeholder')}
                         className="h-9 text-sm"
                       />
                     </div>
@@ -388,16 +396,19 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                   className="w-full h-9 text-sm mt-2 border-border hover:border-border/80 dark:!border-primary/40 dark:hover:!border-primary/60"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Ajouter un {circuitType === "points" ? "niveau" : "palier"}
+                  {t('stepsSetup.manual.add')}
                 </Button>
               </div>
 
               {steps.length > 1 && (
                 <div className="space-y-4">
                   <div className="space-y-1">
-                    <h3 className="font-medium">Aperçu de la progression</h3>
+                    <h3 className="font-medium">{t('stepsSetup.generator.preview.title')}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Visualisez la courbe de progression des {circuitType === "points" ? "points" : "actions"} à {circuitType === "points" ? "atteindre" : "effectuer"}
+                      {t('stepsSetup.generator.preview.description', { 
+                        type: circuitType === "points" ? "points" : "actions",
+                        action: circuitType === "points" ? "atteindre" : "effectuer"
+                      })}
                     </p>
                   </div>
                   <div className="bg-card/50 rounded-lg p-4">
@@ -406,11 +417,11 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                       {previewSteps.map((step, index) => (
                         <div key={index} className="text-sm bg-card p-2 rounded-md border border-border/60">
                           <span className="text-muted-foreground">
-                            {circuitType === "points" ? "Niveau" : "Palier"} {index + 1}:
+                            {circuitType === "points" ? t('stepsSetup.level') : t('stepsSetup.actions.label')} {index + 1}:
                           </span>
                           <br />
                           <span className="text-secondary font-medium">
-                            {step.completionThreshold} {circuitType === "points" ? "points" : "actions"}
+                            {step.completionThreshold} {circuitType === "points" ? t('stepsSetup.points') : t('stepsSetup.actions.label')}
                           </span>
                         </div>
                       ))}
@@ -426,7 +437,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                   onClick={onBack}
                   className="flex-1 border-primary/20 hover:border-primary/40 hover:bg-primary/5"
                 >
-                  Retour
+                  {t('stepsSetup.actions.back')}
                 </Button>
                 <Button 
                   type="button"
@@ -434,7 +445,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                   disabled={steps.length === 0}
                   className="flex-1 bg-secondary hover:bg-secondary/90 text-black font-medium"
                 >
-                  Continuer
+                  {t('stepsSetup.actions.continue')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
@@ -451,11 +462,11 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
           >
             <div className="space-y-6">
               <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 mb-6">
-                <h3 className="font-medium mb-2">Générateur d&apos;étapes</h3>
+                <h3 className="font-medium mb-2">{t('stepsSetup.generator.title')}</h3>
                 <p className="text-sm text-foreground/70">
                   {circuitType === "points"
-                    ? "Le générateur vous permet de créer automatiquement une série de niveaux avec une progression équilibrée. Vous pouvez choisir le nombre de niveaux, les valeurs de départ et maximale, ainsi que le type de progression (linéaire, exponentielle ou logarithmique)."
-                    : "Le générateur vous permet de créer automatiquement une série de paliers avec une progression équilibrée. Vous pouvez choisir le nombre de paliers, les valeurs de départ et maximale, ainsi que le type de progression (linéaire, exponentielle ou logarithmique)."}
+                    ? t('stepsSetup.generator.description.points')
+                    : t('stepsSetup.generator.description.actions')}
                 </p>
               </div>
 
@@ -482,7 +493,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                       <div className="mb-6">
                         <div className="flex items-center gap-2 mb-1">
                           <Wand2 className="w-5 h-5 text-primary" />
-                          <Label className="text-base font-bold text-primary">Courbe de progression</Label>
+                          <Label className="text-base font-bold text-primary">{t('stepsSetup.generator.curve.title')}</Label>
                         </div>
                         <div className="rounded-lg shadow border border-primary/30 bg-primary/10 p-4">
                           <Select
@@ -490,7 +501,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                             onValueChange={(value) => handleGeneratorValueChange(value, currentQuestion.field)}
                           >
                             <SelectTrigger className="w-full bg-white border-none text-foreground font-medium focus:ring-2 focus:ring-primary/40 focus:border-primary">
-                              <SelectValue placeholder="Sélectionnez une option" />
+                              <SelectValue placeholder={t('stepsSetup.generator.curve.placeholder')} />
                             </SelectTrigger>
                             <SelectContent className="bg-white border-primary/30">
                               {currentQuestion.options?.map((option) => (
@@ -505,7 +516,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                       {generatorState.values.curve === "power" && (
                         <div className="space-y-2 rounded-lg border border-primary/20 bg-primary/5 p-4 mt-2 flex flex-col items-center">
                           <div className="flex items-center justify-between mb-1 w-full">
-                            <Label className="font-bold text-primary">Exposant</Label>
+                            <Label className="font-bold text-primary">{t('stepsSetup.generator.exponent.title')}</Label>
                             <span className="text-sm text-primary font-semibold">{generatorState.values.exponent}</span>
                           </div>
                           <div className="relative w-full flex justify-center">
@@ -524,12 +535,12 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                             <span>2.5</span>
                           </div>
                           <p className="text-xs text-primary/80 mt-1 w-full max-w-md mx-auto">
-                            Un exposant plus élevé rend la progression plus difficile. Par exemple, avec un exposant de 2, la progression sera quadratique.
+                            {t('stepsSetup.generator.exponent.description')}
                           </p>
                         </div>
                       )}
                       <div className="space-y-2">
-                        <Label>Aperçu de la progression</Label>
+                        <Label>{t('stepsSetup.generator.preview.title')}</Label>
                         <div className="p-4 rounded-lg border border-primary/20">
                           <StepPreviewChart steps={generateSteps(generatorState.values).map(step => ({
                             ...step,
@@ -538,7 +549,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                           <div className="grid grid-cols-2 gap-4 mt-4">
                             {generateSteps(generatorState.values).map((step, index) => (
                               <div key={index} className="text-sm text-secondary/70">
-                                Étape {index + 1}: {step.completionThreshold} {circuitType === "points" ? "points" : "actions"}
+                                {t('stepsSetup.generator.preview.step', { index: index + 1 })}: {step.completionThreshold} {circuitType === "points" ? t('stepsSetup.points') : t('stepsSetup.actions.label')}
                               </div>
                             ))}
                           </div>
@@ -549,7 +560,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                     <div className="flex-1 space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label>Valeur de départ</Label>
+                          <Label>{t('stepsSetup.generator.range.startValue')}</Label>
                           <Input
                             type="number"
                             min={1}
@@ -559,12 +570,12 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                           />
                           <p className="text-xs text-muted-foreground">
                             {circuitType === "points"
-                              ? "Le nombre de points requis pour le premier niveau"
-                              : "Le nombre d'actions requises pour le premier palier"}
+                              ? t('stepsSetup.generator.range.startValueHint.points')
+                              : t('stepsSetup.generator.range.startValueHint.actions')}
                           </p>
                         </div>
                         <div className="space-y-2">
-                          <Label>Valeur maximale</Label>
+                          <Label>{t('stepsSetup.generator.range.maxValue')}</Label>
                           <Input
                             type="number"
                             min={generatorState.values.startValue + 1}
@@ -574,14 +585,14 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                           />
                           <p className="text-xs text-muted-foreground">
                             {circuitType === "points"
-                              ? "Le nombre de points requis pour le dernier niveau"
-                              : "Le nombre d'actions requises pour le dernier palier"}
+                              ? t('stepsSetup.generator.range.maxValueHint.points')
+                              : t('stepsSetup.generator.range.maxValueHint.actions')}
                           </p>
                         </div>
                       </div>
 
                       <div className="space-y-2">
-                        <Label>Aperçu de la progression</Label>
+                        <Label>{t('stepsSetup.generator.preview.title')}</Label>
                         <div className="p-4 rounded-lg border border-primary/20">
                           <StepPreviewChart steps={generateSteps(generatorState.values).map(step => ({
                             ...step,
@@ -590,7 +601,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                           <div className="grid grid-cols-2 gap-4 mt-4">
                             {generateSteps(generatorState.values).map((step, index) => (
                               <div key={index} className="text-sm text-secondary/70">
-                                Étape {index + 1}: {step.completionThreshold} {circuitType === "points" ? "points" : "actions"}
+                                {t('stepsSetup.generator.preview.step', { index: index + 1 })}: {step.completionThreshold} {circuitType === "points" ? t('stepsSetup.points') : t('stepsSetup.actions.label')}
                               </div>
                             ))}
                           </div>
@@ -608,8 +619,8 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                       />
                       <p className="text-xs text-muted-foreground">
                         {circuitType === "points"
-                          ? "Le nombre de niveaux que vous souhaitez créer. Chaque niveau aura une progression équilibrée entre la valeur de départ et la valeur maximale."
-                          : "Le nombre de paliers que vous souhaitez créer. Chaque palier aura une progression équilibrée entre la valeur de départ et la valeur maximale."}
+                          ? t('stepsSetup.generator.steps.count.hint.points')
+                          : t('stepsSetup.generator.steps.count.hint.actions')}
                       </p>
                     </div>
                   )}
@@ -624,7 +635,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                   className="flex-1"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Retour
+                  {t('stepsSetup.actions.back')}
                 </Button>
                 <Button
                   type="button"
@@ -632,7 +643,7 @@ export function StepsSetup({ onNext, onBack, circuitName, circuitType }: StepsSe
                   disabled={!isCurrentStepValid()}
                   className="flex-1 bg-secondary hover:bg-secondary/90 text-black font-medium"
                 >
-                  Suivant
+                  {t('stepsSetup.actions.next')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>

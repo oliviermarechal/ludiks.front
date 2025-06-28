@@ -1,0 +1,191 @@
+{
+  "actions": {
+    "add": "Ajouter une étape",
+    "edit": "Modifier l'étape",
+    "delete": "Supprimer l'étape",
+    "move": "Déplacer l'étape"
+  },
+  "validation": {
+    "required": "Cette étape est requise",
+    "minTime": "Temps minimum requis",
+    "maxTime": "Temps maximum dépassé",
+    "minLength": "Le nom doit contenir au moins 3 caractères",
+    "minValue": "Le nombre doit être supérieur à 0"
+  },
+  "preview": {
+    "step": "Étape {index}",
+    "title": "Aperçu de la progression",
+    "description": "Visualisez la courbe de progression",
+    "level": "Niveau {index}",
+    "points": "{value} points",
+    "actions": "{value} actions"
+  },
+  "generator": {
+    "title": {
+      "points": "Générateur de niveaux",
+      "actions": "Générateur de paliers"
+    },
+    "steps": {
+      "count": {
+        "question": "Combien de {type} souhaitez-vous créer ?",
+        "placeholder": "Ex: 5",
+        "error": "Le nombre doit être entre 2 et 100",
+        "hint": "Un bon parcours contient généralement entre 3 et 7 étapes"
+      },
+      "range": {
+        "question": "Définissez la plage de {type} pour votre parcours",
+        "placeholder": "Ex: 1",
+        "error": "La valeur de départ doit être supérieure à 0 et inférieure à la valeur maximale",
+        "hint": "Ces valeurs représentent le nombre de {type} nécessaires pour le premier et le dernier {level}",
+        "start": "Valeur de départ",
+        "max": "Valeur maximale"
+      }
+    },
+    "progression": {
+      "title": "Type de progression",
+      "placeholder": "Choisissez un type",
+      "hint": "La courbe de progression détermine la difficulté entre chaque étape",
+      "types": {
+        "linear": "Linéaire (progression régulière)",
+        "power": "Exponentielle (progression de plus en plus difficile)",
+        "logarithmic": "Logarithmique (progression de plus en plus facile)"
+      },
+      "intensity": {
+        "label": "Intensité de la progression",
+        "hint": "Ajustez l'intensité de la progression exponentielle"
+      }
+    },
+    "navigation": {
+      "back": "Retour",
+      "next": "Suivant",
+      "modify": "Modifier",
+      "generate": {
+        "points": "Générer les niveaux",
+        "actions": "Générer les paliers"
+      },
+      "step": "Étape {current} sur {total}"
+    },
+    "preview": {
+      "title": "Aperçu de la progression",
+      "description": "Visualisez la courbe de progression",
+      "level": "Niveau {index}",
+      "points": "{value} points",
+      "actions": "{value} actions"
+    }
+  },
+  "forms": {
+    "actions": {
+      "title": "Configuration des paliers",
+      "generate": "Générer des paliers",
+      "add": "Ajouter un palier",
+      "preview": {
+        "title": "Aperçu de la progression",
+        "description": "Visualisez la courbe de progression des actions à effectuer"
+      },
+      "placeholder": {
+        "threshold": "Actions requises"
+      },
+      "label": {
+        "actions": "actions"
+      },
+      "step": {
+        "name": "{circuitName} palier {index}",
+        "description": "Effectuer {threshold} actions"
+      }
+    },
+    "points": {
+      "title": "Configuration des niveaux",
+      "generate": "Générer des niveaux",
+      "add": "Ajouter un niveau",
+      "preview": {
+        "title": "Aperçu de la progression",
+        "description": "Visualisez la courbe de progression des points à atteindre"
+      },
+      "placeholder": {
+        "threshold": "Points requis"
+      },
+      "label": {
+        "points": "points"
+      },
+      "step": {
+        "name": "{circuitName} niveau {index}",
+        "description": "Atteindre {threshold} points"
+      }
+    },
+    "objectives": {
+      "title": "Configuration des objectifs",
+      "add": "Ajouter un objectif",
+      "empty": {
+        "title": "Aucun objectif défini",
+        "description": "Commencez par ajouter un premier objectif à atteindre pour vos utilisateurs"
+      },
+      "chat": {
+        "name": {
+          "question": "Comment s'appelle cet objectif ?",
+          "placeholder": "Ex: Compléter son profil",
+          "error": "Le nom doit contenir au moins 3 caractères"
+        },
+        "description": {
+          "question": "En une phrase, décris ce que l'utilisateur doit faire (optionnel)",
+          "placeholder": "Ex: Remplir tous les champs de son profil"
+        },
+        "threshold": {
+          "question": "Combien de fois l'utilisateur doit-il réussir pour valider ?",
+          "placeholder": "Ex: 1",
+          "error": "Le nombre doit être supérieur à 0"
+        },
+        "actions": {
+          "cancel": "Annuler",
+          "skip": "Passer"
+        }
+      },
+      "placeholder": {
+        "name": "Nom de l'objectif",
+        "description": "Description (optionnelle)",
+        "eventName": "nom_de_levenement",
+        "threshold": "Répétitions"
+      },
+      "help": {
+        "eventName": "Identifiant technique pour le tracking (ex: completer_profil)"
+      },
+      "actions": {
+        "edit": "Éditer l'étape",
+        "delete": "Supprimer l'étape",
+        "move": "Déplacer"
+      }
+    }
+  },
+  "detail": {
+    "loading": "Chargement...",
+    "header": {
+      "title": "Utilisateurs sur cette étape"
+    },
+    "stats": {
+      "completion_rate": "Taux de complétion",
+      "users_on_step": "Utilisateurs sur cette étape",
+      "objective": {
+        "actions": "Répétition requise",
+        "points": "Points requis",
+        "objective": "Nombre de répétitions requises",
+        "default": "Objectif"
+      }
+    },
+    "friction_point": "Point de friction",
+    "export": "Exporter en CSV",
+    "filters": {
+      "all": "{key} (tous)"
+    },
+    "user_list": {
+      "registered_on": "Inscrit le",
+      "on_step_since": "Sur l'étape depuis",
+      "last_connection": "Dernière connexion",
+      "boolean": {
+        "true": "Oui",
+        "false": "Non"
+      }
+    },
+    "pagination": {
+      "page_info": "Page {current} sur {total} ({count} utilisateurs)"
+    }
+  }
+} 

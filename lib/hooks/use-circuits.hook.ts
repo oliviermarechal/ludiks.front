@@ -1,5 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Circuit, CircuitType, Step, useCircuitStore } from '../stores/circuit-store'
+import { Circuit, CircuitType, Step } from '../types/circuit.types'
+import { useProjectStore } from '../stores/project-store'
+import { useOrganizations } from './use-organizations.hook'
+import { useEffect } from 'react'
 import api from '../api'
 
 const sortStepsByOrder = (circuitType: CircuitType, steps: Step[]) => {
@@ -19,9 +22,22 @@ const sortStepsByOrder = (circuitType: CircuitType, steps: Step[]) => {
 }
 
 export function useCircuits(projectId?: string) {
-  const { circuits, setCircuits, projectId: storeProjectId } = useCircuitStore()
-  const currentProjectId = projectId || storeProjectId
+  const { selectedProject, setSelectedProject, setSelectedOrganization } = useProjectStore()
+  const { organizations, isLoading: isOrgLoading } = useOrganizations()
+  const currentProjectId = projectId || selectedProject?.id
   const queryClient = useQueryClient()
+
+  // Sélection automatique du premier projet si aucun n'est sélectionné
+  useEffect(() => {
+    if (!isOrgLoading && organizations.length > 0 && !selectedProject) {
+      const firstOrg = organizations[0]
+      const firstProject = firstOrg?.projects[0]
+      if (firstProject) {
+        setSelectedProject(firstProject)
+        setSelectedOrganization(firstOrg)
+      }
+    }
+  }, [isOrgLoading, organizations, selectedProject, setSelectedProject, setSelectedOrganization])
 
   const query = useQuery({
     queryKey: ['circuits', currentProjectId],
@@ -39,7 +55,6 @@ export function useCircuits(projectId?: string) {
             ...circuit,
             steps: sortStepsByOrder(circuit.type, circuit.steps || [])
           }))
-          setCircuits(sortedCircuits)
           return sortedCircuits
         }
 
@@ -58,16 +73,18 @@ export function useCircuits(projectId?: string) {
       return res.data as Step
     },
     onSuccess: (newStep, { circuitId }) => {
-      const updatedCircuits = circuits.map(circuit => {
-        if (circuit.id === circuitId) {
-          return {
-            ...circuit,
-            steps: sortStepsByOrder(circuit.type, [...(circuit.steps || []), newStep])
+      queryClient.setQueryData(['circuits', currentProjectId], (oldData: Circuit[] | undefined) => {
+        if (!oldData) return oldData
+        return oldData.map(circuit => {
+          if (circuit.id === circuitId) {
+            return {
+              ...circuit,
+              steps: sortStepsByOrder(circuit.type, [...(circuit.steps || []), newStep])
+            }
           }
-        }
-        return circuit
+          return circuit
+        })
       })
-      setCircuits(updatedCircuits)
     }
   })
 
@@ -81,16 +98,18 @@ export function useCircuits(projectId?: string) {
       return res.data
     },
     onSuccess: (updatedCircuit, { circuitId }) => {
-      const updatedCircuits = circuits.map(circuit => {
-        if (circuit.id === circuitId) {
-          return {
-            ...updatedCircuit,
-            steps: sortStepsByOrder(updatedCircuit.type, updatedCircuit.steps || [])
+      queryClient.setQueryData(['circuits', currentProjectId], (oldData: Circuit[] | undefined) => {
+        if (!oldData) return oldData
+        return oldData.map(circuit => {
+          if (circuit.id === circuitId) {
+            return {
+              ...updatedCircuit,
+              steps: sortStepsByOrder(updatedCircuit.type, updatedCircuit.steps || [])
+            }
           }
-        }
-        return circuit
+          return circuit
+        })
       })
-      setCircuits(updatedCircuits)
     }
   })
 
@@ -104,17 +123,19 @@ export function useCircuits(projectId?: string) {
       return res.data
     },
     onSuccess: (updatedStep, { circuitId, stepId }) => {
-      const updatedCircuits = circuits.map(circuit => {
-        if (circuit.id === circuitId) {
-          const updatedSteps = circuit.steps.map(step => step.id === stepId ? updatedStep : step)
-          return {
-            ...circuit,
-            steps: sortStepsByOrder(circuit.type, updatedSteps)
+      queryClient.setQueryData(['circuits', currentProjectId], (oldData: Circuit[] | undefined) => {
+        if (!oldData) return oldData
+        return oldData.map(circuit => {
+          if (circuit.id === circuitId) {
+            const updatedSteps = circuit.steps.map(step => step.id === stepId ? updatedStep : step)
+            return {
+              ...circuit,
+              steps: sortStepsByOrder(circuit.type, updatedSteps)
+            }
           }
-        }
-        return circuit
+          return circuit
+        })
       })
-      setCircuits(updatedCircuits)
     }
   })
 
@@ -124,13 +145,15 @@ export function useCircuits(projectId?: string) {
       return res.data
     },
     onSuccess: (_, { circuitId, stepId }) => {
-      const updatedCircuits = circuits.map(circuit => {
-        if (circuit.id === circuitId) {
-          return { ...circuit, steps: circuit.steps.filter(step => step.id !== stepId) }
-        }
-        return circuit
+      queryClient.setQueryData(['circuits', currentProjectId], (oldData: Circuit[] | undefined) => {
+        if (!oldData) return oldData
+        return oldData.map(circuit => {
+          if (circuit.id === circuitId) {
+            return { ...circuit, steps: circuit.steps.filter(step => step.id !== stepId) }
+          }
+          return circuit
+        })
       })
-      setCircuits(updatedCircuits)
     }
   })
 
@@ -144,8 +167,14 @@ export function useCircuits(projectId?: string) {
       return res.data as Circuit
     },
     onSuccess: (newCircuit) => {
-      setCircuits([...circuits, newCircuit])
+      queryClient.setQueryData(['circuits', currentProjectId], (oldData: Circuit[] | undefined) => {
+        if (!oldData) return [newCircuit]
+        return [...oldData, newCircuit]
+      })
       queryClient.invalidateQueries({ queryKey: ['circuits', currentProjectId] })
+      if (newCircuit?.id) {
+        queryClient.invalidateQueries({ queryKey: ['circuit', newCircuit.id] })
+      }
     }
   })
 
@@ -191,9 +220,27 @@ export function useCircuits(projectId?: string) {
     return updateStepsOrderMutation.mutateAsync({ circuitId, steps })
   }
 
+  const deleteCircuitMutation = useMutation({
+    mutationFn: async ({ circuitId }: { circuitId: string }) => {
+      const res = await api.delete(`/api/circuits/${circuitId}`)
+      return res.data
+    },
+    onSuccess: (_, { circuitId }) => {
+      queryClient.setQueryData(['circuits', currentProjectId], (oldData: Circuit[] | undefined) => {
+        if (!oldData) return oldData
+        return oldData.filter(circuit => circuit.id !== circuitId)
+      })
+      queryClient.invalidateQueries({ queryKey: ['circuits', currentProjectId] })
+    }
+  })
+
+  const deleteCircuit = async ({ circuitId }: { circuitId: string }) => {
+    return deleteCircuitMutation.mutateAsync({ circuitId })
+  }
+
   return {
     ...query,
-    circuits: query.data || circuits,
+    circuits: query.data || [],
     isLoading: query.isLoading,
     error: query.error,
     addStep,
@@ -204,5 +251,6 @@ export function useCircuits(projectId?: string) {
     activateCircuit: activateCircuitMutation.mutate,
     renameCircuit,
     updateStepsOrder,
+    deleteCircuit,
   }
 } 
