@@ -412,10 +412,11 @@
       "generate": "Generate journeys",
       "close": "Close"
     },
-    "waitlist": {
-      "title": "Join the waitlist",
-      "description": "Get priority access to beta and a personalized demo",
-      "benefits": "Priority beta access, personalized demo, 3 months free"
+    "cta": {
+      "title": "Ready to implement your strategy?",
+      "description": "Start creating your gamification journeys and boost user engagement today",
+      "button": "Start your free trial",
+      "benefits": "Free mode with monthly events • No credit card required"
     }
   }
 } 

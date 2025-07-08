@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Target, Activity } from "lucide-react";
 import { StrategyFormData, MainGoal } from "./generator";
 import { useTranslations } from 'next-intl';
+import { useRouter } from "@/lib/navigation";
 
 interface StrategySuggestion {
   id: string;
@@ -143,7 +144,12 @@ interface StrategySuggestionsProps {
 
 export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", onClose }: StrategySuggestionsProps) {
   const t = useTranslations('strategy');
+  const router = useRouter();
   const { strategies, circuits } = generateSuggestions(formData);
+
+  const handleGetStarted = () => {
+    router.push('/auth/register');
+  };
 
   return (
     <div className="container mx-auto py-12">
@@ -312,25 +318,23 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
             <div className="w-full max-w-md mx-auto flex flex-col items-center">
               <div className="mb-4 text-center">
                 <p className="text-base font-semibold text-foreground/70 mb-1">
-                  {t('suggestions.waitlist.title')}
+                  {t('suggestions.cta.title')}
                 </p>
                 <p className="text-sm text-foreground">
-                  {t('suggestions.waitlist.description')}
+                  {t('suggestions.cta.description')}
                 </p>
               </div>
               <div className="bg-white/90 dark:bg-gray-800/90 rounded-2xl shadow-lg border border-primary/20 p-6 w-full flex flex-col items-center transition-all duration-200">
-                <iframe 
-                  src="https://tally.so/embed/wQEqpg?alignLeft=1&hideTitle=1&transparentBackground=0&dynamicHeight=1" 
-                  loading="lazy" 
-                  width="100%" 
-                  height="120" 
-                  className="rounded-lg border border-primary/10 min-w-[220px] max-w-full"
-                  style={{ minWidth: 220, maxWidth: '100%' }}
-                  title="Inscription Ludiks"
-                ></iframe>
+                <Button
+                  onClick={handleGetStarted}
+                  className="bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8 py-4 text-lg font-bold shadow-xl hover:shadow-primary/20 transition-all duration-300 rounded-xl group w-full"
+                >
+                  {t('suggestions.cta.button')}
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
               </div>
               <p className="text-sm text-foreground mt-4 text-center">
-                <span role="img" aria-label="lock">🔓</span> {t('suggestions.waitlist.benefits')}
+                <span role="img" aria-label="lock">🔓</span> {t('suggestions.cta.benefits')}
               </p>
               <Button
                 variant="outline"

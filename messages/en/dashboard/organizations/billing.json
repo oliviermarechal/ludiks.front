@@ -1,87 +1,56 @@
 {
   "title": "Billing & Plan",
   "description": "Manage your subscription, payment methods, and view your billing history.",
-  "currentPlan": "Current Plan",
-  "yourPlan": "Your Plan",
-  "upgrade": "Upgrade",
-  "downgrade": "Downgrade",
-  "manage": "Manage",
-  "cancelSubscription": "Cancel Subscription",
-  "paymentMethod": "Payment Method",
-  "addPaymentMethod": "Add Payment Method",
-  "billingHistory": "Billing History",
-  "date": "Date",
-  "amount": "Amount",
-  "invoice": "Invoice",
-  "billingCycle": "Billing Cycle",
-  "monthly": "Monthly",
-  "yearly": "Yearly",
-  "saveWithYearly": "Save 10% with yearly billing",
-  "plans": {
-    "free": {
-      "name": "Free",
-      "price": "$0",
-      "period": "/ month",
-      "yearlyPrice": "$0",
-      "yearlyPeriod": "/ year",
-      "features": [
-        "25,000 events/month",
-        "Unlimited projects",
-        "Unlimited team members",
-        "Basic analytics",
-        "Community support"
-      ],
-      "description": "Perfect for getting started and discovering the tool"
-    },
-    "pro": {
-      "name": "Pro",
-      "price": "$49",
-      "period": "/ month",
-      "yearlyPrice": "$529",
-      "yearlyPeriod": "/ year",
-      "features": [
-        "Everything in Free",
-        "1,000,000 events/month",
-        "Users list & progress tracking",
-        "CSV export for user engagement",
-        "Advanced analytics",
-        "Priority support"
-      ],
-      "current": "Current Plan",
-      "description": "For growing teams that need deeper insights"
-    },
-    "scale": {
-      "name": "Scale",
-      "price": "$299",
-      "period": "/ month",
-      "yearlyPrice": "$3,229",
-      "yearlyPeriod": "/ year",
-      "features": [
-        "Everything in Pro",
-        "Unlimited events",
-        "Enterprise-grade performance",
-        "Advanced API rate limits"
-      ],
-      "description": "For high-volume applications and enterprises"
-    }
+  "currentPlan": {
+    "title": "Current Plan",
+    "free": "Free",
+    "pro": "Pro"
   },
-  "faq": {
-    "title": "Frequently Asked Questions",
-    "changePlans": {
-      "question": "Can I change plans anytime?",
-      "answer": "Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately."
-    },
-    "eventLimit": {
-      "question": "What happens if I exceed my event limit?",
-      "answer": "You'll receive a notification when approaching your limit. We'll work with you to find the right solution."
-    },
-    "freeTrial": {
-      "question": "Is there a free trial?",
-      "answer": "The Free plan is always available with no time limit. Start using it right away!"
-    },
-    "cancelAnytime": {
-      "question": "Can I cancel anytime?",
-      "answer": "Absolutely. You can cancel your subscription at any time with no penalties or hidden fees."
-    }
+  "proMode": {
+    "title": "Pro Subscription",
+    "description": "You are currently subscribed to the Pro plan. You can cancel your subscription at any time; it will remain active until the end of the current period.",
+    "cancel": "Cancel subscription"
+  },
+  "freeThreshold": "Up to 5,000 free events per month.",
+  "freeMode": {
+    "ofFreeTier": "of free tier",
+    "description": "You are currently on the free plan. Upgrade to Pro to remove the limit.",
+    "upgradeButton": "Upgrade to Pro Plan"
+  },
+  "cancelConfirmation": {
+    "title": "Cancel subscription",
+    "description": "Are you sure you want to cancel your subscription? It will remain active until the end of the current period, then you will switch back to the free plan ({freeLimit} events/month).",
+    "cancel": "No, keep subscription",
+    "confirm": "Yes, cancel"
+  },
+  "usage": {
+    "title": "Usage",
+    "events": "events",
+    "estimated": "Estimated cost",
+    "freeDescription": "Up to {limit} free events per month.",
+    "proDescription": "Pay-as-you-go billing beyond the free tier."
+  },
+  "tiers": {
+    "title": "Pro Plan Pricing",
+    "range": "Range",
+    "price": "Price",
+    "tier1": "0 to 5,000 events",
+    "tier2": "5,001 to 100,000 events",
+    "tier3": "100,001 to 500,000 events",
+    "tier4": "500,001+ events",
+    "free": "Free"
+  },
+  "billingHistory": {
+    "title": "Billing History"
+  },
+  "messages": {
+    "success": "Your payment method has been successfully registered! You are now on the Pro plan.",
+    "error": "An error occurred while registering the payment method: {error}"
+  },
+  "cancellation": {
+    "title": "Cancellation request submitted",
+    "description": "Your Pro subscription will be cancelled on {date}.",
+    "fallbackDate": "next billing period",
+    "note": "You can continue to use all Pro features until this date."
   }
 } 

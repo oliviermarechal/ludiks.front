@@ -1,18 +1,24 @@
 {
-    "hero": {
-        "beta": "🚧 Bêta en cours",
-        "title": "Optimisez vos parcours clients, augmentez vos ventes",
-        "subtitle": "Découvrez pourquoi vos clients abandonnent et comment les faire revenir. Visualisez chaque étape de leur parcours, identifiez les points de friction et augmentez vos ventes.",
-        "features": {
-            "track": "Suivez chaque étape de votre parcours client",
-            "identify": "Identifiez où vos clients abandonnent",
-            "increase": "Augmentez vos ventes"
-        }
+    "navigation": {
+        "home": "Accueil",
+        "pricing": "Tarifs",
+        "login": "Connexion",
+        "register": "Inscription",
+        "documentation": "Documentation",
+        "getStarted": "Commencer"
     },
-    "waitlist": {
-        "priority": "Accès prioritaire",
-        "title": "Soyez les premiers informés du lancement",
-        "subtitle": "Accès VIP à la bêta, démo personnalisée, 3 mois gratuits"
+    "hero": {
+        "title": "Transformez vos parcours utilisateurs en expériences de gamification engageantes",
+        "subtitle": "Créez des circuits de gamification prêts à l'emploi qui suivent la progression des utilisateurs, identifient les points d'abandon et boostent la rétention grâce aux récompenses, badges et points.",
+        "features": {
+            "track": "Suivez chaque étape avec la gamification",
+            "identify": "Identifiez les abandons avec l'analyse de rétention",
+            "increase": "Boostez l'engagement avec des récompenses"
+        },
+        "cta": {
+            "button": "Commencez à optimiser maintenant",
+            "subtitle": "Mode gratuit avec événements mensuels • Aucune carte bancaire requise"
+        }
     },
     "problems": {
         "title": "Vous perdez des utilisateurs sans le savoir",
@@ -141,8 +147,12 @@
         "note": "Testez gratuitement et découvrez comment Ludiks peut transformer vos parcours utilisateurs."
     },
     "cta": {
-        "title": "Prêt à optimiser vos taux de conversion ?",
-        "subtitle": "Rejoignez les premiers testeurs et bénéficiez de 3 mois d'accès illimité offert",
-        "button": "Rejoindre la liste d'attente"
+        "title": "Prêt à booster l'engagement de vos utilisateurs ?",
+        "subtitle": "Découvrez comment la gamification peut transformer vos parcours utilisateurs. Commencez votre mode gratuit aujourd'hui.",
+        "button": "Commencer le mode gratuit",
+        "benefits": {
+            "free": "Mode gratuit avec événements mensuels",
+            "setup": "Configuration en 5 min"
+        }
     }
 } 

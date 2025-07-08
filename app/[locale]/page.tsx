@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { 
   Eye, 
   TrendingUp,
@@ -28,8 +27,9 @@ import { useEffect, useState } from 'react';
 import { StrategyFormData, StrategyGenerator } from "@/components/strategy/generator";
 import { StrategySuggestions } from "@/components/strategy/suggestions";
 import { Modal } from "@/components/ui/modal";
-import { useRouter } from "next/navigation";
 import { useTranslations } from 'next-intl';
+import { useRouter } from "@/lib/navigation";
+import { Navigation } from "@/components/navigation";
 
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
@@ -68,20 +68,13 @@ export default function Home() {
     { name: t('solution.funnel.chart.steps.4'), completion: 50, users: 625 },
   ];
 
-  const scrollToWaitlist = () => {
-    const waitlistSection = document.getElementById('waitlist-section');
-    if (waitlistSection) {
-      waitlistSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   const handleComplete = (data: StrategyFormData) => {
     setStrategyData(data);
     setShowSuggestions(true);
   };
 
   const handleGenerate = () => {
-    router.push('/signup');
+    router.push('/auth/register');
   };
 
   const handleClose = () => {
@@ -90,16 +83,17 @@ export default function Home() {
     setStrategyData(null);
   };
 
+  const handleGetStarted = () => {
+    router.push('/auth/register');
+  };
+
   return (
     <main className="min-h-screen">
+      <Navigation />
       {/* Hero Section - Focus sur le pain point */}
       <div className="relative landing-hero">
         <div className="container mx-auto pt-24 pb-16 relative px-4 md:px-8">
           <div className="flex flex-col items-center text-center space-y-8">
-            <Badge variant="outline" className="bg-yellow-300 text-black font-bold">
-              {t('hero.beta')}
-            </Badge>
-
             <h1 className="text-4xl md:text-6xl font-black landing-title pb-2">
               {t('hero.title')}
             </h1>
@@ -122,37 +116,20 @@ export default function Home() {
                 <span className="font-medium text-foreground/90">{t('hero.features.increase')}</span>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Section Soyez les premiers informés du lancement */}
-      <div id="waitlist-section" className="gradient-section py-16 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent px-4">
-        <div className="w-full max-w-lg mx-auto relative z-10">
-          <div className="relative bg-gradient-to-br from-yellow-200/80 to-secondary/20 border border-primary/20 rounded-2xl shadow-2xl px-6 py-8 flex flex-col items-center">
-            <span className="absolute -top-4 left-6 bg-yellow-300 text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-bounce">
-              {t('waitlist.priority')}
-            </span>
-            <div className="flex items-center gap-3 mb-2">
-              <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/80 shadow-lg animate-pulse">
-                <ArrowRight className="text-secondary w-6 h-6" />
-              </span>
-              <h2 className="text-xl font-extrabold text-black drop-shadow-lg">
-                {t('waitlist.title')}
-              </h2>
-            </div>
-            <p className="text-black/80 text-sm mb-4 text-center">
-              {t('waitlist.subtitle')}
-            </p>
-            <div className="overflow-hidden rounded-lg w-full">
-              <iframe
-                src="https://tally.so/embed/wQEqpg?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-                loading="lazy"
-                width="100%"
-                height="120"
-                className="border-none"
-                style={{ minHeight: 120, background: 'transparent' }}
-              ></iframe>
+            {/* CTA Principal */}
+            <div className="mt-8">
+              <Button
+                size="lg"
+                onClick={handleGetStarted}
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8 py-4 text-lg font-bold shadow-xl hover:shadow-primary/20 transition-all duration-300 rounded-xl group"
+              >
+                {t('hero.cta.button')}
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+              <p className="text-sm text-foreground/60 mt-3">
+                {t('hero.cta.subtitle')}
+              </p>
             </div>
           </div>
         </div>
@@ -210,7 +187,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section Solution */}
       <div className="relative gradient-section py-16 before:absolute before:inset-0 before:bg-gradient-to-b before:from-transparent before:via-primary/5 before:to-transparent">
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-12">
@@ -570,22 +546,42 @@ export default function Home() {
       {/* CTA Section */}
       <div className="relative landing-footer py-16 before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent px-4">
         <div className="container mx-auto text-center relative z-10">
-          <div className="max-w-3xl mx-auto p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-primary/20 flex flex-col items-center">
-            <h2 className="text-2xl md:text-3xl font-black gradient-text mb-6">
-              {t('cta.title')}
-            </h2>
+          <div className="max-w-3xl mx-auto p-8 rounded-2xl bg-gradient-to-br from-secondary/20 to-primary/10 backdrop-blur-sm border border-secondary/30 shadow-2xl flex flex-col items-center">
+            <div className="mb-6">
+              <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/20 shadow-lg mb-4">
+                <Trophy className="text-secondary w-8 h-8" />
+              </span>
+              <h2 className="text-3xl md:text-4xl font-black text-foreground mb-4">
+                {t('cta.title')}
+              </h2>
+            </div>
             <p className="text-lg md:text-xl text-foreground/80 mb-8 max-w-2xl mx-auto font-light">
               {t('cta.subtitle')}
             </p>
-            <Button 
-              onClick={scrollToWaitlist}
-              size="lg"
-              variant="secondary"
-              className="px-10 py-6 text-lg font-bold shadow-xl hover:shadow-primary/20 transition-all duration-300 rounded-xl text-black group cursor-pointer"
-            >
-              {t('cta.button')}
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+              <Button 
+                onClick={handleGetStarted}
+                size="lg"
+                className="flex-1 bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8 py-4 text-lg font-bold shadow-xl hover:shadow-primary/20 transition-all duration-300 rounded-xl group"
+              >
+                {t('cta.button')}
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </div>
+            <div className="mt-6 flex items-center justify-center gap-6 text-sm text-foreground/60">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                {t('cta.benefits.free')}
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                {t('cta.benefits.setup')}
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                {t('cta.benefits.support')}
+              </div>
+            </div>
           </div>
         </div>
       </div>

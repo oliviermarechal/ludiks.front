@@ -1,8 +1,8 @@
-import { Card } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Circuit } from "@/lib/types/circuit.types"
+import { Link } from "@/lib/navigation"
 import { ChevronRight, AlertTriangle } from 'lucide-react'
 import { formatDuration } from '@/lib/utils'
-import Link from 'next/link'
-import { CircuitOverview } from './page'
 import { useTranslations } from 'next-intl'
 
 interface CircuitCardProps {

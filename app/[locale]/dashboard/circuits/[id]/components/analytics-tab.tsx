@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
     Users, 
@@ -7,9 +7,11 @@ import {
     AlertTriangle,
     ArrowUpRight,
     TrendingDown,
-    Clock
+    Clock,
+    TrendingUp,
+    Target
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, BarChart, Bar } from "recharts";
 import { CircuitStepInsight, useCircuitInsights } from '@/lib/hooks/use-circuit-insights.hook';

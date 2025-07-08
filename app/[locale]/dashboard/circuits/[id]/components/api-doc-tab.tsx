@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Code, Copy, Terminal, AlertTriangle } from "lucide-react";
 import { useState } from "react";
@@ -6,7 +6,10 @@ import { Circuit } from "@/lib/types/circuit.types";
 import { useProjectStore } from "@/lib/stores/project-store";
 import { useProjectApiKeys } from "@/lib/hooks/use-project-api-keys.hook";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Check, ExternalLink, Globe } from "lucide-react";
 
 export function ApiDocTab({ circuit }: { circuit: Circuit }) {
     const t = useTranslations('dashboard.circuits.apiDoc');

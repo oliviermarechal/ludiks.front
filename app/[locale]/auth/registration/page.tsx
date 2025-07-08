@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Building2, UserCheck } from 'lucide-react';
 import GoogleAuth from '@/components/auth/google-auth';
-import Link from 'next/link';
+import { Link, useRouter } from '@/lib/navigation';
 import { useAuth } from '@/lib/hooks/use-auth.hook';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';

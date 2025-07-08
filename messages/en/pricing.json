@@ -1,0 +1,36 @@
+{
+  "title": "Simple and transparent pricing",
+  "subtitle": "Start with our generous free mode and scale as you grow",
+  "free": {
+    "name": "Free Mode",
+    "price": "Free",
+    "description": "Perfect for getting started",
+    "features": [
+      "25,000 events per month",
+      "Unlimited team members",
+      "Unlimited projects",
+      "Basic analytics",
+      "Email support"
+    ],
+    "button": "Start free"
+  },
+  "pro": {
+    "badge": "Most Popular",
+    "name": "Pro",
+    "price": "$29/month",
+    "description": "For growing businesses",
+    "features": [
+      "100,000 events per month",
+      "Advanced analytics",
+      "User search",
+      "CSV export",
+      "Priority support",
+      "Custom integrations"
+    ],
+    "button": "Start pro trial"
+  },
+  "footer": {
+    "text": "Need a custom plan? Contact us for enterprise pricing.",
+    "link": "View documentation"
+  }
+} 

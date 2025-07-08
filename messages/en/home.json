@@ -1,18 +1,24 @@
 {
-    "hero": {
-        "beta": "🚧 Beta in progress",
-        "title": "Optimize your customer journeys, increase your sales",
-        "subtitle": "Discover why your customers abandon and how to bring them back. Visualize every step of their journey, identify friction points and increase your sales.",
-        "features": {
-            "track": "Track every step of your customer journey",
-            "identify": "Identify where your customers abandon",
-            "increase": "Increase your sales"
-        }
+    "navigation": {
+        "home": "Home",
+        "pricing": "Pricing",
+        "login": "Login",
+        "register": "Register",
+        "documentation": "Documentation",
+        "getStarted": "Get started"
     },
-    "waitlist": {
-        "priority": "Priority access",
-        "title": "Be the first to know about the launch",
-        "subtitle": "VIP access to beta, personalized demo, 3 months free"
+    "hero": {
+        "title": "Turn your user journeys into engaging gamification experiences",
+        "subtitle": "Create ready-to-use gamification circuits that track user progress, identify drop-off points, and boost retention through rewards, badges, and points.",
+        "features": {
+            "track": "Track every step with gamification",
+            "identify": "Identify drop-offs with retention analysis",
+            "increase": "Boost engagement with rewards"
+        },
+        "cta": {
+            "button": "Start optimizing now",
+            "subtitle": "Free mode with monthly events • No credit card required"
+        }
     },
     "problems": {
         "title": "You're losing users without knowing it",
@@ -141,8 +147,12 @@
         "note": "Try for free and discover how Ludiks can transform your user journeys."
     },
     "cta": {
-        "title": "Ready to optimize your conversion rates?",
-        "subtitle": "Join the first testers and get 3 months of unlimited access free",
-        "button": "Join the waitlist"
+        "title": "Ready to boost your user engagement?",
+        "subtitle": "Discover how gamification can transform your user journeys. Start your free mode today.",
+        "button": "Start your free mode",
+        "benefits": {
+            "free": "Free mode with monthly events",
+            "setup": "5-minute setup"
+        }
     }
 } 

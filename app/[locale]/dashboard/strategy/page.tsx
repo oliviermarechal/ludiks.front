@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { StrategyFormData, StrategyGenerator } from "@/components/strategy/generator";
 import { StrategySuggestions } from "@/components/strategy/suggestions";
-import { useRouter } from "next/navigation";
+import { useRouter } from '@/lib/navigation';
 
 export default function StrategyPage() {
   const [showSuggestions, setShowSuggestions] = useState(false);

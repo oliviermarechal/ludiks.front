@@ -13,7 +13,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from '@/lib/navigation';
 import { toast } from "sonner";
 
 interface CircuitHeaderProps {

@@ -37,7 +37,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     <div className="flex h-screen bg-background">
       <LeftBar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <QuotaWarningBanner organization={selectedOrganization} />
+        <QuotaWarningBanner eventsUsed={selectedOrganization?.eventsUsed ?? 0} />
         <main className="flex-1 overflow-y-auto gradient-section px-4 md:px-6 lg:px-8">
           {children}
         </main>

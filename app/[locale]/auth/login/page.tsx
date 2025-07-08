@@ -1,14 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import GoogleAuth from '@/components/auth/google-auth';
-import Link from 'next/link';
+import { Link, useRouter } from '@/lib/navigation';
 import { useAuth } from '@/lib/hooks/use-auth.hook';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';

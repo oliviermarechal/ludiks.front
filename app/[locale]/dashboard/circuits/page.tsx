@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     PlusCircle,
     Activity,
@@ -11,11 +11,16 @@ import {
     Repeat,
     Star,
     LucideIcon,
-    Trash2
+    Trash2,
+    MoreHorizontal,
+    Play,
+    Pause,
+    Settings,
+    Copy,
+    ExternalLink
 } from "lucide-react";
 import { CircuitType, Step } from "@/lib/types/circuit.types";
 import { useProjectStore } from "@/lib/stores/project-store";
-import Link from "next/link";
 import { useCircuits } from "@/lib/hooks/use-circuits.hook";
 import { useTranslations } from "next-intl";
 import {
@@ -30,6 +35,9 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { Link } from "@/lib/navigation";
+import { CircuitCard } from "../circuit-card";
+import { Badge } from "@/components/ui/badge";
 
 const circuitTypeIcons: Record<CircuitType, LucideIcon> = {
     points: Star,

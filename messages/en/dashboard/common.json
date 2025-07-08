@@ -172,5 +172,34 @@
     "emptyState": {
       "comingSoon": "Coming Soon"
     }
+  },
+  "usageSummary": {
+    "title": "Usage",
+    "eventsThisMonth": "events this month",
+    "events": "events",
+    "unlimited": "Unlimited",
+    "estimatedCost": "Estimated cost",
+    "enableBilling": "Unlock unlimited",
+    "upgradeNow": "Upgrade now",
+    "viewBilling": "View billing",
+    "quotaWarning": "Quota almost reached",
+    "quotaExceeded": "Quota exceeded",
+    "upgradeToContinue": "Upgrade to paid mode to continue using Ludiks",
+    "freeMessage": "You have used {used} / {limit} events this month (free limit)",
+    "proMessage": "You have used {used} events this month (no limit)",
+    "freeHint": "Upgrade to unlimited by enabling billing.",
+    "proHint": "Your billing automatically adapts to your usage.",
+    "freeLabel": "Free limit",
+    "proLabel": "No limit",
+    "monthlyLabel": "Monthly usage",
+    "upgradeCta": "Unlock unlimited"
+  },
+  "quotaBanner": {
+    "quotaWarning": "Quota almost reached",
+    "quotaExceeded": "Quota exceeded",
+    "upgrade": "Upgrade to paid",
+    "upgradeNow": "Upgrade now",
+    "info": "You have used {used} / {limit} events this month. Upgrade to unlimited to keep enjoying Ludiks without interruption.",
+    "cta": "Unlock unlimited"
   }
 } 
