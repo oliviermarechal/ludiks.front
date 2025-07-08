@@ -2,6 +2,8 @@
 
 @layer base {
   :root {
+    --font-sans: var(--font-inter);
+    --font-mono: var(--font-inter-tight);
     --primary: oklch(0.45 0.25 300);
     --primary-foreground: oklch(1 0 0);
     --secondary: oklch(0.8 0.2 85);

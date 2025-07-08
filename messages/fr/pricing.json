@@ -1,0 +1,36 @@
+{
+  "title": "Tarification simple et transparente",
+  "subtitle": "Commencez avec notre mode gratuit généreux et évoluez selon vos besoins",
+  "free": {
+    "name": "Mode Gratuit",
+    "price": "Gratuit",
+    "description": "Parfait pour commencer",
+    "features": [
+      "25 000 événements par mois",
+      "Membres d'équipe illimités",
+      "Projets illimités",
+      "Analytics de base",
+      "Support par email"
+    ],
+    "button": "Commencer gratuitement"
+  },
+  "pro": {
+    "badge": "Le Plus Populaire",
+    "name": "Pro",
+    "price": "29€/mois",
+    "description": "Pour les entreprises en croissance",
+    "features": [
+      "100 000 événements par mois",
+      "Analytics avancés",
+      "Recherche utilisateur",
+      "Export CSV",
+      "Support prioritaire",
+      "Intégrations personnalisées"
+    ],
+    "button": "Essai pro gratuit"
+  },
+  "footer": {
+    "text": "Besoin d'un plan personnalisé ? Contactez-nous pour les tarifs entreprise.",
+    "link": "Voir la documentation"
+  }
+} 

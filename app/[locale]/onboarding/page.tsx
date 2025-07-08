@@ -6,7 +6,7 @@ import { ProjectCreation } from "@/components/onboarding/steps/project-form";
 import { CircuitCreation } from "@/components/onboarding/steps/circuit-creation";
 import { StepsSetup } from "@/components/onboarding/steps/steps-setup";
 import { ObjectivesSetup } from "@/components/onboarding/steps/objectives-setup";
-import { useRouter } from "next/navigation";
+import { useRouter } from'@/lib/navigation';
 import { Project, useProjectStore } from "@/lib/stores/project-store";
 import { useOrganizations } from "@/lib/hooks/use-organizations.hook";
 import { useCircuits } from "@/lib/hooks/use-circuits.hook";
@@ -22,6 +22,7 @@ export default function OnboardingPage() {
   const [projectData, setProjectData] = useState<Project | null>(null);
   const [circuitData, setCircuitData] = useState<(Circuit & { projectId: string }) | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isCheckingSetup, setIsCheckingSetup] = useState(true);
   const router = useRouter();
   const queryClient = useQueryClient();
   const { addProject, setSelectedProject, setSelectedOrganization } = useProjectStore();
@@ -42,6 +43,24 @@ export default function OnboardingPage() {
       description: t('steps.configuration.description'),
     },
   ];
+
+  useEffect(() => {
+    if (!organizationsLoading && !circuitsLoading && circuits.length > 0) {
+      const hasCompleteSetup = circuits.some((circuit: Circuit) => 
+        circuit.steps && circuit.steps.length > 0
+      );
+
+      if (hasCompleteSetup) {
+        router.push('/dashboard');
+        return;
+      }
+      
+      setIsCheckingSetup(false);
+    } else if (!organizationsLoading && !circuitsLoading) {
+      // Si pas de circuits, continuer avec l'onboarding
+      setIsCheckingSetup(false);
+    }
+  }, [organizationsLoading, circuitsLoading, circuits, router]);
   
   useEffect(() => {
     if (!organizationsLoading && organizations.length > 0 && !projectData) {
@@ -167,6 +186,18 @@ export default function OnboardingPage() {
       setCurrentStep(prev => prev - 1);
     }
   };
+
+  // Afficher un loading pendant la vérification
+  if (isCheckingSetup) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-foreground/70">Vérification de votre configuration...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-background">

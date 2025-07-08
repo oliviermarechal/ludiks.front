@@ -3,7 +3,7 @@
 import { CircuitForm, CircuitFormData } from "@/components/circuit/form/circuit-form"
 import { CircuitType } from "@/lib/types/circuit.types"
 import { useProjectStore } from "@/lib/stores/project-store"
-import { useRouter } from "next/navigation"
+import { useRouter } from '@/lib/navigation'
 import { motion } from "framer-motion"
 import { Settings } from "lucide-react"
 import { cn } from "@/lib/utils"

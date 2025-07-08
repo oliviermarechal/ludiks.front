@@ -412,10 +412,11 @@
       "generate": "Générer les parcours",
       "close": "Fermer"
     },
-    "waitlist": {
-      "title": "Inscription à la liste d'attente",
-      "description": "Recevez un accès prioritaire à la bêta et une démo personnalisée",
-      "benefits": "Accès prioritaire à la bêta, démo personnalisée 3 mois gratuits"
+    "cta": {
+      "title": "Prêt à implémenter votre stratégie ?",
+      "description": "Commencez à créer vos parcours de gamification et boostez l'engagement utilisateur dès aujourd'hui",
+      "button": "Commencer l'essai gratuit",
+      "benefits": "Mode gratuit avec événements mensuels • Aucune carte bancaire requise"
     }
   }
 } 

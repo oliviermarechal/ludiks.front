@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { ArrowRight, Star, RotateCw, Target } from "lucide-react"
 import { CircuitType } from "@/lib/types/circuit.types";
 import { cn } from "@/lib/utils"
-import Link from "next/link"
+import { Link } from "@/lib/navigation"
 import { useTranslations } from "next-intl"
 
 type CircuitFormData = z.infer<ReturnType<typeof createCircuitSchema>>

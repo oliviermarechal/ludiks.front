@@ -15,8 +15,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu"
-import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { Link, usePathname, useRouter } from "@/lib/navigation"
 import { useProjectSelection } from "@/lib/hooks/use-project-selection.hook"
 import { Project, Organization } from "@/lib/stores/project-store"
 import { useAuth } from "@/lib/hooks/use-auth.hook"
@@ -33,7 +32,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useQueryClient } from "@tanstack/react-query"
-import { EventsConsumption } from "@/components/dashboard/events-consumption"
+import { LeftbarUsageSummary } from '@/components/dashboard/leftbar-usage-summary';
 
 export default function LeftBar() {
     const t = useTranslations('dashboard.common')
@@ -136,7 +135,10 @@ export default function LeftBar() {
                 </div>
 
                 <div className="px-4 mb-6">
-                    <EventsConsumption organization={selectedOrganization} />
+                    <LeftbarUsageSummary 
+                        eventsUsed={selectedOrganization?.eventsUsed ?? 0} 
+                        plan={selectedOrganization?.plan ?? 'free'}
+                    />
                 </div>
 
                 {/* Block 2: Project Navigation */}
