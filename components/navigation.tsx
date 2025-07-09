@@ -2,18 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl';
-import { useRouter } from "@/lib/navigation";
+import { Link } from "@/lib/navigation";
+import { useAuth } from "@/lib/hooks/use-auth.hook";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 export function Navigation() {
   const t = useTranslations('home.navigation');
-  const router = useRouter();
+  const { isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const handleGetStarted = () => {
-    router.push('/auth/registration');
-  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -24,34 +21,34 @@ export function Navigation() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <button
-              onClick={() => router.push('/')}
+            <Link
+              href="/"
               className="text-2xl font-bold text-foreground hover:text-primary transition-colors"
             >
               Ludiks
-            </button>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <button
-              onClick={() => router.push('/pricing')}
+            <Link
+              href="/pricing"
               className="text-foreground/80 hover:text-foreground transition-colors font-medium"
             >
               {t('pricing')}
-            </button>
-            <button
-              onClick={() => router.push('/docs')}
+            </Link>
+            <Link
+              href="/docs"
               className="text-foreground/80 hover:text-foreground transition-colors font-medium"
             >
               {t('documentation')}
-            </button>
-            <Button
-              onClick={handleGetStarted}
-              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+            </Link>
+            <Link
+              href={isAuthenticated ? '/dashboard' : '/auth/registration'}
+              className="inline-flex items-center justify-center bg-secondary hover:bg-secondary/90 text-secondary-foreground px-4 py-2 rounded-md font-medium transition-colors"
             >
-              {t('getStarted')}
-            </Button>
+              {isAuthenticated ? 'Dashboard' : t('getStarted')}
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -75,33 +72,27 @@ export function Navigation() {
         {isMenuOpen && (
           <div className="md:hidden border-t border-primary/10 bg-background/95 backdrop-blur-md">
             <div className="px-4 py-4 space-y-4">
-              <button
-                onClick={() => {
-                  router.push('/pricing');
-                  setIsMenuOpen(false);
-                }}
+              <Link
+                href="/pricing"
+                onClick={() => setIsMenuOpen(false)}
                 className="block w-full text-left text-foreground/80 hover:text-foreground transition-colors font-medium py-2"
               >
                 {t('pricing')}
-              </button>
-              <button
-                onClick={() => {
-                  router.push('/docs');
-                  setIsMenuOpen(false);
-                }}
+              </Link>
+              <Link
+                href="/docs"
+                onClick={() => setIsMenuOpen(false)}
                 className="block w-full text-left text-foreground/80 hover:text-foreground transition-colors font-medium py-2"
               >
                 {t('documentation')}
-              </button>
-              <Button
-                onClick={() => {
-                  handleGetStarted();
-                  setIsMenuOpen(false);
-                }}
-                className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+              </Link>
+              <Link
+                href={isAuthenticated ? '/dashboard' : '/auth/registration'}
+                onClick={() => setIsMenuOpen(false)}
+                className="inline-flex items-center justify-center w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground px-4 py-2 rounded-md font-medium transition-colors"
               >
-                {t('getStarted')}
-              </Button>
+                {isAuthenticated ? 'Dashboard' : t('getStarted')}
+              </Link>
             </div>
           </div>
         )}

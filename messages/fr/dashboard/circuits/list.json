@@ -16,8 +16,8 @@
     "actions": "Actions"
   },
   "empty": {
-    "title": "Aucun circuit trouvé",
-    "description": "Créez votre premier circuit pour commencer"
+    "title": "Aucun parcours trouvé",
+    "description": "Créez votre premier parcours pour commencer"
   },
   "emptyState": {
     "selectProject": "Veuillez sélectionner un projet",

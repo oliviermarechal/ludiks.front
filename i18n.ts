@@ -17,6 +17,8 @@ export default getRequestConfig(async ({locale}) => {
       common,
       home,
       strategy,
+      pricing,
+      navigation,
       authLogin,
       authRegistration,
       dashboardCommon,
@@ -35,6 +37,8 @@ export default getRequestConfig(async ({locale}) => {
       import(`./messages/${validLocale}/common.json`),
       import(`./messages/${validLocale}/home.json`),
       import(`./messages/${validLocale}/strategy.json`),
+      import(`./messages/${validLocale}/pricing.json`),
+      import(`./messages/${validLocale}/navigation.json`),
       import(`./messages/${validLocale}/auth/login.json`),
       import(`./messages/${validLocale}/auth/registration.json`),
       import(`./messages/${validLocale}/dashboard/common.json`),
@@ -59,6 +63,8 @@ export default getRequestConfig(async ({locale}) => {
         common: common.default,
         home: home.default,
         strategy: strategy.default,
+        pricing: pricing.default,
+        navigation: navigation.default,
         auth: {
           login: authLogin.default,
           registration: authRegistration.default
@@ -89,6 +95,8 @@ export default getRequestConfig(async ({locale}) => {
     const [
       common,
       home,
+      pricing,
+      navigation,
       strategy,
       authLogin,
       authRegistration,
@@ -108,6 +116,8 @@ export default getRequestConfig(async ({locale}) => {
       import(`./messages/${defaultLocale}/common.json`),
       import(`./messages/${defaultLocale}/home.json`),
       import(`./messages/${defaultLocale}/strategy.json`),
+      import(`./messages/${defaultLocale}/pricing.json`),
+      import(`./messages/${defaultLocale}/navigation.json`),
       import(`./messages/${defaultLocale}/auth/login.json`),
       import(`./messages/${defaultLocale}/auth/registration.json`),
       import(`./messages/${defaultLocale}/dashboard/common.json`),
@@ -132,6 +142,8 @@ export default getRequestConfig(async ({locale}) => {
         common: common.default,
         home: home.default,
         strategy: strategy.default,
+        pricing: pricing.default,
+        navigation: navigation.default,
         auth: {
           login: authLogin.default,
           registration: authRegistration.default

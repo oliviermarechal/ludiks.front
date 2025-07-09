@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { Circuit } from '../types/circuit.types'
 
 interface ProjectState {
   projects: Project[]
@@ -36,18 +37,10 @@ export type Project = {
   organizationId: string
 }
 
-export type Circuit = {
-  id: string
-  name: string
-  type: string
-  active: boolean
-  steps: any[]
-}
-
 export type ProjectOverview = {
-  KPIs: any,
-  circuits: any[],
-  users: any
+  KPIs: never,
+  circuits: CircuitWithInsights[],
+  users: never
 }
 
 export type CircuitWithInsights = Circuit & {
@@ -64,7 +57,7 @@ export type CircuitWithInsights = Circuit & {
 
 export const useProjectStore = create<ProjectState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       projects: [],
       selectedProject: null,
       selectedOrganization: null,

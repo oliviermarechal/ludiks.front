@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
     Users, 
@@ -8,8 +8,6 @@ import {
     ArrowUpRight,
     TrendingDown,
     Clock,
-    TrendingUp,
-    Target
 } from "lucide-react";
 import { Link } from "@/lib/navigation";
 import { cn } from "@/lib/utils";

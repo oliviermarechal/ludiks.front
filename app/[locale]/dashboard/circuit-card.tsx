@@ -1,19 +1,15 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Circuit } from "@/lib/types/circuit.types"
+import { Card } from "@/components/ui/card"
 import { Link } from "@/lib/navigation"
 import { ChevronRight, AlertTriangle } from 'lucide-react'
 import { formatDuration } from '@/lib/utils'
 import { useTranslations } from 'next-intl'
-
-interface CircuitCardProps {
-  circuit: CircuitOverview
-}
+import { CircuitWithInsights } from "@/lib/stores/project-store"
 
 const formatPercentage = (value: number): string => {
   return value.toFixed(1)
 }
 
-export function CircuitCard({ circuit }: CircuitCardProps) {
+export function CircuitCard({ circuit }: { circuit: CircuitWithInsights }) {
   const t = useTranslations('dashboard.common')
 
   return (

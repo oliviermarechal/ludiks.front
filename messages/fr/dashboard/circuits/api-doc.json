@@ -12,8 +12,8 @@
   "tracking_events": {
     "title": "Suivi des événements",
     "send_event": "Envoi d'un événement",
-    "objective_description": "Pour un circuit d'objectif, vous devez envoyer un événement pour chaque étape complétée. Sélectionnez une étape pour voir l'exemple correspondant :",
-    "progressive_description": "Pour un circuit à points ou à actions, envoyez un événement avec la valeur à incrémenter :",
+    "objective_description": "Pour un parcours d'objectif, vous devez envoyer un événement pour chaque étape complétée. Sélectionnez une étape pour voir l'exemple correspondant :",
+    "progressive_description": "Pour un parcours à points ou à actions, envoyez un événement avec la valeur à incrémenter :",
     "step_label": "Étape :",
     "step_option": "Étape {index} : {name}",
     "available_events": "Liste des events disponibles :",
@@ -25,7 +25,7 @@
     "structure": "Structure de la réponse",
     "examples": "Exemples de réponses",
     "success_step": "Étape complétée avec succès :",
-    "circuit_completed": "Circuit complété :",
+    "circuit_completed": "Parcours complété :",
     "already_completed": "Étape déjà complétée :",
     "error": "Erreur :"
   },
@@ -34,7 +34,7 @@
     "types": "Types",
     "methods": "Méthodes",
     "setup_description": "Initialise le SDK avec les informations de l'utilisateur. Cette méthode doit être appelée une seule fois au démarrage de l'application.",
-    "track_event_description": "Envoie un événement au serveur. Pour les circuits d'objectif, utilisez l'eventName correspondant à l'étape. Pour les circuits à points/actions, incluez la valeur à incrémenter. Retourne un objet contenant le statut de l'opération et les récompenses débloquées."
+    "track_event_description": "Envoie un événement au serveur. Pour les parcours d'objectif, utilisez l'eventName correspondant à l'étape. Pour les parcours à points/actions, incluez la valeur à incrémenter. Retourne un objet contenant le statut de l'opération et les récompenses débloquées."
   },
   "code": {
     "comments": {
@@ -53,8 +53,8 @@
       "progression_updated": "Indique si la progression a été mise à jour",
       "error_message": "Message d'erreur (si success = false)",
       "step_completed": "Indique si une étape a été complétée",
-      "circuit_completed": "Indique si le circuit entier a été complété",
-      "already_completed": "Indique si l'étape/circuit était déjà complété",
+      "circuit_completed": "Indique si le parcours entier a été complété",
+      "already_completed": "Indique si l'étape/parcours était déjà complété",
       "total_points": "Nombre total de points actuels",
       "unlocked_rewards": "Récompenses débloquées (si configurées)"
     },

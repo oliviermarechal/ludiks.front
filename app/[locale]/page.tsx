@@ -74,7 +74,7 @@ export default function Home() {
   };
 
   const handleGenerate = () => {
-    router.push('/auth/register');
+    router.push('/auth/registration');
   };
 
   const handleClose = () => {
@@ -84,7 +84,7 @@ export default function Home() {
   };
 
   const handleGetStarted = () => {
-    router.push('/auth/register');
+    router.push('/auth/registration');
   };
 
   return (

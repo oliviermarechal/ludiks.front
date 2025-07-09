@@ -1,36 +1,51 @@
 {
-  "title": "Simple and transparent pricing",
-  "subtitle": "Start with our generous free mode and scale as you grow",
-  "free": {
-    "name": "Free Mode",
-    "price": "Free",
-    "description": "Perfect for getting started",
-    "features": [
-      "25,000 events per month",
+  "title": "Simple pricing",
+  "subtitle": "Free up to 5,000 events per month. Pay only for what you use beyond that.",
+  "hero": {
+    "title": "Start free, scale as you grow",
+    "description": "No hidden fees, no surprises. Just simple, transparent pricing based on your actual usage.",
+    "highlight": "5,000 events free every month"
+  },
+  "pricing": {
+    "title": "Usage-based pricing",
+    "subtitle": "Simple, transparent pricing. Pay only for what you use beyond 5K events.",
+    "tiers": {
+      "title": "Event pricing",
+      "free": "Free tier",
+      "tier1": "0 - 5,000 events",
+      "tier2": "5,001 - 100,000 events",
+      "tier3": "100,001 - 500,000 events",
+      "tier4": "500,001+ events",
+      "price1": "Free",
+      "price2": "$0.001 per event",
+      "price3": "$0.0008 per event",
+      "price4": "$0.0006 per event",
+      "description": "Volume discounts automatically applied"
+    }
+  },
+  "features": {
+    "title": "Everything included",
+    "description": "All features available from day one. No restrictions based on usage.",
+    "list": [
       "Unlimited team members",
       "Unlimited projects",
-      "Basic analytics",
-      "Email support"
+      "Advanced analytics & insights",
+      "User search & filtering",
+      "CSV export & reporting",
+      "Custom integrations",
+      "Advanced gamification features",
+      "A/B testing for circuits"
     ],
-    "button": "Start free"
+    "comingSoon": "A/B testing for circuits"
   },
-  "pro": {
-    "badge": "Most Popular",
-    "name": "Pro",
-    "price": "$29/month",
-    "description": "For growing businesses",
-    "features": [
-      "100,000 events per month",
-      "Advanced analytics",
-      "User search",
-      "CSV export",
-      "Priority support",
-      "Custom integrations"
-    ],
-    "button": "Start pro trial"
+  "cta": {
+    "title": "Ready to get started?",
+    "description": "Start free today. No credit card required.",
+    "button": "Start free",
+    "secondary": "View documentation"
   },
   "footer": {
     "text": "Need a custom plan? Contact us for enterprise pricing.",
-    "link": "View documentation"
+    "guarantee": "30-day money-back guarantee"
   }
 } 

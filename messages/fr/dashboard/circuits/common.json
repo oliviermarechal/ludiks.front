@@ -41,7 +41,7 @@
     "stepAdded": "Une nouvelle étape a été ajoutée",
     "stepsReset": "Les étapes ont été réinitialisées",
     "stepsOrderUpdated": "L'ordre des étapes a été mis à jour",
-    "circuitDeleted": "Parcours \"{name}\" supprimé avec succès"
+    "parcoursDeleted": "Parcours \"{name}\" supprimé avec succès"
   },
   "form": {
     "info": {
