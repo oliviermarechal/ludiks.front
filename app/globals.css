@@ -95,6 +95,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
+  --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-family-mono: var(--font-inter-tight), ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
@@ -161,5 +163,10 @@
 
   .icon-container {
     @apply p-3 rounded-lg bg-secondary/10 flex items-center justify-center;
+  }
+
+  /* Test pour vérifier que les polices sont chargées */
+  .font-test {
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   }
 }

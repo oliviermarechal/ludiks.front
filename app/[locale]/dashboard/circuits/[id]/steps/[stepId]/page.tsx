@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { ArrowLeft, Upload, AlertTriangle } from "lucide-react";
 import { Link } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
@@ -13,9 +13,6 @@ import { useParams } from "next/navigation";
 import { useProjectStore } from "@/lib/stores/project-store";
 import { UserStepList } from "./user-step-list";
 import { useTranslations } from "next-intl";
-import { UserStepListContent } from "./user-step-list-content";
-import { UserStepListFilters } from "./user-step-list-filters";
-import { useState } from "react";
 
 function getCompletionColor(rate: number) {
     if (rate >= 80) return "bg-emerald-500/20 text-emerald-500";

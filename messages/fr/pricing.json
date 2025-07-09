@@ -1,36 +1,51 @@
 {
-  "title": "Tarification simple et transparente",
-  "subtitle": "Commencez avec notre mode gratuit généreux et évoluez selon vos besoins",
-  "free": {
-    "name": "Mode Gratuit",
-    "price": "Gratuit",
-    "description": "Parfait pour commencer",
-    "features": [
-      "25 000 événements par mois",
+  "title": "Tarification simple",
+  "subtitle": "Gratuit jusqu'à 5 000 événements par mois. Payez seulement ce que vous utilisez au-delà.",
+  "hero": {
+    "title": "Commencez gratuitement, évoluez en grandissant",
+    "description": "Pas de frais cachés, pas de surprises. Juste une tarification simple et transparente basée sur votre utilisation réelle.",
+    "highlight": "5 000 événements gratuits chaque mois"
+  },
+  "pricing": {
+    "title": "Tarification basée sur l'usage",
+    "subtitle": "Tarification simple et transparente. Payez seulement ce que vous utilisez au-delà de 5K événements.",
+    "tiers": {
+      "title": "Tarification par événement",
+      "free": "Tranche gratuite",
+      "tier1": "0 - 5 000 événements",
+      "tier2": "5 001 - 100 000 événements",
+      "tier3": "100 001 - 500 000 événements",
+      "tier4": "500 001+ événements",
+      "price1": "Gratuit",
+      "price2": "0,001€ par événement",
+      "price3": "0,0008€ par événement",
+      "price4": "0,0006€ par événement",
+      "description": "Remises de volume appliquées automatiquement"
+    }
+  },
+  "features": {
+    "title": "Tout inclus",
+    "description": "Toutes les fonctionnalités disponibles dès le premier jour. Aucune restriction basée sur l'usage.",
+    "list": [
       "Membres d'équipe illimités",
       "Projets illimités",
-      "Analytics de base",
-      "Support par email"
+      "Analytics avancés et insights",
+      "Recherche et filtrage utilisateur",
+      "Export CSV et rapports",
+      "Intégrations personnalisées",
+      "Fonctionnalités de gamification avancées",
+      "Tests A/B pour les parcours"
     ],
-    "button": "Commencer gratuitement"
+    "comingSoon": "Tests A/B pour les parcours"
   },
-  "pro": {
-    "badge": "Le Plus Populaire",
-    "name": "Pro",
-    "price": "29€/mois",
-    "description": "Pour les entreprises en croissance",
-    "features": [
-      "100 000 événements par mois",
-      "Analytics avancés",
-      "Recherche utilisateur",
-      "Export CSV",
-      "Support prioritaire",
-      "Intégrations personnalisées"
-    ],
-    "button": "Essai pro gratuit"
+  "cta": {
+    "title": "Prêt à commencer ?",
+    "description": "Commencez gratuitement aujourd'hui. Aucune carte de crédit requise.",
+    "button": "Commencer gratuitement",
+    "secondary": "Voir la documentation"
   },
   "footer": {
     "text": "Besoin d'un plan personnalisé ? Contactez-nous pour les tarifs entreprise.",
-    "link": "Voir la documentation"
+    "guarantee": "Garantie de remboursement 30 jours"
   }
 } 

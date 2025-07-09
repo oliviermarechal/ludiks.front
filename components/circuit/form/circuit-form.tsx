@@ -5,7 +5,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Star, RotateCw, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -147,17 +146,13 @@ export function CircuitForm({
     );
 }
 
-export type CircuitFormData = z.infer<ReturnType<typeof createCircuitSchema>>;
-
-function createCircuitSchema(t: (key: string) => string) {
-    return z.object({
-        name: z.string().min(3, t('form.validation.name.minLength')),
-        type: z.enum(["points", "actions", "objective"]),
-        steps: z.array(z.object({
-            name: z.string(),
-            points: z.number().optional(),
-            actions: z.array(z.string()).optional(),
-            objective: z.string().optional(),
-        })),
-    });
-} 
+export type CircuitFormData = {
+    name: string;
+    type: "points" | "actions" | "objective";
+    steps: Array<{
+        name: string;
+        points?: number;
+        actions?: string[];
+        objective?: string;
+    }>;
+}; 

@@ -10,7 +10,11 @@ import { cn } from "@/lib/utils"
 import { Link } from "@/lib/navigation"
 import { useTranslations } from "next-intl"
 
-type CircuitFormData = z.infer<ReturnType<typeof createCircuitSchema>>
+type CircuitFormData = {
+  name: string
+  type: CircuitType
+  projectId: string
+}
 
 interface CircuitCreationProps {
   onNext: (data: CircuitFormData) => void
@@ -26,11 +30,7 @@ interface CircuitCreationProps {
 export function CircuitCreation({ onNext, projectId, initialData }: CircuitCreationProps) {
   const t = useTranslations('onboarding.project');
   
-  const circuitSchema = z.object({
-    name: z.string().min(3, t('circuitCreation.name.error')),
-    type: z.enum([CircuitType.POINTS, CircuitType.ACTIONS, CircuitType.OBJECTIVE]),
-    projectId: z.string(),
-  })
+  const circuitSchema = createCircuitSchema(t)
 
   const circuitTypes = [
     {

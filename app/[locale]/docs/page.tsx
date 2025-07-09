@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Book, Code, Zap, Users, ArrowRight } from "lucide-react";
+import { Book, Code, Zap, ArrowRight } from "lucide-react";
 import { useTranslations } from 'next-intl';
 import { useRouter } from "@/lib/navigation";
 import { Navigation } from "@/components/navigation";
