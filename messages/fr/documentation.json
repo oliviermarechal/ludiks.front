@@ -20,5 +20,166 @@
     "title": "Prêt à commencer ?",
     "description": "Créez votre premier parcours de gamification et voyez la différence dans l'engagement utilisateur",
     "button": "Commencer l'essai gratuit"
+  },
+  "sdk": {
+    "title": "SDK JavaScript",
+    "subtitle": "Intégration simple en 2 lignes de code. Setup automatique et tracking transparent.",
+    "button": "Voir le SDK",
+    "installation": {
+      "title": "Installation",
+      "terminal": "Terminal"
+    },
+    "setup": {
+      "title": "1. Setup de l'utilisateur",
+      "description": "Le setup crée automatiquement l'utilisateur côté serveur et initialise le SDK.",
+      "javascript": "JavaScript",
+      "required": "Paramètres requis",
+      "optional": "Paramètres optionnels",
+      "metadata": {
+        "title": "💡 Métadonnées personnalisées",
+        "description": "Les métadonnées sont des données personnalisées que vous pouvez associer à vos utilisateurs. Elles servent ensuite à filtrer et segmenter vos utilisateurs dans le dashboard.",
+        "examples": "Exemples : plan d'abonnement, pays, source d'acquisition, date d'inscription, préférences, etc."
+      }
+    },
+    "tracking": {
+      "title": "2. Tracking des événements",
+      "description": "Envoyez des événements pour tracker la progression de vos utilisateurs.",
+      "javascript": "JavaScript"
+    },
+    "response": {
+      "title": "Format de réponse",
+      "description": "Chaque appel à trackEvent retourne des informations détaillées sur la progression.",
+      "json": "Réponse JSON",
+      "progression": {
+        "title": "Informations de progression",
+        "updated": "progression_updated - La progression a été mise à jour",
+        "step": "step_completed - Une étape a été complétée",
+        "circuit": "circuit_completed - Le parcours entier est terminé",
+        "already": "already_completed - L'étape était déjà complétée"
+      },
+      "data": {
+        "title": "Données de progression",
+        "points": "total_points - Points totaux actuels",
+        "step": "current_step - Informations sur l'étape actuelle",
+        "rewards": "unlocked_rewards - Récompenses débloquées",
+        "info": "circuit_info - Informations sur le parcours"
+      }
+    },
+    "example": {
+      "title": "Exemple complet",
+      "description": "Voici un exemple d'intégration complète dans votre application.",
+      "javascript": "JavaScript"
+    },
+    "benefits": {
+      "title": "Pourquoi utiliser le SDK ?",
+      "simplicity": {
+        "title": "✅ Simplicité",
+        "description": "Setup en 2 lignes, tracking en 1 ligne. Pas de configuration complexe."
+      },
+      "automatic": {
+        "title": "✅ Automatique",
+        "description": "Création automatique de l'utilisateur, gestion des erreurs intégrée."
+      },
+      "typescript": {
+        "title": "✅ TypeScript",
+        "description": "Support TypeScript complet avec autocomplétion et validation des types."
+      },
+      "performance": {
+        "title": "✅ Performance",
+        "description": "Requêtes optimisées, retry automatique en cas d'erreur réseau."
+      }
+    },
+    "cta": {
+      "title": "Prêt à intégrer ?",
+      "description": "Créez votre compte gratuit et obtenez votre clé API en 2 minutes.",
+      "button": "Commencer gratuitement"
+    }
+  },
+  "api": {
+    "title": "API REST",
+    "subtitle": "Intégration directe via nos endpoints REST. Parfait pour les applications backend ou mobiles.",
+    "button": "Voir l'API",
+    "auth": {
+      "title": "Authentification",
+      "description": "Toutes les requêtes nécessitent votre clé API dans l'en-tête Authorization.",
+      "header": "Header"
+    },
+    "endpoints": {
+      "createUser": {
+        "title": "1. Créer un utilisateur",
+        "description": "Créez ou mettez à jour un utilisateur dans votre projet.",
+        "method": "POST /end-user",
+        "curl": "cURL",
+        "required": {
+          "title": "Paramètres requis",
+          "id": "id - Identifiant unique de l'utilisateur",
+          "name": "full_name - Nom complet de l'utilisateur"
+        },
+        "optional": {
+          "title": "Paramètres optionnels",
+          "email": "email - Adresse email",
+          "picture": "picture - URL de l'avatar",
+          "metadata": "metadata - Données personnalisées"
+        }
+      },
+      "trackEvent": {
+        "title": "2. Tracker un événement",
+        "description": "Envoyez un événement pour tracker la progression de l'utilisateur.",
+        "method": "POST /tracking",
+        "curl": "cURL",
+        "required": {
+          "title": "Paramètres requis",
+          "userId": "userId - ID de l'utilisateur",
+          "eventName": "eventName - Nom de l'événement"
+        },
+        "optional": {
+          "title": "Paramètres optionnels",
+          "value": "value - Valeur numérique (pour points/actions)",
+          "timestamp": "timestamp - Horodatage ISO 8601"
+        }
+      }
+    },
+    "examples": {
+      "javascript": {
+        "title": "Exemple JavaScript",
+        "description": "Intégration complète avec fetch en JavaScript.",
+        "code": "JavaScript"
+      }
+    },
+    "responses": {
+      "title": "Format des réponses",
+      "success": {
+        "title": "Succès (200/201)",
+        "description": "Réponse de succès"
+      },
+      "error": {
+        "title": "Erreur (400/401)",
+        "description": "Réponse d'erreur"
+      }
+    },
+    "benefits": {
+      "title": "Pourquoi utiliser l'API REST ?",
+      "flexibility": {
+        "title": "✅ Flexibilité",
+        "description": "Intégration dans n'importe quel langage ou framework."
+      },
+      "control": {
+        "title": "✅ Contrôle total",
+        "description": "Gestion manuelle des requêtes et des erreurs."
+      },
+      "backend": {
+        "title": "✅ Backend/Mobile",
+        "description": "Parfait pour les applications serveur et mobiles."
+      },
+      "standard": {
+        "title": "✅ Standard REST",
+        "description": "API REST standard, facile à comprendre et intégrer."
+      }
+    },
+    "cta": {
+      "title": "Prêt à intégrer ?",
+      "description": "Créez votre compte gratuit et obtenez votre clé API en 2 minutes.",
+      "button": "Commencer gratuitement"
+    }
   }
 } 

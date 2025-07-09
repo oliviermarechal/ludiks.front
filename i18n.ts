@@ -19,6 +19,7 @@ export default getRequestConfig(async ({locale}) => {
       strategy,
       pricing,
       navigation,
+      documentation,
       authLogin,
       authRegistration,
       dashboardCommon,
@@ -39,6 +40,7 @@ export default getRequestConfig(async ({locale}) => {
       import(`./messages/${validLocale}/strategy.json`),
       import(`./messages/${validLocale}/pricing.json`),
       import(`./messages/${validLocale}/navigation.json`),
+      import(`./messages/${validLocale}/documentation.json`),
       import(`./messages/${validLocale}/auth/login.json`),
       import(`./messages/${validLocale}/auth/registration.json`),
       import(`./messages/${validLocale}/dashboard/common.json`),
@@ -65,6 +67,7 @@ export default getRequestConfig(async ({locale}) => {
         strategy: strategy.default,
         pricing: pricing.default,
         navigation: navigation.default,
+        documentation: documentation.default,
         auth: {
           login: authLogin.default,
           registration: authRegistration.default
@@ -97,6 +100,7 @@ export default getRequestConfig(async ({locale}) => {
       home,
       pricing,
       navigation,
+      documentation,
       strategy,
       authLogin,
       authRegistration,
@@ -118,6 +122,7 @@ export default getRequestConfig(async ({locale}) => {
       import(`./messages/${defaultLocale}/strategy.json`),
       import(`./messages/${defaultLocale}/pricing.json`),
       import(`./messages/${defaultLocale}/navigation.json`),
+      import(`./messages/${defaultLocale}/documentation.json`),
       import(`./messages/${defaultLocale}/auth/login.json`),
       import(`./messages/${defaultLocale}/auth/registration.json`),
       import(`./messages/${defaultLocale}/dashboard/common.json`),
@@ -144,6 +149,7 @@ export default getRequestConfig(async ({locale}) => {
         strategy: strategy.default,
         pricing: pricing.default,
         navigation: navigation.default,
+        documentation: documentation.default,
         auth: {
           login: authLogin.default,
           registration: authRegistration.default

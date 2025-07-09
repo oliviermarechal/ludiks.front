@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { Step } from "@/lib/stores/circuit-store";
+import { Step } from "@/lib/types/circuit.types";
 
 export default async function setCircuitSteps(circuitId: string, steps: Step[]) {
     const response = await api.post(`/api/circuits/${circuitId}/set-steps`, {
