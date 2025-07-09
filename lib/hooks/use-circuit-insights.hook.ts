@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import api from '../api'
-import { CircuitType } from '../stores/circuit-store';
+import { CircuitType } from '@/lib/types/circuit.types';
 
 // Types adaptés aux données d'insight pour l'affichage
 export interface CircuitStepInsight {

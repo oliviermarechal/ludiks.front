@@ -1,19 +1,13 @@
 'use client'
 
-import { Button } from "@/components/ui/button";
+import { Link } from "@/lib/navigation";
 import { Card } from "@/components/ui/card";
-import { Book, Code, Zap, ArrowRight } from "lucide-react";
+import { ArrowRight, Package, Code } from "lucide-react";
 import { useTranslations } from 'next-intl';
-import { useRouter } from "@/lib/navigation";
 import { Navigation } from "@/components/navigation";
 
 export default function DocumentationPage() {
   const t = useTranslations('documentation');
-  const router = useRouter();
-
-  const handleGetStarted = () => {
-    router.push('/auth/register');
-  };
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-secondary/5">
@@ -29,31 +23,30 @@ export default function DocumentationPage() {
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 mb-16">
-          {/* Quick Start */}
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 mb-16">
+          {/* SDK JavaScript */}
           <Card className="p-6 hover:shadow-lg transition-all duration-300">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 rounded-lg bg-primary/10">
-                <Zap className="h-6 w-6 text-primary" />
+                <Package className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-foreground">
-                {t('quickStart.title')}
+                {t('sdk.title')}
               </h3>
             </div>
             <p className="text-foreground/70 mb-4">
-              {t('quickStart.description')}
+              {t('sdk.subtitle')}
             </p>
-            <Button
-              variant="outline"
-              onClick={() => router.push('/docs/quick-start')}
-              className="w-full"
+            <Link
+              href="/docs/sdk"
+              className="inline-flex items-center w-full justify-center bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md font-medium transition-colors"
             >
-              {t('quickStart.button')}
+              {t('sdk.button')}
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            </Link>
           </Card>
 
-          {/* API Reference */}
+          {/* API REST */}
           <Card className="p-6 hover:shadow-lg transition-all duration-300">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 rounded-lg bg-secondary/10">
@@ -64,39 +57,15 @@ export default function DocumentationPage() {
               </h3>
             </div>
             <p className="text-foreground/70 mb-4">
-              {t('api.description')}
+              {t('api.subtitle')}
             </p>
-            <Button
-              variant="outline"
-              onClick={() => router.push('/docs/api')}
-              className="w-full"
+            <Link
+              href="/docs/api"
+              className="inline-flex items-center w-full justify-center bg-secondary hover:bg-secondary/90 text-secondary-foreground px-4 py-2 rounded-md font-medium transition-colors"
             >
               {t('api.button')}
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Card>
-
-          {/* Guides */}
-          <Card className="p-6 hover:shadow-lg transition-all duration-300">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-lg bg-green-500/10">
-                <Book className="h-6 w-6 text-green-500" />
-              </div>
-              <h3 className="text-xl font-semibold text-foreground">
-                {t('guides.title')}
-              </h3>
-            </div>
-            <p className="text-foreground/70 mb-4">
-              {t('guides.description')}
-            </p>
-            <Button
-              variant="outline"
-              onClick={() => router.push('/docs/guides')}
-              className="w-full"
-            >
-              {t('guides.button')}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            </Link>
           </Card>
         </div>
 
@@ -109,12 +78,12 @@ export default function DocumentationPage() {
               <p className="text-foreground/70 mb-6">
                 {t('cta.description')}
               </p>
-              <Button
-                onClick={handleGetStarted}
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+              <Link
+                href="/auth/registration"
+                className="inline-flex items-center justify-center bg-secondary hover:bg-secondary/90 text-secondary-foreground px-6 py-3 rounded-md font-semibold transition-colors"
               >
                 {t('cta.button')}
-              </Button>
+              </Link>
             </div>
           </Card>
         </div>

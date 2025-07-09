@@ -3,8 +3,8 @@
   "subtitle": "Everything you need to integrate Ludiks gamification into your application",
   "quickStart": {
     "title": "Quick Start",
-    "description": "Get up and running with Ludiks in less than 5 minutes",
-    "button": "Get started"
+    "description": "Set up Ludiks in less than 5 minutes",
+    "button": "Get Started"
   },
   "api": {
     "title": "API Reference",
@@ -19,6 +19,167 @@
   "cta": {
     "title": "Ready to get started?",
     "description": "Create your first gamification circuit and see the difference in user engagement",
-    "button": "Start your free trial"
+    "button": "Start free trial"
+  },
+  "sdk": {
+    "title": "JavaScript SDK",
+    "subtitle": "Simple integration in 2 lines of code. Automatic setup and transparent tracking.",
+    "button": "View SDK",
+    "installation": {
+      "title": "Installation",
+      "terminal": "Terminal"
+    },
+    "setup": {
+      "title": "1. User Setup",
+      "description": "The setup automatically creates the user on the server side and initializes the SDK.",
+      "javascript": "JavaScript",
+      "required": "Required parameters",
+      "optional": "Optional parameters",
+      "metadata": {
+        "title": "💡 Custom metadata",
+        "description": "Metadata are custom data you can associate with your users. They are then used to filter and segment your users in the dashboard.",
+        "examples": "Examples: subscription plan, country, acquisition source, registration date, preferences, etc."
+      }
+    },
+    "tracking": {
+      "title": "2. Event Tracking",
+      "description": "Send events to track your users' progress.",
+      "javascript": "JavaScript"
+    },
+    "response": {
+      "title": "Response format",
+      "description": "Each trackEvent call returns detailed information about progress.",
+      "json": "JSON Response",
+      "progression": {
+        "title": "Progress information",
+        "updated": "progression_updated - Progress has been updated",
+        "step": "step_completed - A step has been completed",
+        "circuit": "circuit_completed - The entire circuit is completed",
+        "already": "already_completed - The step was already completed"
+      },
+      "data": {
+        "title": "Progress data",
+        "points": "total_points - Current total points",
+        "step": "current_step - Current step information",
+        "rewards": "unlocked_rewards - Unlocked rewards",
+        "info": "circuit_info - Circuit information"
+      }
+    },
+    "example": {
+      "title": "Complete example",
+      "description": "Here's a complete integration example in your application.",
+      "javascript": "JavaScript"
+    },
+    "benefits": {
+      "title": "Why use the SDK?",
+      "simplicity": {
+        "title": "✅ Simplicity",
+        "description": "Setup in 2 lines, tracking in 1 line. No complex configuration."
+      },
+      "automatic": {
+        "title": "✅ Automatic",
+        "description": "Automatic user creation, built-in error handling."
+      },
+      "typescript": {
+        "title": "✅ TypeScript",
+        "description": "Complete TypeScript support with autocompletion and type validation."
+      },
+      "performance": {
+        "title": "✅ Performance",
+        "description": "Optimized requests, automatic retry on network errors."
+      }
+    },
+    "cta": {
+      "title": "Ready to integrate?",
+      "description": "Create your free account and get your API key in 2 minutes.",
+      "button": "Start for free"
+    }
+  },
+  "api": {
+    "title": "REST API",
+    "subtitle": "Direct integration via our REST endpoints. Perfect for backend or mobile applications.",
+    "button": "View API",
+    "auth": {
+      "title": "Authentication",
+      "description": "All requests require your API key in the Authorization header.",
+      "header": "Header"
+    },
+    "endpoints": {
+      "createUser": {
+        "title": "1. Create a user",
+        "description": "Create or update a user in your project.",
+        "method": "POST /end-user",
+        "curl": "cURL",
+        "required": {
+          "title": "Required parameters",
+          "id": "id - Unique user identifier",
+          "name": "full_name - User's full name"
+        },
+        "optional": {
+          "title": "Optional parameters",
+          "email": "email - Email address",
+          "picture": "picture - Avatar URL",
+          "metadata": "metadata - Custom data"
+        }
+      },
+      "trackEvent": {
+        "title": "2. Track an event",
+        "description": "Send an event to track user progress.",
+        "method": "POST /tracking",
+        "curl": "cURL",
+        "required": {
+          "title": "Required parameters",
+          "userId": "userId - User ID",
+          "eventName": "eventName - Event name"
+        },
+        "optional": {
+          "title": "Optional parameters",
+          "value": "value - Numeric value (for points/actions)",
+          "timestamp": "timestamp - ISO 8601 timestamp"
+        }
+      }
+    },
+    "examples": {
+      "javascript": {
+        "title": "JavaScript example",
+        "description": "Complete integration with fetch in JavaScript.",
+        "code": "JavaScript"
+      }
+    },
+    "responses": {
+      "title": "Response format",
+      "success": {
+        "title": "Success (200/201)",
+        "description": "Success response"
+      },
+      "error": {
+        "title": "Error (400/401)",
+        "description": "Error response"
+      }
+    },
+    "benefits": {
+      "title": "Why use the REST API?",
+      "flexibility": {
+        "title": "✅ Flexibility",
+        "description": "Integration in any language or framework."
+      },
+      "control": {
+        "title": "✅ Full control",
+        "description": "Manual request and error handling."
+      },
+      "backend": {
+        "title": "✅ Backend/Mobile",
+        "description": "Perfect for server and mobile applications."
+      },
+      "standard": {
+        "title": "✅ Standard REST",
+        "description": "Standard REST API, easy to understand and integrate."
+      }
+    },
+    "cta": {
+      "title": "Ready to integrate?",
+      "description": "Create your free account and get your API key in 2 minutes.",
+      "button": "Start for free"
+    }
   }
 } 
