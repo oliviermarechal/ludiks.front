@@ -29,7 +29,7 @@ export function Providers({ children, locale, messages, ...props }: ProvidersPro
     return (
         <QueryClientProvider client={queryClient}>
             <NextIntlClientProvider locale={locale} messages={messages}>
-                <NextThemesProvider {...props}>
+                <NextThemesProvider {...props} themes={["light"]} enableSystem={false} defaultTheme="light" forcedTheme="light">
                     {children}
                 </NextThemesProvider>
             </NextIntlClientProvider>
