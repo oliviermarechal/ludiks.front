@@ -27,7 +27,7 @@ export function Navigation() {
               className="flex items-center h-full"
             >
                 <Image
-                  src="/ludiks-7.png"
+                  src="/ludiks-home.png"
                   alt="Ludiks Logo"
                   width={90}
                   height={35}
