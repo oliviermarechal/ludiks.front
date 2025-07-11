@@ -26,6 +26,26 @@ export default function UsersPage() {
         setCurrentPage(page);
     }, []);
 
+    const handleExportCsv = useCallback(() => {
+        const queryParams = new URLSearchParams();
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value && value !== '') {
+                queryParams.append(key, String(value));
+            }
+        });
+        
+        const queryString = queryParams.toString();
+        const exportUrl = `/api/projects/${selectedProject?.id}/end-users/export${queryString ? `?${queryString}` : ''}`;
+        
+        // Créer un lien temporaire pour le téléchargement
+        const link = document.createElement('a');
+        link.href = exportUrl;
+        link.download = `users-export-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }, [filters, selectedProject?.id]);
+
     const {circuits} = useCircuits(selectedProject?.id || '');
 
     return (
@@ -43,6 +63,7 @@ export default function UsersPage() {
                         metadatas={projectMetadatas}
                         filters={filters}
                         onChange={handleFilterChange}
+                        onExportCsv={handleExportCsv}
                     />
                 </div>
                 {/* Liste utilisateurs compacte */}
@@ -50,6 +71,7 @@ export default function UsersPage() {
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
                     onPageChange={handlePageChange}
+                    filters={filters}
                 />
             </div>
         </div>

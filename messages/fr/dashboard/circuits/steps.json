@@ -137,6 +137,9 @@
         "actions": {
           "cancel": "Annuler",
           "skip": "Passer"
+        },
+        "errors": {
+          "slugNotUnique": "Le nom d'étape doit être unique pour le parcours"
         }
       },
       "placeholder": {

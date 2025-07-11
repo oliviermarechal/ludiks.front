@@ -20,6 +20,7 @@ import { useProjectSelection } from "@/lib/hooks/use-project-selection.hook"
 import { Project, Organization } from "@/lib/stores/project-store"
 import { useAuth } from "@/lib/hooks/use-auth.hook"
 import { useTranslations } from "next-intl"
+import Image from "next/image";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -78,10 +79,8 @@ export default function LeftBar() {
     return (
         <div className="w-64 gradient-section border-r border-primary/10">
             <div className="h-full flex flex-col">
-                <div className="p-4">
-                    <h1 className="text-2xl font-black landing-title">
-                        Ludiks
-                    </h1>
+                <div className="p-4 flex justify-center">
+                    <Image src="/logo-black.jpg" alt="Ludiks Logo" width={120} height={120} />
                 </div>
 
                 <div className="px-4 mb-6">
@@ -141,7 +140,6 @@ export default function LeftBar() {
                     />
                 </div>
 
-                {/* Block 2: Project Navigation */}
                 {selectedProject && (
                     <div className="px-4 mb-8">
                         <div className="mb-3">

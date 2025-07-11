@@ -90,7 +90,6 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <Navigation />
-      {/* Hero Section - Focus sur le pain point */}
       <div className="relative landing-hero">
         <div className="container mx-auto pt-24 pb-16 relative px-4 md:px-8">
           <div className="flex flex-col items-center text-center space-y-8">
@@ -576,10 +575,6 @@ export default function Home() {
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                 {t('cta.benefits.setup')}
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                {t('cta.benefits.support')}
               </div>
             </div>
           </div>

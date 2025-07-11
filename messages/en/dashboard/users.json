@@ -35,6 +35,8 @@
     "longest_streak_tooltip": "Longest consecutive days of activity ever achieved",
     "circuits_completed": "Circuits completed",
     "total_points": "Total points",
+    "error_loading": "Error loading users. Please try again.",
+    "no_users_found": "No users found with the current filters.",
     "boolean": {
       "true": "Yes",
       "false": "No"

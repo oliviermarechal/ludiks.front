@@ -35,6 +35,8 @@
     "longest_streak_tooltip": "Plus longue série de jours consécutifs jamais atteinte",
     "circuits_completed": "Parcours complétés",
     "total_points": "Points totaux",
+    "error_loading": "Erreur lors du chargement des utilisateurs. Veuillez réessayer.",
+    "no_users_found": "Aucun utilisateur trouvé avec les filtres actuels.",
     "boolean": {
       "true": "Oui",
       "false": "Non"

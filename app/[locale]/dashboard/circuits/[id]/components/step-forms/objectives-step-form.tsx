@@ -228,20 +228,27 @@ const StepItem = ({ step, onUpdate, onDelete }: StepItemProps) => {
 interface ChatStepProps {
     onComplete: (step: Partial<Step>) => void;
     onCancel: () => void;
+    existingSteps: Step[];
 }
 
-const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
+const ChatStep = ({ onComplete, onCancel, existingSteps }: ChatStepProps) => {
     const t = useTranslations('dashboard.circuits.steps.forms.objectives.chat');
     const [currentStep, setCurrentStep] = useState(0);
     const [stepData, setStepData] = useState<Partial<Step>>({});
     const [currentValue, setCurrentValue] = useState("");
+    const [nameError, setNameError] = useState<string | null>(null);
 
     const questions = [
         {
             question: t('name.question'),
             placeholder: t('name.placeholder'),
             field: "name" as const,
-            validation: (value: string) => value.length >= 3,
+            validation: (value: string) => {
+                const slug = slugify(value);
+                if (value.length < 3) return false;
+                if (existingSteps.some(s => s.eventName === slug)) return false;
+                return true;
+            },
             errorMessage: t('name.error'),
             onChange: (value: string) => {
                 if (currentStep === 0) {
@@ -273,11 +280,23 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
 
     useEffect(() => {
         setCurrentValue("");
+        setNameError(null);
     }, [currentStep]);
 
     const handleNext = () => {
-        if (!currentQuestion.validation(currentValue)) return;
-
+        if (!currentQuestion.validation(currentValue)) {
+            // Gestion de l'erreur d'unicité du slug
+            if (currentStep === 0) {
+                const slug = slugify(currentValue);
+                if (existingSteps.some(s => s.eventName === slug)) {
+                    setNameError(t('errors.slugNotUnique') || 'Le nom d\'événement (slug) doit être unique.');
+                    return;
+                }
+            }
+            setNameError(currentQuestion.errorMessage || 'Erreur');
+            return;
+        }
+        setNameError(null);
         const value = currentQuestion.type === "number" ? parseInt(currentValue) : currentValue;
         const updatedData = { ...stepData, [currentQuestion.field]: value || "" };
         setStepData(updatedData);
@@ -291,6 +310,7 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
 
     const handleValueChange = (value: string) => {
         setCurrentValue(value);
+        setNameError(null);
         currentQuestion.onChange?.(value);
     };
 
@@ -327,18 +347,21 @@ const ChatStep = ({ onComplete, onCancel }: ChatStepProps) => {
                             className="h-10 text-sm bg-background/50 backdrop-blur-sm border-secondary/20 focus:border-secondary/40 focus:ring-1 focus:ring-secondary/30 transition-all duration-300"
                             min={currentQuestion.type === "number" ? 1 : undefined}
                         />
+                        {nameError && (
+                            <p className="text-xs text-red-500 mt-1">{nameError}</p>
+                        )}
                     </div>
                     <Button
                         type="button"
                         onClick={handleNext}
                         disabled={!currentQuestion.validation(currentValue)}
                         size="sm"
-                        className={`
-                            h-10 px-3 bg-secondary hover:bg-secondary/90 
+                        className={
+                            `h-10 px-3 bg-secondary hover:bg-secondary/90 
                             disabled:opacity-50 disabled:cursor-not-allowed
                             transition-all duration-300
-                            ${currentQuestion.validation(currentValue) ? 'shadow-[0_0_0_4px_rgba(var(--secondary-rgb),0.1)]' : ''}
-                        `}
+                            ${currentQuestion.validation(currentValue) ? 'shadow-[0_0_0_4px_rgba(var(--secondary-rgb),0.1)]' : ''}`
+                        }
                     >
                         {currentStep === questions.length - 1 ? (
                             <Check className="h-4 w-4" />
@@ -412,14 +435,13 @@ export function ObjectivesStepForm({
             await onStepsOrderUpdate(updatedSteps);
         } catch (error) {
             console.error('Error updating steps ordering:', error);
-            // Revert to original order on error
             setSteps(initialSteps);
         }
     };
 
     const handleAddStep = async (newStepData: Partial<Step>) => {
         const newStep: Step = {
-            id: `temp_${Date.now()}_${Math.random()}`, // Temporary ID for drag & drop
+            id: `temp_${Date.now()}_${Math.random()}`,
             name: newStepData.name || "",
             description: newStepData.description || "",
             eventName: newStepData.eventName || "",
@@ -534,6 +556,7 @@ export function ObjectivesStepForm({
                     <ChatStep
                         onComplete={handleAddStep}
                         onCancel={() => setIsAddingStep(false)}
+                        existingSteps={steps}
                     />
                 )}
             </AnimatePresence>

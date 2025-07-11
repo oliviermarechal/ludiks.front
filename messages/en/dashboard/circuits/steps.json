@@ -137,6 +137,9 @@
         "actions": {
           "cancel": "Cancel",
           "skip": "Skip"
+        },
+        "errors": {
+          "slugNotUnique": "The step name must be unique for the circuit"
         }
       },
       "placeholder": {

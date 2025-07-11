@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Download, X, Search, SlidersHorizontal } from "lucide-react";
@@ -30,6 +30,37 @@ interface FilterSelectProps {
 
 function ucFirst(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// Fonctions utilitaires pour gérer les préfixes des métadonnées
+// Les métadonnées sont préfixées avec "meta_" pour être reconnues par l'API
+function getMetadataKey(keyName: string): string {
+  return `meta_${keyName}`;
+}
+
+function getOriginalKey(metadataKey: string): string {
+  return metadataKey.replace(/^meta_/, '');
+}
+
+function isMetadataKey(key: string): boolean {
+  return key.startsWith('meta_');
+}
+
+// Hook pour le debounce
+function useDebounce(value: string, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
 }
 
 function FilterSelect({ label, value, onChange, options, disabled, highlight, className, t }: FilterSelectProps) {
@@ -71,27 +102,30 @@ function ActiveChips({ chips, circuits, local, metadatas, onRemove }: ActiveChip
           label = 'circuit';
           displayValue = circuit ? circuit.name : value as string;
         } else if (key === 'circuitStep') {
-          // Ne pas afficher circuitStep si circuitId n'existe pas
           if (!local.circuitId) {
             return null;
           }
           label = 'progression';
-          const circuit = circuits.find(c => c.id === local.circuitId);
+          const selectedCircuit = circuits.find(c => c.id === local.circuitId);
           if (value === '0') {
             displayValue = 'Pas commencé';
           } else if (value === 'end') {
             displayValue = 'Terminé';
-          } else if (circuit && circuit.steps) {
-            const step = circuit.steps.find(s => s.id === value);
+          } else if (selectedCircuit && selectedCircuit.steps) {
+            const step = selectedCircuit.steps.find(s => s.id === value);
             displayValue = step ? step.name : value as string;
           }
         } else {
           // Pour les métadonnées, afficher le label
-          const meta = metadatas.find(m => m.keyName === key);
+          const meta = metadatas.find(m => m.keyName === getOriginalKey(key));
           if (meta) {
             const val = meta.values.find(v => v.value === value);
             displayValue = val ? ucFirst(String(val.value)) : ucFirst(String(value));
             label = ucFirst(meta.keyName);
+          } else if (isMetadataKey(key)) {
+            // Si c'est une clé de métadonnée mais qu'on ne trouve pas la meta, afficher quand même
+            label = ucFirst(getOriginalKey(key));
+            displayValue = ucFirst(String(value));
           }
         }
         
@@ -130,8 +164,8 @@ function MetadataPopover({ metadatas, local, onChange, t }: { metadatas: Project
             <FilterSelect
               key={meta.id}
               label={meta.keyName}
-              value={typeof local[meta.keyName] === 'string' ? local[meta.keyName] as string : ''}
-              onChange={v => onChange(meta.keyName, v)}
+              value={typeof local[getMetadataKey(meta.keyName)] === 'string' ? local[getMetadataKey(meta.keyName)] as string : ''}
+              onChange={v => onChange(getMetadataKey(meta.keyName), v)}
               options={[
                 { value: '', label: t('filters.all') },
                 ...meta.values.map(val => ({ value: val.value, label: val.value }))
@@ -147,26 +181,44 @@ function MetadataPopover({ metadatas, local, onChange, t }: { metadatas: Project
 export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChange, onExportCsv }: AdvancedUserFiltersProps) {
   const t = useTranslations('dashboard.users');
   const [pending, setPending] = useState<Record<string, unknown>>(filters);
+  const [searchQuery, setSearchQuery] = useState(typeof pending.query === 'string' ? pending.query : '');
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+
+  useEffect(() => {
+    setSearchQuery(typeof pending.query === 'string' ? pending.query : '');
+  }, [pending.query]);
+
+  useEffect(() => {
+    const newFilters = { ...pending };
+    if (debouncedSearchQuery && debouncedSearchQuery.length >= 3) {
+      newFilters.query = debouncedSearchQuery;
+    } else if (debouncedSearchQuery.length === 0) {
+      delete newFilters.query;
+    }
+    // Ne pas déclencher onChange si la recherche fait moins de 3 caractères
+    if (debouncedSearchQuery.length >= 3 || debouncedSearchQuery.length === 0) {
+      onChange(newFilters);
+    }
+  }, [debouncedSearchQuery, pending.query, onChange]);
 
   const handleChange = (key: string, value: string) => {
-    setPending(prev => {
-      const newPending = { ...prev, [key]: value };
-      
-      // Si on retire ou change le filtre de parcours, retirer automatiquement le filtre de progression
-      if (key === 'circuitId' && (!value || value === '')) {
-        delete newPending.circuitStep;
-      }
-      
-      return newPending;
-    });
+    const newPending = { ...pending, [key]: value };
+    
+    // Si on retire ou change le filtre de parcours, retirer automatiquement le filtre de progression
+    if (key === 'circuitId' && (!value || value === '')) {
+      delete newPending.circuitStep;
+    }
+    
+    setPending(newPending);
+    onChange(newPending);
   };
+  
   const handleReset = () => {
     setPending({});
+    setSearchQuery('');
     onChange({});
   };
-  const handleApply = () => {
-    onChange(pending);
-  };
+  
   const handleRemoveChip = (key: string) => {
     const newFilters = { ...pending };
     delete newFilters[key];
@@ -178,6 +230,31 @@ export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChang
     
     setPending(newFilters);
     onChange(newFilters);
+  };
+
+  const handleExportCsv = () => {
+    if (onExportCsv) {
+      onExportCsv();
+    } else {
+      // Export par défaut avec les filtres actuels
+      const queryParams = new URLSearchParams();
+      Object.entries(pending).forEach(([key, value]) => {
+        if (value && value !== '') {
+          queryParams.append(key, String(value));
+        }
+      });
+      
+      const queryString = queryParams.toString();
+      const exportUrl = `/api/projects/export/users${queryString ? `?${queryString}` : ''}`;
+      
+      // Créer un lien temporaire pour le téléchargement
+      const link = document.createElement('a');
+      link.href = exportUrl;
+      link.download = `users-export-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   const circuitOptions = [{ value: '', label: t('filters.all') }, ...circuits.map(c => ({ value: c.id, label: c.name }))];
@@ -214,17 +291,34 @@ export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChang
         <div className="hidden md:flex h-8 w-px bg-primary/20 mx-2 rounded-full" aria-hidden="true" />
         {/* Input recherche */}
         <div className="flex flex-col min-w-[100px] max-w-[140px]">
-          <label className={`text-xs font-medium mb-0.5 ${pending.query ? 'text-primary' : 'text-muted-foreground'}`}>{t('filters.search')}</label>
+          <label className={`text-xs font-medium mb-0.5 ${searchQuery ? 'text-primary' : 'text-muted-foreground'}`}>{t('filters.search')}</label>
           <div className="relative w-full">
             <Input
               type="text"
               placeholder={t('filters.search_placeholder')}
-              value={typeof pending.query === 'string' ? pending.query : ''}
-              onChange={e => handleChange('query', e.target.value)}
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  const newFilters = { ...pending };
+                  if (searchQuery.trim()) {
+                    newFilters.query = searchQuery.trim();
+                  } else {
+                    delete newFilters.query;
+                  }
+                  onChange(newFilters);
+                }
+              }}
               className="pl-7 h-8 text-xs border border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/30 transition-colors max-w-[140px]"
               maxLength={40}
             />
-            <Search className="absolute left-1.5 top-2 h-3.5 w-3.5 text-muted-foreground hover:text-primary transition-colors cursor-pointer" />
+            <Search className={`absolute left-1.5 top-2 h-3.5 w-3.5 transition-colors ${searchQuery ? 'text-primary' : 'text-muted-foreground'}`} />
+            {searchQuery && searchQuery.length < 3 && (
+              <div className="absolute right-1 top-1.5 text-xs text-muted-foreground">
+                {3 - searchQuery.length}
+              </div>
+            )}
           </div>
         </div>
         {/* Séparateur visuel */}
@@ -243,19 +337,10 @@ export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChang
           >
             <X className="h-4 w-4 text-muted-foreground" />
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="border-primary/40 hover:border-primary h-8 px-3 transition-colors"
-            onClick={handleApply}
-            size="sm"
-            aria-label={t('filters.apply')}
-          >
-            <Search className="h-4 w-4 text-primary" />
-          </Button>
+
           {/* Délimiteur visuel entre actions et export */}
           <div className="hidden md:flex h-8 w-px bg-primary/20 mx-2 rounded-full" aria-hidden="true" />
-          <Button type="button" variant="outline" className="border-primary/40 hover:border-primary h-8 px-4 transition-colors font-medium" size="sm" onClick={onExportCsv}>
+          <Button type="button" variant="outline" className="border-primary/40 hover:border-primary h-8 px-4 transition-colors font-medium" size="sm" onClick={handleExportCsv}>
             <Download className="h-4 w-4 mr-2 text-muted-foreground hover:text-primary transition-colors" />
             {t('filters.export_csv')}
           </Button>

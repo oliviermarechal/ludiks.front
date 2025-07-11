@@ -15,6 +15,7 @@ import { useAuth } from '@/lib/hooks/use-auth.hook';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import api from '@/lib/api';
+import Image from 'next/image';
 
 export default function RegistrationPage() {
     const [email, setEmail] = useState('');
@@ -81,11 +82,9 @@ export default function RegistrationPage() {
     return (
         <div className="container relative flex-col items-center justify-center">
             <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-                <div className="flex flex-col space-y-2 text-center">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-secondary via-secondary to-primary bg-clip-text text-transparent tracking-tight">
-                        Ludiks
-                    </h1>
-                    <p className="text-muted-foreground text-sm">
+            <div className="flex flex-col items-center text-center mb-2 mt-6">
+                    <Image src="/logo-black.png" alt="Ludiks Logo" width={90} height={35} />
+                    <p className="text-lg font-semibold text-foreground/80 mt-3 mb-1">
                         {t('title')}
                     </p>
                 </div>

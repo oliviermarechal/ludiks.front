@@ -21,7 +21,6 @@ export function CircuitTabs({ className, disabledTabs = [], isActive = false }: 
             )}
         >
             {isActive ? (
-                // Circuit ACTIF : Analytics, Overview, Rewards, API
                 <>
                     <Tabs.Trigger
                         value="analytics"
@@ -70,7 +69,6 @@ export function CircuitTabs({ className, disabledTabs = [], isActive = false }: 
                     </Tabs.Trigger>
                 </>
             ) : (
-                // Circuit INACTIF : Settings, Rewards, API
                 <>
                     <Tabs.Trigger
                         value="settings"

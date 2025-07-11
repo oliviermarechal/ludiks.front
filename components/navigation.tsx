@@ -6,6 +6,7 @@ import { Link } from "@/lib/navigation";
 import { useAuth } from "@/lib/hooks/use-auth.hook";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 export function Navigation() {
   const t = useTranslations('home.navigation');
@@ -23,9 +24,19 @@ export function Navigation() {
           <div className="flex items-center">
             <Link
               href="/"
-              className="text-2xl font-bold text-foreground hover:text-primary transition-colors"
+              className="flex items-center h-full"
             >
-              Ludiks
+                <Image
+                  src="/ludiks-7.png"
+                  alt="Ludiks Logo"
+                  width={90}
+                  height={35}
+                  style={{
+                    objectFit: "contain",
+                    background: "transparent",
+                  }}
+                  priority
+                />
             </Link>
           </div>
 
