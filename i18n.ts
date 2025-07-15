@@ -33,7 +33,8 @@ export default getRequestConfig(async ({locale}) => {
       dashboardOrganizationsTeam,
       dashboardOrganizationsBilling,
       onboardingSteps,
-      onboardingProject
+      onboardingProject,
+      ludiksProfile
     ] = await Promise.all([
       import(`./messages/${validLocale}/common.json`),
       import(`./messages/${validLocale}/home.json`),
@@ -55,6 +56,7 @@ export default getRequestConfig(async ({locale}) => {
       import(`./messages/${validLocale}/dashboard/organizations/billing.json`),
       import(`./messages/${validLocale}/onboarding/steps.json`),
       import(`./messages/${validLocale}/onboarding/project.json`),
+      import(`./messages/${validLocale}/ludiks-profile.json`),
     ]);
 
     return {
@@ -91,7 +93,8 @@ export default getRequestConfig(async ({locale}) => {
         onboarding: {
           steps: onboardingSteps.default,
           project: onboardingProject.default
-        }
+        },
+        ludiksProfile: ludiksProfile.default
       }
     };
   } catch {

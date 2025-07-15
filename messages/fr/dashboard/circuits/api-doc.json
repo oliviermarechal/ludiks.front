@@ -6,7 +6,7 @@
     "npm_install": "Installation via npm"
   },
   "initialization": {
-    "title": "Initialisation",
+    "title": "Initialisation de l'utilisateur",
     "sdk_config": "Configuration du SDK"
   },
   "tracking_events": {
@@ -33,12 +33,12 @@
     "title": "Référence API",
     "types": "Types",
     "methods": "Méthodes",
-    "setup_description": "Initialise le SDK avec les informations de l'utilisateur. Cette méthode doit être appelée une seule fois au démarrage de l'application.",
-    "track_event_description": "Envoie un événement au serveur. Pour les parcours d'objectif, utilisez l'eventName correspondant à l'étape. Pour les parcours à points/actions, incluez la valeur à incrémenter. Retourne un objet contenant le statut de l'opération et les récompenses débloquées."
+    "init_user_description": "Initialise ou met à jour un utilisateur dans votre projet Ludiks. Cette méthode doit être appelée quand un utilisateur se connecte ou quand les données utilisateur changent.",
+    "track_event_description": "Envoie un événement pour tracker la progression de l'utilisateur. Pour les parcours d'objectif, utilisez l'eventName correspondant à l'étape. Pour les parcours à points/actions, incluez la valeur à incrémenter. Retourne une réponse détaillée avec le statut de progression et les récompenses."
   },
   "code": {
     "comments": {
-      "sdk_init": "Initialisation du SDK avec les informations de l'utilisateur",
+      "sdk_init": "Initialiser ou mettre à jour un utilisateur",
       "api_key": "Clé API de votre projet",
       "user_id": "ID unique de l'utilisateur",
       "full_name": "Nom complet de l'utilisateur",

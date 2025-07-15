@@ -1,0 +1,55 @@
+{
+  "title": "How Ludiks uses Ludiks",
+  "subtitle": "An educational showcase, powered by our own platform.",
+  "intro1": "At Ludiks, we don't just build a gamification tool. We use it actively, at the very heart of our product, to show you what you can do with it.",
+  "intro2": "On this page, you explore our own gamified profile, designed to demonstrate different types of journeys: some are purely analytical, meant to observe adoption, friction points or conversion rates. Others aim for activation, engagement or retention, with simple but effective mechanics: unlocking features, contextual 'wow' effects, step-by-step progression, mini rewards...",
+  "intro3": "Every element you see here is a real use case, implemented with Ludiks' public SDK, and fully reproducible on your own platform—whether you're a B2B SaaS or a B2C app.",
+  "section": {
+    "circuits": "Circuits and progressions",
+    "rewards": "Rewards obtained"
+  },
+  "rewards": {
+    "empty": {
+      "title": "No rewards obtained",
+      "desc": "Progress through your circuits to unlock your first rewards!"
+    }
+  },
+  "status": {
+    "completed": "Completed",
+    "in_progress": "In progress",
+    "not_started": "Not started"
+  },
+  "type": {
+    "actions": "Actions",
+    "objective": "Objectives",
+    "points": "Points"
+  },
+  "step": {
+    "actions": "{points}/{target} actions",
+    "points": "{points}/{target} pts"
+  },
+  "reward": {
+    "obtained": "Obtained on {date}"
+  },
+  "rarity": {
+    "common": "Common",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary"
+  },
+  "selectOrganization": "Select an organization.",
+  "loading": "Loading gamified profile…",
+  "profileUnavailable": "Profile unavailable.",
+  "currentStreakLabel": "Current streak",
+  "bestStreakLabel": "Best streak",
+  "accountCreatedLabel": "Account created on",
+  "lastLoginLabel": "Last login",
+  "profileInfoTitle": "Profile information",
+  "aboutTitle": "About this page",
+  "aboutWhyTitle": "Why these journeys?",
+  "aboutWhyDesc": "We use different journeys to analyze adoption, detect friction points, and guide our product decisions.",
+  "aboutGamificationTitle": "Analysis & gamification",
+  "aboutGamificationDesc": "Some journeys include gamification mechanics (rewards, badges…) to boost engagement and retention.",
+  "aboutDataTitle": "Accessible data",
+  "aboutDataDesc": "All data displayed here comes from our public SDK: you can use it in your own applications."
+} 

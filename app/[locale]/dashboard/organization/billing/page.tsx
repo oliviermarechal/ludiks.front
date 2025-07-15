@@ -16,12 +16,16 @@ import { useSearchParams } from 'next/navigation';
 import SubscriptionModal from '@/components/subscription/subscription-modal';
 import { BILLING_CONFIG } from '@/lib/config';
 import { useSubscription } from '@/lib/hooks/use-subscription.hook';
-
+import { useLudiks } from '@/lib/hooks/use-ludiks.hook';
 
 export default function BillingPage() {
   const t = useTranslations('dashboard.organizations.billing');
   const locale = useLocale();
   const { selectedOrganization } = useProjectStore();
+  const { trackEvent } = useLudiks({
+    apiKey: process.env.NEXT_PUBLIC_LUDIKS_API_KEY || '',
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+  })
   const { 
     cancelSubscription, 
     isCancelling, 
@@ -37,13 +41,16 @@ export default function BillingPage() {
   const intentStatus = searchParams.get('intent_status');
   const intentPaymentError = searchParams.get('intent_payment_error');
 
-  const invoices = [
-    { id: 'inv_1', date: '2024-01-01', amount: '12.34$', status: 'paid', url: '#' },
-    { id: 'inv_2', date: '2023-12-01', amount: '5.00$', status: 'paid', url: '#' },
+  const invoices: {id: string, date: string, amount: string, status: string, url: string}[] = [
+    // { id: 'inv_1', date: '2024-01-01', amount: '12.34$', status: 'paid', url: '#' },
+    // { id: 'inv_2', date: '2023-12-01', amount: '5.00$', status: 'paid', url: '#' },
   ];
 
   const handleSubscriptionSuccess = () => {
     setIsSubscriptionModalOpen(false);
+    if (selectedOrganization) {
+      trackEvent(selectedOrganization.id, 'activate_pro')
+    }
   };
 
   const handleCancelSubscription = async () => {

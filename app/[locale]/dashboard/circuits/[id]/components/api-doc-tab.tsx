@@ -93,7 +93,7 @@ export function ApiDocTab({ circuit }: { circuit: Circuit }) {
                             <code>{`import { Ludiks } from '@ludiks/sdk';
 
 // ${t('code.comments.sdk_init')}
-const ludiks = await Ludiks.setup({
+await Ludiks.initUser({
     apiKey: '${hasApiKey ? firstApiKey?.value : testApiKey}', // ${t('code.comments.api_key')}
     user: {
         id: 'USER_ID', // ${t('code.comments.user_id')}
@@ -148,7 +148,9 @@ const ludiks = await Ludiks.setup({
                                 <div className="relative mb-8">
                                     <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
                                         <code>{`// ${t('code.comments.send_step_event')}
-const response = await ludiks.trackEvent({
+const response = await Ludiks.trackEvent({
+    apiKey: '${hasApiKey ? firstApiKey?.value : testApiKey}',
+    userId: 'USER_ID',
     eventName: '${selectedStep.eventName}',
     timestamp: new Date() // ${t('code.comments.timestamp_optional')}
 });
@@ -203,7 +205,9 @@ console.log(response);
                                 <div className="relative mb-8">
                                     <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
                                         <code>{`// ${t('code.comments.send_value_event')}
-const response = await ludiks.trackEvent({
+const response = await Ludiks.trackEvent({
+    apiKey: '${hasApiKey ? firstApiKey?.value : testApiKey}',
+    userId: 'USER_ID',
     eventName: '${firstStep.eventName}',
     value: 1, // ${t('code.comments.increment_value')}
     timestamp: new Date() // ${t('code.comments.timestamp_optional')}
@@ -337,9 +341,9 @@ console.log(response);
                             <h4 className="text-lg font-medium text-foreground mb-2">{t('api_reference.types')}</h4>
                             <div className="space-y-4">
                                 <div>
-                                    <div className="text-sm font-medium text-foreground/80 mb-2">SetupOptions</div>
+                                    <div className="text-sm font-medium text-foreground/80 mb-2">InitUserOptions</div>
                                     <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-xs overflow-x-auto">
-{`interface SetupOptions {
+{`interface InitUserOptions {
     apiKey: string;
     user: {
         id: string;
@@ -348,6 +352,7 @@ console.log(response);
         picture?: string;
         metadata?: Record<string, any>;
     };
+    baseUrl?: string;
 }`}
                                     </pre>
                                 </div>
@@ -355,9 +360,12 @@ console.log(response);
                                     <div className="text-sm font-medium text-foreground/80 mb-2">TrackEventOptions</div>
                                     <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-xs overflow-x-auto">
 {`interface TrackEventOptions {
+    apiKey: string;
+    userId: string;
     eventName: string;
     value?: number;
     timestamp?: Date;
+    baseUrl?: string;
 }`}
                                     </pre>
                                 </div>
@@ -385,9 +393,9 @@ console.log(response);
                             <h4 className="text-lg font-medium text-foreground mb-2">{t('api_reference.methods')}</h4>
                             <div className="space-y-4">
                                 <div>
-                                    <div className="text-sm font-medium text-foreground/80 mb-2">setup(options: SetupOptions): Promise&lt;Ludiks&gt;</div>
+                                    <div className="text-sm font-medium text-foreground/80 mb-2">initUser(options: InitUserOptions): Promise&lt;void&gt;</div>
                                     <p className="text-sm text-foreground/70 mb-2">
-                                        {t('api_reference.setup_description')}
+                                        {t('api_reference.init_user_description')}
                                     </p>
                                 </div>
                                 <div>

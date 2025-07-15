@@ -1,0 +1,54 @@
+{
+  "title": "Découvrez comment Ludiks intègre… Ludiks !",
+  "intro1": "Chez Ludiks, nous utilisons notre propre plateforme pour analyser l’adoption, comprendre les usages et guider nos décisions produit.",
+  "intro2": "Les parcours visibles ci-dessous ne servent pas uniquement à “gamifier” l’expérience : ils nous permettent d’identifier les points de friction, de mesurer l’engagement et d’optimiser la rétention.",
+  "intro3": "Toutes les données affichées ici sont issues de notre SDK public : vous pouvez accéder à ces mêmes insights pour piloter vos propres produits.",
+  "section": {
+    "circuits": "Circuits et progressions",
+    "rewards": "Récompenses obtenues"
+  },
+  "rewards": {
+    "empty": {
+      "title": "Aucune récompense obtenue",
+      "desc": "Progresse dans tes circuits pour débloquer tes premières récompenses !"
+    }
+  },
+  "status": {
+    "completed": "Terminé",
+    "in_progress": "En cours",
+    "not_started": "Non commencé"
+  },
+  "type": {
+    "actions": "Actions",
+    "objective": "Objectifs",
+    "points": "Points"
+  },
+  "step": {
+    "actions": "{points}/{target} actions",
+    "points": "{points}/{target} pts"
+  },
+  "reward": {
+    "obtained": "Obtenue le {date}"
+  },
+  "rarity": {
+    "common": "Commun",
+    "rare": "Rare",
+    "epic": "Épique",
+    "legendary": "Légendaire"
+  },
+  "selectOrganization": "Sélectionnez une organisation.",
+  "loading": "Chargement du profil gamifié…",
+  "profileUnavailable": "Profil non disponible.",
+  "currentStreakLabel": "Streak actuel",
+  "bestStreakLabel": "Meilleur streak",
+  "accountCreatedLabel": "Compte créé le",
+  "lastLoginLabel": "Dernière connexion",
+  "profileInfoTitle": "Informations du profil",
+  "aboutTitle": "À propos de cette page",
+  "aboutWhyTitle": "Pourquoi ces parcours ?",
+  "aboutWhyDesc": "Nous utilisons différents parcours pour analyser l’adoption, détecter les points de friction et guider nos choix produit.",
+  "aboutGamificationTitle": "Analyse & gamification",
+  "aboutGamificationDesc": "Certains parcours intègrent des mécaniques de gamification (récompenses, badges…) pour booster l’engagement et la rétention.",
+  "aboutDataTitle": "Données accessibles",
+  "aboutDataDesc": "Toutes les données affichées ici sont issues de notre SDK public : vous pouvez les exploiter dans vos propres applications."
+} 

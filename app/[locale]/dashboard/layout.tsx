@@ -6,20 +6,38 @@ import LeftBar from "./left-bar"
 import { QuotaWarningBanner } from "@/components/dashboard/quota-warning-banner"
 import { useProjectStore } from "@/lib/stores/project-store"
 import { ReactNode } from "react"
+import { useLudiks } from "@/lib/hooks/use-ludiks.hook"
 
 interface DashboardLayoutProps {
   children: ReactNode
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const { isAuthenticated, isLoading, requireAuth } = useAuth()
+  const { isAuthenticated, isLoading, requireAuth, user } = useAuth()
   const { selectedOrganization } = useProjectStore()
+  const { initUser } = useLudiks({
+    apiKey: process.env.NEXT_PUBLIC_LUDIKS_API_KEY || '',
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+  })
 
   useEffect(() => {
     if (!isLoading) {
       requireAuth()
     }
   }, [isLoading, requireAuth])
+
+  useEffect(() => {
+    if (isAuthenticated && selectedOrganization) {
+      initUser({
+          id: selectedOrganization.id,
+          fullName: selectedOrganization.name,
+          email: user?.email,
+          metadata: {
+            pro: selectedOrganization?.plan === 'pro',
+          }
+      })
+    }
+  }, [isAuthenticated, selectedOrganization, user?.email, initUser])
 
   if (isLoading) {
     return (

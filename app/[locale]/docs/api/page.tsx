@@ -17,12 +17,12 @@ export default function APIDocumentationPage() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const createUserCode = `curl -X POST https://api.ludiks.io/end-user \\
+  const createUserCode = `curl -X POST https://api.ludiks.io/api/end-user \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -d '{
     "id": "user-123",
-    "full_name": "John Doe",
+    "fullName": "John Doe",
     "email": "john@example.com",
     "picture": "https://example.com/avatar.jpg",
     "metadata": {
@@ -31,7 +31,7 @@ export default function APIDocumentationPage() {
     }
   }'`;
 
-  const trackEventCode = `curl -X POST https://api.ludiks.io/tracking \\
+  const trackEventCode = `curl -X POST https://api.ludiks.io/api/tracking \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -d '{
@@ -43,7 +43,7 @@ export default function APIDocumentationPage() {
 
   const jsExample = `// Création d'un utilisateur
 const createUser = async (userData) => {
-  const response = await fetch('https://api.ludiks.io/end-user', {
+  const response = await fetch('https://api.ludiks.io/api/end-user', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const createUser = async (userData) => {
 
 // Tracking d'un événement
 const trackEvent = async (eventData) => {
-  const response = await fetch('https://api.ludiks.io/tracking', {
+  const response = await fetch('https://api.ludiks.io/api/tracking', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ const trackEvent = async (eventData) => {
                 <h4 className="font-semibold text-foreground mb-2">{t('endpoints.createUser.required.title')}</h4>
                 <ul className="text-sm text-foreground/70 space-y-1">
                   <li><code>id</code> - {t('endpoints.createUser.required.id')}</li>
-                  <li><code>full_name</code> - {t('endpoints.createUser.required.name')}</li>
+                  <li><code>fullName</code> - {t('endpoints.createUser.required.name')}</li>
                 </ul>
               </div>
               <div>
@@ -230,7 +230,7 @@ const trackEvent = async (eventData) => {
   "success": true,
   "data": {
     "id": "user-123",
-    "full_name": "John Doe"
+    "fullName": "John Doe"
   }
 }`}</pre>
                 </div>

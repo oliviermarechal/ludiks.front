@@ -31,7 +31,7 @@
     },
     "setup": {
       "title": "1. User Setup",
-      "description": "The setup automatically creates the user on the server side and initializes the SDK.",
+      "description": "Initialize or update a user in your Ludiks project.",
       "javascript": "JavaScript",
       "required": "Required parameters",
       "optional": "Optional parameters",
@@ -43,26 +43,26 @@
     },
     "tracking": {
       "title": "2. Event Tracking",
-      "description": "Send events to track your users' progress.",
+      "description": "Send events to track your users' progress and get detailed response data.",
       "javascript": "JavaScript"
     },
     "response": {
       "title": "Response format",
-      "description": "Each trackEvent call returns detailed information about progress.",
+      "description": "Each trackEvent call returns detailed information about progress and rewards.",
       "json": "JSON Response",
       "progression": {
         "title": "Progress information",
-        "updated": "progression_updated - Progress has been updated",
-        "step": "step_completed - A step has been completed",
-        "circuit": "circuit_completed - The entire circuit is completed",
-        "already": "already_completed - The step was already completed"
+        "updated": "Progress has been updated",
+        "step": "A step has been completed",
+        "circuit": "The entire circuit is completed",
+        "already": "The step was already completed"
       },
       "data": {
         "title": "Progress data",
-        "points": "total_points - Current total points",
-        "step": "current_step - Current step information",
-        "rewards": "unlocked_rewards - Unlocked rewards",
-        "info": "circuit_info - Circuit information"
+        "points": "Current total points",
+        "step": "Step completion status",
+        "rewards": "Unlocked rewards",
+        "info": "Operation success status"
       }
     },
     "example": {

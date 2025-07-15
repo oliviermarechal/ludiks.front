@@ -30,8 +30,8 @@
       "terminal": "Terminal"
     },
     "setup": {
-      "title": "1. Setup de l'utilisateur",
-      "description": "Le setup crée automatiquement l'utilisateur côté serveur et initialise le SDK.",
+      "title": "1. Initialisation de l'utilisateur",
+      "description": "Initialisez ou mettez à jour un utilisateur dans votre projet Ludiks.",
       "javascript": "JavaScript",
       "required": "Paramètres requis",
       "optional": "Paramètres optionnels",
@@ -43,26 +43,26 @@
     },
     "tracking": {
       "title": "2. Tracking des événements",
-      "description": "Envoyez des événements pour tracker la progression de vos utilisateurs.",
+      "description": "Envoyez des événements pour tracker la progression de vos utilisateurs et obtenir des données détaillées.",
       "javascript": "JavaScript"
     },
     "response": {
       "title": "Format de réponse",
-      "description": "Chaque appel à trackEvent retourne des informations détaillées sur la progression.",
+      "description": "Chaque appel à trackEvent retourne des informations détaillées sur la progression et les récompenses.",
       "json": "Réponse JSON",
       "progression": {
         "title": "Informations de progression",
-        "updated": "progression_updated - La progression a été mise à jour",
-        "step": "step_completed - Une étape a été complétée",
-        "circuit": "circuit_completed - Le parcours entier est terminé",
-        "already": "already_completed - L'étape était déjà complétée"
+        "updated": "La progression a été mise à jour",
+        "step": "Une étape a été complétée",
+        "circuit": "Le parcours entier est terminé",
+        "already": "L'étape était déjà complétée"
       },
       "data": {
         "title": "Données de progression",
-        "points": "total_points - Points totaux actuels",
-        "step": "current_step - Informations sur l'étape actuelle",
-        "rewards": "unlocked_rewards - Récompenses débloquées",
-        "info": "circuit_info - Informations sur le parcours"
+        "points": "Points totaux actuels",
+        "step": "Statut de complétion de l'étape",
+        "rewards": "Récompenses débloquées",
+        "info": "Statut de succès de l'opération"
       }
     },
     "example": {

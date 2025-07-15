@@ -12,6 +12,7 @@ import {
     CreditCard,
     UserCheck,
     Mail,
+    Trophy,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu"
@@ -56,6 +57,7 @@ export default function LeftBar() {
         { name: t('leftBar.organization.members'), href: '/dashboard/organization/members', icon: UserCheck },
         { name: t('leftBar.organization.invites'), href: '/dashboard/organization/invites', icon: Mail },
         { name: t('leftBar.organization.billing'), href: '/dashboard/organization/billing', icon: CreditCard },
+        { name: 'Profil Ludiks', href: '/dashboard/organization/profile', icon: Trophy },
     ]
 
     const handleProjectChange = (project: Project, organization: Organization) => {

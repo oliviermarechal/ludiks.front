@@ -6,7 +6,7 @@
     "npm_install": "Installation via npm"
   },
   "initialization": {
-    "title": "Initialization",
+    "title": "User Initialization",
     "sdk_config": "SDK Configuration"
   },
   "tracking_events": {
@@ -33,12 +33,12 @@
     "title": "API Reference",
     "types": "Types",
     "methods": "Methods",
-    "setup_description": "Initializes the SDK with user information. This method must be called once at application startup.",
-    "track_event_description": "Sends an event to the server. For objective circuits, use the eventName corresponding to the step. For points/actions circuits, include the value to increment. Returns an object containing the operation status and unlocked rewards."
+    "init_user_description": "Initializes or updates a user in your Ludiks project. This method should be called when a user logs in or when user data changes.",
+    "track_event_description": "Sends an event to track user progress. For objective circuits, use the eventName corresponding to the step. For points/actions circuits, include the value to increment. Returns detailed response with progress status and rewards."
   },
   "code": {
     "comments": {
-      "sdk_init": "Initialize the SDK with user information",
+      "sdk_init": "Initialize or update a user",
       "api_key": "API key for your project",
       "user_id": "Unique user ID",
       "full_name": "User's full name",

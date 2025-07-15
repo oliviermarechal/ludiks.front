@@ -15,6 +15,8 @@ import setCircuitSteps from "@/lib/actions/circuit/set-circuit-steps.action";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/lib/hooks/use-auth.hook";
+import { useLudiks } from "@/lib/hooks/use-ludiks.hook";
 
 export default function OnboardingPage() {
   const t = useTranslations('onboarding.project');
@@ -25,10 +27,15 @@ export default function OnboardingPage() {
   const [isCheckingSetup, setIsCheckingSetup] = useState(true);
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { addProject, setSelectedProject, setSelectedOrganization } = useProjectStore();
+  const { addProject, setSelectedProject, setSelectedOrganization, selectedOrganization } = useProjectStore();
   const { organizations, isLoading: organizationsLoading, createOrganization } = useOrganizations();
   const { circuits, isLoading: circuitsLoading, createCircuit } = useCircuits(projectData?.id);
-  
+  const { user } = useAuth();
+  const { trackEvent, initUser } = useLudiks({
+    apiKey: process.env.NEXT_PUBLIC_LUDIKS_API_KEY || '',
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+  })
+
   const steps = [
     {
       title: t('steps.project.title'),
@@ -57,7 +64,6 @@ export default function OnboardingPage() {
       
       setIsCheckingSetup(false);
     } else if (!organizationsLoading && !circuitsLoading) {
-      // Si pas de circuits, continuer avec l'onboarding
       setIsCheckingSetup(false);
     }
   }, [organizationsLoading, circuitsLoading, circuits, router]);
@@ -94,6 +100,17 @@ export default function OnboardingPage() {
       const organization = await createOrganization(data.name);
       const project = organization.projects[0];
       
+      await initUser({
+        id: organization.id,
+        full_name: organization.name,
+        email: user?.email,
+        metadata: {
+          pro: organization.plan === 'pro',
+        }
+      })
+      await trackEvent(organization.id, 'create_organization') // Onboarding circuit
+      trackEvent(organization.id, 'organization_created') // conversion circuit
+
       addProject(project);
       setProjectData(project);
       setSelectedOrganization(organization);
@@ -124,7 +141,9 @@ export default function OnboardingPage() {
 
       const circuit = await createCircuit({ name: data.name, type: data.type });
       setCircuitData({ ...circuit, projectId: data.projectId });
-      
+      if (selectedOrganization) {
+        trackEvent(selectedOrganization.id, 'create_circuit') // Onboarding circuit
+      }
       setCurrentStep(2);
       toast.success(t('toast.success.circuitCreated'));
     } catch (err) {
@@ -141,6 +160,9 @@ export default function OnboardingPage() {
     
     try {
       await setCircuitSteps(circuitData.id, data);
+      if (selectedOrganization) {
+        trackEvent(selectedOrganization.id, 'generate_steps') // Onboarding circuit
+      }
       
       await queryClient.refetchQueries({ queryKey: ['circuits', circuitData.projectId] });
       

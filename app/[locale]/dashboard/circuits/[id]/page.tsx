@@ -13,6 +13,8 @@ import { RewardsTab } from "./components/rewards-tab";
 import { useCircuits } from '@/lib/hooks/use-circuits.hook';
 import { useTranslations } from 'next-intl';
 import { Loader2 } from 'lucide-react';
+import { useLudiks } from '@/lib/hooks/use-ludiks.hook';
+import { useProjectStore } from '@/lib/stores/project-store';
 
 interface PageProps { params: Promise<{ id: string }> }
 
@@ -21,6 +23,11 @@ export default function CircuitPage({ params }: PageProps) {
     const { circuits, activateCircuit, deleteCircuit, isLoading, error } = useCircuits();
     const circuit = circuits.find(c => c.id === id) as Circuit | undefined;
     const t = useTranslations('dashboard.circuits.common');
+    const { trackEvent } = useLudiks({
+        apiKey: process.env.NEXT_PUBLIC_LUDIKS_API_KEY || '',
+        baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    })
+    const { selectedOrganization } = useProjectStore();
 
     const [activeTab, setActiveTab] = useState('settings');
 
@@ -69,6 +76,13 @@ export default function CircuitPage({ params }: PageProps) {
         await deleteCircuit({ circuitId: circuit.id });
     };
 
+    const handleActivateCircuit = async () => {
+        activateCircuit({ circuitId: circuit.id });
+        if (selectedOrganization) {
+            trackEvent(selectedOrganization.id, 'activate_circuit') // conversion circuit
+        }
+    }
+
     return (
         <div className="container mx-auto py-12">
             <div className="max-w-6xl mx-auto space-y-8">
@@ -76,7 +90,7 @@ export default function CircuitPage({ params }: PageProps) {
                     name={circuit.name}
                     type={circuit.type}
                     active={circuit.active}
-                    onActivate={() => activateCircuit({ circuitId: circuit.id })}
+                    onActivate={handleActivateCircuit}
                     activable={circuitIsActivable}
                     onDelete={handleDeleteCircuit}
                 />
@@ -88,7 +102,6 @@ export default function CircuitPage({ params }: PageProps) {
                         isActive={circuit.active}
                     />
 
-                    {/* Circuit INACTIF */}
                     {!circuit.active && (
                         <>
                             <Tabs.Content value="settings" className="mt-6">
@@ -97,7 +110,6 @@ export default function CircuitPage({ params }: PageProps) {
                         </>
                     )}
 
-                    {/* Circuit ACTIF */}
                     {circuit.active && (
                         <>
                             <Tabs.Content value="overview" className="mt-6">
@@ -109,7 +121,6 @@ export default function CircuitPage({ params }: PageProps) {
                         </>
                     )}
 
-                    {/* Tabs communs */}
                     <Tabs.Content value="rewards" className="mt-6">
                         <RewardsTab circuit={circuit} />
                     </Tabs.Content>

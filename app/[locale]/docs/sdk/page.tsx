@@ -17,10 +17,10 @@ export default function SDKDocumentationPage() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const setupCode = `import { Ludiks } from '@ludiks/sdk';
+  const initUserCode = `import { Ludiks } from '@ludiks/sdk';
 
-// Setup automatique de l'utilisateur
-const ludiks = await Ludiks.setup({
+// Initialize or update a user
+await Ludiks.initUser({
   apiKey: 'your-api-key',
   user: {
     id: 'user-123',
@@ -36,8 +36,10 @@ const ludiks = await Ludiks.setup({
   }
 });`;
 
-  const trackEventCode = `// Tracking d'un événement
-const response = await ludiks.trackEvent({
+  const trackEventCode = `// Track an event
+const response = await Ludiks.trackEvent({
+  apiKey: 'your-api-key',
+  userId: 'user-123',
   eventName: 'profile_completed',
   value: 1,
   timestamp: new Date()
@@ -46,19 +48,20 @@ const response = await ludiks.trackEvent({
 console.log(response);
 // {
 //   "success": true,
-//   "progression_updated": true,
-//   "step_completed": true,
-//   "circuit_completed": false,
-//   "total_points": 150,
-//   "unlocked_rewards": [
-//     { "name": "Badge Profile", "type": "badge" }
+//   "updated": true,
+//   "stepCompleted": true,
+//   "circuitCompleted": false,
+//   "alreadyCompleted": false,
+//   "points": 150,
+//   "rewards": [
+//     { "name": "Badge Profile" }
 //   ]
 // }`;
 
   const completeExample = `import { Ludiks } from '@ludiks/sdk';
 
-// 1. Setup de l'utilisateur (une seule fois)
-const ludiks = await Ludiks.setup({
+// 1. Initialize user (once)
+await Ludiks.initUser({
   apiKey: 'your-api-key',
   user: {
     id: 'user-123',
@@ -72,43 +75,39 @@ const ludiks = await Ludiks.setup({
   }
 });
 
-// 2. Tracking des événements
-const loginResponse = await ludiks.trackEvent({ eventName: 'login' });
-const profileResponse = await ludiks.trackEvent({ 
+// 2. Track events
+const loginResponse = await Ludiks.trackEvent({ 
+  apiKey: 'your-api-key',
+  userId: 'user-123',
+  eventName: 'login' 
+});
+
+const profileResponse = await Ludiks.trackEvent({ 
+  apiKey: 'your-api-key',
+  userId: 'user-123',
   eventName: 'profile_completed', 
   value: 1 
 });
-const purchaseResponse = await ludiks.trackEvent({ 
+
+const purchaseResponse = await Ludiks.trackEvent({ 
+  apiKey: 'your-api-key',
+  userId: 'user-123',
   eventName: 'purchase', 
   value: 99.99 
 });`;
 
   const responseFormat = `{
   "success": true,
-  "progression_updated": true,
-  "step_completed": true,
-  "circuit_completed": false,
-  "already_completed": false,
-  "total_points": 150,
-  "current_step": {
-    "index": 2,
-    "name": "Profile Level 2",
-    "threshold": 100,
-    "progress": 75
-  },
-  "unlocked_rewards": [
+  "updated": true,
+  "stepCompleted": true,
+  "circuitCompleted": false,
+  "alreadyCompleted": false,
+  "points": 150,
+  "rewards": [
     {
-      "name": "Badge Profile",
-      "type": "badge",
-      "description": "Complété son profil"
+      "name": "Badge Profile"
     }
-  ],
-  "circuit_info": {
-    "name": "Onboarding",
-    "type": "points",
-    "total_steps": 5,
-    "completed_steps": 2
-  }
+  ]
 }`;
 
   return (
@@ -161,13 +160,13 @@ const purchaseResponse = await ludiks.trackEvent({
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm text-gray-400">{t('setup.javascript')}</span>
                 <button
-                  onClick={() => copyToClipboard(setupCode, 'setup')}
+                  onClick={() => copyToClipboard(initUserCode, 'setup')}
                   className="text-gray-400 hover:text-white"
                 >
                   {copied === 'setup' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 </button>
               </div>
-              <pre className="text-sm overflow-x-auto">{setupCode}</pre>
+              <pre className="text-sm overflow-x-auto">{initUserCode}</pre>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6 mt-6">
@@ -244,19 +243,19 @@ const purchaseResponse = await ludiks.trackEvent({
               <div>
                 <h4 className="font-semibold text-foreground mb-2">{t('response.progression.title')}</h4>
                 <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>progression_updated</code> - {t('response.progression.updated')}</li>
-                  <li><code>step_completed</code> - {t('response.progression.step')}</li>
-                  <li><code>circuit_completed</code> - {t('response.progression.circuit')}</li>
-                  <li><code>already_completed</code> - {t('response.progression.already')}</li>
+                  <li><code>updated</code> - {t('response.progression.updated')}</li>
+                  <li><code>stepCompleted</code> - {t('response.progression.step')}</li>
+                  <li><code>circuitCompleted</code> - {t('response.progression.circuit')}</li>
+                  <li><code>alreadyCompleted</code> - {t('response.progression.already')}</li>
                 </ul>
               </div>
               <div>
                 <h4 className="font-semibold text-foreground mb-2">{t('response.data.title')}</h4>
                 <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>total_points</code> - {t('response.data.points')}</li>
-                  <li><code>current_step</code> - {t('response.data.step')}</li>
-                  <li><code>unlocked_rewards</code> - {t('response.data.rewards')}</li>
-                  <li><code>circuit_info</code> - {t('response.data.info')}</li>
+                  <li><code>points</code> - {t('response.data.points')}</li>
+                  <li><code>stepCompleted</code> - {t('response.data.step')}</li>
+                  <li><code>rewards</code> - {t('response.data.rewards')}</li>
+                  <li><code>success</code> - {t('response.data.info')}</li>
                 </ul>
               </div>
             </div>
