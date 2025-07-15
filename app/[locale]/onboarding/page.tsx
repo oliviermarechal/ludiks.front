@@ -102,7 +102,7 @@ export default function OnboardingPage() {
       
       await initUser({
         id: organization.id,
-        full_name: organization.name,
+        fullName: organization.name,
         email: user?.email,
         metadata: {
           pro: organization.plan === 'pro',
