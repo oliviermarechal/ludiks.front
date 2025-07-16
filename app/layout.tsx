@@ -69,7 +69,23 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   };
 
-  return metadata[locale as keyof typeof metadata] || metadata.en;
+  const selectedMetadata = metadata[locale as keyof typeof metadata] || metadata.en;
+  
+  // Ajouter une image par défaut pour l'URL racine
+  if (!locale || locale === 'en') {
+    selectedMetadata.openGraph = {
+      ...selectedMetadata.openGraph,
+      images: [
+        {
+          url: "/logo-og.jpg",
+          width: 1200,
+          height: 630,
+        },
+      ],
+    };
+  }
+
+  return selectedMetadata;
 }
 
 export default async function RootLayout({
