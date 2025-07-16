@@ -30,6 +30,13 @@ export async function generateMetadata(): Promise<Metadata> {
         description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience sans recoder votre produit.",
         type: "website",
         locale: "fr_FR",
+        images: [
+          {
+            url: "/logo-og.jpg",
+            width: 1200,
+            height: 630,
+          },
+        ],
       },
       twitter: {
         card: "summary_large_image",
@@ -46,6 +53,13 @@ export async function generateMetadata(): Promise<Metadata> {
         description: "Create engaging user journeys, measure their progress and optimize their experience without recoding your product.",
         type: "website",
         locale: "en_US",
+        images: [
+          {
+            url: "/logo-og.jpg",
+            width: 1200,
+            height: 630,
+          },
+        ],
       },
       twitter: {
         card: "summary_large_image",
