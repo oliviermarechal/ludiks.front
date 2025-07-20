@@ -30,6 +30,8 @@ import { Modal } from "@/components/ui/modal";
 import { useTranslations } from 'next-intl';
 import { useRouter } from "@/lib/navigation";
 import { Navigation } from "@/components/navigation";
+import { SimpleEstimator } from "@/components/pricing/simple-estimator";
+import { GamificationSection } from "@/components/gamification-section";
 
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
@@ -59,7 +61,26 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [strategyData, setStrategyData] = useState<StrategyFormData | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const element = document.querySelector('#hero-section');
+    if (element) {
+      observer.observe(element);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const completionData = [
     { name: t('solution.funnel.chart.steps.1'), completion: 100, users: 1250 },
@@ -90,38 +111,46 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <Navigation />
-      <div className="relative landing-hero">
-        <div className="container mx-auto pt-24 pb-16 relative px-4 md:px-8">
-          <div className="flex flex-col items-center text-center space-y-8">
-            <h1 className="text-4xl md:text-6xl font-black landing-title pb-2">
-              {t('hero.title')}
-            </h1>
+      <div id="hero-section" className="relative landing-hero min-h-screen flex items-center justify-center">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-secondary rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-primary rounded-full blur-3xl"></div>
+        </div>
 
-            <p className="text-lg md:text-xl text-foreground/90 max-w-2xl font-light">
-              {t('hero.subtitle')}
-            </p>
+        <div className="container mx-auto relative px-4 md:px-8">
+          <div className="flex flex-col items-center text-center space-y-8 max-w-4xl mx-auto">
+            <div className={`transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+              <h1 className="text-4xl md:text-6xl font-black landing-title pb-2">
+                {t('hero.title')}
+              </h1>
 
-            <div className="grid md:grid-cols-3 gap-6 mt-8 text-left max-w-3xl">
-              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20">
-                <Eye className="text-secondary h-6 w-6" />
-                <span className="font-medium text-foreground/90">{t('hero.features.track')}</span>
+              <p className="text-lg md:text-xl text-foreground/90 max-w-2xl font-light">
+                {t('hero.subtitle')}
+              </p>
+            </div>
+
+            <div className={`grid md:grid-cols-3 gap-6 mt-8 text-left max-w-3xl transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`} style={{ transitionDelay: '300ms' }}>
+              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20 hover:border-primary hover:shadow-lg transition-all duration-300 group">
+                <Eye className="text-secondary h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
+                <span className="font-medium text-foreground/90 group-hover:text-foreground transition-colors duration-300">{t('hero.features.track')}</span>
               </div>
-              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20">
-                <AlertTriangle className="text-secondary h-6 w-6" />
-                <span className="font-medium text-foreground/90">{t('hero.features.identify')}</span>
+              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20 hover:border-primary hover:shadow-lg transition-all duration-300 group">
+                <AlertTriangle className="text-secondary h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
+                <span className="font-medium text-foreground/90 group-hover:text-foreground transition-colors duration-300">{t('hero.features.identify')}</span>
               </div>
-              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20">
-                <TrendingUp className="text-secondary h-6 w-6" />
-                <span className="font-medium text-foreground/90">{t('hero.features.increase')}</span>
+              <div className="flex items-center gap-3 bg-card/40 backdrop-blur-sm p-4 rounded-lg border border-primary/20 hover:border-primary hover:shadow-lg transition-all duration-300 group">
+                <TrendingUp className="text-secondary h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
+                <span className="font-medium text-foreground/90 group-hover:text-foreground transition-colors duration-300">{t('hero.features.increase')}</span>
               </div>
             </div>
 
             {/* CTA Principal */}
-            <div className="mt-8">
+            <div className={`mt-8 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
               <Button
                 size="lg"
                 onClick={handleGetStarted}
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8 py-4 text-lg font-bold shadow-xl hover:shadow-primary/20 transition-all duration-300 rounded-xl group"
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8 py-4 text-lg font-bold shadow-xl hover:shadow-primary/20 transition-all duration-300 rounded-xl group hover:scale-105"
               >
                 {t('hero.cta.button')}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -146,8 +175,8 @@ export default function Home() {
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="flex gap-4 items-start">
-              <div className="bg-card p-3 rounded-lg border border-primary/20">
+            <div className="flex gap-4 items-start hover:scale-105 transition-transform duration-300">
+              <div className="bg-card p-3 rounded-lg border border-primary/20 hover:shadow-lg transition-all duration-300">
                 <HelpCircle className="text-secondary h-6 w-6" />
               </div>
               <div>
@@ -155,8 +184,8 @@ export default function Home() {
                 <p className="text-foreground/70">{t('problems.issues.conversion.description')}</p>
               </div>
             </div>
-            <div className="flex gap-4 items-start">
-              <div className="bg-card p-3 rounded-lg border border-primary/20">
+            <div className="flex gap-4 items-start hover:scale-105 transition-transform duration-300">
+              <div className="bg-card p-3 rounded-lg border border-primary/20 hover:shadow-lg transition-all duration-300">
                 <BarChart3 className="text-secondary h-6 w-6" />
               </div>
               <div>
@@ -164,8 +193,8 @@ export default function Home() {
                 <p className="text-foreground/70">{t('problems.issues.visibility.description')}</p>
               </div>
             </div>
-            <div className="flex gap-4 items-start">
-              <div className="bg-card p-3 rounded-lg border border-primary/20">
+            <div className="flex gap-4 items-start hover:scale-105 transition-transform duration-300">
+              <div className="bg-card p-3 rounded-lg border border-primary/20 hover:shadow-lg transition-all duration-300">
                 <Users2 className="text-secondary h-6 w-6" />
               </div>
               <div>
@@ -173,8 +202,8 @@ export default function Home() {
                 <p className="text-foreground/70">{t('problems.issues.retention.description')}</p>
               </div>
             </div>
-            <div className="flex gap-4 items-start">
-              <div className="bg-card p-3 rounded-lg border border-primary/20">
+            <div className="flex gap-4 items-start hover:scale-105 transition-transform duration-300">
+              <div className="bg-card p-3 rounded-lg border border-primary/20 hover:shadow-lg transition-all duration-300">
                 <TrendingUp className="text-secondary h-6 w-6" />
               </div>
               <div>
@@ -198,9 +227,7 @@ export default function Home() {
           </div>
 
           <div className="max-w-5xl mx-auto space-y-8">
-            {/* Browser-like container */}
-            <div className="rounded-xl overflow-hidden border border-primary/20 shadow-2xl bg-card/40 backdrop-blur-sm dark:bg-black/40">
-              {/* Browser header */}
+            <div className="rounded-xl overflow-hidden border border-primary/20 shadow-2xl bg-card/40 backdrop-blur-sm dark:bg-black/40 hover:shadow-3xl transition-all duration-500">
               <div className="bg-background border-b border-primary/10 flex items-center gap-2 px-4 py-3">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500/80 backdrop-blur-sm"></div>
@@ -209,15 +236,13 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Dashboard content */}
               <div className="p-4 md:p-8 space-y-8 bg-gradient-to-b from-background/50 to-background dark:from-gray-900/50 dark:to-gray-900/80">
-                {/* Tunnel d'achat Demo */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="group p-4 md:p-6 bg-white dark:bg-gray-800/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+                  <div className="group p-4 md:p-6 bg-white dark:bg-gray-800/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm hover:scale-105">
                     <div className="flex flex-col sm:flex-row items-start justify-between mb-4 gap-3">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <Target className="h-5 w-5 text-secondary" />
+                          <Target className="h-5 w-5 text-secondary group-hover:scale-110 transition-transform duration-300" />
                           <h3 className="text-lg font-semibold text-foreground">{t('solution.funnel.title')}</h3>
                         </div>
                         <p className="text-sm text-foreground/60">
@@ -240,7 +265,7 @@ export default function Home() {
                         t('solution.funnel.steps.3'),
                         t('solution.funnel.steps.4')
                       ].map((step, i) => (
-                        <div key={i} className="flex-shrink-0 flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full">
+                        <div key={i} className="flex-shrink-0 flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full hover:bg-muted/70 transition-colors duration-300">
                           <Activity className="h-4 w-4 text-secondary" />
                           <span className="text-xs text-foreground/80 whitespace-nowrap">{step}</span>
                         </div>
@@ -248,17 +273,17 @@ export default function Home() {
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 md:gap-4">
-                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg hover:bg-muted/70 transition-colors duration-300">
                         <Users2 className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">1,250</span>
                         <span className="text-xs text-foreground/60">{t('solution.funnel.stats.visitors')}</span>
                       </div>
-                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg hover:bg-muted/70 transition-colors duration-300">
                         <Activity className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">50%</span>
                         <span className="text-xs text-foreground/60">{t('solution.funnel.stats.conversion')}</span>
                       </div>
-                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg hover:bg-muted/70 transition-colors duration-300">
                         <Trophy className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">625</span>
                         <span className="text-xs text-foreground/60">{t('solution.funnel.stats.orders')}</span>
@@ -266,12 +291,11 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Second card with same responsive adjustments */}
-                  <div className="group p-4 md:p-6 bg-white dark:bg-gray-800/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+                  <div className="group p-4 md:p-6 bg-white dark:bg-gray-800/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm hover:scale-105">
                     <div className="flex flex-col sm:flex-row items-start justify-between mb-4 gap-3">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <Star className="h-5 w-5 text-secondary" />
+                          <Star className="h-5 w-5 text-secondary group-hover:scale-110 transition-transform duration-300" />
                           <h3 className="text-lg font-semibold text-foreground">{t('solution.onboarding.title')}</h3>
                         </div>
                         <p className="text-sm text-foreground/60">
@@ -290,7 +314,7 @@ export default function Home() {
                         t('solution.onboarding.steps.3'),
                         t('solution.onboarding.steps.4')
                       ].map((step, i) => (
-                        <div key={i} className="flex-shrink-0 flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full">
+                        <div key={i} className="flex-shrink-0 flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full hover:bg-muted/70 transition-colors duration-300">
                           <Activity className="h-4 w-4 text-secondary" />
                           <span className="text-xs text-foreground/80 whitespace-nowrap">{step}</span>
                         </div>
@@ -298,17 +322,17 @@ export default function Home() {
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 md:gap-4">
-                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg hover:bg-muted/70 transition-colors duration-300">
                         <Users2 className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">890</span>
                         <span className="text-xs text-foreground/60">{t('solution.onboarding.stats.registered')}</span>
                       </div>
-                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg hover:bg-muted/70 transition-colors duration-300">
                         <Activity className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">45%</span>
                         <span className="text-xs text-foreground/60">{t('solution.onboarding.stats.completion')}</span>
                       </div>
-                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg">
+                      <div className="flex flex-col items-center p-2 md:p-3 bg-muted/50 rounded-lg hover:bg-muted/70 transition-colors duration-300">
                         <Trophy className="h-5 w-5 text-secondary mb-2" />
                         <span className="text-sm font-semibold text-foreground">8</span>
                         <span className="text-xs text-foreground/60">{t('solution.onboarding.stats.steps')}</span>
@@ -404,14 +428,14 @@ export default function Home() {
                     {t('solution.advice.title')}
                   </span>
                   <div className="w-full grid md:grid-cols-2 gap-4">
-                    <div className="bg-white/90 dark:bg-black/60 rounded-xl shadow-lg border border-primary/10 p-6 flex flex-col items-center text-center">
+                    <div className="bg-white/90 dark:bg-black/60 rounded-xl shadow-lg border border-primary/10 p-6 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300 hover:scale-105">
                       <span className="text-2xl mb-2">❌</span>
                       <span className="text-secondary font-semibold mb-2">{t('solution.advice.without.title')}</span>
                       <p className="text-foreground/80 text-sm">
                         {t('solution.advice.without.description')}
                       </p>
                     </div>
-                    <div className="bg-secondary/10 rounded-xl shadow-lg border border-secondary/30 p-6 flex flex-col items-center text-center">
+                    <div className="bg-secondary/10 rounded-xl shadow-lg border border-secondary/30 p-6 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300 hover:scale-105">
                       <span className="text-2xl mb-2">✅</span>
                       <span className="text-secondary font-semibold mb-2">{t('solution.advice.with.title')}</span>
                       <p className="text-foreground/90 text-sm">
@@ -426,7 +450,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section Valeur Ajoutée */}
+      <GamificationSection />
+
+      <SimpleEstimator />
+
       <div className="py-16 bg-gradient-to-b from-background to-secondary/10">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -439,9 +466,9 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300">
+            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 hover:shadow-lg hover:scale-105 group">
               <div className="flex items-center gap-3 mb-4">
-                <Users2 className="text-secondary h-7 w-7" />
+                <Users2 className="text-secondary h-7 w-7 group-hover:scale-110 transition-transform duration-300" />
                 <h3 className="text-xl font-bold text-foreground">{t('features.gamification.title')}</h3>
               </div>
               <ul className="space-y-2 text-foreground/70">
@@ -458,9 +485,9 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300">
+            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 hover:shadow-lg hover:scale-105 group">
               <div className="flex items-center gap-3 mb-4">
-                <BarChart3 className="text-secondary h-7 w-7" />
+                <BarChart3 className="text-secondary h-7 w-7 group-hover:scale-110 transition-transform duration-300" />
                 <h3 className="text-xl font-bold text-foreground">{t('features.export.title')}</h3>
               </div>
               <ul className="space-y-2 text-foreground/70">
@@ -477,9 +504,9 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300">
+            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 hover:shadow-lg hover:scale-105 group">
               <div className="flex items-center gap-3 mb-4">
-                <Activity className="text-secondary h-7 w-7" />
+                <Activity className="text-secondary h-7 w-7 group-hover:scale-110 transition-transform duration-300" />
                 <h3 className="text-xl font-bold text-foreground">{t('features.segmentation.title')}</h3>
               </div>
               <ul className="space-y-2 text-foreground/70">
@@ -496,9 +523,9 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300">
+            <div className="bg-card p-6 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 hover:shadow-lg hover:scale-105 group">
               <div className="flex items-center gap-3 mb-4">
-                <TrendingUp className="text-secondary h-7 w-7" />
+                <TrendingUp className="text-secondary h-7 w-7 group-hover:scale-110 transition-transform duration-300" />
                 <h3 className="text-xl font-bold text-foreground">{t('features.analytics.title')}</h3>
               </div>
               <ul className="space-y-2 text-foreground/70">
@@ -520,7 +547,7 @@ export default function Home() {
 
       <div className="py-16 bg-gradient-to-b from-secondary/10 to-background">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto text-center p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-primary/20 shadow-lg">
+          <div className="max-w-2xl mx-auto text-center p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-primary/20 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 flex items-center justify-center gap-2">
               <span role="img" aria-label="cadeau">🎁</span> {t('bonus.title')}
             </h2>
@@ -530,7 +557,7 @@ export default function Home() {
             <Button
               size="lg"
               onClick={() => setIsModalOpen(true)}
-              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground cursor-pointer w-full md:w-auto"
+              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground cursor-pointer w-full md:w-auto hover:scale-105 transition-all duration-300"
             >
               {t('bonus.button')}
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -545,9 +572,9 @@ export default function Home() {
       {/* CTA Section */}
       <div className="relative landing-footer py-16 before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent px-4">
         <div className="container mx-auto text-center relative z-10">
-          <div className="max-w-3xl mx-auto p-8 rounded-2xl bg-gradient-to-br from-secondary/20 to-primary/10 backdrop-blur-sm border border-secondary/30 shadow-2xl flex flex-col items-center">
+          <div className="max-w-3xl mx-auto p-8 rounded-2xl bg-gradient-to-br from-secondary/20 to-primary/10 backdrop-blur-sm border border-secondary/30 shadow-2xl flex flex-col items-center hover:shadow-3xl transition-all duration-500 hover:scale-105">
             <div className="mb-6">
-              <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/20 shadow-lg mb-4">
+              <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/20 shadow-lg mb-4 hover:scale-110 transition-transform duration-300">
                 <Trophy className="text-secondary w-8 h-8" />
               </span>
               <h2 className="text-3xl md:text-4xl font-black text-foreground mb-4">
@@ -561,7 +588,7 @@ export default function Home() {
               <Button 
                 onClick={handleGetStarted}
                 size="lg"
-                className="flex-1 bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8 py-4 text-lg font-bold shadow-xl hover:shadow-primary/20 transition-all duration-300 rounded-xl group"
+                className="flex-1 bg-secondary hover:bg-secondary/90 text-secondary-foreground px-8 py-4 text-lg font-bold shadow-xl hover:shadow-primary/20 transition-all duration-300 rounded-xl group hover:scale-105"
               >
                 {t('cta.button')}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />

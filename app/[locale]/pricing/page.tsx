@@ -116,13 +116,7 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center pt-8 border-t border-gray-200">
-          <p className="text-gray-600 mb-4">{t('footer.text')}</p>
-          <div className="text-sm text-gray-500">
-            {t('footer.guarantee')}
-          </div>
-        </div>
+
       </div>
     </div>
   );

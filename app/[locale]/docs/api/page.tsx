@@ -41,7 +41,10 @@ export default function APIDocumentationPage() {
     "timestamp": "2024-01-15T10:30:00Z"
   }'`;
 
-  const jsExample = `// Création d'un utilisateur
+  const getProfileCode = `curl -X GET https://api.ludiks.io/api/end-user/user-123 \\
+  -H "Authorization: Bearer YOUR_API_KEY"`;
+
+  const jsExample = `// Create a user
 const createUser = async (userData) => {
   const response = await fetch('https://api.ludiks.io/api/end-user', {
     method: 'POST',
@@ -54,7 +57,7 @@ const createUser = async (userData) => {
   return response.json();
 };
 
-// Tracking d'un événement
+// Track an event
 const trackEvent = async (eventData) => {
   const response = await fetch('https://api.ludiks.io/api/tracking', {
     method: 'POST',
@@ -63,6 +66,17 @@ const trackEvent = async (eventData) => {
       'Authorization': \`Bearer \${API_KEY}\`
     },
     body: JSON.stringify(eventData)
+  });
+  return response.json();
+};
+
+// Get user profile
+const getProfile = async (userId) => {
+  const response = await fetch(\`https://api.ludiks.io/api/end-user/\${userId}\`, {
+    method: 'GET',
+    headers: {
+      'Authorization': \`Bearer \${API_KEY}\`
+    }
   });
   return response.json();
 };`;
@@ -80,7 +94,7 @@ const trackEvent = async (eventData) => {
               className="inline-flex items-center text-foreground/70 hover:text-foreground mb-4"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Retour à la documentation
+              {t('back')}
             </Link>
             <h1 className="text-4xl font-bold text-foreground mb-4">
               {t('title')}
@@ -107,6 +121,22 @@ const trackEvent = async (eventData) => {
                 </button>
               </div>
               <code>Authorization: Bearer YOUR_API_KEY</code>
+            </div>
+          </Card>
+
+          {/* Important : Identifiant utilisateur */}
+          <Card className="p-6 mb-8 border-2 border-yellow-200 bg-yellow-50/50">
+            <h2 className="text-2xl font-bold text-foreground mb-4">{t('important.title')}</h2>
+            <p className="text-foreground/70 mb-4">
+              {t('important.description')}
+            </p>
+            <div className="bg-muted/30 p-4 rounded-lg">
+              <p className="text-sm text-foreground/70 mb-2">
+                <strong>{t('important.examplesTitle')} :</strong>
+              </p>
+              <p className="text-sm text-foreground/60">
+                {t('important.examples')}
+              </p>
             </div>
           </Card>
 
@@ -194,6 +224,48 @@ const trackEvent = async (eventData) => {
                 <ul className="text-sm text-foreground/70 space-y-1">
                   <li><code>value</code> - {t('endpoints.trackEvent.optional.value')}</li>
                   <li><code>timestamp</code> - {t('endpoints.trackEvent.optional.timestamp')}</li>
+                </ul>
+              </div>
+            </div>
+          </Card>
+
+          {/* Endpoint 3: Récupérer le profil utilisateur */}
+          <Card className="p-6 mb-8">
+            <h2 className="text-2xl font-bold text-foreground mb-4">{t('endpoints.getProfile.title')}</h2>
+            <p className="text-foreground/70 mb-4">
+              {t('endpoints.getProfile.description')}
+            </p>
+            
+            <div className="mb-4">
+              <span className="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm font-medium mb-2">
+                GET /end-user/:userId
+              </span>
+            </div>
+
+            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-gray-400">{t('endpoints.getProfile.curl')}</span>
+                <button
+                  onClick={() => copyToClipboard(getProfileCode, 'profile')}
+                  className="text-gray-400 hover:text-white"
+                >
+                  {copied === 'profile' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                </button>
+              </div>
+              <pre className="text-sm overflow-x-auto">{getProfileCode}</pre>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 className="font-semibold text-foreground mb-2">{t('endpoints.getProfile.required.title')}</h4>
+                <ul className="text-sm text-foreground/70 space-y-1">
+                  <li><code>userId</code> - {t('endpoints.getProfile.required.userId')}</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-foreground mb-2">{t('endpoints.getProfile.optional.title')}</h4>
+                <ul className="text-sm text-foreground/70 space-y-1">
+                  <li>{t('endpoints.getProfile.optional.none')}</li>
                 </ul>
               </div>
             </div>

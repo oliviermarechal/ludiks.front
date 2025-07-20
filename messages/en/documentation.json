@@ -6,11 +6,6 @@
     "description": "Set up Ludiks in less than 5 minutes",
     "button": "Get Started"
   },
-  "api": {
-    "title": "API Reference",
-    "description": "Complete API documentation with examples and SDKs",
-    "button": "View API docs"
-  },
   "guides": {
     "title": "Guides & Tutorials",
     "description": "Step-by-step guides for common use cases and integrations",
@@ -96,13 +91,21 @@
     }
   },
   "api": {
-    "title": "REST API",
+    "title": "API Reference",
+    "description": "Complete API documentation with examples and SDKs",
+    "button": "View API docs",
     "subtitle": "Direct integration via our REST endpoints. Perfect for backend or mobile applications.",
-    "button": "View API",
+    "back": "Back to documentation",
     "auth": {
       "title": "Authentication",
       "description": "All requests require your API key in the Authorization header.",
       "header": "Header"
+    },
+    "important": {
+      "title": "⚠️ Important: User Identifier",
+      "description": "Ludiks ALWAYS uses the identifier you provide, never an internal identifier. This ensures you maintain total control over your user data.",
+      "examples": "Examples: user-123, john.doe@email.com, 12345, etc.",
+      "examplesTitle": "Valid identifier examples"
     },
     "endpoints": {
       "createUser": {
@@ -112,14 +115,14 @@
         "curl": "cURL",
         "required": {
           "title": "Required parameters",
-          "id": "id - Unique user identifier",
-          "name": "full_name - User's full name"
+          "id": "Unique user identifier",
+          "name": "User's full name"
         },
         "optional": {
           "title": "Optional parameters",
-          "email": "email - Email address",
-          "picture": "picture - Avatar URL",
-          "metadata": "metadata - Custom data"
+          "email": "Email address",
+          "picture": "Avatar URL",
+          "metadata": "Custom data"
         }
       },
       "trackEvent": {
@@ -129,13 +132,26 @@
         "curl": "cURL",
         "required": {
           "title": "Required parameters",
-          "userId": "userId - User ID",
-          "eventName": "eventName - Event name"
+          "userId": "User ID",
+          "eventName": "Event name"
         },
         "optional": {
           "title": "Optional parameters",
-          "value": "value - Numeric value (for points/actions)",
-          "timestamp": "timestamp - ISO 8601 timestamp"
+          "value": "Numeric value (for points/actions)",
+          "timestamp": "ISO 8601 timestamp"
+        }
+      },
+      "getProfile": {
+        "title": "3. Get user profile",
+        "description": "Retrieve complete user information, including progress and rewards.",
+        "curl": "cURL",
+        "required": {
+          "title": "Required parameters",
+          "userId": "User ID in URL"
+        },
+        "optional": {
+          "title": "Optional parameters",
+          "none": "No optional parameters"
         }
       }
     },

@@ -6,11 +6,6 @@
     "description": "Mettez en place Ludiks en moins de 5 minutes",
     "button": "Commencer"
   },
-  "api": {
-    "title": "Référence API",
-    "description": "Documentation API complète avec exemples et SDKs",
-    "button": "Voir la doc API"
-  },
   "guides": {
     "title": "Guides & Tutoriels",
     "description": "Guides étape par étape pour les cas d'usage courants et intégrations",
@@ -96,13 +91,21 @@
     }
   },
   "api": {
-    "title": "API REST",
+    "title": "Référence API",
+    "description": "Documentation API complète avec exemples et SDKs",
+    "button": "Voir la doc API",
     "subtitle": "Intégration directe via nos endpoints REST. Parfait pour les applications backend ou mobiles.",
-    "button": "Voir l'API",
+    "back": "Retour à la documentation",
     "auth": {
       "title": "Authentification",
       "description": "Toutes les requêtes nécessitent votre clé API dans l'en-tête Authorization.",
       "header": "Header"
+    },
+    "important": {
+      "title": "⚠️ Important : Identifiant utilisateur",
+      "description": "Ludiks utilise TOUJOURS l'identifiant que vous fournissez, jamais un identifiant interne. Cela garantit que vous gardez le contrôle total de vos données utilisateur.",
+      "examples": "Exemples : user-123, john.doe@email.com, 12345, etc.",
+      "examplesTitle": "Exemples d'identifiants valides"
     },
     "endpoints": {
       "createUser": {
@@ -112,14 +115,14 @@
         "curl": "cURL",
         "required": {
           "title": "Paramètres requis",
-          "id": "id - Identifiant unique de l'utilisateur",
-          "name": "full_name - Nom complet de l'utilisateur"
+          "id": "Identifiant unique de l'utilisateur",
+          "name": "Nom complet de l'utilisateur"
         },
         "optional": {
           "title": "Paramètres optionnels",
-          "email": "email - Adresse email",
-          "picture": "picture - URL de l'avatar",
-          "metadata": "metadata - Données personnalisées"
+          "email": "Adresse email",
+          "picture": "URL de l'avatar",
+          "metadata": "Données personnalisées"
         }
       },
       "trackEvent": {
@@ -129,13 +132,26 @@
         "curl": "cURL",
         "required": {
           "title": "Paramètres requis",
-          "userId": "userId - ID de l'utilisateur",
-          "eventName": "eventName - Nom de l'événement"
+          "userId": "ID de l'utilisateur",
+          "eventName": "Nom de l'événement"
         },
         "optional": {
           "title": "Paramètres optionnels",
-          "value": "value - Valeur numérique (pour points/actions)",
-          "timestamp": "timestamp - Horodatage ISO 8601"
+          "value": "Valeur numérique (pour points/actions)",
+          "timestamp": "Horodatage ISO 8601"
+        }
+      },
+      "getProfile": {
+        "title": "3. Récupérer le profil utilisateur",
+        "description": "Récupérez les informations complètes d'un utilisateur, incluant sa progression et ses récompenses.",
+        "curl": "cURL",
+        "required": {
+          "title": "Paramètres requis",
+          "userId": "ID de l'utilisateur dans l'URL"
+        },
+        "optional": {
+          "title": "Paramètres optionnels",
+          "none": "Aucun paramètre optionnel"
         }
       }
     },

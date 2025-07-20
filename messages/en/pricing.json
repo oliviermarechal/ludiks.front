@@ -44,6 +44,69 @@
     "button": "Start free",
     "secondary": "View documentation"
   },
+  "advancedEstimator": {
+    "title": "Advanced estimator",
+    "subtitle": "Simulate your costs with multiple journeys and use cases",
+    "circuitTypes": {
+      "title": "Journey types",
+      "subtitle": "Choose the journey type that matches your use case",
+      "explanation": {
+        "title": "How do Ludiks journeys work?",
+        "action": {
+          "title": "Action journey",
+          "description": "Encourage your users to repeat an action to earn rewards",
+          "example": "Journey \"Like gamification\" : 10 likes → Badge → 50 likes → Badge → 100 likes → Badge"
+        },
+        "objective": {
+          "title": "Objective journey",
+          "description": "Track your users' progression towards a final goal",
+          "example": "Journey \"Onboarding\" : Registration → Profile → First action → Activated"
+        }
+      },
+              "action": {
+          "label": "Action journey",
+          "description": "Encourage users to repeat an action to earn rewards",
+          "examples": {
+            "title": "Examples of repetitive actions",
+            "likeContent": "Like content (10, 50, 100 likes)",
+            "dailyStreak": "Daily streak (7, 30, 100 days)",
+            "shareStory": "Share story (5, 25, 100 stories)",
+            "comment": "Comment (3, 15, 50 comments)",
+            "inviteFriends": "Invite friends (1, 5, 10 invitations)"
+          }
+        },
+      "objective": {
+        "label": "Objective journey",
+        "description": "Track user progression towards a final goal",
+        "examples": {
+          "title": "Examples of objectives",
+          "onboarding": "User onboarding (Registration → Profile → First action)",
+          "subscription": "Subscription funnel (Discovery → Trial → Payment)",
+          "purchase": "Purchase funnel (Product → Cart → Payment)",
+          "activation": "Product activation (Login → Discovery → Habit)",
+          "community": "Community actions (Upvote → Comments → Shares)"
+        }
+      }
+    },
+    "journeys": {
+      "title": "Your journeys",
+      "addJourney": "Add journey",
+      "journey": {
+        "name": "Journey name",
+        "users": "Monthly users",
+        "steps": "Number of steps",
+        "frequency": "Frequency per user",
+        "remove": "Remove"
+      }
+    },
+    "result": {
+      "totalEvents": "Total events/month",
+      "totalCost": "Total monthly cost",
+      "free": "FREE",
+      "paid": "$/month",
+      "breakdown": "Breakdown by journey"
+    }
+  },
   "footer": {
     "text": "Need a custom plan? Contact us for enterprise pricing.",
     "guarantee": "30-day money-back guarantee"

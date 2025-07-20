@@ -104,6 +104,152 @@
             }
         }
     },
+    "gamification": {
+        "title": "La seule plateforme qui combine analytics ET gamification",
+        "subtitle": "Transformez vos parcours utilisateurs en expériences engageantes avec des récompenses, badges et points",
+        "unique": {
+            "title": "Unique sur le marché",
+            "description": "Aucune autre solution ne combine le tracking analytique avec la gamification prête à l'emploi"
+        },
+        "features": {
+            "rewards": {
+                "title": "Système de récompenses",
+                "description": "Badges, points et récompenses automatiques pour motiver vos utilisateurs",
+                "icon": "🏆"
+            },
+            "engagement": {
+                "title": "Engagement boosté",
+                "description": "Augmentez la rétention de 40% en moyenne grâce à la gamification",
+                "icon": "📈"
+            },
+            "analytics": {
+                "title": "Analytics intégrés",
+                "description": "Mesurez l'impact de vos récompenses sur l'engagement en temps réel",
+                "icon": "📊"
+            },
+            "simple": {
+                "title": "Intégration ultra simple",
+                "description": "Intégration en quelques minutes, sans développement complexe",
+                "icon": "⚡"
+            }
+        },
+        "comparison": {
+            "title": "Pourquoi Ludiks est différent",
+            "competitors": {
+                "title": "Les autres solutions",
+                "analytics": "Analytics seuls",
+                "gamification": "Gamification seule",
+                "complex": "Intégration complexe"
+            },
+            "ludiks": {
+                "title": "Ludiks",
+                "analytics": "Analytics + Gamification",
+                "gamification": "Prêt à l'emploi",
+                "simple": "Intégration rapide"
+            }
+        },
+        "cta": {
+            "title": "Prêt à gamifier vos parcours ?",
+            "description": "Commencez gratuitement et découvrez l'impact de la gamification sur votre engagement",
+            "button": "Essayer la gamification"
+        }
+    },
+    "pricing": {
+        "title": "Tarification simple et transparente",
+        "subtitle": "Toutes les fonctionnalités de Ludiks sont gratuites. Vous payez uniquement selon votre volume d'événements",
+        "grid": {
+            "title": "Grille tarifaire par événements",
+            "free": {
+                "title": "Gratuit",
+                "events": "0 - 5 000 événements/mois",
+                "features": "Toutes les fonctionnalités incluses"
+            },
+            "paid": {
+                "title": "Payant",
+                "events": "5 000+ événements/mois",
+                "price": "À partir de 0,001$ par événement",
+                "minimum": "Minimum 5$/mois",
+                "discount": "Grille dégressive : 0,0008$ (100K) → 0,0006$ (500K+)"
+            }
+        }
+    },
+    "example": {
+        "title": "Estimez votre coût",
+        "subtitle": "Ajustez le curseur pour voir combien d'utilisateurs vous pouvez avoir gratuitement",
+        "events": {
+            "label": "Événements par mois"
+        },
+        "example": {
+            "title": "Exemple : Onboarding de 3 étapes",
+            "description": "Il faudrait {users} utilisateurs qui complètent l'onboarding chaque mois pour atteindre le plan Pro"
+        },
+        "result": {
+            "events": "événements/mois",
+            "cost": "Coût mensuel",
+            "free": "GRATUIT",
+            "paid": "$/mois"
+        },
+        "cta": {
+            "button": "Voir la page tarifs"
+        }
+    },
+    "estimator": {
+        "title": "Estimez votre coût en quelques clics",
+        "subtitle": "Découvrez combien coûterait Ludiks pour votre cas d'usage",
+        "useCases": {
+            "title": "Cas d'utilisation courants",
+            "onboarding": {
+                "title": "Onboarding utilisateur",
+                "description": "Suivi de la progression des nouveaux utilisateurs",
+                "steps": "5 étapes typiques",
+                "frequency": "1x par utilisateur"
+            },
+            "subscription": {
+                "title": "Tunnel d'abonnement",
+                "description": "Conversion vers un abonnement payant",
+                "steps": "4 étapes typiques",
+                "frequency": "1x par utilisateur"
+            }
+        },
+        "calculator": {
+            "title": "Calculateur de coût",
+            "users": {
+                "label": "Utilisateurs mensuels",
+                "placeholder": "Ex: 1000"
+            },
+            "steps": {
+                "label": "Étapes à tracker",
+                "placeholder": "Ex: 5"
+            },
+            "result": {
+                "events": "événements/mois",
+                "cost": "Coût mensuel",
+                "free": "GRATUIT",
+                "paid": "$/mois"
+            }
+        },
+        "examples": {
+            "title": "Exemples concrets",
+            "startup": {
+                "title": "Startup SaaS",
+                "description": "1000 utilisateurs, onboarding 5 étapes",
+                "result": "5000 events = GRATUIT"
+            },
+            "scaleup": {
+                "title": "Scale-up",
+                "description": "5000 utilisateurs, tunnel abonnement 4 étapes",
+                "result": "20000 events = 15$/mois"
+            },
+            "medium": {
+                "title": "PME",
+                "description": "2000 utilisateurs, onboarding 5 étapes",
+                "result": "10000 events = 5$/mois"
+            }
+        },
+        "billing": {
+            "minimum": "Facturation minimale de 5$/mois dès que vous dépassez 5000 events"
+        }
+    },
     "features": {
         "title": "Des leviers d'engagement prêts à l'emploi",
         "subtitle": "Augmentez l'engagement de vos utilisateurs sans développement complexe",

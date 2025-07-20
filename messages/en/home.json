@@ -93,20 +93,166 @@
             "conversion_rate": "Conversion rate"
         },
         "advice": {
-            "title": "Ludiks advice",
+            "title": "Ludiks Advice",
             "without": {
                 "title": "Without Ludiks",
-                "description": "Facing a sales drop, you might be tempted to lower prices or launch a promotion."
+                "description": "Facing declining sales, you might be tempted to lower prices or launch a promotion."
             },
             "with": {
                 "title": "With Ludiks",
-                "description": "Data reveals that the issue isn't price, but delivery options. You can now make informed decisions and act on the real problem."
+                "description": "Data reveals the problem isn't price, but delivery options. You can now make informed decisions and act on the real issue."
             }
+        }
+    },
+    "gamification": {
+        "title": "The only platform that combines analytics AND gamification",
+        "subtitle": "Transform your user journeys into engaging experiences with rewards, badges, and points",
+        "unique": {
+            "title": "Unique in the market",
+            "description": "No other solution combines analytical tracking with ready-to-use gamification"
+        },
+        "features": {
+            "rewards": {
+                "title": "Reward system",
+                "description": "Badges, points, and automatic rewards to motivate your users",
+                "icon": "🏆"
+            },
+            "engagement": {
+                "title": "Boosted engagement",
+                "description": "Increase retention by 40% on average thanks to gamification",
+                "icon": "📈"
+            },
+            "analytics": {
+                "title": "Integrated analytics",
+                "description": "Measure the impact of your rewards on engagement in real-time",
+                "icon": "📊"
+            },
+            "simple": {
+                "title": "Ultra simple integration",
+                "description": "Integration in minutes, no complex development",
+                "icon": "⚡"
+            }
+        },
+        "comparison": {
+            "title": "Why Ludiks is different",
+            "competitors": {
+                "title": "Other solutions",
+                "analytics": "Analytics only",
+                "gamification": "Gamification only",
+                "complex": "Complex integration"
+            },
+            "ludiks": {
+                "title": "Ludiks",
+                "analytics": "Analytics + Gamification",
+                "gamification": "Ready to use",
+                "simple": "Quick integration"
+            }
+        },
+        "cta": {
+            "title": "Ready to gamify your journeys?",
+            "description": "Start free and discover the impact of gamification on your engagement",
+            "button": "Try gamification"
+        }
+    },
+    "pricing": {
+        "title": "Simple and transparent pricing",
+        "subtitle": "All Ludiks features are free. You only pay based on your event volume",
+        "grid": {
+            "title": "Pricing grid by events",
+            "free": {
+                "title": "Free",
+                "events": "0 - 5,000 events/month",
+                "features": "All features included"
+            },
+            "paid": {
+                "title": "Paid",
+                "events": "5,000+ events/month",
+                "price": "From $0.001 per event",
+                "minimum": "Minimum $5/month",
+                "discount": "Volume pricing: $0.0008 (100K) → $0.0006 (500K+)"
+            }
+        }
+    },
+    "example": {
+        "title": "Estimate your cost",
+        "subtitle": "Adjust the slider to see how many users you can have for free",
+        "events": {
+            "label": "Events per month"
+        },
+        "example": {
+            "title": "Example: 3-step onboarding",
+            "description": "It would take {users} users completing onboarding each month to reach the Pro plan"
+        },
+        "result": {
+            "events": "events/month",
+            "cost": "Monthly cost",
+            "free": "FREE",
+            "paid": "$/month"
+        },
+        "cta": {
+            "button": "View pricing page"
+        }
+    },
+    "estimator": {
+        "title": "Estimate your cost in a few clicks",
+        "subtitle": "Discover how much Ludiks would cost for your use case",
+        "useCases": {
+            "title": "Common use cases",
+            "onboarding": {
+                "title": "User onboarding",
+                "description": "Track new user progression",
+                "steps": "5 typical steps",
+                "frequency": "1x per user"
+            },
+            "subscription": {
+                "title": "Subscription funnel",
+                "description": "Conversion to paid subscription",
+                "steps": "4 typical steps",
+                "frequency": "1x per user"
+            }
+        },
+        "calculator": {
+            "title": "Cost calculator",
+            "users": {
+                "label": "Monthly users",
+                "placeholder": "Ex: 1000"
+            },
+            "steps": {
+                "label": "Steps to track",
+                "placeholder": "Ex: 5"
+            },
+            "result": {
+                "events": "events/month",
+                "cost": "Monthly cost",
+                "free": "FREE",
+                "paid": "$/month"
+            }
+        },
+        "examples": {
+            "title": "Concrete examples",
+            "startup": {
+                "title": "SaaS Startup",
+                "description": "1000 users, 5-step onboarding",
+                "result": "5000 events = FREE"
+            },
+            "scaleup": {
+                "title": "Scale-up",
+                "description": "5000 users, 4-step subscription funnel",
+                "result": "20000 events = $15/month"
+            },
+            "medium": {
+                "title": "SMB",
+                "description": "2000 users, 5-step onboarding",
+                "result": "10000 events = $5/month"
+            }
+        },
+        "billing": {
+            "minimum": "Minimum billing of $5/month once you exceed 5000 events"
         }
     },
     "features": {
         "title": "Ready-to-use engagement levers",
-        "subtitle": "Increase user engagement without complex development",
+        "subtitle": "Increase your users' engagement without complex development",
         "gamification": {
             "title": "Ready-to-use gamification",
             "items": {

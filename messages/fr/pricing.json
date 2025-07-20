@@ -17,9 +17,9 @@
       "tier3": "100 001 - 500 000 événements",
       "tier4": "500 001+ événements",
       "price1": "Gratuit",
-      "price2": "0,001€ par événement",
-      "price3": "0,0008€ par événement",
-      "price4": "0,0006€ par événement",
+      "price2": "0,001$ par événement",
+      "price3": "0,0008$ par événement",
+      "price4": "0,0006$ par événement",
       "description": "Remises de volume appliquées automatiquement"
     }
   },
@@ -43,6 +43,69 @@
     "description": "Commencez gratuitement aujourd'hui. Aucune carte de crédit requise.",
     "button": "Commencer gratuitement",
     "secondary": "Voir la documentation"
+  },
+  "advancedEstimator": {
+    "title": "Estimateur avancé",
+    "subtitle": "Simulez vos coûts avec plusieurs parcours et cas d'usage",
+    "circuitTypes": {
+      "title": "Types de parcours",
+      "subtitle": "Choisissez le type de parcours qui correspond à votre cas d'usage",
+      "explanation": {
+        "title": "Comment fonctionnent les parcours Ludiks ?",
+        "action": {
+          "title": "Parcours d'action",
+          "description": "Encouragez vos utilisateurs à répéter une action pour obtenir des récompenses",
+          "example": "Parcours \"Gamification likes\" : 10 likes → Badge → 50 likes → Badge → 100 likes → Badge"
+        },
+        "objective": {
+          "title": "Parcours d'objectif", 
+          "description": "Suivez la progression de vos utilisateurs vers un objectif final",
+          "example": "Parcours \"Onboarding\" : Inscription → Profil → Première action → Activé"
+        }
+      },
+              "action": {
+          "label": "Parcours d'action",
+          "description": "Encourager les utilisateurs à répéter une action pour obtenir des récompenses",
+          "examples": {
+            "title": "Exemples d'actions répétitives",
+            "likeContent": "Liker du contenu (10, 50, 100 likes)",
+            "dailyStreak": "Streak quotidien (7, 30, 100 jours)",
+            "shareStory": "Partager une story (5, 25, 100 stories)",
+            "comment": "Commenter (3, 15, 50 commentaires)",
+            "inviteFriends": "Inviter des amis (1, 5, 10 invitations)"
+          }
+        },
+      "objective": {
+        "label": "Parcours d'objectif",
+        "description": "Suivre la progression des utilisateurs vers un objectif final",
+        "examples": {
+          "title": "Exemples d'objectifs",
+          "onboarding": "Onboarding utilisateur (Inscription → Profil → Première action)",
+          "subscription": "Tunnel d'abonnement (Découverte → Essai → Paiement)",
+          "purchase": "Tunnel d'achat (Produit → Panier → Paiement)",
+          "activation": "Activation produit (Connexion → Découverte → Habitude)",
+          "community": "Actions communautaires (Upvote → Commentaires → Partages)"
+        }
+      }
+    },
+    "journeys": {
+      "title": "Vos parcours",
+      "addJourney": "Ajouter un parcours",
+      "journey": {
+        "name": "Nom du parcours",
+        "users": "Utilisateurs mensuels",
+        "steps": "Nombre d'étapes",
+        "frequency": "Fréquence par utilisateur",
+        "remove": "Supprimer"
+      }
+    },
+    "result": {
+      "totalEvents": "Total événements/mois",
+      "totalCost": "Coût mensuel total",
+      "free": "GRATUIT",
+      "paid": "$/mois",
+      "breakdown": "Détail par parcours"
+    }
   },
   "footer": {
     "text": "Besoin d'un plan personnalisé ? Contactez-nous pour les tarifs entreprise.",
