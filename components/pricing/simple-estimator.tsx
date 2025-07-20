@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { Calculator, Users, Target, ArrowRight, Check, TrendingUp, Zap } from 'lucide-react';
+import { Calculator, Users, ArrowRight, Check, TrendingUp, Zap } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Link } from '@/lib/navigation';
 
