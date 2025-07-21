@@ -1,0 +1,14 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /auth/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+
+# Host
+Host: https://ludiks.io
+
+# Sitemaps
+Sitemap: https://ludiks.io/sitemap.xml
