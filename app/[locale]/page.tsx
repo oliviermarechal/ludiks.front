@@ -14,31 +14,105 @@ import {
   AlertTriangle,
   Activity,
 } from "lucide-react";
-import {
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  AreaChart,
-  Area
-} from 'recharts';
-import { useEffect, useState } from 'react';
-import { StrategyFormData, StrategyGenerator } from "@/components/strategy/generator";
-import { StrategySuggestions } from "@/components/strategy/suggestions";
-import { Modal } from "@/components/ui/modal";
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from "@/lib/navigation";
 import { Navigation } from "@/components/navigation";
-import { SimpleEstimator } from "@/components/pricing/simple-estimator";
-import { GamificationSection } from "@/components/gamification-section";
+import { PreloadManager, useResourceHints } from "@/components/preload-manager";
+import { StrategyFormData } from "@/components/strategy/generator";
 
+const SimpleEstimator = lazy(() => import("@/components/pricing/simple-estimator").then(mod => ({ default: mod.SimpleEstimator })));
+const GamificationSection = lazy(() => import("@/components/gamification-section").then(mod => ({ default: mod.GamificationSection })));
+
+const ChartComponents = lazy(() => import('recharts').then(mod => ({
+  default: ({ data, isMobile }: { data: Array<{ name: string; completion: number; users: number }>; isMobile: boolean }) => {
+    const { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } = mod;
+    return (
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+          <defs>
+            <linearGradient id="colorProgress" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="var(--secondary)" stopOpacity={0.3}/>
+              <stop offset="95%" stopColor="var(--secondary)" stopOpacity={0}/>
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--primary)" strokeOpacity={0.1} />
+          <XAxis 
+            dataKey="name" 
+            stroke="var(--primary)"
+            strokeOpacity={0.5}
+            tick={{ fill: 'var(--foreground)', opacity: 0.5, fontSize: isMobile ? 8 : 12 }}
+          />
+          <YAxis 
+            stroke="var(--primary)"
+            strokeOpacity={0.5}
+            tick={{ 
+              fill: 'var(--foreground)', 
+              opacity: 0.5, 
+              fontSize: isMobile ? 8 : 12 
+            }}
+            tickFormatter={(value) => `${value}%`}
+            width={isMobile ? 8 : 45}
+            tickMargin={isMobile ? 0 : 4}
+          />
+          <Tooltip 
+            content={({ active, payload, label }) => {
+              if (active && payload && payload.length) {
+                return (
+                  <div className="bg-popover border border-primary/20 p-3 rounded-lg shadow-xl">
+                    <p className="text-foreground font-medium mb-1">{label}</p>
+                    <div className="space-y-1 text-sm">
+                      <p className="text-foreground/70">
+                        <span className="text-secondary">{payload[0].payload.users}</span> users
+                      </p>
+                      <p className="text-foreground/70">
+                        Conversion rate: <span className="text-secondary">{payload[0].payload.completion}%</span>
+                      </p>
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            }}
+          />
+          <Area
+            type="monotone"
+            dataKey="completion"
+            stroke="var(--secondary)"
+            fill="url(#colorProgress)"
+            strokeWidth={2}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    );
+  }
+})));
+
+const StrategyComponents = lazy(() => import("@/components/strategy/generator").then(mod => ({
+  default: ({ onComplete, mode }: { onComplete: (data: StrategyFormData) => void; mode: "dashboard" | "landing" }) => {
+    const { StrategyGenerator } = mod;
+    return <StrategyGenerator mode={mode} onComplete={onComplete} />;
+  }
+})));
+
+const StrategySuggestions = lazy(() => import("@/components/strategy/suggestions").then(mod => ({
+  default: ({ formData, onGenerate, onClose, mode }: { formData: StrategyFormData; onGenerate: () => void; onClose: () => void; mode: "dashboard" | "landing" }) => {
+    const { StrategySuggestions } = mod;
+    return <StrategySuggestions formData={formData} onGenerate={onGenerate} onClose={onClose} mode={mode} />;
+  }
+})));
+
+const Modal = lazy(() => import("@/components/ui/modal").then(mod => ({ default: mod.Modal })));
+
+// Optimized window size hook
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
     width: typeof window !== 'undefined' ? window.innerWidth : 0,
   });
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     function handleResize() {
       setWindowSize({
         width: window.innerWidth,
@@ -54,6 +128,13 @@ function useWindowSize() {
   return windowSize;
 }
 
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center p-8">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-secondary"></div>
+  </div>
+);
+
 export default function Home() {
   const t = useTranslations('home');
   const { width } = useWindowSize();
@@ -62,7 +143,11 @@ export default function Home() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [strategyData, setStrategyData] = useState<StrategyFormData | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [showChart, setShowChart] = useState(false);
   const router = useRouter();
+  
+  // Initialize resource hints
+  useResourceHints();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -82,6 +167,7 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  // Lazy load chart data only when needed
   const completionData = [
     { name: t('solution.funnel.chart.steps.1'), completion: 100, users: 1250 },
     { name: t('solution.funnel.chart.steps.2'), completion: 60, users: 750 },
@@ -108,8 +194,17 @@ export default function Home() {
     router.push('/auth/registration');
   };
 
+  // Load chart when section is visible
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => setShowChart(true), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible]);
+
   return (
     <main className="min-h-screen">
+      <PreloadManager />
       <Navigation />
       <div id="hero-section" className="relative landing-hero min-h-screen flex items-center justify-center">
         {/* Background decoration */}
@@ -341,7 +436,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Friction Point Analysis with Recharts */}
+                {/* Friction Point Analysis with Recharts - Lazy loaded */}
                 <div className="p-4 md:p-8 bg-white dark:bg-gray-800/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
                   <div className="flex flex-col sm:flex-row items-start gap-4 mb-6">
                     <div className="p-3 rounded-lg bg-red-500/10">
@@ -360,65 +455,15 @@ export default function Home() {
                   </div>
 
                   <div className="h-64 w-full min-h-[250px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart
-                        data={completionData}
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                      >
-                        <defs>
-                          <linearGradient id="colorProgress" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="var(--secondary)" stopOpacity={0.3}/>
-                            <stop offset="95%" stopColor="var(--secondary)" stopOpacity={0}/>
-                          </linearGradient>
-                        </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="var(--primary)" strokeOpacity={0.1} />
-                        <XAxis 
-                          dataKey="name" 
-                          stroke="var(--primary)"
-                          strokeOpacity={0.5}
-                          tick={{ fill: 'var(--foreground)', opacity: 0.5, fontSize: isMobile ? 8 : 12 }}
-                        />
-                        <YAxis 
-                          stroke="var(--primary)"
-                          strokeOpacity={0.5}
-                          tick={{ 
-                            fill: 'var(--foreground)', 
-                            opacity: 0.5, 
-                            fontSize: isMobile ? 8 : 12 
-                          }}
-                          tickFormatter={(value) => `${value}%`}
-                          width={isMobile ? 8 : 45}
-                          tickMargin={isMobile ? 0 : 4}
-                        />
-                        <Tooltip 
-                          content={({ active, payload, label }) => {
-                            if (active && payload && payload.length) {
-                              return (
-                                <div className="bg-popover border border-primary/20 p-3 rounded-lg shadow-xl">
-                                  <p className="text-foreground font-medium mb-1">{label}</p>
-                                  <div className="space-y-1 text-sm">
-                                    <p className="text-foreground/70">
-                                      <span className="text-secondary">{payload[0].payload.users}</span> {t('solution.friction.users')}
-                                    </p>
-                                    <p className="text-foreground/70">
-                                      {t('solution.friction.conversion_rate')}: <span className="text-secondary">{payload[0].payload.completion}%</span>
-                                    </p>
-                                  </div>
-                                </div>
-                              );
-                            }
-                            return null;
-                          }}
-                        />
-                        <Area
-                          type="monotone"
-                          dataKey="completion"
-                          stroke="var(--secondary)"
-                          fill="url(#colorProgress)"
-                          strokeWidth={2}
-                        />
-                      </AreaChart>
-                    </ResponsiveContainer>
+                    {showChart ? (
+                      <Suspense fallback={<LoadingFallback />}>
+                        <ChartComponents data={completionData} isMobile={isMobile} />
+                      </Suspense>
+                    ) : (
+                      <div className="flex items-center justify-center h-full">
+                        <div className="animate-pulse bg-muted/50 rounded-lg w-full h-48"></div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -450,9 +495,13 @@ export default function Home() {
         </div>
       </div>
 
-      <GamificationSection />
+      <Suspense fallback={<LoadingFallback />}>
+        <GamificationSection />
+      </Suspense>
 
-      <SimpleEstimator />
+      <Suspense fallback={<LoadingFallback />}>
+        <SimpleEstimator />
+      </Suspense>
 
       <div className="py-16 bg-gradient-to-b from-background to-secondary/10">
         <div className="container mx-auto px-4">
@@ -608,23 +657,27 @@ export default function Home() {
         </div>
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={handleClose}
-        title={t('bonus.title')}
-        className="max-h-[90vh] overflow-y-auto"
-      >
-        {!showSuggestions ? (
-          <StrategyGenerator mode="landing" onComplete={handleComplete} />
-        ) : (
-          <StrategySuggestions
-            formData={strategyData as StrategyFormData}
-            onGenerate={handleGenerate}
+      {isModalOpen && (
+        <Suspense fallback={<LoadingFallback />}>
+          <Modal
+            isOpen={isModalOpen}
             onClose={handleClose}
-            mode="landing"
-          />
-        )}
-      </Modal>
+            title={t('bonus.title')}
+            className="max-h-[90vh] overflow-y-auto"
+          >
+            {!showSuggestions ? (
+              <StrategyComponents onComplete={handleComplete} mode="landing" />
+            ) : (
+              <StrategySuggestions
+                formData={strategyData as StrategyFormData}
+                onGenerate={handleGenerate}
+                onClose={handleClose}
+                mode="landing"
+              />
+            )}
+          </Modal>
+        </Suspense>
+      )}
     </main>
   );
 }
