@@ -8,71 +8,47 @@
         "getStarted": "Get started"
     },
     "hero": {
-        "title": "Turn your user journeys into engaging gamification experiences",
-        "subtitle": "Create ready-to-use gamification circuits that track user progress, identify drop-off points, and boost retention through rewards, badges, and points.",
+        "title": "Gamify your products in 5 minutes",
+        "subtitle": "Create engaging journeys that turn your users into loyal customers. Onboarding, activation, retention - all in one.",
         "features": {
-            "track": "Track every step with gamification",
-            "identify": "Identify drop-offs with retention analysis",
-            "increase": "Boost engagement with rewards"
+            "rewards": "Automatic rewards",
+            "flexible": "Custom journeys",
+            "free": "Free to start"
         },
         "cta": {
-            "button": "Start optimizing now",
-            "subtitle": "Free mode with monthly events • No credit card required"
+            "button": "Create my first journey",
+            "subtitle": "No credit card required • Setup in 5 minutes"
         }
     },
-    "problems": {
-        "title": "You're losing users without knowing it",
-        "subtitle": "Without visibility on your conversion rates, you can't optimize your user journeys",
-        "issues": {
-            "conversion": {
-                "title": "Unidentified conversion losses",
-                "description": "You don't know where users abandon your purchase or onboarding funnels"
+    "why": {
+        "title": "Why Ludiks is a game-changer?",
+        "subtitle": "Unlike other solutions, Ludiks gives you total control over your rewards and journeys",
+        "advantages": {
+            "rewards": {
+                "title": "Advanced reward management",
+                "description": "Automatically assign rewards on reached steps or journey completion. Simple API and webhooks coming soon."
             },
-            "visibility": {
-                "title": "No visibility on engagement",
-                "description": "Unable to measure the effectiveness of your user journeys"
+            "flexible": {
+                "title": "Ultra-flexible journeys",
+                "description": "Objective journeys, repeated actions (10 likes, 50 likes, 250 likes), cumulative points. Everything is configurable."
             },
-            "retention": {
-                "title": "Difficult to act on retention",
-                "description": "No simple levers to engage and retain your users"
+            "simple": {
+                "title": "Ultra-simple integration",
+                "description": "Lightweight SDK. Integration in 5 lines of code. No complex development."
             },
-            "cost": {
-                "title": "High development cost",
-                "description": "Developing engagement solutions takes time and resources"
+            "insights": {
+                "title": "Real-time insights",
+                "description": "Track journey completion. Export user lists for your re-engagement campaigns."
             }
         }
     },
-    "solution": {
-        "title": "Visualize and optimize your journeys",
-        "subtitle": "Track every step of your conversion funnels and identify friction points in real-time",
-        "funnel": {
-            "title": "Purchase funnel",
-            "description": "Conversion tracking and abandonment detection",
-            "type": "Conversion",
-            "stats": {
-                "visitors": "Visitors",
-                "conversion": "Conversion",
-                "orders": "Orders"
-            },
-            "steps": {
-                "1": "Cart",
-                "2": "Delivery",
-                "3": "Payment",
-                "4": "Confirmation"
-            },
-            "chart": {
-                "steps": {
-                    "1": "Cart",
-                    "2": "Delivery",
-                    "3": "Payment",
-                    "4": "Confirmation"
-                }
-            }
-        },
+    "showcase": {
+        "title": "See Ludiks in action",
+        "subtitle": "Discover the power of reward management and flexible journeys",
         "onboarding": {
-            "title": "Onboarding",
-            "description": "New user integration journey",
-            "type": "Engagement",
+            "title": "Objective journeys",
+            "description": "Create journeys with clear steps and rewards at each tier",
+            "type": "Objectives",
             "stats": {
                 "registered": "Registered",
                 "completion": "Completion",
@@ -81,84 +57,129 @@
             "steps": {
                 "1": "Registration",
                 "2": "Profile",
-                "3": "First purchase",
-                "4": "Loyalty"
+                "3": "Profile photo",
+                "4": "First purchase"
+            },
+            "chart": {
+                "steps": {
+                    "1": "Registration",
+                    "2": "Profile",
+                    "3": "Profile photo",
+                    "4": "First purchase"
+                }
             }
         },
-        "friction": {
-            "title": "Friction point detected",
-            "description": "Significant drop in conversion rate at the \"Delivery\" step",
-            "conversion": "conversion",
+        "activation": {
+            "title": "Repeated actions",
+            "description": "Journeys with progressive tiers (10 likes, 50 likes, 250 likes)",
+            "type": "Engagement",
+            "stats": {
+                "started": "Started",
+                "activated": "Activated",
+                "rewards": "Rewards"
+            },
+            "steps": {
+                "1": "First like",
+                "2": "10 likes",
+                "3": "50 likes",
+                "4": "250 likes"
+            }
+        },
+        "engagement": {
+            "title": "Problem detected on unexpected step",
+            "description": "Significant drop in completion rate at the \"Profile photo\" step - step that seemed insignificant",
+            "engagement": "completion",
             "users": "users",
-            "conversion_rate": "Conversion rate"
+            "engagement_rate": "Completion rate"
         },
         "advice": {
-            "title": "Ludiks Advice",
-            "without": {
+            "title": "Concrete example",
+            "before": {
                 "title": "Without Ludiks",
-                "description": "Facing declining sales, you might be tempted to lower prices or launch a promotion."
+                "description": "Facing declining conversion, you would be tempted to lower prices to increase sales, when price isn't the problem."
             },
-            "with": {
+            "after": {
                 "title": "With Ludiks",
-                "description": "Data reveals the problem isn't price, but delivery options. You can now make informed decisions and act on the real issue."
+                "description": "You identify that the problem comes from photo upload. Making this step optional could increase your conversion rate to your first purchase."
             }
         }
     },
-    "gamification": {
-        "title": "The only platform that combines analytics AND gamification",
-        "subtitle": "Transform your user journeys into engaging experiences with rewards, badges, and points",
-        "unique": {
-            "title": "Unique in the market",
-            "description": "No other solution combines analytical tracking with ready-to-use gamification"
-        },
-        "features": {
-            "rewards": {
-                "title": "Reward system",
-                "description": "Badges, points, and automatic rewards to motivate your users",
-                "icon": "🏆"
-            },
-            "engagement": {
-                "title": "Boosted engagement",
-                "description": "Increase retention by 40% on average thanks to gamification",
-                "icon": "📈"
-            },
-            "analytics": {
-                "title": "Integrated analytics",
-                "description": "Measure the impact of your rewards on engagement in real-time",
-                "icon": "📊"
-            },
-            "simple": {
-                "title": "Ultra simple integration",
-                "description": "Integration in minutes, no complex development",
-                "icon": "⚡"
+    "usecases": {
+        "title": "Concrete use cases",
+        "subtitle": "Discover how Ludiks transforms your user journeys",
+        "objectives": {
+            "title": "Onboarding",
+            "description": "Guide your new users to activation",
+            "examples": {
+                "1": "Complete profile → \"Complete Profile\" badge",
+                "2": "First purchase → Premium features unlocked",
+                "3": "Invite friends → Exclusive content access"
             }
         },
-        "comparison": {
-            "title": "Why Ludiks is different",
-            "competitors": {
-                "title": "Other solutions",
-                "analytics": "Analytics only",
-                "gamification": "Gamification only",
-                "complex": "Complex integration"
-            },
-            "ludiks": {
-                "title": "Ludiks",
-                "analytics": "Analytics + Gamification",
-                "gamification": "Ready to use",
-                "simple": "Quick integration"
+        "repeated": {
+            "title": "Retention",
+            "description": "Encourage repeated actions to retain users",
+            "examples": {
+                "1": "10 likes → \"Fan\" badge",
+                "2": "50 shares → VIP program access",
+                "3": "100 purchases → \"Ambassador\" status"
             }
         },
-        "cta": {
-            "title": "Ready to gamify your journeys?",
-            "description": "Start free and discover the impact of gamification on your engagement",
-            "button": "Try gamification"
+        "points": {
+            "title": "Activation",
+            "description": "Transform engagement into points and rewards",
+            "examples": {
+                "1": "Daily login → 10 points",
+                "2": "Purchase → 100 points + bonus",
+                "3": "Referral → 500 points + reward"
+            }
+        }
+    },
+    "features": {
+        "title": "Everything you need",
+        "subtitle": "A complete platform to gamify your products effortlessly",
+        "rewards": {
+            "title": "Smart rewards",
+            "items": {
+                "1": "Automatic attribution on each step",
+                "2": "Customizable badges and points",
+                "3": "Premium feature unlocking",
+                "4": "Webhooks for automation"
+            }
+        },
+        "journeys": {
+            "title": "Custom journeys",
+            "items": {
+                "1": "Step-by-step guided onboarding",
+                "2": "Repeated actions (likes, shares)",
+                "3": "Flexible point system",
+                "4": "Template library"
+            }
+        },
+        "integration": {
+            "title": "Ultra-simple integration",
+            "items": {
+                "1": "Lightweight JavaScript/TypeScript SDK",
+                "2": "Simple API for customization",
+                "3": "Complete documentation",
+                "4": "Technical support included"
+            }
+        },
+        "insights": {
+            "title": "Real-time insights",
+            "items": {
+                "1": "Journey completion tracking",
+                "2": "Drop-off point detection",
+                "3": "User list export",
+                "4": "Reward analytics"
+            }
         }
     },
     "pricing": {
-        "title": "Simple and transparent pricing",
-        "subtitle": "All Ludiks features are free. You only pay based on your event volume",
+        "title": "Free up to 5000 events",
+        "subtitle": "Start free, pay only when you grow",
         "grid": {
-            "title": "Pricing grid by events",
+            "title": "Simple pricing by events",
             "free": {
                 "title": "Free",
                 "events": "0 - 5,000 events/month",
@@ -200,13 +221,13 @@
             "title": "Common use cases",
             "onboarding": {
                 "title": "User onboarding",
-                "description": "Track new user progression",
+                "description": "Integration journey with rewards",
                 "steps": "5 typical steps",
                 "frequency": "1x per user"
             },
-            "subscription": {
-                "title": "Subscription funnel",
-                "description": "Conversion to paid subscription",
+            "activation": {
+                "title": "Activation journey",
+                "description": "Gamification to activate users",
                 "steps": "4 typical steps",
                 "frequency": "1x per user"
             }
@@ -237,7 +258,7 @@
             },
             "scaleup": {
                 "title": "Scale-up",
-                "description": "5000 users, 4-step subscription funnel",
+                "description": "5000 users, 4-step activation journey",
                 "result": "20000 events = $15/month"
             },
             "medium": {
@@ -250,55 +271,19 @@
             "minimum": "Minimum billing of $5/month once you exceed 5000 events"
         }
     },
-    "features": {
-        "title": "Ready-to-use engagement levers",
-        "subtitle": "Increase your users' engagement without complex development",
-        "gamification": {
-            "title": "Ready-to-use gamification",
-            "items": {
-                "1": "Points and rewards system ready to use",
-                "2": "Customizable badges and levels",
-                "3": "Integration in a few lines of code"
-            }
-        },
-        "export": {
-            "title": "Export and automation",
-            "items": {
-                "1": "Export disengaged users",
-                "2": "Webhooks to automate your actions",
-                "3": "Integration with your existing tools"
-            }
-        },
-        "segmentation": {
-            "title": "Advanced segmentation",
-            "items": {
-                "1": "Identify at-risk users",
-                "2": "Personalized journeys by segment",
-                "3": "A/B testing of journeys"
-            }
-        },
-        "analytics": {
-            "title": "Real-time analytics",
-            "items": {
-                "1": "Track engagement KPIs",
-                "2": "Detect friction points",
-                "3": "Optimization reports"
-            }
-        }
-    },
     "bonus": {
-        "title": "Bonus: Try our gamification strategy generator",
-        "description": "In a few questions, get personalized recommendations to boost user engagement, conversion, or retention through gamification.",
+        "title": "Bonus: Gamification strategy generator",
+        "description": "In a few questions, get personalized recommendations to gamify your product with Ludiks.",
         "button": "Start the generator",
-        "note": "Try for free and discover how Ludiks can transform your user journeys."
+        "note": "Try for free and discover how Ludiks can transform your product."
     },
     "cta": {
-        "title": "Ready to boost your user engagement?",
-        "subtitle": "Discover how gamification can transform your user journeys. Start your free mode today.",
-        "button": "Start your free mode",
+        "title": "Ready to transform your users?",
+        "subtitle": "Join teams using Ludiks to gamify their products",
+        "button": "Start for free",
         "benefits": {
-            "free": "Free mode with monthly events",
-            "setup": "5-minute setup"
+            "free": "Free up to 5000 events",
+            "setup": "Setup in 5 minutes"
         }
     }
 } 
