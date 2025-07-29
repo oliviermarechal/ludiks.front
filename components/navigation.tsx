@@ -27,10 +27,10 @@ export function Navigation() {
               className="flex items-center h-full"
             >
                 <Image
-                  src="/ludiks-home.png"
+                  src="/ludiks-7.png"
                   alt="Ludiks Logo"
-                  width={90}
-                  height={35}
+                  width={120}
+                  height={40}
                   style={{
                     objectFit: "contain",
                     background: "transparent",
@@ -40,7 +40,6 @@ export function Navigation() {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
               href="/pricing"
@@ -62,7 +61,6 @@ export function Navigation() {
             </Link>
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <Button
               variant="ghost"

@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navigation } from '@/components/navigation';
-import { PreloadManager } from '@/components/preload-manager';
 import { SimpleEstimator } from '@/components/pricing/simple-estimator';
 import { StrategyGenerator } from '@/components/strategy/generator';
 import { Modal } from '@/components/ui/modal';
@@ -27,7 +26,6 @@ export default function HomePage() {
   const [isMobile, setIsMobile] = useState(false);
   const [showStrategyModal, setShowStrategyModal] = useState(false);
 
-  // Window size detection
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
@@ -35,7 +33,6 @@ export default function HomePage() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Updated engagement data to show the drop at "Profile photo" step
   const engagementData = [
     { name: t('showcase.onboarding.chart.steps.1'), completion: 100, users: 1250 },
     { name: t('showcase.onboarding.chart.steps.2'), completion: 85, users: 1060 },
@@ -45,8 +42,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <PreloadManager />
-      
       {/* Navigation */}
       <Navigation />
 
