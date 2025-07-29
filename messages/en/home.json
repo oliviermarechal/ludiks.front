@@ -21,24 +21,24 @@
         }
     },
     "why": {
-        "title": "Why Ludiks is a game-changer?",
-        "subtitle": "Unlike other solutions, Ludiks gives you total control over your rewards and journeys",
+        "title": "Why gamification has become essential?",
+        "subtitle": "In a world where attention is scarce, gamification transforms your passive users into engaged customers",
         "advantages": {
             "rewards": {
-                "title": "Advanced reward management",
-                "description": "Automatically assign rewards on reached steps or journey completion. Simple API and webhooks coming soon."
+                "title": "Reduced acquisition cost",
+                "description": "Gamified users are 3x more likely to complete your onboarding and become paying customers"
             },
             "flexible": {
-                "title": "Ultra-flexible journeys",
-                "description": "Objective journeys, repeated actions (10 likes, 50 likes, 250 likes), cumulative points. Everything is configurable."
+                "title": "Improved engagement",
+                "description": "Increase time spent on your product by 40% and reduce churn by 25%"
             },
             "simple": {
-                "title": "Ultra-simple integration",
-                "description": "Lightweight SDK. Integration in 5 lines of code. No complex development."
+                "title": "Integration in 5 minutes",
+                "description": "Lightweight SDK that integrates with your existing stack without code refactoring"
             },
             "insights": {
-                "title": "Real-time insights",
-                "description": "Track journey completion. Export user lists for your re-engagement campaigns."
+                "title": "Continuous optimization",
+                "description": "Identify friction points and optimize your journeys in real-time"
             }
         }
     },
@@ -272,10 +272,10 @@
         }
     },
     "bonus": {
-        "title": "Bonus: Gamification strategy generator",
-        "description": "In a few questions, get personalized recommendations to gamify your product with Ludiks.",
-        "button": "Start the generator",
-        "note": "Try for free and discover how Ludiks can transform your product."
+        "title": "Not ready to create a journey?",
+        "description": "Test our free strategy generator to discover how to gamify your product",
+        "button": "Generate my strategy",
+        "note": "Free and no commitment"
     },
     "cta": {
         "title": "Ready to transform your users?",

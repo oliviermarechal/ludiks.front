@@ -21,24 +21,24 @@
         }
     },
     "why": {
-        "title": "Pourquoi Ludiks change la donne ?",
-        "subtitle": "Contrairement aux autres solutions, Ludiks vous donne un contrôle total sur vos récompenses et parcours",
+        "title": "Pourquoi la gamification est devenue essentielle ?",
+        "subtitle": "Dans un monde où l'attention est rare, la gamification transforme vos utilisateurs passifs en clients engagés",
         "advantages": {
             "rewards": {
-                "title": "Gestion avancée des récompenses",
-                "description": "Attribuez des récompenses automatiquement sur les étapes atteintes ou la complétion du parcours. API simple et webhooks à venir."
+                "title": "Réduction du coût d'acquisition",
+                "description": "Les utilisateurs gamifiés sont 3x plus susceptibles de compléter votre onboarding et de devenir clients payants"
             },
             "flexible": {
-                "title": "Parcours ultra-flexibles",
-                "description": "Parcours d'objectifs, actions répétées (10 likes, 50 likes, 250 likes), points cumulés. Tout est configurable."
+                "title": "Amélioration de l'engagement",
+                "description": "Augmentez de 40% le temps passé sur votre produit et réduisez le churn de 25%"
             },
             "simple": {
-                "title": "Intégration ultra-simple",
-                "description": "SDK léger. Intégration en 5 lignes de code. Pas de développement complexe."
+                "title": "Intégration en 5 minutes",
+                "description": "SDK léger qui s'intègre à votre stack existant sans refactorisation de code"
             },
             "insights": {
-                "title": "Insights en temps réel",
-                "description": "Suivez la complétion de vos parcours. Exportez les listes d'utilisateurs pour vos campagnes de relance."
+                "title": "Optimisation continue",
+                "description": "Identifiez les points de friction et optimisez vos parcours en temps réel"
             }
         }
     },
@@ -272,10 +272,10 @@
         }
     },
     "bonus": {
-        "title": "Bonus : Générateur de stratégie gamification",
-        "description": "En quelques questions, obtenez des recommandations personnalisées pour gamifier votre produit avec Ludiks.",
-        "button": "Démarrer le générateur",
-        "note": "Testez gratuitement et découvrez comment Ludiks peut transformer votre produit."
+        "title": "Pas prêt à créer un parcours ?",
+        "description": "Testez notre générateur de stratégie gratuit pour découvrir comment gamifier votre produit",
+        "button": "Générer ma stratégie",
+        "note": "Gratuit et sans engagement"
     },
     "cta": {
         "title": "Prêt à transformer vos utilisateurs ?",

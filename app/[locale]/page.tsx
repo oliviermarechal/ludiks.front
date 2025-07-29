@@ -90,7 +90,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Why Ludiks Section */}
+      {/* Why Gamification Section */}
       <section className="px-4 py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -103,37 +103,37 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="p-3 rounded-lg bg-primary/10 mb-4">
                 <Gift className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-3">{t('why.advantages.rewards.title')}</h3>
               <p className="text-foreground/70">{t('why.advantages.rewards.description')}</p>
-            </div>
+            </article>
 
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-secondary/20 hover:border-secondary transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-secondary/20 hover:border-secondary transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="p-3 rounded-lg bg-secondary/10 mb-4">
                 <TargetIcon className="h-8 w-8 text-secondary" />
               </div>
               <h3 className="text-xl font-semibold mb-3">{t('why.advantages.flexible.title')}</h3>
               <p className="text-foreground/70">{t('why.advantages.flexible.description')}</p>
-            </div>
+            </article>
 
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-green-500/20 hover:border-green-500 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-green-500/20 hover:border-green-500 transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="p-3 rounded-lg bg-green-500/10 mb-4">
                 <Code className="h-8 w-8 text-green-600" />
               </div>
               <h3 className="text-xl font-semibold mb-3">{t('why.advantages.simple.title')}</h3>
               <p className="text-foreground/70">{t('why.advantages.simple.description')}</p>
-            </div>
+            </article>
 
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-blue-500/20 hover:border-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-blue-500/20 hover:border-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="p-3 rounded-lg bg-blue-500/10 mb-4">
                 <Activity className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-semibold mb-3">{t('why.advantages.insights.title')}</h3>
               <p className="text-foreground/70">{t('why.advantages.insights.description')}</p>
-            </div>
+            </article>
           </div>
         </div>
       </section>
@@ -152,7 +152,7 @@ export default function HomePage() {
 
           <div className="grid lg:grid-cols-2 gap-8 mb-12">
             {/* Onboarding Journey */}
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 rounded-lg bg-primary/10">
                   <TargetIcon className="h-6 w-6 text-primary" />
@@ -196,10 +196,10 @@ export default function HomePage() {
                   <span>{t('showcase.onboarding.steps.4')}</span>
                 </div>
               </div>
-            </div>
+            </article>
 
             {/* Repeated Actions Journey */}
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-secondary/20 hover:border-secondary transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-secondary/20 hover:border-secondary transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 rounded-lg bg-secondary/10">
                   <Repeat className="h-6 w-6 text-secondary" />
@@ -243,11 +243,11 @@ export default function HomePage() {
                   <span>{t('showcase.activation.steps.4')}</span>
                 </div>
               </div>
-            </div>
+            </article>
           </div>
 
           {/* Problem Detection Analysis with Recharts */}
-          <div className="p-4 md:p-8 bg-white dark:bg-gray-800/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+          <article className="p-4 md:p-8 bg-white dark:bg-gray-800/60 border border-primary/20 hover:border-primary rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
             <div className="flex flex-col sm:flex-row items-start gap-4 mb-6">
               <div className="p-3 rounded-lg bg-orange-500/10">
                 <AlertTriangle className="h-6 w-6 text-orange-500" />
@@ -321,18 +321,18 @@ export default function HomePage() {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-          </div>
+          </article>
 
           {/* Example Section */}
           <div className="mt-8 grid md:grid-cols-2 gap-6">
-            <div className="p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+            <article className="p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
               <h4 className="font-semibold text-red-700 dark:text-red-300 mb-2">{t('showcase.advice.before.title')}</h4>
               <p className="text-sm text-red-600 dark:text-red-400">{t('showcase.advice.before.description')}</p>
-            </div>
-            <div className="p-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
+            </article>
+            <article className="p-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
               <h4 className="font-semibold text-green-700 dark:text-green-300 mb-2">{t('showcase.advice.after.title')}</h4>
               <p className="text-sm text-green-600 dark:text-green-400">{t('showcase.advice.after.description')}</p>
-            </div>
+            </article>
           </div>
         </div>
       </section>
@@ -351,7 +351,7 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Objective Journeys */}
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 rounded-lg bg-primary/10">
                   <TargetIcon className="h-8 w-8 text-primary" />
@@ -373,10 +373,10 @@ export default function HomePage() {
                   <p className="text-sm font-medium">{t('usecases.objectives.examples.3')}</p>
                 </div>
               </div>
-            </div>
+            </article>
 
             {/* Repeated Actions */}
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-secondary/20 hover:border-secondary transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-secondary/20 hover:border-secondary transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 rounded-lg bg-secondary/10">
                   <Repeat className="h-8 w-8 text-secondary" />
@@ -398,10 +398,10 @@ export default function HomePage() {
                   <p className="text-sm font-medium">{t('usecases.repeated.examples.3')}</p>
                 </div>
               </div>
-            </div>
+            </article>
 
             {/* Point System */}
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-green-500/20 hover:border-green-500 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-green-500/20 hover:border-green-500 transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 rounded-lg bg-green-500/10">
                   <Coins className="h-8 w-8 text-green-600" />
@@ -423,7 +423,7 @@ export default function HomePage() {
                   <p className="text-sm font-medium">{t('usecases.points.examples.3')}</p>
                 </div>
               </div>
-            </div>
+            </article>
           </div>
         </div>
       </section>
@@ -442,7 +442,7 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Reward System */}
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-primary/20 hover:border-primary transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="p-3 rounded-lg bg-primary/10 mb-4">
                 <Gift className="h-8 w-8 text-primary" />
               </div>
@@ -455,10 +455,10 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </article>
 
             {/* Flexible Journeys */}
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-secondary/20 hover:border-secondary transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-secondary/20 hover:border-secondary transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="p-3 rounded-lg bg-secondary/10 mb-4">
                 <TargetIcon className="h-8 w-8 text-secondary" />
               </div>
@@ -471,10 +471,10 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </article>
 
             {/* Simple Integration */}
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-green-500/20 hover:border-green-500 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-green-500/20 hover:border-green-500 transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="p-3 rounded-lg bg-green-500/10 mb-4">
                 <Code className="h-8 w-8 text-green-600" />
               </div>
@@ -487,10 +487,10 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </article>
 
             {/* Insights and Analytics */}
-            <div className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-blue-500/20 hover:border-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <article className="p-6 bg-white dark:bg-gray-800/60 rounded-xl border border-blue-500/20 hover:border-blue-500 transition-all duration-300 shadow-lg hover:shadow-xl">
               <div className="p-3 rounded-lg bg-blue-500/10 mb-4">
                 <Activity className="h-8 w-8 text-blue-600" />
               </div>
@@ -503,7 +503,7 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </article>
           </div>
         </div>
       </section>
