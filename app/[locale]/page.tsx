@@ -504,7 +504,7 @@ export default function HomePage() {
       </section>
 
       {/* Cost Estimator Section */}
-      <section className="px-4 py-20 bg-muted/30">
+      <section className="px-4 py-20 bg-gradient-to-b from-background to-secondary/10">
         <div className="max-w-7xl mx-auto">
           <SimpleEstimator />
         </div>

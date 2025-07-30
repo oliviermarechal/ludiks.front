@@ -48,14 +48,14 @@ export function SimpleEstimator() {
   }, [events]);
 
   return (
-    <div id="simple-estimator" className="py-16 bg-gradient-to-b from-background to-secondary/10 relative overflow-hidden">
+    <div id="simple-estimator" className="py-16 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-10 right-20 w-24 h-24 bg-primary rounded-full blur-3xl"></div>
         <div className="absolute bottom-10 left-20 w-32 h-32 bg-secondary rounded-full blur-3xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="relative z-10">
         {/* Section Pricing */}
         <div className={`text-center mb-12 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
