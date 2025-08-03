@@ -18,7 +18,8 @@
     "ended": "Completed",
     "reset": "Reset",
     "apply": "Apply",
-    "export_csv": "Export CSV"
+    "export_csv": "Export CSV",
+    "exporting": "Exporting..."
   },
   "export": "Export CSV",
   "loading": "Loading users...",

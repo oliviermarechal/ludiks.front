@@ -22,12 +22,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const metadata = {
     fr: {
-      title: "Ludiks - Plateforme de Gamification et d'Engagement Utilisateur",
-      description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience sans recoder votre produit. Solution de gamification simple et puissante.",
-      keywords: "gamification, engagement utilisateur, parcours utilisateur, onboarding, analytics, rétention utilisateur, product analytics",
+      title: "Ludiks - Plateforme de gamification",
+      description: "Intégrez la gamification dans votre produit en quelques clics. Créez des parcours engageants, des récompenses et des challenges sans développement. Solution gamification clé en main.",
+      keywords: "gamification as a service, gamification plateforme, récompenses utilisateur, challenges gamification, engagement produit, gamification clé en main, parcours gamification",
       openGraph: {
-        title: "Ludiks - Transformez vos Parcours Utilisateurs",
-        description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience sans recoder votre produit.",
+        title: "Ludiks - Plateforme de gamification",
+        description: "Intégrez la gamification dans votre produit en quelques clics. Créez des parcours engageants, des récompenses et des challenges sans développement.",
         type: "website",
         locale: "fr_FR",
         images: [
@@ -40,17 +40,17 @@ export async function generateMetadata(): Promise<Metadata> {
       },
       twitter: {
         card: "summary_large_image",
-        title: "Ludiks - Plateforme de Gamification",
-        description: "Créez des parcours utilisateurs engageants, mesurez leur progression et optimisez leur expérience.",
+        title: "Ludiks - Gamification as a Service",
+        description: "Intégrez la gamification dans votre produit en quelques clics. Créez des parcours engageants, des récompenses et des challenges sans développement.",
       },
     },
     en: {
-      title: "Ludiks - Gamification and User Engagement Platform",
-      description: "Create engaging user journeys, measure their progress and optimize their experience without recoding your product. Simple and powerful gamification solution.",
-      keywords: "gamification, user engagement, user journey, onboarding, analytics, user retention, product analytics",
+      title: "Ludiks - Gamification as a Service Platform",
+      description: "Integrate gamification into your product with just a few clicks. Create engaging journeys, rewards and challenges without development. Turnkey gamification solution.",
+      keywords: "gamification as a service, gamification platform, user rewards, gamification challenges, product engagement, turnkey gamification, gamification journeys",
       openGraph: {
-        title: "Ludiks - Transform Your User Journeys",
-        description: "Create engaging user journeys, measure their progress and optimize their experience without recoding your product.",
+        title: "Ludiks - Gamification as a Service",
+        description: "Integrate gamification into your product with just a few clicks. Create engaging journeys, rewards and challenges without development.",
         type: "website",
         locale: "en_US",
         images: [
@@ -63,8 +63,8 @@ export async function generateMetadata(): Promise<Metadata> {
       },
       twitter: {
         card: "summary_large_image",
-        title: "Ludiks - Gamification Platform",
-        description: "Create engaging user journeys, measure their progress and optimize their experience.",
+        title: "Ludiks - Gamification as a Service",
+        description: "Integrate gamification into your product with just a few clicks. Create engaging journeys, rewards and challenges without development.",
       },
     },
   };

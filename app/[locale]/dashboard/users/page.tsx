@@ -7,11 +7,13 @@ import { useState, useCallback } from "react";
 import { UserList } from "./user-list";
 import { AdvancedUserFilters } from "./user-filters";
 import { useCircuits } from "@/lib/hooks/use-circuits.hook";
+import { useExportUsers } from "@/lib/hooks/use-export-users.hook";
 
 export default function UsersPage() {
     const t = useTranslations('dashboard.users');
     const { selectedProject } = useProjectStore();
     const { data: projectMetadatas } = useProjectMetadatas(selectedProject?.id || '');
+    const { exportCsv, isExporting, error, clearError } = useExportUsers();
     
     const [filters, setFilters] = useState<Record<string, unknown>>({});
     const [currentPage, setCurrentPage] = useState(1);
@@ -26,37 +28,31 @@ export default function UsersPage() {
         setCurrentPage(page);
     }, []);
 
-    const handleExportCsv = useCallback(() => {
-        const queryParams = new URLSearchParams();
+    const handleExportCsv = useCallback(async () => {
+        if (!selectedProject?.id) {
+            console.error('Aucun projet sélectionné');
+            return;
+        }
+
+        const exportFilters: Record<string, string> = {};
         Object.entries(filters).forEach(([key, value]) => {
             if (value && value !== '') {
-                queryParams.append(key, String(value));
+                exportFilters[key] = String(value);
             }
         });
-        
-        const queryString = queryParams.toString();
-        const exportUrl = `/api/projects/${selectedProject?.id}/end-users/export${queryString ? `?${queryString}` : ''}`;
-        
-        // Créer un lien temporaire pour le téléchargement
-        const link = document.createElement('a');
-        link.href = exportUrl;
-        link.download = `users-export-${new Date().toISOString().split('T')[0]}.csv`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }, [filters, selectedProject?.id]);
+
+        await exportCsv(selectedProject.id, exportFilters);
+    }, [filters, selectedProject?.id, exportCsv]);
 
     const {circuits} = useCircuits(selectedProject?.id || '');
 
     return (
         <div className="container mx-auto py-8">
             <div className="max-w-7xl mx-auto space-y-8">
-                {/* Titre de la page */}
                 <div className="mb-2">
                     <h1 className="text-3xl font-bold text-foreground">{t('title')}</h1>
                     <p className="text-lg text-muted-foreground">{t('description')}</p>
                 </div>
-                {/* Bloc Filtres avancés sticky */}
                 <div className="sticky top-4 z-10 border border-primary/10 bg-background shadow-sm rounded-xl mb-4">
                     <AdvancedUserFilters
                         circuits={circuits}
@@ -64,9 +60,25 @@ export default function UsersPage() {
                         filters={filters}
                         onChange={handleFilterChange}
                         onExportCsv={handleExportCsv}
+                        isExporting={isExporting}
                     />
                 </div>
-                {/* Liste utilisateurs compacte */}
+                
+                {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative">
+                        <span className="block sm:inline">{error}</span>
+                        <button
+                            onClick={clearError}
+                            className="absolute top-0 bottom-0 right-0 px-4 py-3"
+                        >
+                            <span className="sr-only">Fermer</span>
+                            <svg className="fill-current h-6 w-6" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <title>Fermer</title>
+                                <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                            </svg>
+                        </button>
+                    </div>
+                )}
                 <UserList
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}

@@ -15,6 +15,7 @@ interface AdvancedUserFiltersProps {
   filters: Record<string, unknown>;
   onChange: (filters: Record<string, unknown>) => void;
   onExportCsv?: () => void;
+  isExporting?: boolean;
 }
 
 interface FilterSelectProps {
@@ -178,7 +179,7 @@ function MetadataPopover({ metadatas, local, onChange, t }: { metadatas: Project
   );
 }
 
-export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChange, onExportCsv }: AdvancedUserFiltersProps) {
+export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChange, onExportCsv, isExporting = false }: AdvancedUserFiltersProps) {
   const t = useTranslations('dashboard.users');
   const [pending, setPending] = useState<Record<string, unknown>>(filters);
   const [searchQuery, setSearchQuery] = useState(typeof pending.query === 'string' ? pending.query : '');
@@ -195,7 +196,6 @@ export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChang
     } else if (debouncedSearchQuery.length === 0) {
       delete newFilters.query;
     }
-    // Ne pas déclencher onChange si la recherche fait moins de 3 caractères
     if (debouncedSearchQuery.length >= 3 || debouncedSearchQuery.length === 0) {
       onChange(newFilters);
     }
@@ -204,7 +204,6 @@ export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChang
   const handleChange = (key: string, value: string) => {
     const newPending = { ...pending, [key]: value };
     
-    // Si on retire ou change le filtre de parcours, retirer automatiquement le filtre de progression
     if (key === 'circuitId' && (!value || value === '')) {
       delete newPending.circuitStep;
     }
@@ -223,7 +222,6 @@ export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChang
     const newFilters = { ...pending };
     delete newFilters[key];
     
-    // Si on retire le filtre de parcours, retirer automatiquement le filtre de progression
     if (key === 'circuitId') {
       delete newFilters.circuitStep;
     }
@@ -233,28 +231,7 @@ export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChang
   };
 
   const handleExportCsv = () => {
-    if (onExportCsv) {
-      onExportCsv();
-    } else {
-      // Export par défaut avec les filtres actuels
-      const queryParams = new URLSearchParams();
-      Object.entries(pending).forEach(([key, value]) => {
-        if (value && value !== '') {
-          queryParams.append(key, String(value));
-        }
-      });
-      
-      const queryString = queryParams.toString();
-      const exportUrl = `/api/projects/export/users${queryString ? `?${queryString}` : ''}`;
-      
-      // Créer un lien temporaire pour le téléchargement
-      const link = document.createElement('a');
-      link.href = exportUrl;
-      link.download = `users-export-${new Date().toISOString().split('T')[0]}.csv`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    onExportCsv?.();
   };
 
   const circuitOptions = [{ value: '', label: t('filters.all') }, ...circuits.map(c => ({ value: c.id, label: c.name }))];
@@ -340,9 +317,16 @@ export function AdvancedUserFilters({ circuits, metadatas = [], filters, onChang
 
           {/* Délimiteur visuel entre actions et export */}
           <div className="hidden md:flex h-8 w-px bg-primary/20 mx-2 rounded-full" aria-hidden="true" />
-          <Button type="button" variant="outline" className="border-primary/40 hover:border-primary h-8 px-4 transition-colors font-medium" size="sm" onClick={handleExportCsv}>
-            <Download className="h-4 w-4 mr-2 text-muted-foreground hover:text-primary transition-colors" />
-            {t('filters.export_csv')}
+          <Button 
+            type="button" 
+            variant="outline" 
+            className="border-primary/40 hover:border-primary h-8 px-4 transition-colors font-medium" 
+            size="sm" 
+            onClick={handleExportCsv}
+            disabled={isExporting}
+          >
+            <Download className={`h-4 w-4 mr-2 transition-colors ${isExporting ? 'text-muted-foreground/50' : 'text-muted-foreground hover:text-primary'}`} />
+            {isExporting ? t('filters.exporting') : t('filters.export_csv')}
           </Button>
         </div>
       </div>

@@ -9,9 +9,10 @@ interface UserStepListHeaderProps {
     projectMetadatas?: ProjectMetadata[];
     filters: Record<string, string>;
     onFilterChange: (key: string, value: string) => void;
+    onExportCsv: () => void;
 }
 
-export function UserStepListHeader({ projectMetadatas, filters, onFilterChange }: UserStepListHeaderProps) {
+export function UserStepListHeader({ projectMetadatas, filters, onFilterChange, onExportCsv }: UserStepListHeaderProps) {
     const t = useTranslations('dashboard.circuits.steps');
 
     return (
@@ -37,7 +38,7 @@ export function UserStepListHeader({ projectMetadatas, filters, onFilterChange }
                         </select>
                     ))}
                 </div>
-                <Button variant="outline" className="border-secondary/20">
+                <Button variant="outline" className="border-secondary/20" onClick={onExportCsv}>
                     <Download className="h-4 w-4 mr-2" />
                     {t('detail.export')}
                 </Button>
