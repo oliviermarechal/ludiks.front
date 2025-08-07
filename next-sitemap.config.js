@@ -42,6 +42,7 @@ module.exports = {
       { path: 'docs/api', changefreq: 'monthly', priority: 0.6 },
       { path: 'docs/sdk', changefreq: 'monthly', priority: 0.6 },
       { path: 'onboarding', changefreq: 'monthly', priority: 0.5 },
+      { path: 'blog', changefreq: 'weekly', priority: 0.8 },
     ];
 
     const result = [];
@@ -54,13 +55,35 @@ module.exports = {
       lastmod: new Date().toISOString(),
     });
 
+    // Blog articles data
+    const blogArticles = {
+      'en': [
+        { slug: 'implementing-relevant-gamification', date: '2025-08-07' }
+      ],
+      'fr': [
+        { slug: 'implementer-gamification-pertinente', date: '2025-08-07' }
+      ]
+    };
+
     for (const locale of locales) {
+      // Add regular pages
       for (const page of pages) {
         result.push({
           loc: `/${locale}${page.path ? '/' + page.path : ''}`,
           changefreq: page.changefreq,
           priority: page.priority,
           lastmod: new Date().toISOString(),
+        });
+      }
+
+      // Add blog articles
+      const articles = blogArticles[locale] || [];
+      for (const article of articles) {
+        result.push({
+          loc: `/${locale}/blog/${article.slug}`,
+          changefreq: 'monthly',
+          priority: 0.6,
+          lastmod: new Date(article.date).toISOString(),
         });
       }
     }

@@ -360,7 +360,7 @@ const getProfile = async (userId) => {
                 {t('cta.description')}
               </p>
               <Link
-                href="/auth/registration"
+                href="/auth/login"
                 className="inline-flex items-center justify-center bg-secondary hover:bg-secondary/90 text-secondary-foreground px-6 py-3 rounded-md font-semibold transition-colors"
               >
                 {t('cta.button')}

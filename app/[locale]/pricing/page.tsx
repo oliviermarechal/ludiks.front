@@ -102,7 +102,7 @@ export default function PricingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href={isAuthenticated ? '/dashboard' : '/auth/registration'}
+              href={isAuthenticated ? '/dashboard' : '/auth/login'}
               className="inline-flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
             >
               {t('cta.button')}

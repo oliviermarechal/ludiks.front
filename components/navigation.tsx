@@ -54,7 +54,13 @@ export function Navigation() {
               {t('documentation')}
             </Link>
             <Link
-              href={isAuthenticated ? '/dashboard' : '/auth/registration'}
+              href="/blog"
+              className="text-foreground/80 hover:text-foreground transition-colors font-medium"
+            >
+              Blog
+            </Link>
+            <Link
+              href={isAuthenticated ? '/dashboard' : '/auth/login'}
               className="inline-flex items-center justify-center bg-secondary hover:bg-secondary/90 text-secondary-foreground px-4 py-2 rounded-md font-medium transition-colors"
             >
               {isAuthenticated ? 'Dashboard' : t('getStarted')}
@@ -96,7 +102,14 @@ export function Navigation() {
                 {t('documentation')}
               </Link>
               <Link
-                href={isAuthenticated ? '/dashboard' : '/auth/registration'}
+                href="/blog"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-left text-foreground/80 hover:text-foreground transition-colors font-medium py-2"
+              >
+                Blog
+              </Link>
+              <Link
+                href={isAuthenticated ? '/dashboard' : '/auth/login'}
                 onClick={() => setIsMenuOpen(false)}
                 className="inline-flex items-center justify-center w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground px-4 py-2 rounded-md font-medium transition-colors"
               >

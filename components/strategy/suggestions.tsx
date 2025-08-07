@@ -148,7 +148,7 @@ export function StrategySuggestions({ formData, onGenerate, mode = "dashboard", 
   const { strategies, circuits } = generateSuggestions(formData);
 
   const handleGetStarted = () => {
-    router.push('/auth/registration');
+    router.push('/auth/login');
   };
 
   return (
