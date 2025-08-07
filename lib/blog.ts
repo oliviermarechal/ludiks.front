@@ -30,9 +30,9 @@ export const BLOG_POSTS = {
     'implementing-relevant-gamification': {
       slug: 'implementing-relevant-gamification',
       title: 'How to Implement Relevant Gamification in Your Application',
-      date: '2024-01-25',
+      date: '2025-08-07',
       excerpt: 'Discover the key principles and strategies to implement gamification that truly engages your users and drives meaningful results.',
-      readingTime: 8,
+      readingTime: 3,
       template: 'ImplementingRelevantGamification'
     }
   },
@@ -40,9 +40,9 @@ export const BLOG_POSTS = {
     'implementer-gamification-pertinente': {
       slug: 'implementer-gamification-pertinente',
       title: 'Comment Implémenter une Gamification Pertinente dans Votre Application',
-      date: '2024-01-25',
+      date: '2025-08-07',
       excerpt: 'Découvrez les principes clés et stratégies pour implémenter une gamification qui engage vraiment vos utilisateurs et génère des résultats concrets.',
-      readingTime: 8,
+      readingTime: 3,
       template: 'ImplementerGamificationPertinente'
     }
   }
