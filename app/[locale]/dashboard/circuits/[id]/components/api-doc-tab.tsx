@@ -17,6 +17,7 @@ export function ApiDocTab({ circuit }: { circuit: Circuit }) {
     const isObjectiveCircuit = circuit.type === "objective";
     const firstStep = circuit.steps[0];
     const [selectedStepId, setSelectedStepId] = useState<string>(firstStep.id);
+    const [selectedPackage, setSelectedPackage] = useState<'sdk' | 'react'>('sdk');
     const selectedStep = circuit.steps.find(s => s.id === selectedStepId) || firstStep;
 
     // Test API key for demonstration
@@ -61,13 +62,57 @@ export function ApiDocTab({ circuit }: { circuit: Circuit }) {
             <div className="space-y-4">
                 <h3 className="text-xl font-semibold text-foreground">{t('installation.title')}</h3>
                 <Card className="p-6 border-secondary/20 bg-surface-2">
+                    {/* Package Selection Tabs */}
+                    <div className="flex border-b border-gray-200 mb-6">
+                        <button
+                            onClick={() => setSelectedPackage('sdk')}
+                            className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
+                                selectedPackage === 'sdk'
+                                    ? 'border-primary text-primary'
+                                    : 'border-transparent text-foreground/60 hover:text-foreground'
+                            }`}
+                        >
+                            {t('installation.standalone')}
+                        </button>
+                        <button
+                            onClick={() => setSelectedPackage('react')}
+                            className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
+                                selectedPackage === 'react'
+                                    ? 'border-primary text-primary'
+                                    : 'border-transparent text-foreground/60 hover:text-foreground'
+                            }`}
+                        >
+                            {t('installation.react')}
+                        </button>
+                    </div>
+
+                    {/* Package Information */}
+                    <div className="mb-4">
+                        {selectedPackage === 'sdk' ? (
+                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                <p className="text-blue-800 text-sm">
+                                    <strong>@ludiks/sdk:</strong> {t('installation.sdk_description')}
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p className="text-green-800 text-sm">
+                                    <strong>@ludiks/react:</strong> {t('installation.react_description')}
+                                </p>
+                                <p className="text-green-700 text-xs mt-2">
+                                    {t('installation.react_note')}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+
                     <div className="flex items-center gap-2 text-sm text-foreground/70 mb-4">
                         <Terminal className="h-4 w-4" />
                         <span>{t('installation.npm_install')}</span>
                     </div>
                     <div className="relative">
                         <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
-                            <code>npm install @ludiks/sdk</code>
+                            <code>npm install @ludiks/{selectedPackage}</code>
                         </pre>
                         <Button 
                             variant="ghost" 
@@ -90,20 +135,20 @@ export function ApiDocTab({ circuit }: { circuit: Circuit }) {
                     </div>
                     <div className="relative">
                         <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
-                            <code>{`import { Ludiks } from '@ludiks/sdk';
+                            <code>{`import { Ludiks } from '@ludiks/${selectedPackage}';
+${selectedPackage === 'react' ? '// Note: @ludiks/react includes the full SDK + React components\n' : ''}
+// ${t('code.comments.sdk_config')}
+Ludiks.configure('${hasApiKey ? firstApiKey?.value : testApiKey}'); // ${t('code.comments.api_key')}
 
 // ${t('code.comments.sdk_init')}
 await Ludiks.initUser({
-    apiKey: '${hasApiKey ? firstApiKey?.value : testApiKey}', // ${t('code.comments.api_key')}
-    user: {
-        id: 'USER_ID', // ${t('code.comments.user_id')}
-        full_name: 'John Doe', // ${t('code.comments.full_name')}
-        email: 'john@example.com', // ${t('code.comments.email')}
-        picture: 'https://...', // ${t('code.comments.picture')}
-        metadata: { // ${t('code.comments.metadata')}
-            company: 'Acme Inc',
-            role: 'Developer'
-        }
+    id: 'USER_ID', // ${t('code.comments.user_id')}
+    fullName: 'John Doe', // ${t('code.comments.full_name')}
+    email: 'john@example.com', // ${t('code.comments.email')}
+    picture: 'https://...', // ${t('code.comments.picture')}
+    metadata: { // ${t('code.comments.metadata')}
+        company: 'Acme Inc',
+        role: 'Developer'
     }
 });`}</code>
                         </pre>
@@ -147,13 +192,13 @@ await Ludiks.initUser({
                                 </div>
                                 <div className="relative mb-8">
                                     <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
-                                        <code>{`// ${t('code.comments.send_step_event')}
-const response = await Ludiks.trackEvent({
-    apiKey: '${hasApiKey ? firstApiKey?.value : testApiKey}',
-    userId: 'USER_ID',
-    eventName: '${selectedStep.eventName}',
-    timestamp: new Date() // ${t('code.comments.timestamp_optional')}
-});
+                                        <code>{`// ${t('code.comments.send_step_event')} (same for both @ludiks/sdk and @ludiks/react)
+const response = await Ludiks.trackEvent(
+    'USER_ID',
+    '${selectedStep.eventName}',
+    undefined,
+    new Date() // ${t('code.comments.timestamp_optional')}
+);
 
 console.log(response);
 // {
@@ -204,14 +249,13 @@ console.log(response);
                                 </p>
                                 <div className="relative mb-8">
                                     <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-sm overflow-x-auto">
-                                        <code>{`// ${t('code.comments.send_value_event')}
-const response = await Ludiks.trackEvent({
-    apiKey: '${hasApiKey ? firstApiKey?.value : testApiKey}',
-    userId: 'USER_ID',
-    eventName: '${firstStep.eventName}',
-    value: 1, // ${t('code.comments.increment_value')}
-    timestamp: new Date() // ${t('code.comments.timestamp_optional')}
-});
+                                        <code>{`// ${t('code.comments.send_value_event')} (same for both @ludiks/sdk and @ludiks/react)
+const response = await Ludiks.trackEvent(
+    'USER_ID',
+    '${firstStep.eventName}',
+    1, // ${t('code.comments.increment_value')}
+    new Date() // ${t('code.comments.timestamp_optional')}
+);
 
 console.log(response);
 // {
@@ -341,31 +385,14 @@ console.log(response);
                             <h4 className="text-lg font-medium text-foreground mb-2">{t('api_reference.types')}</h4>
                             <div className="space-y-4">
                                 <div>
-                                    <div className="text-sm font-medium text-foreground/80 mb-2">InitUserOptions</div>
+                                    <div className="text-sm font-medium text-foreground/80 mb-2">User</div>
                                     <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-xs overflow-x-auto">
-{`interface InitUserOptions {
-    apiKey: string;
-    user: {
-        id: string;
-        full_name: string;
-        email?: string;
-        picture?: string;
-        metadata?: Record<string, any>;
-    };
-    baseUrl?: string;
-}`}
-                                    </pre>
-                                </div>
-                                <div>
-                                    <div className="text-sm font-medium text-foreground/80 mb-2">TrackEventOptions</div>
-                                    <pre className="p-4 rounded-lg bg-black/90 text-white/90 font-mono text-xs overflow-x-auto">
-{`interface TrackEventOptions {
-    apiKey: string;
-    userId: string;
-    eventName: string;
-    value?: number;
-    timestamp?: Date;
-    baseUrl?: string;
+{`interface User {
+    id: string;
+    fullName: string;
+    email?: string;
+    picture?: string;
+    metadata?: Record<string, any>;
 }`}
                                     </pre>
                                 </div>
@@ -393,15 +420,27 @@ console.log(response);
                             <h4 className="text-lg font-medium text-foreground mb-2">{t('api_reference.methods')}</h4>
                             <div className="space-y-4">
                                 <div>
-                                    <div className="text-sm font-medium text-foreground/80 mb-2">initUser(options: InitUserOptions): Promise&lt;void&gt;</div>
+                                    <div className="text-sm font-medium text-foreground/80 mb-2">Ludiks.configure(apiKey: string, baseUrl?: string): void</div>
+                                    <p className="text-sm text-foreground/70 mb-2">
+                                        {t('api_reference.configure_description')}
+                                    </p>
+                                </div>
+                                <div>
+                                    <div className="text-sm font-medium text-foreground/80 mb-2">Ludiks.initUser(user: User): Promise&lt;void&gt;</div>
                                     <p className="text-sm text-foreground/70 mb-2">
                                         {t('api_reference.init_user_description')}
                                     </p>
                                 </div>
                                 <div>
-                                    <div className="text-sm font-medium text-foreground/80 mb-2">trackEvent(options: TrackEventOptions): Promise&lt;TrackEventResponse&gt;</div>
+                                    <div className="text-sm font-medium text-foreground/80 mb-2">Ludiks.trackEvent(userId: string, eventName: string, value?: number, timestamp?: Date): Promise&lt;TrackEventResponse&gt;</div>
                                     <p className="text-sm text-foreground/70 mb-2">
                                         {t('api_reference.track_event_description')}
+                                    </p>
+                                </div>
+                                <div>
+                                    <div className="text-sm font-medium text-foreground/80 mb-2">Ludiks.getProfile(userId: string): Promise&lt;LudiksProfile&gt;</div>
+                                    <p className="text-sm text-foreground/70 mb-2">
+                                        {t('api_reference.get_profile_description')}
                                     </p>
                                 </div>
                             </div>

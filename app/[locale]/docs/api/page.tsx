@@ -1,374 +1,560 @@
-'use client'
+'use client';
 
-import { Link } from "@/lib/navigation";
-import { Card } from "@/components/ui/card";
-import { Navigation } from "@/components/navigation";
-import { ArrowLeft, Copy, Check } from "lucide-react";
-import { useState } from "react";
+import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Globe, Copy, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Link } from "@/lib/navigation";
 
-export default function APIDocumentationPage() {
+export default function APIDocPage() {
   const t = useTranslations('documentation.api');
-  const [copied, setCopied] = useState<string | null>(null);
 
-  const copyToClipboard = (text: string, id: string) => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    setCopied(id);
-    setTimeout(() => setCopied(null), 2000);
   };
 
-  const createUserCode = `curl -X POST https://api.ludiks.io/api/end-user \\
+  return (
+    <div className="container mx-auto pt-8 pb-16 px-6">
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <div id="overview" className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-lg bg-green-100">
+              <Globe className="h-6 w-6 text-green-600" />
+            </div>
+            <h1 className="text-4xl font-bold text-foreground">
+              {t('guide.title')}
+            </h1>
+          </div>
+          <p className="text-xl text-foreground/70">
+            {t('guide.subtitle')}
+          </p>
+        </div>
+
+        {/* Base URL */}
+        <Card className="mb-8 border-2 border-secondary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Globe className="h-5 w-5" />
+              {t('guide.baseUrl.title')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-gray-400">Base URL</span>
+                <button
+                  onClick={() => copyToClipboard('https://api.ludiks.io')}
+                  className="text-gray-400 hover:text-white text-xs flex items-center gap-1"
+                >
+                  <Copy className="h-3 w-3" />
+                  {t('guide.copy')}
+                </button>
+              </div>
+              <code className="text-sm">https://api.ludiks.io</code>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Authentication */}
+        <Card className="mb-8 border-2 border-yellow-200 bg-yellow-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-yellow-800">
+              <AlertTriangle className="h-5 w-5" />
+              {t('guide.authentication.title')}
+            </CardTitle>
+            <CardDescription className="text-yellow-700">
+              {t('guide.authentication.description')}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+              <pre className="text-sm">{`Authorization: Bearer ldk_live_abc123...`}</pre>
+            </div>
+            <p className="text-sm text-yellow-700 mt-2">
+              {t('guide.authentication.note')}
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Endpoints */}
+        <div id="endpoints" className="space-y-8">
+          <h2 className="text-3xl font-bold mb-6">{t('guide.endpoints.title')}</h2>
+
+          {/* Create User */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Badge variant="default" className="bg-green-500">POST</Badge>
+                <span className="font-mono text-lg">/end-user</span>
+              </CardTitle>
+              <CardDescription>
+                {t('guide.endpoints.createUser.description')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.headers')}</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`Content-Type: application/json
+Authorization: Bearer YOUR_API_KEY`}</pre>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.requestBody')}</h4>
+                <div className="bg-gray-50 p-4 rounded-lg space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="font-mono text-primary">id</span>
+                      <Badge variant="destructive" className="ml-2">Required</Badge>
+                    </div>
+                    <div className="text-gray-600">string</div>
+                    <div>{t('guide.endpoints.createUser.idDesc')}</div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="font-mono text-primary">fullName</span>
+                      <Badge variant="secondary" className="ml-2">Optional</Badge>
+                    </div>
+                    <div className="text-gray-600">string</div>
+                    <div>{t('guide.endpoints.createUser.fullNameDesc')}</div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="font-mono text-primary">email</span>
+                      <Badge variant="secondary" className="ml-2">Optional</Badge>
+                    </div>
+                    <div className="text-gray-600">string</div>
+                    <div>{t('guide.endpoints.createUser.emailDesc')}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.exampleRequest')}</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`curl -X POST https://api.ludiks.io/end-user \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -d '{
     "id": "user-123",
     "fullName": "John Doe",
-    "email": "john@example.com",
-    "picture": "https://example.com/avatar.jpg",
-    "metadata": {
-      "plan": "premium",
-      "source": "web"
-    }
-  }'`;
-
-  const trackEventCode = `curl -X POST https://api.ludiks.io/api/tracking \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -d '{
-    "userId": "user-123",
-    "eventName": "profile_completed",
-    "value": 1,
-    "timestamp": "2024-01-15T10:30:00Z"
-  }'`;
-
-  const getProfileCode = `curl -X GET https://api.ludiks.io/api/end-user/user-123 \\
-  -H "Authorization: Bearer YOUR_API_KEY"`;
-
-  const jsExample = `// Create a user
-const createUser = async (userData) => {
-  const response = await fetch('https://api.ludiks.io/api/end-user', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': \`Bearer \${API_KEY}\`
-    },
-    body: JSON.stringify(userData)
-  });
-  return response.json();
-};
-
-// Track an event
-const trackEvent = async (eventData) => {
-  const response = await fetch('https://api.ludiks.io/api/tracking', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': \`Bearer \${API_KEY}\`
-    },
-    body: JSON.stringify(eventData)
-  });
-  return response.json();
-};
-
-// Get user profile
-const getProfile = async (userId) => {
-  const response = await fetch(\`https://api.ludiks.io/api/end-user/\${userId}\`, {
-    method: 'GET',
-    headers: {
-      'Authorization': \`Bearer \${API_KEY}\`
-    }
-  });
-  return response.json();
-};`;
-
-  return (
-    <main className="min-h-screen bg-gradient-to-b from-background to-secondary/5">
-      <Navigation />
-      
-      <div className="container mx-auto pt-32 pb-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <Link
-              href="/docs"
-              className="inline-flex items-center text-foreground/70 hover:text-foreground mb-4"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              {t('back')}
-            </Link>
-            <h1 className="text-4xl font-bold text-foreground mb-4">
-              {t('title')}
-            </h1>
-            <p className="text-xl text-foreground/70">
-              {t('subtitle')}
-            </p>
-          </div>
-
-          {/* Authentification */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('auth.title')}</h2>
-            <p className="text-foreground/70 mb-4">
-              {t('auth.description')}
-            </p>
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">{t('auth.header')}</span>
-                <button
-                  onClick={() => copyToClipboard('Authorization: Bearer YOUR_API_KEY', 'auth')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copied === 'auth' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </button>
+    "picture": "https://example.com/picture.jpg",
+    "email": "john@example.com"
+  }'`}</pre>
+                </div>
               </div>
-              <code>Authorization: Bearer YOUR_API_KEY</code>
-            </div>
-          </Card>
 
-          {/* Important : Identifiant utilisateur */}
-          <Card className="p-6 mb-8 border-2 border-yellow-200 bg-yellow-50/50">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('important.title')}</h2>
-            <p className="text-foreground/70 mb-4">
-              {t('important.description')}
-            </p>
-            <div className="bg-muted/30 p-4 rounded-lg">
-              <p className="text-sm text-foreground/70 mb-2">
-                <strong>{t('important.examplesTitle')} :</strong>
-              </p>
-              <p className="text-sm text-foreground/60">
-                {t('important.examples')}
-              </p>
-            </div>
-          </Card>
-
-          {/* Endpoint 1: Créer un utilisateur */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('endpoints.createUser.title')}</h2>
-            <p className="text-foreground/70 mb-4">
-              {t('endpoints.createUser.description')}
-            </p>
-            
-            <div className="mb-4">
-              <span className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-medium mb-2">
-                {t('endpoints.createUser.method')}
-              </span>
-            </div>
-
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">{t('endpoints.createUser.curl')}</span>
-                <button
-                  onClick={() => copyToClipboard(createUserCode, 'create')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copied === 'create' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </button>
-              </div>
-              <pre className="text-sm overflow-x-auto">{createUserCode}</pre>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('endpoints.createUser.required.title')}</h4>
-                <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>id</code> - {t('endpoints.createUser.required.id')}</li>
-                  <li><code>fullName</code> - {t('endpoints.createUser.required.name')}</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('endpoints.createUser.optional.title')}</h4>
-                <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>email</code> - {t('endpoints.createUser.optional.email')}</li>
-                  <li><code>picture</code> - {t('endpoints.createUser.optional.picture')}</li>
-                  <li><code>metadata</code> - {t('endpoints.createUser.optional.metadata')}</li>
-                </ul>
-              </div>
-            </div>
-          </Card>
-
-          {/* Endpoint 2: Tracker un événement */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('endpoints.trackEvent.title')}</h2>
-            <p className="text-foreground/70 mb-4">
-              {t('endpoints.trackEvent.description')}
-            </p>
-            
-            <div className="mb-4">
-              <span className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-medium mb-2">
-                {t('endpoints.trackEvent.method')}
-              </span>
-            </div>
-
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">{t('endpoints.trackEvent.curl')}</span>
-                <button
-                  onClick={() => copyToClipboard(trackEventCode, 'track')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copied === 'track' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </button>
-              </div>
-              <pre className="text-sm overflow-x-auto">{trackEventCode}</pre>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('endpoints.trackEvent.required.title')}</h4>
-                <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>userId</code> - {t('endpoints.trackEvent.required.userId')}</li>
-                  <li><code>eventName</code> - {t('endpoints.trackEvent.required.eventName')}</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('endpoints.trackEvent.optional.title')}</h4>
-                <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>value</code> - {t('endpoints.trackEvent.optional.value')}</li>
-                  <li><code>timestamp</code> - {t('endpoints.trackEvent.optional.timestamp')}</li>
-                </ul>
-              </div>
-            </div>
-          </Card>
-
-          {/* Endpoint 3: Récupérer le profil utilisateur */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('endpoints.getProfile.title')}</h2>
-            <p className="text-foreground/70 mb-4">
-              {t('endpoints.getProfile.description')}
-            </p>
-            
-            <div className="mb-4">
-              <span className="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm font-medium mb-2">
-                GET /end-user/:userId
-              </span>
-            </div>
-
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">{t('endpoints.getProfile.curl')}</span>
-                <button
-                  onClick={() => copyToClipboard(getProfileCode, 'profile')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copied === 'profile' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </button>
-              </div>
-              <pre className="text-sm overflow-x-auto">{getProfileCode}</pre>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('endpoints.getProfile.required.title')}</h4>
-                <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>userId</code> - {t('endpoints.getProfile.required.userId')}</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('endpoints.getProfile.optional.title')}</h4>
-                <ul className="text-sm text-foreground/70 space-y-1">
-                  <li>{t('endpoints.getProfile.optional.none')}</li>
-                </ul>
-              </div>
-            </div>
-          </Card>
-
-          {/* Exemple JavaScript */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('examples.javascript.title')}</h2>
-            <p className="text-foreground/70 mb-4">
-              {t('examples.javascript.description')}
-            </p>
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">{t('examples.javascript.code')}</span>
-                <button
-                  onClick={() => copyToClipboard(jsExample, 'js')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copied === 'js' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </button>
-              </div>
-              <pre className="text-sm overflow-x-auto">{jsExample}</pre>
-            </div>
-          </Card>
-
-          {/* Réponses */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('responses.title')}</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('responses.success.title')}</h4>
-                <div className="bg-gray-900 text-gray-100 p-3 rounded text-sm">
-                  <pre>{`{
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.response')} (201 Created)</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`{
   "success": true,
-  "data": {
+  "user": {
     "id": "user-123",
-    "fullName": "John Doe"
+    "fullName": "John Doe",
+    "picture": "https://example.com/picture.jpg",
+    "email": "john@example.com",
+    "externalId": "user-123",
+    "metadata": {},
+    "createdAt": "2024-01-01T00:00:00Z",
+    "lastLoginAt": "2024-01-01T00:00:00Z"
   }
 }`}</pre>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Track Event */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Badge variant="default" className="bg-blue-500">POST</Badge>
+                <span className="font-mono text-lg">/tracking</span>
+              </CardTitle>
+              <CardDescription>
+                {t('guide.endpoints.trackEvent.description')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
               <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('responses.error.title')}</h4>
-                <div className="bg-gray-900 text-gray-100 p-3 rounded text-sm">
-                  <pre>{`{
-  "success": false,
-  "error": "Invalid API key"
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.headers')}</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`Content-Type: application/json
+Authorization: Bearer YOUR_API_KEY`}</pre>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.requestBody')}</h4>
+                <div className="bg-gray-50 p-4 rounded-lg space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="font-mono text-primary">userId</span>
+                      <Badge variant="destructive" className="ml-2">Required</Badge>
+                    </div>
+                    <div className="text-gray-600">string</div>
+                    <div>{t('guide.endpoints.trackEvent.userIdDesc')}</div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="font-mono text-primary">eventName</span>
+                      <Badge variant="destructive" className="ml-2">Required</Badge>
+                    </div>
+                    <div className="text-gray-600">string</div>
+                    <div>{t('guide.endpoints.trackEvent.eventNameDesc')}</div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="font-mono text-primary">value</span>
+                      <Badge variant="secondary" className="ml-2">Optional</Badge>
+                    </div>
+                    <div className="text-gray-600">number</div>
+                    <div>{t('guide.endpoints.trackEvent.valueDesc')}</div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="font-mono text-primary">timestamp</span>
+                      <Badge variant="secondary" className="ml-2">Optional</Badge>
+                    </div>
+                    <div className="text-gray-600">string (ISO 8601)</div>
+                    <div>{t('guide.endpoints.trackEvent.timestampDesc')}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.exampleRequest')}</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`curl -X POST https://api.ludiks.io/tracking \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -d '{
+    "userId": "user-123",
+    "eventName": "purchase",
+    "value": 99.99,
+    "timestamp": "2024-01-20T15:30:00Z"
+  }'`}</pre>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.response')} (200 OK)</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`{
+  "success": true,
+  "stepCompleted": true,
+  "points": 150,
+  "rewards": [
+    {
+      "name": "Big Spender",
+      "description": "Made a significant purchase"
+    }
+  ],
+  "circuitCompleted": false,
+  "currentStreak": 5
+}`}</pre>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Get User Profile */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Badge variant="secondary" className="bg-purple-500 text-white">GET</Badge>
+                <span className="font-mono text-lg">/end-user/{`{userId}`}</span>
+              </CardTitle>
+              <CardDescription>
+                {t('guide.endpoints.getUserProfile.description')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.headers')}</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`Authorization: Bearer YOUR_API_KEY`}</pre>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.pathParameters')}</h4>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="font-mono text-primary">userId</span>
+                      <Badge variant="destructive" className="ml-2">Required</Badge>
+                    </div>
+                    <div className="text-gray-600">string</div>
+                    <div>{t('guide.endpoints.getUserProfile.userIdDesc')}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.exampleRequest')}</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`curl -X GET https://api.ludiks.io/end-user/user-123 \\
+  -H "Authorization: Bearer YOUR_API_KEY"`}</pre>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">{t('guide.endpoints.response')} (200 OK)</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`{
+  "id": "user-123",
+  "fullName": "John Doe",
+  "email": "john@example.com",
+  "externalId": "user-123",
+  "currentStreak": 5,
+  "longestStreak": 12,
+  "metadata": {
+    "plan": "premium",
+    "signupSource": "website"
+  },
+  "circuitProgress": [
+    {
+      "id": "circuit-1",
+      "circuitName": "Onboarding",
+      "status": "completed",
+      "points": 500,
+      "startedAt": "2024-01-01T00:00:00Z",
+      "completedAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": "circuit-2",
+      "circuitName": "Power User", 
+      "status": "in_progress",
+      "points": 250,
+      "startedAt": "2024-01-16T00:00:00Z"
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "lastLoginAt": "2024-01-20T15:30:00Z"
+}`}</pre>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Error Responses */}
+        <Card className="mt-8 border-2 border-red-200 bg-red-50">
+          <CardHeader>
+            <CardTitle className="text-red-800">{t('guide.errorResponses.title')}</CardTitle>
+            <CardDescription className="text-red-700">
+              {t('guide.errorResponses.description')}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-red-800 mb-2">400 Bad Request</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`{
+  "error": "Invalid request",
+  "message": "Missing required field: userId",
+  "code": "VALIDATION_ERROR"
+}`}</pre>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-red-800 mb-2">401 Unauthorized</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`{
+  "error": "Unauthorized",
+  "message": "Invalid or missing API key",
+  "code": "AUTH_ERROR"
+}`}</pre>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-red-800 mb-2">404 Not Found</h4>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`{
+  "error": "Not found",
+  "message": "User not found",
+  "code": "USER_NOT_FOUND"
 }`}</pre>
                 </div>
               </div>
             </div>
-          </Card>
+          </CardContent>
+        </Card>
 
-          {/* Avantages */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('benefits.title')}</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">{t('benefits.flexibility.title')}</h3>
-                <p className="text-foreground/70 text-sm">
-                  {t('benefits.flexibility.description')}
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">{t('benefits.control.title')}</h3>
-                <p className="text-foreground/70 text-sm">
-                  {t('benefits.control.description')}
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">{t('benefits.backend.title')}</h3>
-                <p className="text-foreground/70 text-sm">
-                  {t('benefits.backend.description')}
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">{t('benefits.standard.title')}</h3>
-                <p className="text-foreground/70 text-sm">
-                  {t('benefits.standard.description')}
-                </p>
-              </div>
+        {/* Rate Limiting */}
+        <Card className="mt-8">
+          <CardHeader>
+            <CardTitle>{t('guide.rateLimiting.title')}</CardTitle>
+            <CardDescription>
+              {t('guide.rateLimiting.description')}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <ul className="space-y-2 text-sm">
+                <li>• {t('guide.rateLimiting.limit1')}</li>
+                <li>• {t('guide.rateLimiting.limit2')}</li>
+                <li>• {t('guide.rateLimiting.headers')}</li>
+              </ul>
             </div>
-          </Card>
+          </CardContent>
+        </Card>
 
-          {/* CTA */}
-          <Card className="p-8 bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-foreground mb-4">
-                {t('cta.title')}
-              </h2>
-              <p className="text-foreground/70 mb-6">
-                {t('cta.description')}
-              </p>
-              <Link
-                href="/auth/login"
-                className="inline-flex items-center justify-center bg-secondary hover:bg-secondary/90 text-secondary-foreground px-6 py-3 rounded-md font-semibold transition-colors"
-              >
-                {t('cta.button')}
-              </Link>
-            </div>
+        {/* Examples */}
+        <div id="examples" className="mt-12">
+          <h2 className="text-3xl font-bold mb-6">{t('guide.examples.title')}</h2>
+          
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>{t('guide.examples.workflow.title')}</CardTitle>
+              <CardDescription>
+                {t('guide.examples.workflow.description')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                <pre className="text-sm">{`# 1. Create a new user
+curl -X POST https://api.ludiks.io/end-user \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -d '{
+    "id": "user-456",
+    "fullName": "Alice Smith",
+    "email": "alice@example.com"
+  }'
+
+# 2. Track user events
+curl -X POST https://api.ludiks.io/tracking \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -d '{
+    "userId": "user-456",
+    "eventName": "signup_completed"
+  }'
+
+curl -X POST https://api.ludiks.io/tracking \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -d '{
+    "userId": "user-456",
+    "eventName": "purchase",
+    "value": 49.99
+  }'
+
+# 3. Get user profile with progress
+curl -X GET https://api.ludiks.io/end-user/user-456 \\
+  -H "Authorization: Bearer YOUR_API_KEY"`}</pre>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>{t('guide.examples.javascript.title')}</CardTitle>
+              <CardDescription>
+                {t('guide.examples.javascript.description')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                <pre className="text-sm">{`const API_BASE = 'https://api.ludiks.io';
+const API_KEY = 'your-api-key';
+
+const headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer ' + API_KEY
+};
+
+async function createUser(userData) {
+  const response = await fetch(API_BASE + '/end-user', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(userData)
+  });
+  return response.json();
+}
+
+async function trackEvent(userId, eventName, value = null) {
+  const response = await fetch(API_BASE + '/tracking', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      userId,
+      eventName,
+      value,
+      timestamp: new Date().toISOString()
+    })
+  });
+  return response.json();
+}
+
+async function getUserProfile(userId) {
+  const response = await fetch(API_BASE + '/end-user/' + userId, {
+    headers
+  });
+  return response.json();
+}
+
+// Usage example
+(async () => {
+  try {
+    // Create user
+    const user = await createUser({
+      id: 'user-789',
+      fullName: 'Bob Johnson',
+      email: 'bob@example.com'
+    });
+    
+    // Track events
+    const loginEvent = await trackEvent('user-789', 'login');
+    const purchaseEvent = await trackEvent('user-789', 'purchase', 199.99);
+    
+    // Get profile
+    const profile = await getUserProfile('user-789');
+    console.log('User streak:', profile.currentStreak);
+    
+  } catch (error) {
+    console.error('API Error:', error);
+  }
+})();`}</pre>
+              </div>
+            </CardContent>
           </Card>
         </div>
+
+        {/* Next Steps */}
+        <Card className="mt-8 bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-green-600" />
+              {t('guide.nextSteps.title')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/auth/login">
+                <Button>
+                  {t('guide.nextSteps.getApiKey')}
+                </Button>
+              </Link>
+              <Link href="/docs/sdk">
+                <Button variant="outline">
+                  {t('guide.nextSteps.trySDK')}
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </main>
+    </div>
   );
-} 
+}

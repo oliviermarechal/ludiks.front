@@ -38,9 +38,10 @@ module.exports = {
     const pages = [
       { path: '', changefreq: 'weekly', priority: 1.0 }, // landing
       { path: 'pricing', changefreq: 'monthly', priority: 0.8 },
-      { path: 'docs', changefreq: 'monthly', priority: 0.7 },
-      { path: 'docs/api', changefreq: 'monthly', priority: 0.6 },
-      { path: 'docs/sdk', changefreq: 'monthly', priority: 0.6 },
+      { path: 'docs', changefreq: 'monthly', priority: 0.9 }, // Introduction
+      { path: 'docs/sdk', changefreq: 'monthly', priority: 0.8 }, // SDK Guide
+      { path: 'docs/api', changefreq: 'monthly', priority: 0.8 }, // API Guide
+      { path: 'docs/components', changefreq: 'monthly', priority: 0.7 }, // React Components
       { path: 'onboarding', changefreq: 'monthly', priority: 0.5 },
       { path: 'blog', changefreq: 'weekly', priority: 0.8 },
     ];

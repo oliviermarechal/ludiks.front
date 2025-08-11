@@ -1,201 +1,569 @@
 {
   "title": "Documentation",
   "subtitle": "Tout ce dont vous avez besoin pour intégrer la gamification Ludiks dans votre application",
-  "quickStart": {
-    "title": "Démarrage Rapide",
-    "description": "Mettez en place Ludiks en moins de 5 minutes",
-    "button": "Commencer"
-  },
-  "guides": {
-    "title": "Guides & Tutoriels",
-    "description": "Guides étape par étape pour les cas d'usage courants et intégrations",
-    "button": "Parcourir les guides"
-  },
-  "cta": {
-    "title": "Prêt à commencer ?",
-    "description": "Créez votre premier parcours de gamification et voyez la différence dans l'engagement utilisateur",
-    "button": "Commencer l'essai gratuit"
+  "tabs": {
+    "sdk": "SDK JavaScript",
+    "react": "Bibliothèque React",
+    "api": "API REST"
   },
   "sdk": {
     "title": "SDK JavaScript",
-    "subtitle": "Intégration simple en 2 lignes de code. Setup automatique et tracking transparent.",
-    "button": "Voir le SDK",
+    "subtitle": "SDK JavaScript léger pour les projets vanilla JS, TypeScript et non-React. Intégration simple en 2 lignes de code.",
     "installation": {
       "title": "Installation",
-      "terminal": "Terminal"
+      "description": "Installez le SDK autonome via npm ou yarn",
+      "command": "npm install @ludiks/sdk"
     },
-    "setup": {
-      "title": "1. Initialisation de l'utilisateur",
-      "description": "Initialisez ou mettez à jour un utilisateur dans votre projet Ludiks.",
-      "javascript": "JavaScript",
-      "required": "Paramètres requis",
-      "optional": "Paramètres optionnels",
-      "metadata": {
-        "title": "💡 Métadonnées personnalisées",
-        "description": "Les métadonnées sont des données personnalisées que vous pouvez associer à vos utilisateurs. Elles servent ensuite à filtrer et segmenter vos utilisateurs dans le dashboard.",
-        "examples": "Exemples : plan d'abonnement, pays, source d'acquisition, date d'inscription, préférences, etc."
-      }
-    },
-    "tracking": {
-      "title": "2. Tracking des événements",
-      "description": "Envoyez des événements pour tracker la progression de vos utilisateurs et obtenir des données détaillées.",
-      "javascript": "JavaScript"
-    },
-    "response": {
-      "title": "Format de réponse",
-      "description": "Chaque appel à trackEvent retourne des informations détaillées sur la progression et les récompenses.",
-      "json": "Réponse JSON",
-      "progression": {
-        "title": "Informations de progression",
-        "updated": "La progression a été mise à jour",
-        "step": "Une étape a été complétée",
-        "circuit": "Le parcours entier est terminé",
-        "already": "L'étape était déjà complétée"
-      },
-      "data": {
-        "title": "Données de progression",
-        "points": "Points totaux actuels",
-        "step": "Statut de complétion de l'étape",
-        "rewards": "Récompenses débloquées",
-        "info": "Statut de succès de l'opération"
-      }
+    "features": {
+      "title": "Fonctionnalités Clés",
+      "simplicity": "Configuration simple en 2 lignes",
+      "automatic": "Gestion automatique des utilisateurs",
+      "typescript": "Support TypeScript complet",
+      "performance": "Optimisé avec gestion d'erreurs"
     },
     "example": {
-      "title": "Exemple complet",
-      "description": "Voici un exemple d'intégration complète dans votre application.",
-      "javascript": "JavaScript"
+      "title": "Exemple Complet",
+      "description": "Voici comment intégrer le SDK dans votre application :",
+      "setup": "1. Configuration & Initialisation",
+      "tracking": "2. Tracking des Événements",
+      "response": "3. Gestion des Réponses"
     },
-    "benefits": {
-      "title": "Pourquoi utiliser le SDK ?",
-      "simplicity": {
-        "title": "✅ Simplicité",
-        "description": "Setup en 2 lignes, tracking en 1 ligne. Pas de configuration complexe."
-      },
-      "automatic": {
-        "title": "✅ Automatique",
-        "description": "Création automatique de l'utilisateur, gestion des erreurs intégrée."
-      },
-      "typescript": {
-        "title": "✅ TypeScript",
-        "description": "Support TypeScript complet avec autocomplétion et validation des types."
-      },
-      "performance": {
-        "title": "✅ Performance",
-        "description": "Requêtes optimisées, retry automatique en cas d'erreur réseau."
+    "whenToUse": {
+      "title": "Quand utiliser le SDK ?",
+      "description": "Parfait pour les projets JavaScript vanilla, TypeScript, ou toute application non-React nécessitant un tracking de gamification."
+    }
+  },
+  "react": {
+    "title": "Bibliothèque React",
+    "subtitle": "Bibliothèque React tout-en-un qui inclut le SDK plus des composants React prêts à l'emploi. Aucune installation SDK supplémentaire nécessaire.",
+    "installation": {
+      "title": "Installation (Tout-en-Un)",
+      "description": "Installation d'un seul package - inclut le SDK et les composants React",
+      "command": "npm install @ludiks/react",
+      "note": "Ce package combine le SDK Ludiks complet avec des composants React prêts à l'emploi. Si vous n'avez besoin que des fonctionnalités du SDK sans composants visuels, vous pouvez utiliser @ludiks/sdk à la place."
+    },
+    "included": {
+      "title": "Ce qui est Inclus",
+      "sdk": "SDK JavaScript complet",
+      "components": "Composants React pré-construits",
+      "hooks": "Hooks React personnalisés",
+      "typescript": "Support TypeScript complet"
+    },
+    "sdkUsage": {
+      "title": "Utilisation du SDK dans React",
+      "description": "Utilisez les mêmes méthodes SDK dans votre application React",
+      "setup": "Configuration & Initialisation",
+      "tracking": "Tracking des Événements"
+    },
+    "components": {
+      "title": "Composants React",
+      "description": "Composants prêts à l'emploi pour les patterns de gamification courants",
+      "progressBar": "Indicateurs de progression",
+      "badges": "Badges d'accomplissement",
+      "leaderboard": "Classements utilisateurs",
+      "profile": "Cartes de profil utilisateur",
+      "link": {
+        "title": "Explorer les Composants React",
+        "description": "Essayez tous les composants avec des démos en direct et des options de configuration",
+        "button": "Voir la Documentation des Composants"
       }
     },
-    "cta": {
-      "title": "Prêt à intégrer ?",
-      "description": "Créez votre compte gratuit et obtenez votre clé API en 2 minutes.",
-      "button": "Commencer gratuitement"
+    "whenToUse": {
+      "title": "Quand utiliser la Bibliothèque React ?",
+      "description": "Idéale pour les applications React qui souhaitent à la fois un contrôle programmatique et des composants UI pré-construits pour la gamification."
     }
   },
   "api": {
-    "title": "Référence API",
-    "description": "Documentation API complète avec exemples et SDKs",
-    "button": "Voir la doc API",
-    "subtitle": "Intégration directe via nos endpoints REST. Parfait pour les applications backend ou mobiles.",
-    "back": "Retour à la documentation",
+    "title": "API REST",
+    "subtitle": "Intégration directe via des endpoints REST. Parfait pour les applications backend, les apps mobiles, ou tout besoin d'intégration personnalisé.",
     "auth": {
       "title": "Authentification",
-      "description": "Toutes les requêtes nécessitent votre clé API dans l'en-tête Authorization.",
-      "header": "Header"
+      "description": "Toutes les requêtes nécessitent votre clé API dans l'en-tête Authorization :",
+      "header": "Authorization: Bearer VOTRE_CLE_API"
     },
     "important": {
-      "title": "⚠️ Important : Identifiant utilisateur",
-      "description": "Ludiks utilise TOUJOURS l'identifiant que vous fournissez, jamais un identifiant interne. Cela garantit que vous gardez le contrôle total de vos données utilisateur.",
-      "examples": "Exemples : user-123, john.doe@email.com, 12345, etc.",
-      "examplesTitle": "Exemples d'identifiants valides"
+      "title": "Important : Identifiants Utilisateur",
+      "description": "Ludiks utilise toujours l'identifiant que vous fournissez - jamais d'IDs internes. Vous gardez le contrôle complet de vos données utilisateur.",
+      "examples": "Exemples valides : user-123, john.doe@email.com, 12345"
     },
     "endpoints": {
+      "title": "Endpoints Principaux",
       "createUser": {
-        "title": "1. Créer un utilisateur",
-        "description": "Créez ou mettez à jour un utilisateur dans votre projet.",
+        "title": "Créer Utilisateur",
         "method": "POST /end-user",
-        "curl": "cURL",
-        "required": {
-          "title": "Paramètres requis",
-          "id": "Identifiant unique de l'utilisateur",
-          "name": "Nom complet de l'utilisateur"
-        },
-        "optional": {
-          "title": "Paramètres optionnels",
-          "email": "Adresse email",
-          "picture": "URL de l'avatar",
-          "metadata": "Données personnalisées"
-        }
+        "description": "Créer ou mettre à jour un utilisateur dans votre projet"
       },
       "trackEvent": {
-        "title": "2. Tracker un événement",
-        "description": "Envoyez un événement pour tracker la progression de l'utilisateur.",
-        "method": "POST /tracking",
-        "curl": "cURL",
-        "required": {
-          "title": "Paramètres requis",
-          "userId": "ID de l'utilisateur",
-          "eventName": "Nom de l'événement"
-        },
-        "optional": {
-          "title": "Paramètres optionnels",
-          "value": "Valeur numérique (pour points/actions)",
-          "timestamp": "Horodatage ISO 8601"
-        }
+        "title": "Tracker Événement",
+        "method": "POST /tracking", 
+        "description": "Envoyer des événements pour tracker la progression utilisateur"
       },
       "getProfile": {
-        "title": "3. Récupérer le profil utilisateur",
-        "description": "Récupérez les informations complètes d'un utilisateur, incluant sa progression et ses récompenses.",
-        "curl": "cURL",
-        "required": {
-          "title": "Paramètres requis",
-          "userId": "ID de l'utilisateur dans l'URL"
-        },
-        "optional": {
-          "title": "Paramètres optionnels",
-          "none": "Aucun paramètre optionnel"
-        }
-      }
-    },
-    "examples": {
-      "javascript": {
-        "title": "Exemple JavaScript",
-        "description": "Intégration complète avec fetch en JavaScript.",
-        "code": "JavaScript"
+        "title": "Récupérer Profil",
+        "method": "GET /end-user/{userId}",
+        "description": "Récupérer la progression et les récompenses utilisateur"
       }
     },
     "responses": {
-      "title": "Format des réponses",
-      "success": {
-        "title": "Succès (200/201)",
-        "description": "Réponse de succès"
-      },
-      "error": {
-        "title": "Erreur (400/401)",
-        "description": "Réponse d'erreur"
+      "title": "Exemples de Réponses",
+      "success": "Les réponses de succès retournent des données de progression détaillées",
+      "error": "Les réponses d'erreur incluent des informations de débogage utiles"
+    },
+    "whenToUse": {
+      "title": "Quand utiliser l'API REST ?",
+      "description": "Parfait pour les services backend, les applications mobiles, ou lorsque vous avez besoin d'un contrôle total sur les requêtes HTTP et la gestion d'erreurs."
+    }
+  },
+  "components": {
+    "title": "Composants React",
+    "subtitle": "Documentation interactive avec des démos en direct pour tous les composants @ludiks/react",
+    "backToDocs": "Retour à la Documentation",
+    "theme": {
+      "title": "Personnalisation du Thème Global",
+      "description": "Personnalisez le schéma de couleurs pour tous les composants. Les modifications s'appliquent à toutes les démos en temps réel.",
+      "colors": {
+        "primary": "Couleur Primaire",
+        "secondary": "Couleur Secondaire",
+        "success": "Couleur de Succès"
       }
     },
-    "benefits": {
-      "title": "Pourquoi utiliser l'API REST ?",
-      "flexibility": {
-        "title": "✅ Flexibilité",
-        "description": "Intégration dans n'importe quel langage ou framework."
-      },
-      "control": {
-        "title": "✅ Contrôle total",
-        "description": "Gestion manuelle des requêtes et des erreurs."
-      },
-      "backend": {
-        "title": "✅ Backend/Mobile",
-        "description": "Parfait pour les applications serveur et mobiles."
-      },
-      "standard": {
-        "title": "✅ Standard REST",
-        "description": "API REST standard, facile à comprendre et intégrer."
+    "demo": {
+      "title": "Démo en Direct"
+    },
+    "configuration": {
+      "title": "Configuration"
+    },
+    "codeExample": {
+      "title": "Exemple de Code"
+    },
+    "tabs": {
+      "userProfile": "UserProfile",
+      "streakCounter": "StreakCounter",
+      "leaderboard": "Leaderboard",
+      "toaster": "Toaster"
+    },
+    "userProfile": {
+      "title": "Composant UserProfile",
+      "description": "Affiche des informations complètes sur l'utilisateur avec progrès, réussites et séries.",
+      "config": {
+        "showCircuits": "Afficher les Parcours",
+        "showRewards": "Afficher les Récompenses",
+        "showStreak": "Afficher les Séries",
+        "variant": {
+          "label": "Variante",
+          "options": {
+            "card": "Carte",
+            "minimal": "Minimal"
+          }
+        }
       }
     },
-    "cta": {
-      "title": "Prêt à intégrer ?",
-      "description": "Créez votre compte gratuit et obtenez votre clé API en 2 minutes.",
-      "button": "Commencer gratuitement"
+    "streakCounter": {
+      "title": "Composant StreakCounter",
+      "description": "Suit et affiche les séries d'activité utilisateur avec divers styles visuels.",
+      "config": {
+        "showRecord": "Afficher le Record",
+        "animate": "Activer les Animations",
+        "variant": {
+          "label": "Variante",
+          "options": {
+            "flame": "Flamme",
+            "detailed": "Détaillé",
+            "calendar": "Calendrier",
+            "minimal": "Minimal"
+          }
+        }
+      }
+    },
+    "leaderboard": {
+      "title": "Composant Leaderboard",
+      "description": "Affiche les classements d'utilisateurs avec des périodes de temps et des styles de présentation personnalisables.",
+      "config": {
+        "period": {
+          "label": "Période",
+          "options": {
+            "week": "Cette Semaine",
+            "month": "Ce Mois",
+            "all": "Tout le Temps"
+          }
+        },
+        "variant": {
+          "label": "Variante",
+          "options": {
+            "podium": "Podium",
+            "table": "Tableau",
+            "minimal": "Minimal"
+          }
+        },
+        "limit": {
+          "label": "Limite de Résultats",
+          "options": {
+            "3": "Top 3",
+            "5": "Top 5",
+            "10": "Top 10"
+          }
+        },
+        "showUserDetails": "Afficher les Détails Utilisateur"
+      }
+    },
+    "toaster": {
+      "title": "Composant GamificationToaster",
+      "description": "Affiche les notifications de réussite et les mises à jour de progrès avec des animations fluides.",
+      "demo": {
+        "title": "Démo Interactive",
+        "description": "Cliquez sur les boutons ci-dessous pour voir différents types de notifications."
+      },
+      "buttons": {
+        "stepCompleted": "Étape Complétée",
+        "circuitCompleted": "Parcours Complété",
+        "rewardEarned": "Récompense Obtenue"
+      },
+      "codeExample": {
+        "title": "Étape complétée !",
+        "description": "Vous avez fait de beaux progrès"
+      },
+      "notifications": {
+        "stepCompleted": {
+          "title": "Étape Complétée !",
+          "description": "Vous avez complété une étape de défi"
+        },
+        "circuitCompleted": {
+          "title": "Parcours Complété !",
+          "description": "Félicitations ! Vous avez complété l'ensemble du parcours",
+          "reward": "Badge Maître"
+        },
+        "rewardEarned": {
+          "title": "Nouvelles Récompenses !",
+          "description": "Vous avez débloqué de nouvelles réussites",
+          "rewards": {
+            "0": "Badge de Progrès",
+            "1": "Prix de Dévouement"
+          }
+        }
+      }
+    },
+    "installation": {
+      "title": "Installation et Configuration",
+      "note": "Ce package combine le SDK Ludiks complet avec des composants React prêts à l'emploi. Si vous n'avez besoin que des fonctionnalités du SDK sans composants visuels, vous pouvez utiliser @ludiks/sdk à la place."
+    }
+  },
+  "gettingStarted": {
+    "title": "Commencer avec Ludiks",
+    "subtitle": "Intégrez la gamification en quelques minutes avec nos SDK, API REST ou composants React",
+    "badges": {
+      "javascript": "JavaScript",
+      "react": "React", 
+      "api": "REST API",
+      "opensource": "Open Source"
+    },
+    "quickStart": {
+      "title": "Démarrage Rapide",
+      "subtitle": "Intégrez la gamification en 3 étapes simples",
+      "step1": {
+        "title": "Créez votre compte",
+        "description": "Inscription gratuite et obtenez votre clé API"
+      },
+      "step2": {
+        "title": "Choisissez votre méthode",
+        "description": "SDK JavaScript, API REST ou React"
+      },
+      "step3": {
+        "title": "Commencez l'intégration", 
+        "description": "Suivez nos guides d'implémentation"
+      }
+    },
+    "chooseMethod": {
+      "title": "Choisissez Votre Méthode d'Intégration",
+      "subtitle": "Sélectionnez l'approche qui correspond le mieux à votre stack technologique et vos besoins"
+    },
+    "sdk": {
+      "title": "SDK JavaScript",
+      "description": "SDK léger et agnostique du framework pour tout projet JavaScript",
+      "installLabel": "Installation",
+      "features": {
+        "title": "Fonctionnalités",
+        "framework": "Agnostique du framework",
+        "lightweight": "Léger (~15kb)",
+        "typescript": "Support TypeScript",
+        "simple": "API simple"
+      },
+      "ideal": {
+        "title": "Idéal pour",
+        "vanilla": "JavaScript vanilla",
+        "vue": "Vue.js / Nuxt",
+        "angular": "Angular",
+        "backend": "Applications backend"
+      },
+      "learnMore": "En savoir plus"
+    },
+    "api": {
+      "title": "API REST",
+      "description": "Intégration directe via des endpoints HTTP standard",
+      "endpointLabel": "Point d'entrée",
+      "features": {
+        "title": "Fonctionnalités",
+        "standard": "HTTP REST standard",
+        "language": "Indépendant du langage",
+        "control": "Contrôle total",
+        "scalable": "Hautement scalable"
+      },
+      "ideal": {
+        "title": "Idéal pour",
+        "backend": "Services backend",
+        "mobile": "Applications mobiles",
+        "microservices": "Microservices",
+        "custom": "Intégrations personnalisées"
+      },
+      "learnMore": "En savoir plus"
+    },
+    "react": {
+      "title": "Bibliothèque React",
+      "description": "SDK complet + composants React prêts à l'emploi",
+      "installLabel": "Installation",
+      "includes": {
+        "title": "Inclut",
+        "sdk": "SDK JavaScript",
+        "sdkDesc": "Toutes les fonctionnalités du SDK",
+        "components": "Composants React",
+        "componentsDesc": "Interface utilisateur pré-construite",
+        "hooks": "Hooks React",
+        "hooksDesc": "Gestion d'état intégrée",
+        "typescript": "TypeScript",
+        "typescriptDesc": "Support complet"
+      },
+      "viewComponents": "Voir les Composants"
+    },
+    "examples": {
+      "title": "Exemples de Code",
+      "sdk": {
+        "title": "Exemple SDK",
+        "description": "Intégration rapide du SDK JavaScript",
+        "comment1": "Configuration",
+        "comment2": "Initialiser un utilisateur",
+        "comment3": "Suivre un événement",
+        "comment4": "Points gagnés"
+      },
+      "react": {
+        "title": "Exemple React",
+        "description": "Utilisation des composants React", 
+        "comment1": "Configuration (même API que le SDK)",
+        "comment2": "Utiliser les composants React"
+      }
+    },
+    "nextSteps": {
+      "title": "Prochaines Étapes",
+      "subtitle": "Tout est prêt ? Commencez votre intégration maintenant",
+      "getStarted": "Créer un Compte Gratuit",
+      "viewComponents": "Explorer les Composants"
+    },
+    "copy": "Copier"
+  },
+  "cta": {
+    "title": "Prêt à commencer ?",
+    "description": "Créez votre compte gratuit et obtenez votre clé API en 2 minutes",
+    "button": "Commencer l'essai gratuit"
+  },
+  "sdk": {
+    "backToGettingStarted": "Retour au Getting Started",
+    "guide": {
+      "title": "Guide SDK JavaScript",
+      "subtitle": "Documentation complète pour intégrer le SDK Ludiks dans votre application",
+      "copy": "Copier",
+      "installation": {
+        "title": "Installation"
+      },
+      "quickSetup": {
+        "title": "Configuration Rapide",
+        "description": "Commencez en 3 étapes simples",
+        "step1": "Configuration avec votre clé API",
+        "step2": "Initialisation d'un utilisateur",
+        "step3": "Tracking des événements"
+      },
+      "methods": {
+        "title": "Méthodes Disponibles",
+        "parameters": "Paramètres",
+        "response": "Réponse",
+        "example": "Exemple",
+        "configure": {
+          "description": "Initialise le SDK avec votre clé API",
+          "apiKeyDesc": "Votre clé API Ludiks"
+        },
+        "initUser": {
+          "description": "Crée ou met à jour un utilisateur dans votre projet",
+          "idDesc": "Identifiant unique de l'utilisateur",
+          "fullNameDesc": "Nom complet de l'utilisateur",
+          "emailDesc": "Adresse email de l'utilisateur",
+          "pictureDesc": "URL de l'image de profil de l'utilisateur",
+          "metadataDesc": "Métadonnées de l'utilisateur"
+        },
+        "trackEvent": {
+          "description": "Envoie un événement pour tracker la progression de l'utilisateur",
+          "userIdDesc": "Identifiant de l'utilisateur",
+          "eventNameDesc": "Nom de l'événement à tracker",
+          "valueDesc": "Valeur numérique associée à l'événement",
+          "timestampDesc": "Horodatage de l'événement"
+        },
+        "getProfile": {
+          "description": "Récupère le profil complet et les statistiques de l'utilisateur",
+          "userIdDesc": "Identifiant de l'utilisateur à récupérer"
+        }
+      },
+      "errorHandling": {
+        "title": "Gestion des Erreurs",
+        "description": "Comment gérer les erreurs de façon gracieuse",
+        "graceful": "Gérer l'erreur gracieusement"
+      },
+      "examples": {
+        "title": "Exemples Complets",
+        "complete": {
+          "title": "Exemple d'Intégration Complète",
+          "description": "Exemple montrant l'utilisation complète du SDK, depuis l'initialisation jusqu'au suivi des événements."
+        }
+      },
+      "nextSteps": {
+        "title": "Prochaines Étapes",
+        "getApiKey": "Obtenir une Clé API",
+        "exploreReact": "Explorer React"
+      }
+    }
+  },
+  "api": {
+    "backToGettingStarted": "Retour au Getting Started",
+    "guide": {
+      "title": "Documentation API REST",
+      "subtitle": "Documentation complète pour intégrer l'API REST Ludiks",
+      "copy": "Copier",
+      "baseUrl": {
+        "title": "URL de Base"
+      },
+      "authentication": {
+        "title": "Authentification",
+        "description": "Toutes les requêtes nécessitent votre clé API dans l'en-tête Authorization",
+        "note": "Remplacez YOUR_API_KEY par votre vraie clé API"
+      },
+      "endpoints": {
+        "title": "Points de Terminaison",
+        "headers": "En-têtes",
+        "requestBody": "Corps de la Requête",
+        "response": "Réponse",
+        "exampleRequest": "Exemple de Requête",
+        "pathParameters": "Paramètres de Chemin",
+        "createUser": {
+          "description": "Crée ou met à jour un utilisateur dans votre projet",
+          "idDesc": "Identifiant unique de l'utilisateur",
+          "fullNameDesc": "Nom complet de l'utilisateur",
+          "emailDesc": "Adresse email de l'utilisateur"
+        },
+        "trackEvent": {
+          "description": "Envoie un événement pour tracker la progression de l'utilisateur",
+          "userIdDesc": "Identifiant de l'utilisateur",
+          "eventNameDesc": "Nom de l'événement à tracker",
+          "valueDesc": "Valeur numérique associée à l'événement",
+          "timestampDesc": "Horodatage de l'événement"
+        },
+        "getUserProfile": {
+          "description": "Récupère le profil complet et les statistiques de l'utilisateur",
+          "userIdDesc": "Identifiant de l'utilisateur à récupérer"
+        }
+      },
+      "errorResponses": {
+        "title": "Réponses d'Erreur",
+        "description": "Format des réponses d'erreur de l'API"
+      },
+      "rateLimiting": {
+        "title": "Limitation de Débit",
+        "description": "Limites d'utilisation de l'API",
+        "limit1": "1000 requêtes par heure par clé API",
+        "limit2": "100 requêtes par minute par clé API",
+        "headers": "En-têtes de limitation inclus dans chaque réponse"
+      },
+      "examples": {
+        "title": "Exemples d'Intégration",
+        "workflow": {
+          "title": "Workflow Complet avec cURL",
+          "description": "Exemple d'un workflow complet depuis la création d'utilisateur jusqu'au suivi d'événements."
+        },
+        "javascript": {
+          "title": "Intégration JavaScript",
+          "description": "Exemple d'intégration JavaScript avec gestion d'erreurs et fonctions utilitaires."
+        }
+      },
+      "nextSteps": {
+        "title": "Prochaines Étapes",
+        "getApiKey": "Obtenir une Clé API",
+        "trySDK": "Essayer le SDK"
+      }
+    }
+  },
+  "sidebar": {
+    "introduction": "Introduction",
+    "sdk": {
+      "title": "SDK JavaScript",
+      "overview": "Vue d'ensemble",
+      "methods": "Méthodes",
+      "examples": "Exemples"
+    },
+    "api": {
+      "title": "API REST",
+      "overview": "Vue d'ensemble",
+      "endpoints": "Endpoints",
+      "examples": "Exemples"
+    },
+    "components": "Composants React",
+    "quickLinks": {
+      "title": "Liens Rapides",
+      "getApiKey": "Obtenir une clé API",
+      "liveDemo": "Démo en direct"
+    }
+  },
+  "introduction": {
+    "title": "Documentation Ludiks",
+    "subtitle": "Intégrez la gamification dans vos applications avec nos outils SDK, API REST et composants React.",
+    "badges": {
+      "javascript": "JavaScript",
+      "react": "React",
+      "api": "REST API",
+      "opensource": "Open Source"
+    },
+    "whatIs": {
+      "title": "Qu'est-ce que Ludiks ?",
+      "description": "Ludiks est une plateforme de gamification qui vous permet d'ajouter facilement des éléments de jeu à vos applications pour augmenter l'engagement utilisateur, suivre la progression et récompenser les actions.",
+      "features": {
+        "engagement": "Engagement",
+        "engagementDesc": "Augmentez l'engagement utilisateur",
+        "progression": "Progression",
+        "progressionDesc": "Suivez la progression des utilisateurs",
+        "rewards": "Récompenses",
+        "rewardsDesc": "Système de récompenses intégré"
+      }
+    },
+    "integration": {
+      "title": "Options d'Intégration",
+      "description": "Choisissez la méthode d'intégration qui correspond le mieux à vos besoins techniques.",
+      "learnMore": "En savoir plus",
+      "sdk": {
+        "title": "SDK JavaScript",
+        "description": "SDK léger pour intégration rapide dans tout projet JavaScript"
+      },
+      "api": {
+        "title": "API REST",
+        "description": "Intégration directe via endpoints HTTP standard"
+      },
+      "react": {
+        "title": "Composants React", 
+        "description": "SDK + composants React pré-construits pour une intégration complète"
+      }
+    },
+    "installation": {
+      "title": "Installation Rapide",
+      "description": "Commencez en installant le package adapté à votre projet.",
+      "sdk": "SDK JavaScript uniquement",
+      "react": "SDK + Composants React"
+    },
+    "nextSteps": {
+      "title": "Prochaines Étapes",
+      "startWithSDK": "Commencer avec le SDK",
+      "getApiKey": "Obtenir une clé API"
     }
   }
 } 

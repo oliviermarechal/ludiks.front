@@ -3,7 +3,12 @@
   "subtitle": "Easily integrate user tracking into your application with our JavaScript SDK.",
   "installation": {
     "title": "Installation",
-    "npm_install": "Installation via npm"
+    "npm_install": "Installation via npm",
+    "standalone": "@ludiks/sdk (Standalone)",
+    "react": "@ludiks/react (Complete)",
+    "sdk_description": "For vanilla JavaScript, TypeScript, or non-React projects.",
+    "react_description": "Includes the full SDK + React components for React projects.",
+    "react_note": "This package combines the full Ludiks SDK with ready-to-use React components. If you only need SDK functionality without visual components, you can use @ludiks/sdk instead."
   },
   "initialization": {
     "title": "User Initialization",
@@ -33,11 +38,14 @@
     "title": "API Reference",
     "types": "Types",
     "methods": "Methods",
+    "configure_description": "Configure the SDK globally with your API key. Call once at application startup.",
     "init_user_description": "Initializes or updates a user in your Ludiks project. This method should be called when a user logs in or when user data changes.",
-    "track_event_description": "Sends an event to track user progress. For objective circuits, use the eventName corresponding to the step. For points/actions circuits, include the value to increment. Returns detailed response with progress status and rewards."
+    "track_event_description": "Sends an event to track user progress. For objective circuits, use the eventName corresponding to the step. For points/actions circuits, include the value to increment. Returns detailed response with progress status and rewards.",
+    "get_profile_description": "Retrieves complete user profile with progressions and rewards."
   },
   "code": {
     "comments": {
+      "sdk_config": "Global SDK configuration",
       "sdk_init": "Initialize or update a user",
       "api_key": "API key for your project",
       "user_id": "Unique user ID",

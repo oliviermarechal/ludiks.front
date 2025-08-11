@@ -7,11 +7,30 @@ import { useAuth } from "@/lib/hooks/use-auth.hook";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import { usePathname } from 'next/navigation';
 
 export function Navigation() {
   const t = useTranslations('home.navigation');
   const { isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Helper function to check if a link is active
+  const isActive = (path: string) => {
+    if (path === '/docs' && pathname.includes('/docs')) {
+      return true;
+    }
+    return pathname === path;
+  };
+
+  // Helper function to get link classes
+  const getLinkClasses = (path: string) => {
+    const baseClasses = "transition-colors font-medium";
+    if (isActive(path)) {
+      return `${baseClasses} text-primary font-semibold`;
+    }
+    return `${baseClasses} text-foreground/80 hover:text-foreground`;
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -43,19 +62,19 @@ export function Navigation() {
           <div className="hidden md:flex items-center space-x-8">
             <Link
               href="/pricing"
-              className="text-foreground/80 hover:text-foreground transition-colors font-medium"
+              className={getLinkClasses('/pricing')}
             >
               {t('pricing')}
             </Link>
             <Link
               href="/docs"
-              className="text-foreground/80 hover:text-foreground transition-colors font-medium"
+              className={getLinkClasses('/docs')}
             >
               {t('documentation')}
             </Link>
             <Link
               href="/blog"
-              className="text-foreground/80 hover:text-foreground transition-colors font-medium"
+              className={getLinkClasses('/blog')}
             >
               Blog
             </Link>
@@ -90,21 +109,21 @@ export function Navigation() {
               <Link
                 href="/pricing"
                 onClick={() => setIsMenuOpen(false)}
-                className="block w-full text-left text-foreground/80 hover:text-foreground transition-colors font-medium py-2"
+                className={`block w-full text-left py-2 ${getLinkClasses('/pricing')}`}
               >
                 {t('pricing')}
               </Link>
               <Link
                 href="/docs"
                 onClick={() => setIsMenuOpen(false)}
-                className="block w-full text-left text-foreground/80 hover:text-foreground transition-colors font-medium py-2"
+                className={`block w-full text-left py-2 ${getLinkClasses('/docs')}`}
               >
                 {t('documentation')}
               </Link>
               <Link
                 href="/blog"
                 onClick={() => setIsMenuOpen(false)}
-                className="block w-full text-left text-foreground/80 hover:text-foreground transition-colors font-medium py-2"
+                className={`block w-full text-left py-2 ${getLinkClasses('/blog')}`}
               >
                 Blog
               </Link>

@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Ludiks, User, TrackEventResponse } from '@ludiks/sdk';
 
 interface UseLudiksOptions {
@@ -7,31 +7,28 @@ interface UseLudiksOptions {
 }
 
 export function useLudiks({ apiKey, baseUrl }: UseLudiksOptions) {
+  // Configure SDK once when hook is initialized
+  useEffect(() => {
+    Ludiks.configure(apiKey, baseUrl);
+  }, [apiKey, baseUrl]);
+
   const getProfile = useCallback(async (userId: string) => {
     try {
-      return await Ludiks.getProfile({
-        apiKey,
-        userId,
-        baseUrl
-      });
+      return await Ludiks.getProfile(userId);
     } catch (error) { 
       console.error('Failed to get profile:', error);
       throw error;
     }
-  }, [apiKey, baseUrl]);
+  }, []);
 
   const initUser = useCallback(async (user: User) => {
     try {
-      await Ludiks.initUser({
-        apiKey,
-        user,
-        baseUrl
-      });
+      await Ludiks.initUser(user);
     } catch (error) {
       console.error('Failed to initialize user:', error);
       throw error;
     }
-  }, [apiKey, baseUrl]);
+  }, []);
 
   const trackEvent = useCallback(async (
     userId: string,
@@ -40,19 +37,12 @@ export function useLudiks({ apiKey, baseUrl }: UseLudiksOptions) {
     timestamp?: Date
   ): Promise<TrackEventResponse> => {
     try {
-      return await Ludiks.trackEvent({
-        apiKey,
-        userId,
-        eventName,
-        value,
-        timestamp,
-        baseUrl
-      });
+      return await Ludiks.trackEvent(userId, eventName, value, timestamp);
     } catch (error) {
       console.error('Failed to track event:', error);
       throw error;
     }
-  }, [apiKey, baseUrl]);
+  }, []);
 
   return {
     initUser,

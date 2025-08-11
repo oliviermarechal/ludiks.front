@@ -3,7 +3,12 @@
   "subtitle": "Intégrez facilement le suivi des utilisateurs dans votre application avec notre SDK JavaScript.",
   "installation": {
     "title": "Installation",
-    "npm_install": "Installation via npm"
+    "npm_install": "Installation via npm",
+    "standalone": "@ludiks/sdk (Autonome)",
+    "react": "@ludiks/react (Complet)",
+    "sdk_description": "Pour les projets JavaScript vanilla, TypeScript ou non-React.",
+    "react_description": "Inclut le SDK complet + les composants React pour les projets React.",
+    "react_note": "Ce package combine le SDK Ludiks complet avec des composants React prêts à l'emploi. Si vous n'avez besoin que des fonctionnalités du SDK sans composants visuels, vous pouvez utiliser @ludiks/sdk à la place."
   },
   "initialization": {
     "title": "Initialisation de l'utilisateur",
@@ -33,11 +38,14 @@
     "title": "Référence API",
     "types": "Types",
     "methods": "Méthodes",
+    "configure_description": "Configure le SDK globalement avec votre clé API. À appeler une fois au démarrage de l'application.",
     "init_user_description": "Initialise ou met à jour un utilisateur dans votre projet Ludiks. Cette méthode doit être appelée quand un utilisateur se connecte ou quand les données utilisateur changent.",
-    "track_event_description": "Envoie un événement pour tracker la progression de l'utilisateur. Pour les parcours d'objectif, utilisez l'eventName correspondant à l'étape. Pour les parcours à points/actions, incluez la valeur à incrémenter. Retourne une réponse détaillée avec le statut de progression et les récompenses."
+    "track_event_description": "Envoie un événement pour tracker la progression de l'utilisateur. Pour les parcours d'objectif, utilisez l'eventName correspondant à l'étape. Pour les parcours à points/actions, incluez la valeur à incrémenter. Retourne une réponse détaillée avec le statut de progression et les récompenses.",
+    "get_profile_description": "Récupère le profil complet d'un utilisateur avec ses progressions et récompenses."
   },
   "code": {
     "comments": {
+      "sdk_config": "Configuration globale du SDK",
       "sdk_init": "Initialiser ou mettre à jour un utilisateur",
       "api_key": "Clé API de votre projet",
       "user_id": "ID unique de l'utilisateur",

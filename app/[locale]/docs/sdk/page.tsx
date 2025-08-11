@@ -1,336 +1,481 @@
-'use client'
+'use client';
 
-import { Link } from "@/lib/navigation";
-import { Card } from "@/components/ui/card";
-import { Navigation } from "@/components/navigation";
-import { ArrowLeft, Copy, Check } from "lucide-react";
-import { useState } from "react";
+import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Package, Code, Copy, CheckCircle2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Link } from "@/lib/navigation";
 
-export default function SDKDocumentationPage() {
+export default function SDKGuidePage() {
   const t = useTranslations('documentation.sdk');
-  const [copied, setCopied] = useState<string | null>(null);
 
-  const copyToClipboard = (text: string, id: string) => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    setCopied(id);
-    setTimeout(() => setCopied(null), 2000);
   };
 
-  const initUserCode = `import { Ludiks } from '@ludiks/sdk';
+  return (
+    <div className="container mx-auto pt-8 pb-16 px-6">
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <div id="overview" className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-lg bg-blue-100">
+              <Package className="h-6 w-6 text-blue-600" />
+            </div>
+            <h1 className="text-4xl font-bold text-foreground">
+              {t('guide.title')}
+            </h1>
+          </div>
+          <p className="text-xl text-foreground/70">
+            {t('guide.subtitle')}
+          </p>
+        </div>
 
-// Initialize or update a user
-await Ludiks.initUser({
-  apiKey: 'your-api-key',
-  user: {
-    id: 'user-123',
-    full_name: 'John Doe',
-    email: 'john@example.com',
-    picture: 'https://example.com/avatar.jpg',
-    metadata: {
-      plan: 'premium',
-      source: 'web',
-      country: 'FR',
-      subscription_date: '2024-01-15'
-    }
-  }
-});`;
+          {/* Installation */}
+          <Card className="mb-8 border-2 border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Package className="h-5 w-5" />
+                {t('guide.installation.title')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm text-gray-400">npm</span>
+                  <button
+                    onClick={() => copyToClipboard('npm install @ludiks/sdk')}
+                    className="text-gray-400 hover:text-white text-xs flex items-center gap-1"
+                  >
+                    <Copy className="h-3 w-3" />
+                    {t('guide.copy')}
+                  </button>
+                </div>
+                <code className="text-sm">npm install @ludiks/sdk</code>
+              </div>
+            </CardContent>
+          </Card>
 
-  const trackEventCode = `// Track an event
-const response = await Ludiks.trackEvent({
-  apiKey: 'your-api-key',
-  userId: 'user-123',
-  eventName: 'profile_completed',
-  value: 1,
-  timestamp: new Date()
+          {/* Quick Setup */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle>{t('guide.quickSetup.title')}</CardTitle>
+              <CardDescription>{t('guide.quickSetup.description')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                <pre className="text-sm overflow-x-auto">{`import { Ludiks } from '@ludiks/sdk';
+
+// ${t('guide.quickSetup.step1')}
+Ludiks.configure('your-api-key');
+
+// ${t('guide.quickSetup.step2')}
+const response = await Ludiks.initUser({
+  id: 'user-123',
+  fullName: 'John Doe',
+  email: 'john@example.com', // Optional
+  picture: 'https://example.com/picture.jpg', // Optional
+  metadata: {
+    plan: 'premium',
+    signupSource: 'website'
+  } // Optional
 });
 
-console.log(response);
-// {
-//   "success": true,
-//   "updated": true,
-//   "stepCompleted": true,
-//   "circuitCompleted": false,
-//   "alreadyCompleted": false,
-//   "points": 150,
-//   "rewards": [
-//     { "name": "Badge Profile" }
-//   ]
-// }`;
+// ${t('guide.quickSetup.step3')}
+const eventResponse = await Ludiks.trackEvent('user-123', 'login');
+console.log('Points earned:', eventResponse.points);`}</pre>
+              </div>
+            </CardContent>
+          </Card>
 
-  const completeExample = `import { Ludiks } from '@ludiks/sdk';
+          {/* Methods */}
+          <div id="methods" className="space-y-8">
+            <h2 className="text-3xl font-bold mb-6">{t('guide.methods.title')}</h2>
 
-// 1. Initialize user (once)
-await Ludiks.initUser({
-  apiKey: 'your-api-key',
-  user: {
-    id: 'user-123',
-    full_name: 'John Doe',
-    email: 'john@example.com',
-    metadata: {
-      plan: 'premium',
-      source: 'web',
-      country: 'FR'
-    }
-  }
-});
+            {/* Configure Method */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Code className="h-5 w-5 text-primary" />
+                  Ludiks.configure()
+                </CardTitle>
+                <CardDescription>
+                  {t('guide.methods.configure.description')}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.parameters')}</h4>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">apiKey</span>
+                        <Badge variant="destructive" className="ml-2">Required</Badge>
+                      </div>
+                      <div className="text-gray-600">string</div>
+                      <div>{t('guide.methods.configure.apiKeyDesc')}</div>
+                    </div>
+                  </div>
+                </div>
 
-// 2. Track events
-const loginResponse = await Ludiks.trackEvent({ 
-  apiKey: 'your-api-key',
-  userId: 'user-123',
-  eventName: 'login' 
-});
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.example')}</h4>
+                  <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                    <code className="text-sm">Ludiks.configure(&quot;ldk_live_abc123...&quot;);</code>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-const profileResponse = await Ludiks.trackEvent({ 
-  apiKey: 'your-api-key',
-  userId: 'user-123',
-  eventName: 'profile_completed', 
-  value: 1 
-});
+            {/* InitUser Method */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Code className="h-5 w-5 text-primary" />
+                  Ludiks.initUser()
+                </CardTitle>
+                <CardDescription>
+                  {t('guide.methods.initUser.description')}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.parameters')}</h4>
+                  <div className="bg-gray-50 p-4 rounded-lg space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">id</span>
+                        <Badge variant="destructive" className="ml-2">Required</Badge>
+                      </div>
+                      <div className="text-gray-600">string</div>
+                      <div>{t('guide.methods.initUser.idDesc')}</div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">fullName</span>
+                        <Badge variant="destructive" className="ml-2">Required</Badge>
+                      </div>
+                      <div className="text-gray-600">string</div>
+                      <div>{t('guide.methods.initUser.fullNameDesc')}</div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">email</span>
+                        <Badge variant="secondary" className="ml-2">Optional</Badge>
+                      </div>
+                      <div className="text-gray-600">string</div>
+                      <div>{t('guide.methods.initUser.emailDesc')}</div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">picture</span>
+                        <Badge variant="secondary" className="ml-2">Optional</Badge>
+                      </div>
+                      <div className="text-gray-600">string</div>
+                      <div>{t('guide.methods.initUser.pictureDesc')}</div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">metadata</span>
+                        <Badge variant="secondary" className="ml-2">Optional</Badge>
+                      </div>
+                      <div className="text-gray-600">object</div>
+                      <div>{t('guide.methods.initUser.metadataDesc')}</div>
+                    </div>
+                  </div>
+                </div>
 
-const purchaseResponse = await Ludiks.trackEvent({ 
-  apiKey: 'your-api-key',
-  userId: 'user-123',
-  eventName: 'purchase', 
-  value: 99.99 
-});`;
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.response')}</h4>
+                  <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                    <pre className="text-sm">{`{
+  "success": true
+}`}</pre>
+                  </div>
+                </div>
 
-  const responseFormat = `{
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.example')}</h4>
+                  <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                    <pre className="text-sm">{`const user = await Ludiks.initUser({
+  id: 'user-123',
+  fullName: 'John Doe',
+  email: 'john@example.com', // Optional
+  picture: 'https://example.com/picture.jpg', // Optional
+  metadata: {
+    plan: 'premium',
+    signupSource: 'website'
+  } // Optional
+});`}</pre>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* TrackEvent Method */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Code className="h-5 w-5 text-primary" />
+                  Ludiks.trackEvent()
+                </CardTitle>
+                <CardDescription>
+                  {t('guide.methods.trackEvent.description')}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.parameters')}</h4>
+                  <div className="bg-gray-50 p-4 rounded-lg space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">userId</span>
+                        <Badge variant="destructive" className="ml-2">Required</Badge>
+                      </div>
+                      <div className="text-gray-600">string</div>
+                      <div>{t('guide.methods.trackEvent.userIdDesc')}</div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">eventName</span>
+                        <Badge variant="destructive" className="ml-2">Required</Badge>
+                      </div>
+                      <div className="text-gray-600">string</div>
+                      <div>{t('guide.methods.trackEvent.eventNameDesc')}</div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">value</span>
+                        <Badge variant="secondary" className="ml-2">Optional</Badge>
+                      </div>
+                      <div className="text-gray-600">number</div>
+                      <div>{t('guide.methods.trackEvent.valueDesc')}</div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">timestamp</span>
+                        <Badge variant="secondary" className="ml-2">Optional</Badge>
+                      </div>
+                      <div className="text-gray-600">Date</div>
+                      <div>{t('guide.methods.trackEvent.timestampDesc')}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.response')}</h4>
+                  <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                    <pre className="text-sm">{`{
   "success": true,
-  "updated": true,
   "stepCompleted": true,
-  "circuitCompleted": false,
-  "alreadyCompleted": false,
   "points": 150,
   "rewards": [
     {
-      "name": "Badge Profile"
+      "name": "First Login",
+      "description": "Welcome bonus for your first login"
     }
-  ]
-}`;
+  ],
+  "circuitCompleted": false,
+  "currentStreak": 5
+}`}</pre>
+                  </div>
+                </div>
 
-  return (
-    <main className="min-h-screen bg-gradient-to-b from-background to-secondary/5">
-      <Navigation />
-      
-      <div className="container mx-auto pt-32 pb-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <Link
-              href="/docs"
-              className="inline-flex items-center text-foreground/70 hover:text-foreground mb-4"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Retour à la documentation
-            </Link>
-            <h1 className="text-4xl font-bold text-foreground mb-4">
-              {t('title')}
-            </h1>
-            <p className="text-xl text-foreground/70">
-              {t('subtitle')}
-            </p>
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.example')}</h4>
+                  <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                    <pre className="text-sm">{`// Simple event tracking
+const response = await Ludiks.trackEvent('user-123', 'login');
+
+// With value and timestamp
+const response = await Ludiks.trackEvent(
+  'user-123', 
+  'purchase', 
+  99.99,
+  new Date()
+);`}</pre>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* GetProfile Method */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Code className="h-5 w-5 text-primary" />
+                  Ludiks.getProfile()
+                </CardTitle>
+                <CardDescription>
+                  {t('guide.methods.getProfile.description')}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.parameters')}</h4>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div>
+                        <span className="font-mono text-primary">userId</span>
+                        <Badge variant="destructive" className="ml-2">Required</Badge>
+                      </div>
+                      <div className="text-gray-600">string</div>
+                      <div>{t('guide.methods.getProfile.userIdDesc')}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.response')}</h4>
+                  <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                    <pre className="text-sm">{`{
+  "id": "user-123",
+  "fullName": "John Doe",
+  "email": "john@example.com",
+  "externalId": "user-123",
+  "currentStreak": 5,
+  "longestStreak": 12,
+  "metadata": {
+    "plan": "premium",
+    "signupSource": "website"
+  },
+  "circuitProgress": [
+    {
+      "id": "circuit-1",
+      "circuitName": "Onboarding",
+      "status": "completed",
+      "points": 500,
+      "startedAt": "2024-01-01T00:00:00Z",
+      "completedAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": "circuit-2", 
+      "circuitName": "Power User",
+      "status": "in_progress",
+      "points": 250,
+      "startedAt": "2024-01-16T00:00:00Z"
+    }
+  ],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "lastLoginAt": "2024-01-20T15:30:00Z"
+}`}</pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold mb-2">{t('guide.methods.example')}</h4>
+                  <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                    <pre className="text-sm">{`const profile = await Ludiks.getProfile('user-123');
+console.log('Current streak:', profile.currentStreak);
+console.log('Circuit points:', profile.circuitProgress[0].points);
+console.log('Metadata:', profile.metadata);`}</pre>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Installation */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('installation.title')}</h2>
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">{t('installation.terminal')}</span>
-                <button
-                  onClick={() => copyToClipboard('npm install @ludiks/sdk', 'install')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copied === 'install' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </button>
+          {/* Error Handling */}
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>{t('guide.errorHandling.title')}</CardTitle>
+              <CardDescription>
+                {t('guide.errorHandling.description')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                <pre className="text-sm">{`try {
+  const response = await Ludiks.trackEvent('user-123', 'invalid-event');
+} catch (error) {
+  console.error('Ludiks error:', error.message);
+  // ${t('guide.errorHandling.graceful')}
+}`}</pre>
               </div>
-              <code>npm install @ludiks/sdk</code>
-            </div>
+            </CardContent>
           </Card>
 
-          {/* Setup */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('setup.title')}</h2>
-            <p className="text-foreground/70 mb-4">
-              {t('setup.description')}
-            </p>
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">{t('setup.javascript')}</span>
-                <button
-                  onClick={() => copyToClipboard(initUserCode, 'setup')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copied === 'setup' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </button>
-              </div>
-              <pre className="text-sm overflow-x-auto">{initUserCode}</pre>
-            </div>
+          {/* Examples */}
+          <div id="examples" className="mt-12">
+            <h2 className="text-3xl font-bold mb-6">{t('guide.examples.title')}</h2>
             
-            <div className="grid md:grid-cols-2 gap-6 mt-6">
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('setup.required')}</h4>
-                <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>apiKey</code> - Votre clé API</li>
-                  <li><code>user.id</code> - Identifiant unique</li>
-                  <li><code>user.full_name</code> - Nom complet</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('setup.optional')}</h4>
-                <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>user.email</code> - Adresse email</li>
-                  <li><code>user.picture</code> - URL de l&apos;avatar</li>
-                  <li><code>user.metadata</code> - Données personnalisées</li>
-                </ul>
-              </div>
-            </div>
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>{t('guide.examples.complete.title')}</CardTitle>
+                <CardDescription>
+                  {t('guide.examples.complete.description')}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
+                  <pre className="text-sm">{`import { Ludiks } from '@ludiks/sdk';
 
-            {/* Métadonnées */}
-            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <h4 className="font-semibold text-blue-900 mb-2">{t('setup.metadata.title')}</h4>
-              <p className="text-blue-800 text-sm mb-2">
-                {t('setup.metadata.description')}
-              </p>
-              <p className="text-blue-800 text-sm">
-                <strong>Exemples :</strong> {t('setup.metadata.examples')}
-              </p>
-            </div>
-          </Card>
+// Initialize the SDK
+Ludiks.configure('your-api-key');
 
-          {/* Tracking */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('tracking.title')}</h2>
-            <p className="text-foreground/70 mb-4">
-              {t('tracking.description')}
-            </p>
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">{t('tracking.javascript')}</span>
-                <button
-                  onClick={() => copyToClipboard(trackEventCode, 'track')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copied === 'track' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </button>
-              </div>
-              <pre className="text-sm overflow-x-auto">{trackEventCode}</pre>
-            </div>
-          </Card>
-
-          {/* Format de réponse */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('response.title')}</h2>
-            <p className="text-foreground/70 mb-4">
-              {t('response.description')}
-            </p>
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">{t('response.json')}</span>
-                <button
-                  onClick={() => copyToClipboard(responseFormat, 'response')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copied === 'response' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </button>
-              </div>
-              <pre className="text-sm overflow-x-auto">{responseFormat}</pre>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6 mt-6">
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('response.progression.title')}</h4>
-                <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>updated</code> - {t('response.progression.updated')}</li>
-                  <li><code>stepCompleted</code> - {t('response.progression.step')}</li>
-                  <li><code>circuitCompleted</code> - {t('response.progression.circuit')}</li>
-                  <li><code>alreadyCompleted</code> - {t('response.progression.already')}</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">{t('response.data.title')}</h4>
-                <ul className="text-sm text-foreground/70 space-y-1">
-                  <li><code>points</code> - {t('response.data.points')}</li>
-                  <li><code>stepCompleted</code> - {t('response.data.step')}</li>
-                  <li><code>rewards</code> - {t('response.data.rewards')}</li>
-                  <li><code>success</code> - {t('response.data.info')}</li>
-                </ul>
-              </div>
-            </div>
-          </Card>
-
-          {/* Exemple complet */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('example.title')}</h2>
-            <p className="text-foreground/70 mb-4">
-              {t('example.description')}
-            </p>
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">{t('example.javascript')}</span>
-                <button
-                  onClick={() => copyToClipboard(completeExample, 'complete')}
-                  className="text-gray-400 hover:text-white"
-                >
-                  {copied === 'complete' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </button>
-              </div>
-              <pre className="text-sm overflow-x-auto">{completeExample}</pre>
-            </div>
-          </Card>
-
-          {/* Avantages */}
-          <Card className="p-6 mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">{t('benefits.title')}</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">{t('benefits.simplicity.title')}</h3>
-                <p className="text-foreground/70 text-sm">
-                  {t('benefits.simplicity.description')}
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">{t('benefits.automatic.title')}</h3>
-                <p className="text-foreground/70 text-sm">
-                  {t('benefits.automatic.description')}
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">{t('benefits.typescript.title')}</h3>
-                <p className="text-foreground/70 text-sm">
-                  {t('benefits.typescript.description')}
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">{t('benefits.performance.title')}</h3>
-                <p className="text-foreground/70 text-sm">
-                  {t('benefits.performance.description')}
-                </p>
-              </div>
-            </div>
-          </Card>
-
-          {/* CTA */}
-          <Card className="p-8 bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-foreground mb-4">
-                {t('cta.title')}
-              </h2>
-              <p className="text-foreground/70 mb-6">
-                {t('cta.description')}
-              </p>
-              <Link
-                href="/auth/login"
-                className="inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-md font-semibold transition-colors"
-              >
-                {t('cta.button')}
-              </Link>
-            </div>
-          </Card>
-        </div>
-      </div>
-    </main>
+// Create a new user
+try {
+  const userResponse = await Ludiks.initUser({
+    id: 'user-123',
+    fullName: 'Jane Doe',
+    email: 'jane@example.com',
+    metadata: {
+      plan: 'premium',
+      signupSource: 'mobile-app'
+    }
+  });
+  
+  console.log('User created successfully');
+  
+  // Track user events
+  const loginEvent = await Ludiks.trackEvent('user-123', 'login');
+  console.log('Login points:', loginEvent.points);
+  
+  const purchaseEvent = await Ludiks.trackEvent(
+    'user-123', 
+    'purchase', 
+    299.99
   );
-} 
+  console.log('Purchase rewards:', purchaseEvent.rewards);
+  
+  // Get user profile
+  const profile = await Ludiks.getProfile('user-123');
+  console.log('Current streak:', profile.currentStreak);
+  
+} catch (error) {
+  console.error('SDK Error:', error.message);
+}`}</pre>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Next Steps */}
+          <Card className="mt-8 bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-green-600" />
+                {t('guide.nextSteps.title')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/auth/login">
+                  <Button>
+                    {t('guide.nextSteps.getApiKey')}
+                  </Button>
+                </Link>
+                <Link href="/docs/components">
+                  <Button variant="outline">
+                    {t('guide.nextSteps.exploreReact')}
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+      </div>
+    </div>
+  );
+}

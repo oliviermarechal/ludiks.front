@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { Link } from "@/lib/navigation";
 import { Metadata } from 'next';
-import Breadcrumbs from '@/components/blog/breadcrumbs';
+import { Navigation } from "@/components/navigation";
 
 interface BlogPageProps {
   params: Promise<{
@@ -75,27 +75,27 @@ export default async function BlogPage({ params }: BlogPageProps) {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Breadcrumbs */}
-      <Breadcrumbs locale={locale} currentPage="" />
+    <main className="min-h-screen bg-gradient-to-b from-background to-secondary/5">
+      <Navigation />
+      
+      <div className="container mx-auto pt-32 pb-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <header className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-foreground mb-4">
+              {locale === 'fr' ? 'Blog' : 'Blog'}
+            </h1>
+            <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
+              {locale === 'fr' 
+                ? 'Découvrez nos conseils et bonnes pratiques pour implémenter une gamification efficace dans vos applications.'
+                : 'Discover our tips and best practices for implementing effective gamification in your applications.'
+              }
+            </p>
+          </header>
 
-      {/* Header */}
-      <header className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-foreground mb-4">
-          {locale === 'fr' ? 'Blog' : 'Blog'}
-        </h1>
-        <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-          {locale === 'fr' 
-            ? 'Découvrez nos conseils et bonnes pratiques pour implémenter une gamification efficace dans vos applications.'
-            : 'Discover our tips and best practices for implementing effective gamification in your applications.'
-          }
-        </p>
-      </header>
-
-      {/* Articles List */}
-      <main>
-        <div className="grid gap-8">
-          {posts.map((post) => (
+          {/* Articles List */}
+          <div className="grid gap-8">
+            {posts.map((post) => (
             <Card key={post.slug} className="p-6 hover:shadow-lg transition-shadow">
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-1">
@@ -135,21 +135,22 @@ export default async function BlogPage({ params }: BlogPageProps) {
                 </div>
               </div>
             </Card>
-          ))}
-        </div>
+            ))}
 
-        {/* Empty State */}
-        {posts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-foreground/70 text-lg">
-              {locale === 'fr' 
-                ? 'Aucun article disponible pour le moment.'
-                : 'No articles available at the moment.'
-              }
-            </p>
+            {/* Empty State */}
+            {posts.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-foreground/70 text-lg">
+                  {locale === 'fr' 
+                    ? 'Aucun article disponible pour le moment.'
+                    : 'No articles available at the moment.'
+                  }
+                </p>
+              </div>
+            )}
           </div>
-        )}
-      </main>
-    </div>
+        </div>
+      </div>
+    </main>
   );
 } 
