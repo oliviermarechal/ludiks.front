@@ -198,6 +198,19 @@ export function SimpleEstimator() {
               </div>
             </div>
           </Card>
+          
+          {/* Event Explanation */}
+          <div className="mt-8 text-center max-w-2xl mx-auto">
+            <p className="text-sm text-foreground/60 mb-4">
+              {t('estimator.billing.eventExplanation')}
+            </p>
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/pricing" className="inline-flex items-center gap-2">
+                {t('estimator.billing.moreInfo')}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </div>

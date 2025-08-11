@@ -8,37 +8,44 @@
         "getStarted": "Commencer"
     },
     "hero": {
-        "title": "Gamifiez vos produits en 5 minutes",
-        "subtitle": "Créez des parcours engageants qui transforment vos utilisateurs en clients fidèles. Onboarding, activation, rétention - tout en un.",
+        "title": "Gamification Clé en Main pour Booster la Rétention",
+        "subtitle": "Arrêtez de perdre des utilisateurs. Déployez des mécaniques de rétention prouvées avec des composants prêts à l'emploi.",
         "features": {
             "rewards": "Récompenses automatiques",
             "flexible": "Parcours sur-mesure",
-            "free": "Commencez gratuitement"
+            "free": "5 000 événements GRATUITS/mois"
         },
         "cta": {
-            "button": "Créer mon premier parcours",
-            "subtitle": "Aucune carte de crédit requise • Setup en 5 minutes"
+            "button": "Commencez à retenir vos utilisateurs cette semaine",
+            "subtitle": "Aucune carte de crédit requise • Setup gratuit, payez selon le volume"
+        },
+        "codeSnippet": {
+            "comment": "// 3 lignes pour gamifier votre produit",
+            "step1": "npm install",
+            "step2": "Ludiks",
+            "step2Method": "trackEvent",
+            "step3Comment": "// ✨ La gamification est en ligne !"
         }
     },
     "why": {
-        "title": "Pourquoi la gamification est devenue essentielle ?",
-        "subtitle": "Dans un monde où l'attention est rare, la gamification transforme vos utilisateurs passifs en clients engagés",
+        "title": "Pourquoi les entreprises focalisées rétention choisissent la gamification",
+        "subtitle": "Basé sur les meilleures pratiques de gamification inter-secteurs - transformez l'abandon utilisateur en opportunités d'engagement",
         "advantages": {
             "rewards": {
-                "title": "Réduction du coût d'acquisition",
-                "description": "Les utilisateurs gamifiés sont 3x plus susceptibles de compléter votre onboarding et de devenir clients payants"
+                "title": "Réduire le churn utilisateur",
+                "description": "Les études sectorielles montrent que l'onboarding gamifié peut améliorer les taux de complétion de 20-40%"
             },
             "flexible": {
-                "title": "Amélioration de l'engagement",
-                "description": "Augmentez de 40% le temps passé sur votre produit et réduisez le churn de 25%"
+                "title": "Insights basés sur la donnée",
+                "description": "Identifiez exactement où vos utilisateurs décrochent et optimisez votre parcours utilisateur avec des données concrètes"
             },
             "simple": {
-                "title": "Intégration en 5 minutes",
+                "title": "Implémentation clé en main",
                 "description": "SDK léger qui s'intègre à votre stack existant sans refactorisation de code"
             },
             "insights": {
-                "title": "Optimisation continue",
-                "description": "Identifiez les points de friction et optimisez vos parcours en temps réel"
+                "title": "Optimisation du parcours utilisateur",
+                "description": "Trackez les métriques de rétention et optimisez vos funnels basés sur les vrais patterns de comportement utilisateur"
             }
         }
     },
@@ -87,7 +94,7 @@
         },
         "engagement": {
             "title": "Problème détecté sur une étape inattendue",
-            "description": "Chute importante du taux de complétion à l'étape \"Photo de profil\" - étape qui semblait insignifiante",
+            "description": "Chute importante du taux de complétion à l'étape \"Photo de profil\" - étape qui semblait insignifiante (données d'illustration)",
             "engagement": "de complétion",
             "users": "utilisateurs",
             "engagement_rate": "Taux de complétion"
@@ -268,7 +275,9 @@
             }
         },
         "billing": {
-            "minimum": "Facturation minimale de 5$/mois dès que vous dépassez 5000 events"
+            "minimum": "Facturation minimale de 5$/mois dès que vous dépassez 5000 events",
+            "eventExplanation": "Event = toute action utilisateur (connexion, achat, utilisation fonctionnalité). La plupart des entreprises ont besoin de 3-5 events par parcours utilisateur.",
+            "moreInfo": "Plus d'infos sur les tarifs"
         }
     },
     "bonus": {
@@ -277,10 +286,68 @@
         "button": "Générer ma stratégie",
         "note": "Gratuit et sans engagement"
     },
+    "implementation": {
+        "title": "Zéro Impact sur Votre Roadmap",
+        "subtitle": "Vos dev gardent le focus sur vos fonctionnalités métier. Ludiks s'intègre sans ralentir votre roadmap produit.",
+        "badges": {
+            "setup": {
+                "value": "Cette Semaine",
+                "label": "Délai de lancement"
+            },
+            "resources": {
+                "value": "Aucun Blocage",
+                "label": "Ressources dev nécessaires"
+            },
+            "impact": {
+                "value": "Vision Claire",
+                "label": "Dashboard rétention"
+            },
+            "risk": {
+                "value": "Sans Risque",
+                "label": "Zéro changement cassant"
+            }
+        },
+        "technical": {
+            "title": "Votre équipe technique va adorer aussi",
+            "description": "Intégration simple que vos devs peuvent implémenter en quelques minutes",
+            "button": "Voir la Doc Technique"
+        }
+    },
+    "components": {
+        "title": "Composants UI Prêts à l'Emploi",
+        "subtitle": "Passez le développement UI. Nos composants React sont prêts pour la production et entièrement personnalisables.",
+        "list": {
+            "userProfile": {
+                "name": "UserProfile",
+                "description": "Dashboard complet de progression utilisateur avec circuits et récompenses"
+            },
+            "leaderboard": {
+                "name": "Leaderboard",
+                "description": "Classements compétitifs avec mises à jour temps réel"
+            },
+            "streakCounter": {
+                "name": "StreakCounter",
+                "description": "Suivi des séries quotidiennes avec progression visuelle"
+            },
+            "toaster": {
+                "name": "Notifications",
+                "description": "Toasts de succès et animations de célébration"
+            }
+        },
+        "benefits": {
+            "time": "Économisez des semaines de développement",
+            "customizable": "Stylisation entièrement personnalisable",
+            "typescript": "Support TypeScript inclus"
+        },
+        "cta": {
+            "button": "Essayer le Playground Interactif",
+            "description": "Testez et personnalisez tous les composants en live"
+        }
+    },
     "cta": {
         "title": "Prêt à transformer vos utilisateurs ?",
         "subtitle": "Rejoignez les équipes qui utilisent Ludiks pour gamifier leurs produits",
-        "button": "Commencer gratuitement",
+        "button": "Déployez la gamification dès aujourd'hui",
         "benefits": {
             "free": "Gratuit jusqu'à 5000 événements",
             "setup": "Setup en 5 minutes"

@@ -8,37 +8,44 @@
         "getStarted": "Get started"
     },
     "hero": {
-        "title": "Gamify your products in 5 minutes",
-        "subtitle": "Create engaging journeys that turn your users into loyal customers. Onboarding, activation, retention - all in one.",
+        "title": "Turnkey Gamification to Boost User Retention",
+        "subtitle": "Stop losing users. Deploy proven retention mechanics with ready-to-use components and data-driven insights.",
         "features": {
             "rewards": "Automatic rewards",
             "flexible": "Custom journeys",
-            "free": "Free to start"
+            "free": "5,000 events FREE/month"
         },
         "cta": {
-            "button": "Create my first journey",
-            "subtitle": "No credit card required • Setup in 5 minutes"
+            "button": "Start retaining users this week",
+            "subtitle": "No credit card required • Free setup, pay only for volume"
+        },
+        "codeSnippet": {
+            "comment": "// 3 lines to gamify your product",
+            "step1": "npm install",
+            "step2": "Ludiks",
+            "step2Method": "trackEvent",
+            "step3Comment": "// ✨ Gamification is live!"
         }
     },
     "why": {
-        "title": "Why gamification has become essential?",
-        "subtitle": "In a world where attention is scarce, gamification transforms your passive users into engaged customers",
+        "title": "Why retention-focused companies choose gamification",
+        "subtitle": "Based on gamification best practices across industries - turn user drop-off into engagement opportunities",
         "advantages": {
             "rewards": {
-                "title": "Reduced acquisition cost",
-                "description": "Gamified users are 3x more likely to complete your onboarding and become paying customers"
+                "title": "Reduce user churn",
+                "description": "Industry studies show gamified onboarding can improve completion rates by 20-40%"
             },
             "flexible": {
-                "title": "Improved engagement",
-                "description": "Increase time spent on your product by 40% and reduce churn by 25%"
+                "title": "Data-driven insights",
+                "description": "Identify exactly where users drop off and optimize your user journey with concrete data"
             },
             "simple": {
-                "title": "Integration in 5 minutes",
+                "title": "Turnkey implementation",
                 "description": "Lightweight SDK that integrates with your existing stack without code refactoring"
             },
             "insights": {
-                "title": "Continuous optimization",
-                "description": "Identify friction points and optimize your journeys in real-time"
+                "title": "User journey optimization",
+                "description": "Track retention metrics and optimize your funnels based on real user behavior patterns"
             }
         }
     },
@@ -87,7 +94,7 @@
         },
         "engagement": {
             "title": "Problem detected on unexpected step",
-            "description": "Significant drop in completion rate at the \"Profile photo\" step - step that seemed insignificant",
+            "description": "Significant drop in completion rate at the \"Profile photo\" step - step that seemed insignificant (illustration data)",
             "engagement": "completion",
             "users": "users",
             "engagement_rate": "Completion rate"
@@ -268,7 +275,9 @@
             }
         },
         "billing": {
-            "minimum": "Minimum billing of $5/month once you exceed 5000 events"
+            "minimum": "Minimum billing of $5/month once you exceed 5000 events",
+            "eventExplanation": "Event = any user action (login, purchase, feature use). Most companies need 3-5 events per user journey.",
+            "moreInfo": "More pricing details"
         }
     },
     "bonus": {
@@ -277,10 +286,68 @@
         "button": "Generate my strategy",
         "note": "Free and no commitment"
     },
+    "implementation": {
+        "title": "Zero Impact on Your Roadmap",
+        "subtitle": "Your dev team stays focused on core features. Ludiks integrates without slowing down your product roadmap.",
+        "badges": {
+            "setup": {
+                "value": "This Week",
+                "label": "Time to launch"
+            },
+            "resources": {
+                "value": "No Bottleneck",
+                "label": "Dev resources needed"
+            },
+            "impact": {
+                "value": "Clear Vision",
+                "label": "Retention dashboard"
+            },
+            "risk": {
+                "value": "No Risk",
+                "label": "Zero breaking changes"
+            }
+        },
+        "technical": {
+            "title": "Your technical team will love it too",
+            "description": "Simple integration that developers can implement in minutes",
+            "button": "View Technical Docs"
+        }
+    },
+    "components": {
+        "title": "Ready-to-Use UI Components",
+        "subtitle": "Skip the UI development. Our React components are production-ready and fully customizable.",
+        "list": {
+            "userProfile": {
+                "name": "UserProfile",
+                "description": "Complete user progress dashboard with circuits and rewards"
+            },
+            "leaderboard": {
+                "name": "Leaderboard",
+                "description": "Competitive rankings with real-time updates"
+            },
+            "streakCounter": {
+                "name": "StreakCounter",
+                "description": "Daily streak tracking with visual progress"
+            },
+            "toaster": {
+                "name": "Notifications",
+                "description": "Achievement toasts and celebration animations"
+            }
+        },
+        "benefits": {
+            "time": "Save weeks of development",
+            "customizable": "Fully customizable styling",
+            "typescript": "TypeScript support included"
+        },
+        "cta": {
+            "button": "Try Interactive Playground",
+            "description": "Test and customize all components live"
+        }
+    },
     "cta": {
         "title": "Ready to transform your users?",
         "subtitle": "Join teams using Ludiks to gamify their products",
-        "button": "Start for free",
+        "button": "Deploy gamification today",
         "benefits": {
             "free": "Free up to 5000 events",
             "setup": "Setup in 5 minutes"
