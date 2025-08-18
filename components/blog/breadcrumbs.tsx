@@ -11,12 +11,12 @@ export default function Breadcrumbs({ locale, currentPage, currentPageUrl }: Bre
   const breadcrumbItems = [
     {
       label: locale === 'fr' ? 'Accueil' : 'Home',
-      href: `/${locale}`,
+      href: `/`,
       icon: Home,
     },
     {
       label: 'Blog',
-      href: `/${locale}/blog`,
+      href: `/blog`,
     },
   ];
 

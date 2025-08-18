@@ -6,6 +6,10 @@ import { Metadata } from 'next';
 
 const ImplementingRelevantGamification = () => import('@/components/blog/templates/en/implementing-relevant-gamification').then(mod => mod.default);
 const ImplementerGamificationPertinente = () => import('@/components/blog/templates/fr/implementer-gamification-pertinente').then(mod => mod.default);
+const GamificationROIGuideForCTOs = () => import('@/components/blog/templates/en/gamification-roi-guide-for-ctos').then(mod => mod.default);
+const GuideROIGamificationPourCTO = () => import('@/components/blog/templates/fr/guide-roi-gamification-pour-cto').then(mod => mod.default);
+const UserRetentionStrategiesGuide = () => import('@/components/blog/templates/en/user-retention-strategies-guide').then(mod => mod.default);
+const CommentAmeliorerRetentionUtilisateur = () => import('@/components/blog/templates/fr/comment-ameliorer-retention-utilisateur').then(mod => mod.default);
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -98,6 +102,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     TemplateComponent = await ImplementingRelevantGamification();
   } else if (locale === 'fr' && templateName === 'ImplementerGamificationPertinente') {
     TemplateComponent = await ImplementerGamificationPertinente();
+  } else if (locale === 'en' && templateName === 'GamificationROIGuideForCTOs') {
+    TemplateComponent = await GamificationROIGuideForCTOs();
+  } else if (locale === 'fr' && templateName === 'GuideROIGamificationPourCTO') {
+    TemplateComponent = await GuideROIGamificationPourCTO();
+  } else if (locale === 'en' && templateName === 'UserRetentionStrategiesGuide') {
+    TemplateComponent = await UserRetentionStrategiesGuide();
+  } else if (locale === 'fr' && templateName === 'CommentAmeliorerRetentionUtilisateur') {
+    TemplateComponent = await CommentAmeliorerRetentionUtilisateur();
   } else {
     notFound();
   }
@@ -108,7 +120,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <Breadcrumbs 
         locale={locale} 
         currentPage={post.title}
-        currentPageUrl={`/${locale}/blog/${slug}`}
+        currentPageUrl={`/blog/${slug}`}
       />
       
       <ArticleLayout post={post} locale={locale}>

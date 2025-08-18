@@ -22,12 +22,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const metadata = {
     fr: {
-      title: "Ludiks - Plateforme de gamification",
-      description: "Intégrez la gamification dans votre produit en quelques clics. Créez des parcours engageants, des récompenses et des challenges sans développement. Solution gamification clé en main.",
-      keywords: "gamification as a service, gamification plateforme, récompenses utilisateur, challenges gamification, engagement produit, gamification clé en main, parcours gamification",
+      title: "Ludiks - Plateforme Gamification pour SaaS | Solutions Rétention",
+      description: "Plateforme gamification clé en main pour SaaS. Améliorez la rétention utilisateur de 40%, réduisez le churn et implémentez des solutions gamification efficaces. ROI prouvé pour CTOs et PMs.",
+      keywords: "solutions gamification, plateforme gamification SaaS, comment améliorer la rétention, outils engagement utilisateur, gamification ROI, rétention utilisateur, churn reduction",
       openGraph: {
-        title: "Ludiks - Plateforme de gamification",
-        description: "Intégrez la gamification dans votre produit en quelques clics. Créez des parcours engageants, des récompenses et des challenges sans développement.",
+        title: "Ludiks - Plateforme Gamification pour SaaS | Solutions Rétention",
+        description: "Plateforme gamification clé en main pour SaaS. Améliorez la rétention utilisateur de 40%, réduisez le churn et implémentez des solutions gamification efficaces.",
         type: "website",
         locale: "fr_FR",
         images: [
@@ -40,17 +40,17 @@ export async function generateMetadata(): Promise<Metadata> {
       },
       twitter: {
         card: "summary_large_image",
-        title: "Ludiks - Gamification as a Service",
-        description: "Intégrez la gamification dans votre produit en quelques clics. Créez des parcours engageants, des récompenses et des challenges sans développement.",
+        title: "Ludiks - Plateforme Gamification pour SaaS",
+        description: "Plateforme gamification clé en main pour SaaS. Améliorez la rétention utilisateur, réduisez le churn. ROI prouvé pour CTOs.",
       },
     },
     en: {
-      title: "Ludiks - Gamification as a Service Platform",
-      description: "Integrate gamification into your product with just a few clicks. Create engaging journeys, rewards and challenges without development. Turnkey gamification solution.",
-      keywords: "gamification as a service, gamification platform, user rewards, gamification challenges, product engagement, turnkey gamification, gamification journeys",
+      title: "Ludiks - Gamification Platform for SaaS User Engagement & ROI",
+      description: "Turnkey gamification platform for SaaS CTOs and PMs. Boost user engagement by 40%, reduce churn, implement gamification tools with proven ROI. Built for technical decision makers.",
+      keywords: "gamification platform, gamification tools for SaaS, user engagement platform, gamification ROI, user retention strategies, gamification implementation, SaaS engagement tools",
       openGraph: {
-        title: "Ludiks - Gamification as a Service",
-        description: "Integrate gamification into your product with just a few clicks. Create engaging journeys, rewards and challenges without development.",
+        title: "Ludiks - Gamification Platform for SaaS User Engagement & ROI",
+        description: "Turnkey gamification platform for SaaS CTOs and PMs. Boost user engagement by 40%, reduce churn, implement gamification tools with proven ROI.",
         type: "website",
         locale: "en_US",
         images: [
@@ -63,8 +63,8 @@ export async function generateMetadata(): Promise<Metadata> {
       },
       twitter: {
         card: "summary_large_image",
-        title: "Ludiks - Gamification as a Service",
-        description: "Integrate gamification into your product with just a few clicks. Create engaging journeys, rewards and challenges without development.",
+        title: "Ludiks - Gamification Platform for SaaS",
+        description: "Turnkey gamification platform for SaaS CTOs. Boost user engagement, reduce churn, implement gamification tools with proven ROI.",
       },
     },
   };

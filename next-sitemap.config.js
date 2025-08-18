@@ -48,7 +48,6 @@ module.exports = {
 
     const result = [];
 
-    // Fallback landing page (no locale prefix, fallback en)
     result.push({
       loc: '/',
       changefreq: 'weekly',
@@ -56,15 +55,20 @@ module.exports = {
       lastmod: new Date().toISOString(),
     });
 
-    // Blog articles data
     const blogArticles = {
       'en': [
-        { slug: 'implementing-relevant-gamification', date: '2025-08-07' }
+        { slug: 'implementing-relevant-gamification', date: '2025-08-07' },
+        { slug: 'gamification-roi-guide-for-ctos', date: '2025-08-12' },
+        { slug: 'user-retention-strategies-guide', date: '2025-08-12' }
       ],
       'fr': [
-        { slug: 'implementer-gamification-pertinente', date: '2025-08-07' }
+        { slug: 'implementer-gamification-pertinente', date: '2025-08-07' },
+        { slug: 'guide-roi-gamification-pour-cto', date: '2025-08-12' },
+        { slug: 'comment-ameliorer-retention-utilisateur', date: '2025-08-12' }
       ]
     };
+
+    
 
     for (const locale of locales) {
       // Add regular pages

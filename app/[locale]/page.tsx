@@ -746,6 +746,50 @@ export default function HomePage() {
         </Modal>
       )}
 
+      {/* Schema Markup */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Ludiks",
+            "description": "Gamification platform for SaaS user engagement and retention. Turnkey solution with React components, SDK, and analytics.",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Web",
+            "url": "https://ludiks.io",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+              "description": "Free up to 5000 events per month",
+              "availability": "https://schema.org/InStock"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Ludiks",
+              "url": "https://ludiks.io",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://ludiks.io/logo-black.png"
+              }
+            },
+            "featureList": [
+              "Gamification SDK for developers",
+              "Ready-to-use React components",
+              "User engagement analytics",
+              "Retention tracking dashboard",
+              "Progressive reward systems",
+              "Custom user journeys"
+            ],
+            "screenshot": {
+              "@type": "ImageObject",
+              "url": "https://ludiks.io/logo-og.jpg"
+            }
+          })
+        }}
+      />
+
       <style jsx>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
