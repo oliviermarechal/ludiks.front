@@ -87,16 +87,16 @@ export default function ArticleLayout({ post, children, locale }: ArticleLayoutP
               "name": "Ludiks",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://ludiks.io/logo-black.png"
+                "url": "https://www.ludiks.io/logo-black.png"
               }
             },
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `https://ludiks.io/${locale}/blog/${post.slug}`
+              "@id": `https://www.ludiks.io/${locale}/blog/${post.slug}`
             },
             "image": {
               "@type": "ImageObject",
-              "url": "https://ludiks.io/logo-og.jpg",
+              "url": "https://www.ludiks.io/logo-og.jpg",
               "width": 1200,
               "height": 630
             }

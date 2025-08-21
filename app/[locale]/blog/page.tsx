@@ -26,11 +26,11 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
         ? 'Découvrez nos conseils et bonnes pratiques pour implémenter une gamification efficace dans vos applications.'
         : 'Discover our tips and best practices for implementing effective gamification in your applications.',
       type: 'website',
-      url: `https://ludiks.io/${locale}/blog`,
+      url: `https://www.ludiks.io/${locale}/blog`,
       siteName: 'Ludiks',
       images: [
         {
-          url: 'https://ludiks.io/logo-og.jpg',
+          url: 'https://www.ludiks.io/logo-og.jpg',
           width: 1200,
           height: 630,
           alt: 'Ludiks - Gamification Platform',
@@ -43,13 +43,13 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
       description: locale === 'fr' 
         ? 'Découvrez nos conseils et bonnes pratiques pour implémenter une gamification efficace dans vos applications.'
         : 'Discover our tips and best practices for implementing effective gamification in your applications.',
-      images: ['https://ludiks.io/logo-og.jpg'],
+      images: ['https://www.ludiks.io/logo-og.jpg'],
     },
     alternates: {
-      canonical: `https://ludiks.io/${locale}/blog`,
+      canonical: `https://www.ludiks.io/${locale}/blog`,
       languages: {
-        'en': 'https://ludiks.io/en/blog',
-        'fr': 'https://ludiks.io/fr/blog',
+        'en': 'https://www.ludiks.io/en/blog',
+        'fr': 'https://www.ludiks.io/fr/blog',
       },
     },
   };

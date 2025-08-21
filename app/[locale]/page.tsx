@@ -757,7 +757,7 @@ export default function HomePage() {
             "description": "Gamification platform for SaaS user engagement and retention. Turnkey solution with React components, SDK, and analytics.",
             "applicationCategory": "DeveloperApplication",
             "operatingSystem": "Web",
-            "url": "https://ludiks.io",
+            "url": "https://www.ludiks.io",
             "offers": {
               "@type": "Offer",
               "price": "0",
@@ -768,10 +768,10 @@ export default function HomePage() {
             "publisher": {
               "@type": "Organization",
               "name": "Ludiks",
-              "url": "https://ludiks.io",
+              "url": "https://www.ludiks.io",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://ludiks.io/logo-black.png"
+                "url": "https://www.ludiks.io/logo-black.png"
               }
             },
             "featureList": [
@@ -784,7 +784,7 @@ export default function HomePage() {
             ],
             "screenshot": {
               "@type": "ImageObject",
-              "url": "https://ludiks.io/logo-og.jpg"
+              "url": "https://www.ludiks.io/logo-og.jpg"
             }
           })
         }}

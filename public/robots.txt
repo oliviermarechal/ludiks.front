@@ -8,7 +8,7 @@ Disallow: /admin/
 Disallow: /_next/
 
 # Host
-Host: https://ludiks.io
+Host: https://www.ludiks.io
 
 # Sitemaps
-Sitemap: https://ludiks.io/sitemap.xml
+Sitemap: https://www.ludiks.io/sitemap.xml

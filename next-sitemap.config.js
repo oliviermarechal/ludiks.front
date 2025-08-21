@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://ludiks.io',
+  siteUrl: process.env.SITE_URL || 'https://www.ludiks.io',
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   exclude: [
@@ -27,7 +27,7 @@ module.exports = {
       },
     ],
     additionalSitemaps: [
-      'https://ludiks.io/sitemap.xml',
+      'https://www.ludiks.io/sitemap.xml',
     ],
   },
   changefreq: 'weekly',

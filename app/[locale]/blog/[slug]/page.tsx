@@ -36,11 +36,11 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       description: post.excerpt,
       type: 'article',
       publishedTime: post.date,
-      url: `https://ludiks.io/${locale}/blog/${slug}`,
+      url: `https://www.ludiks.io/${locale}/blog/${slug}`,
       siteName: 'Ludiks',
       images: [
         {
-          url: 'https://ludiks.io/logo-og.jpg',
+          url: 'https://www.ludiks.io/logo-og.jpg',
           width: 1200,
           height: 630,
           alt: 'Ludiks - Gamification Platform',
@@ -51,13 +51,13 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
-      images: ['https://ludiks.io/logo-og.jpg'],
+      images: ['https://www.ludiks.io/logo-og.jpg'],
     },
     alternates: {
-      canonical: `https://ludiks.io/${locale}/blog/${slug}`,
+      canonical: `https://www.ludiks.io/${locale}/blog/${slug}`,
       languages: {
-        'en': `https://ludiks.io/en/blog/${slug}`,
-        'fr': `https://ludiks.io/fr/blog/${slug}`,
+        'en': `https://www.ludiks.io/en/blog/${slug}`,
+        'fr': `https://www.ludiks.io/fr/blog/${slug}`,
       },
     },
   };
